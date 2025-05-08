@@ -1,0 +1,77 @@
+/* Estilos para el formulario multipaso */
+.step-indicator {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.step {
+    text-align: center;
+    padding: 10px 20px;
+    margin: 0 5px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    cursor: default;
+}
+
+.step.active {
+    background: #4CAF50;
+    color: white;
+}
+
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+}
+
+.form-navigation {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.form-navigation .next-btn{
+    background: #4CAF50;
+    margin: 0 5px;
+    border-radius: 5px;
+    padding: 0px 20px;
+    color: white;
+}
+
+.navegation-next{
+    justify-content: center
+}
+.navegation-next .next-btn{
+    margin: 0 5px;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: white;
+}
+.form-navigation .prev-btn { 
+    background: #f44336;
+    margin: 0 5px;
+    border-radius: 5px;
+    padding: 0px 20px;
+    color: white;
+}
+
+.next-btn, .submit-btn {
+    background: #4CAF50;
+}
+.form-navigation .submit-btn{
+    width: 50%;
+}
+button {
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+

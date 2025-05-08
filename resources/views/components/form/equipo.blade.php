@@ -1,0 +1,101 @@
+<form action="{{ $ruta }}" method="post">
+    @csrf
+    @if (!isset($crear))
+        @method('PUT')
+    @endif
+    <div class="item">
+        <label for="nombre"><span aria-hidden="true" style="color: red;">*</span> Nombre</label>
+        <input type="text" name="nombre" id="nombre" required value="{{ $nombre }}">
+        @error('nombre')
+            <div class="error">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="item">
+        <label for="apellido"><span aria-hidden="true" style="color: red;">*</span> Apellido</label>
+        <input type="text" name="apellido" id="apellido" required value="{{ $apellido }}">
+        @error('apellido')
+            <div class="error">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="item">
+        <label for="dni"><span aria-hidden="true" style="color: red;">*</span> Dni</label>
+        <input type="number" name="dni" id="dni" required value="{{ $dni }}">
+        @error('dni')
+            <div class="error">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="item">
+        <label for="email"><span aria-hidden="true" style="color: red;">*</span> Email</label>
+        <input type="email" name="email" id="email" required value="{{ $email }}">
+        @error('email')
+            <div class="error">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="item">
+        <label for="telefono"><span aria-hidden="true" style="color: red;">*</span> Telefono</label>
+        <input type="number" name="telefono" id="telefono" required value="{{ $telefono }}">
+        @error('telefono')
+            <div class="error">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="item">
+        <label for="especialidad"><span aria-hidden="true" style="color: red;">*</span> Especialidad</label>
+        <select name="especialidad" id="especialidad" required>
+            <option value="">Seleccionar</option>
+            @if (isset($especialidades) && !empty($especialidades))
+                @foreach ($especialidades as $especialidades)
+                    <option value="{{ $especialidades->id }}" {{$especialidades->id == $especialidad?'selected':''}}>{{ $especialidades->nombre }}</option>
+                @endforeach
+            @else
+                <option value="">No hay especialidades disponibles</option>
+            @endif
+        </select>
+    </div>
+    @if(isset($crear))
+    <div class="box-new-especialidad">
+        <button type="button" id="especialidad-btn">Crear especialidad</button>
+    </div>
+    @endif
+    <div class="item">
+        <label for="matricula"><span aria-hidden="true" style="color: red;">*</span> Matricula</label>
+        <input type="text" name="matricula" id="matricula" required value="{{ $matricula }}">
+        @error('matricula')
+            <div class="error">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="item">
+        <label for="rol"><span aria-hidden="true" style="color: red;">*</span> Rol</label>
+        <select name="rol" id="rol" required value="{{ $rol }}">
+            <option value="">Seleccionar</option>
+            <option value="admin" {{$rol=='admin'?'selected':''}}>Admin</option>
+            <option value="equipo" {{$rol=='equipo'?'selected':''}}>Equipo</option>
+        </select>
+    </div>
+    <div class="item switch-item">
+        <label for="descripcion"><b>Estado</b></label>
+        <div class="switch">
+            @if(!isset($crear))
+            <input type="checkbox" id="toggle" name="estado" value="1" @if (isset($estado) && $estado == 1) checked @endif>
+            @else
+            <input type="checkbox" id="toggle" name="estado" value="1" checked>
+            @endif
+            <label for="toggle"></label>
+        </div>
+        @if(!isset($crear))
+        <p id="estadoTxt" class="estadoTxt">{{$estado=='1'?'Activo':'Inactivo'}}</p>
+        @else
+        <p id="estadoTxt" class="estadoTxt">Activo</p>
+        @endif
+    </div>
+    <button type="submit">Registrar</button>
+</form>
+@if ($errors->any())
+    <div style="color: red;">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif

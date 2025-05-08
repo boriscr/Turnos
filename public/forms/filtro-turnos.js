@@ -1,0 +1,176 @@
+// Variables globales
+let todosLosTurnos = [];
+
+// Función para obtener fecha actual en formato ISO (YYYY-MM-DD)
+function obtenerFechaActual() {
+    const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
+    return ahora.split(',')[0];
+}
+
+
+// Función para cargar equipos basados en especialidad seleccionada
+function cargarEquipos(especialidadId, equipoIdSeleccionado = null) {
+    const selectEquipo = document.getElementById('equipo_id');
+    selectEquipo.innerHTML = '<option value="">Seleccione un equipo</option>';
+    document.getElementById('fecha_turno').innerHTML = '<option value="">Seleccione una fecha</option>';
+    document.getElementById('hora_turno').innerHTML = '<option value="">Seleccione una hora</option>';
+
+    if (!especialidadId) return;
+
+    selectEquipo.disabled = true;
+    selectEquipo.innerHTML = '<option value="">Cargando equipos...</option>';
+
+    fetch(`/getEquiposPorEspecialidad/${especialidadId}`)
+        .then(response => response.json())
+        .then(data => {
+            selectEquipo.innerHTML = '<option value="">Seleccione un equipo</option>';
+            data.equipos.forEach(equipo => {
+                const option = document.createElement('option');
+                option.value = equipo.id;
+                option.textContent = equipo.nombre;
+                if (equipoIdSeleccionado && equipo.id == equipoIdSeleccionado) {
+                    option.selected = true;
+                }
+                selectEquipo.appendChild(option);
+            });
+            selectEquipo.disabled = false;
+            
+            // Si hay un equipo seleccionado, cargar sus turnos
+            if (equipoIdSeleccionado) {
+                cargarTurnos(equipoIdSeleccionado);
+            }
+        })
+        .catch(error => {
+            console.error("Error al cargar equipos:", error);
+            selectEquipo.innerHTML = '<option value="">Error al cargar</option>';
+        });
+}
+
+// Función para cargar turnos basados en equipo seleccionado
+function cargarTurnos(equipoId, fechaSeleccionada = null, turnoIdSeleccionado = null) {
+    const selectFecha = document.getElementById('fecha_turno');
+    const selectHora = document.getElementById('hora_turno');
+
+    selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
+    selectHora.innerHTML = '<option value="">Seleccione una hora</option>';
+
+    if (!equipoId) return;
+
+    selectFecha.disabled = true;
+    selectFecha.innerHTML = '<option value="">Cargando fechas...</option>';
+
+    fetch(`/getTurnosPorEquipo/${equipoId}`)
+        .then(response => response.json())
+        .then(data => {
+            todosLosTurnos = data.turnos;
+
+            if (todosLosTurnos.length === 0) {
+                selectFecha.innerHTML = '<option value="">Sin fechas disponibles</option>';
+                selectFecha.disabled = true;
+                return;
+            }
+
+            // Obtener fechas únicas de los turnos
+            const fechasUnicas = [...new Set(todosLosTurnos.map(t => t.fecha))];
+
+            selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
+            fechasUnicas.forEach(fecha => {
+                const fechaObj = new Date(fecha);
+                const option = document.createElement('option');
+                option.value = fecha;
+                option.textContent = fechaObj.toLocaleDateString('es-ES', {
+                    weekday: 'long',
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                if (fechaSeleccionada && fecha === fechaSeleccionada) {
+                    option.selected = true;
+                }
+                selectFecha.appendChild(option);
+            });
+
+            selectFecha.disabled = false;
+            
+            // Si hay una fecha seleccionada, cargar sus horas
+            if (fechaSeleccionada) {
+                cargarHoras(fechaSeleccionada, turnoIdSeleccionado);
+            }
+        })
+        .catch(error => {
+            console.error("Error al cargar turnos:", error);
+            selectFecha.innerHTML = '<option value="">Error al cargar</option>';
+        });
+}
+
+// Función para cargar horas basadas en fecha seleccionada
+function cargarHoras(fechaSeleccionada, turnoIdSeleccionado = null) {
+    const selectHora = document.getElementById('hora_turno');
+    selectHora.innerHTML = '<option value="">Seleccione una hora</option>';
+
+    if (!fechaSeleccionada) return;
+
+    // Filtrar los turnos disponibles para esa fecha
+    let turnosDisponibles = todosLosTurnos.filter(turno => turno.fecha === fechaSeleccionada);
+
+    // Obtener fecha y hora actual en zona horaria de Jujuy
+    const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
+    const fechaActual = ahora.split(',')[0];
+    const horaActual = ahora.split(',')[1] ? ahora.split(',')[1].trim() : '00:00';
+
+    if (fechaSeleccionada === fechaActual) {
+        turnosDisponibles = turnosDisponibles.filter(turno => {
+            const turnoDate = new Date(`${fechaSeleccionada}T${turno.hora}:00`);
+            const ahoraDate = new Date(`${fechaActual}T${horaActual}:00`);
+            return turnoDate.getTime() >= ahoraDate.getTime();
+        });
+    }
+
+    if (turnosDisponibles.length === 0) {
+        selectHora.innerHTML = '<option value="">Sin horario disponible</option>';
+    } else {
+        turnosDisponibles.forEach(turno => {
+            const option = document.createElement('option');
+            option.value = turno.id; // Ahora guarda el id del turno
+            option.textContent = turno.hora;
+            if (turnoIdSeleccionado && turno.id == turnoIdSeleccionado) {
+                option.selected = true;
+            }
+            selectHora.appendChild(option);
+        });
+    }
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Obtener valores iniciales si estamos en edición
+    const especialidadSelect = document.getElementById('especialidad_id');
+    const equipoSelect = document.getElementById('equipo_id');
+    const especialidadIdInicial = especialidadSelect.value;
+    const equipoIdInicial = equipoSelect ? equipoSelect.value : null;
+    
+    // Si hay una especialidad seleccionada, cargar sus equipos
+    if (especialidadIdInicial) {
+        cargarEquipos(especialidadIdInicial, equipoIdInicial);
+    }
+
+    // Event listener para cambio de especialidad
+    document.getElementById('especialidad_id').addEventListener('change', function() {
+        cargarEquipos(this.value);
+    });
+
+    // Event listener para cambio de equipo
+    document.getElementById('equipo_id').addEventListener('change', function() {
+        cargarTurnos(this.value);
+    });
+
+    // Event listener para cambio de fecha
+    document.getElementById('fecha_turno').addEventListener('change', function() {
+        cargarHoras(this.value);
+    });
+
+    // Event listener para cambio de hora
+    document.getElementById('hora_turno').addEventListener('change', function() {
+        document.getElementById('turno_id').value = this.value;
+    });
+});

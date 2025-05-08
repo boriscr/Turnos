@@ -1,0 +1,122 @@
+.main-table {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-table .container-form {
+    width: 100%;
+    gap: 10px;
+}
+table {
+
+    width: 100%;
+}
+
+
+thead {
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+}
+
+td,
+th {
+    border: 1px solid #000000;
+    text-align: center;
+    padding: 2px;
+
+}
+
+.main-table .container-form .acciones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1px;
+    /*responsive*/
+    flex-wrap: wrap;
+}
+
+.main-table .container-form .accionesMovil {
+    display: none;
+}
+
+.main-table .container-form .acciones>a {
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+    height: 40px;
+}
+
+
+.main-table .container-form .acciones .btn-view {
+    background-color: #007bff;
+}
+
+.main-table .container-form .acciones .btn-view:hover {
+    background-color: #0056b3;
+    /* Azul más oscuro */
+}
+
+.main-table .container-form .acciones .btn-edit {
+    background-color: #ffc107;
+}
+
+.main-table .container-form .acciones .btn-edit:hover {
+    background-color: #e0a800;
+    /* Amarillo más intenso */
+}
+
+
+.main-table .container-form form {
+    width: auto;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+}
+
+.main-table .container-form button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+    height: 40px;
+    border-radius: 100px;
+    background-color: #dc3545;
+}
+
+.main-table .container-form button:hover {
+    background-color: #c82333;
+    /* Rojo más oscuro */
+
+}
+
+.main-table .container-form .bi {
+    font-size: 15px;
+    color: #fff;
+}
+
+
+@media (max-width: 650px) {
+    .main-table .container-form .acciones {
+        display: none;
+    }
+
+    .option-movil {
+        display: none;
+    }
+
+    .main-table .container-form .accionesMovil {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .main-table .container-form .accionesMovil button {
+        width: 40px;
+        height: 25px;
+    }
+}

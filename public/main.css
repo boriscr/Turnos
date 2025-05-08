@@ -1,0 +1,76 @@
+:root {
+    --background-light: #F2F2F2;
+    --background-dark:#003B46;
+    --color-texto: #4CAF50;
+    --color-texto-light: #fff;
+    --color-texto-dark: #000;
+}
+.form-grid H3, .calendario-box H3{
+    margin-top: 0px;
+    font-weight: bold;
+}
+
+.content-wrapper {
+    margin-top: 10px;
+    width: 100%;
+    padding: 0px 20px;
+}
+
+.section-container {
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 0px 10px rgba(150, 150, 150, 0.5);
+    border-radius: 10px;
+    flex-wrap: wrap;
+}
+.section-title{
+    text-align: center;
+    margin: 10px 0;
+}
+.card {
+    border: none;
+    background-color: transparent;
+    width: 400px;
+    padding: 10px;
+    border-radius: 10px;
+}
+.card b{
+    color: var(--color-texto);
+}
+.card .bi{
+    color: var(--color-texto);
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--background-dark) !important; /*azul petroleo*/
+        color: var( --color-texto-light);
+    }
+
+    .card {
+        color: var( --color-texto-light);
+    }
+
+
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: var( --background-light);
+        color: var(--color-texto-dark);
+    }
+}
+/*adaptar el tamaño de la pantalla*/
+@media (max-width: 670px) {
+    .section-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
+        margin: 10px 0;
+    }
+}

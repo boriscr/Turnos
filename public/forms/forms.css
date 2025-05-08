@@ -1,0 +1,298 @@
+:root {
+    --background-light: #F2F2F2;
+    --background-dark: #003B46;
+    --color-texto: #4CAF50;
+    --color-texto-light: #fff;
+    --color-texto-dark: #000;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.container-form {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 600px;
+    box-shadow: 0px 0px 10px 5px rgba(143, 143, 143, 0.393);
+    border-radius: 5px;
+}
+
+/*Btn agregar especialidades*/
+.box-new-especialidad {
+    margin: 0px 10%;
+    width: 80%;
+    height: 50px;
+    color: #fff;
+}
+
+.box-new-especialidad button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 0px 0px 100px 100px;
+    background-color: #3e8e41;
+}
+
+.box-new-especialidad button:hover {
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+}
+
+/*Titulo agg equipo y usuario*/
+.title-form {
+    text-align: center;
+    margin: 10px 0px;
+    font-size: 25px;
+    color: #4CAF50;
+}
+
+form {
+    width: 100%;
+    padding: 10px;
+
+}
+
+
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background-color: #96cffb;
+
+}
+
+input:focus {
+    background-color: #96cffb;
+    outline: none;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    opacity: 0.8;
+}
+
+button[type="submit"]:active {
+    background-color: #3e8e41;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="time"] {
+    background-color: #96cffb;
+    color: #000;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+
+}
+
+option {
+    text-align: center;
+}
+
+#close-btn {
+    width: 100%;
+    padding: 16px 20px;
+}
+
+#close-btn:hover {
+    opacity: 0.8;
+}
+
+
+
+/*Form especialidades crear*/
+#especialidad-form {
+    display: none;
+    width: 500px;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(93, 93, 93, 0.722);
+    position: absolute;
+}
+
+#especialidad-form .item textarea {
+    width: 100%;
+}
+
+#especialidad-form .item input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 22px 0;
+    border: none;
+}
+
+
+/*opciones tipos de turnos mañana-tardenoche*/
+.box-style {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.box-style .item-style {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.201);
+}
+
+.box-style .item-style input[type="checkbox"] {
+    margin-right: 10px;
+    background-color: #a0a0a0;
+}
+
+.box-style .item-style input[type="checkbox"]:checked {
+    background-color: #4CAF50;
+}
+
+.box-style .item-style .item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    margin: 2px 3px;
+    border: 1px solid #4CAF50;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.box-style .item-style .item label {
+    width: 90%;
+    background-color: #4CAF50;
+}
+
+#horario-box {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#horario-box #horarios-item {
+    flex-wrap: wrap;
+}
+
+#horario-box #horarios-item p {
+    border: 1px solid #3b82f6;
+    color: #3b82f6;
+    margin: 2px 3px;
+    border-radius: 5px;
+    padding: 3px;
+}
+
+.box-style .item-style .item:hover {
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.box-style .item-style .item label {
+    background-color: transparent;
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+
+    .form-group input,
+    .item input {
+        background-color: var(--background-light);
+        color: var(--color-texto-dark);
+    }
+
+    .form-group label,
+    .item label {
+        color: var(--color-texto-light);
+    }
+
+    #especialidad-form {
+        background-color: var(--background-dark);
+        color: var(--color-texto-light);
+    }
+
+    select,
+    option {
+        color: var(--color-texto-dark) !important;
+    }
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+
+    .form-group input,
+    .item input {
+        background-color: var(--color-texto-light);
+        color: var(--color-texto-dark);
+    }
+
+    #especialidad-form {
+        background-color: var(--background-light);
+        color: var(--color-texto-dark);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+    .container-form {
+        width: 90%;
+        padding: 10px;
+    }
+
+    .title-form {
+        font-size: 20px;
+    }
+
+    input,
+    select,
+    button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+    }
+
+    #especialidad-form {
+        width: 90%;
+        padding: 10px;
+    }
+
+    .box-style .item-style {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #horario-box #horarios-item {
+        flex-direction: row;
+    }
+}
