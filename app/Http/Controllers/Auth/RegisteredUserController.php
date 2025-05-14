@@ -34,10 +34,34 @@ class RegisteredUserController extends Controller
             'surname' => ['required', 'string', 'max:255'],
             'dni' => ['required', 'string', 'max:8', 'unique:' . User::class],
             'birthdate' => ['required', 'date'],
+            'genero' => ['required', 'string', 'max:255'],
+            'country' => ['required', 'string', 'max:255'],
+            'province' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:15'],
+            'phone' => ['required', 'string', 'max:15', 'unique:' . User::class],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => [
+                'required',
+                'confirmed',
+                Rules\Password::defaults()
+                    ->min(12)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(),
+            ],
+            'messages' => [
+                'password.required' => 'La contraseña es obligatoria',
+                'password.confirmed' => 'Las contraseñas no coinciden',
+                'password.min' => 'La contraseña debe tener al menos :min caracteres',
+                'password.letters' => 'La contraseña debe contener letras',
+                'password.mixed' => 'La contraseña debe contener mayúsculas y minúsculas',
+                'password.numbers' => 'La contraseña debe contener números',
+                'password.symbols' => 'La contraseña debe contener símbolos',
+                'password.uncompromised' => 'Esta contraseña ha aparecido en filtraciones de datos',
+            ]
         ]);
 
         $user = User::create([
@@ -45,6 +69,10 @@ class RegisteredUserController extends Controller
             'surname' => $request->surname,
             'dni' => $request->dni,
             'birthdate' => $request->birthdate,
+            'genero' => $request->genero,
+            'country' => $request->country,
+            'province' => $request->province,
+            'city' => $request->city,
             'address' => $request->address,
             'phone' => $request->phone,
             'email' => $request->email,

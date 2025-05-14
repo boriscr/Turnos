@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('telefono');
             $table->foreignId('especialidad_id')->constrained('especialidads')->onDelete('cascade');
             $table->string('matricula');
-            $table->string('rol');
+            $table->string('role');
             $table->boolean('estado');
             $table->timestamps();
         });

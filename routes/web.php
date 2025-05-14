@@ -7,35 +7,38 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\TurnoDisponibleController;
+
 Route::view('/', 'home')->name('home');
 
-//Control del peronal
-Route::get('/equipo', [EquipoController::class, 'index'])->name('equipo.index');
-Route::post('/equipo/store', [EquipoController::class, 'store'])->name('equipo.store');
-Route::get('/equipo/create', [EquipoController::class, 'create'])->name('equipo.create');
-Route::get('/equipo/{id}', [EquipoController::class, 'show'])->name('equipo.show');
-Route::get('/equipo/{id}/edit', [EquipoController::class, 'edit'])->name('equipo.edit');
-Route::put('/equipo/{id}', [EquipoController::class, 'update'])->name('equipo.update');
-Route::delete('/equipo/{id}', [EquipoController::class, 'destroy'])->name('equipo.destroy');
-Route::get('/equipos-por-especialidad/{id}', [EquipoController::class, 'getPorEspecialidad']);
-
-//Users
-Route::get('/usuario', [UsuarioController::class, 'index'])->name('usuario.index');
-Route::get('/usuario/create', [UsuarioController::class, 'create'])->name('usuario.create');
-Route::post('/usuario/store', [UsuarioController::class, 'store'])->name('usuario.store');
-Route::post('/especialidad', [EspecialidadController::class, 'store'])->name('especialidad.store');
-
-//Turnos disponibles "Reservas"
 Route::middleware('auth')->group(function () {
+    //Turnos disponibles "Reservas"
     Route::get('/reserva', [TurnoDisponibleController::class, 'create'])->name('reserva.create');
     Route::get('/getEquiposPorEspecialidad/{especialidad_id}', [TurnoDisponibleController::class, 'getEquiposPorEspecialidad']);
     Route::get('/getTurnosPorEquipo/{equipo_id}', [TurnoDisponibleController::class, 'getTurnosPorEquipo']);
     Route::post('/reservarTurno', [TurnoDisponibleController::class, 'reservarTurno'])->name('reservarTurno');
 
-});
+    //Users
+    Route::get('/usuario', [UsuarioController::class, 'index'])->name('usuario.index');
+    Route::get('/usuario/create', [UsuarioController::class, 'create'])->name('usuario.create');
+    Route::post('/usuario/store', [UsuarioController::class, 'store'])->name('usuario.store');
+    Route::get('/usuario/{id}', [UsuarioController::class, 'show'])->name('usuario.show');
+    Route::get('/usuario/{id}/edit', [UsuarioController::class, 'edit'])->name('usuario.edit');
+    Route::put('/usuario/{id}', [UsuarioController::class, 'update'])->name('usuario.update');
+    Route::delete('/usuario/{id}', [UsuarioController::class, 'destroy'])->name('usuario.destroy');
 
-//Turnos disponibles
-//Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    //Control del peronal
+    Route::get('/equipo', [EquipoController::class, 'index'])->name('equipo.index');
+    Route::post('/equipo/store', [EquipoController::class, 'store'])->name('equipo.store');
+    Route::get('/equipo/create', [EquipoController::class, 'create'])->name('equipo.create');
+    Route::get('/equipo/{id}', [EquipoController::class, 'show'])->name('equipo.show');
+    Route::get('/equipo/{id}/edit', [EquipoController::class, 'edit'])->name('equipo.edit');
+    Route::put('/equipo/{id}', [EquipoController::class, 'update'])->name('equipo.update');
+    Route::delete('/equipo/{id}', [EquipoController::class, 'destroy'])->name('equipo.destroy');
+    //Control de especialidades
+    Route::get('/equipos-por-especialidad/{id}', [EquipoController::class, 'getPorEspecialidad']);
+    Route::post('/especialidad', [EspecialidadController::class, 'store'])->name('especialidad.store');
+
+    //Turnos disponibles
     Route::get('/turnos', [TurnoController::class, 'index'])->name('turnos.index');
     Route::get('/turnos/create', [TurnoController::class, 'create'])->name('turnos.create');
     Route::post('/turnos', [TurnoController::class, 'store'])->name('turnos.store');
@@ -43,7 +46,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/turnos/{id}/edit', [TurnoController::class, 'edit'])->name('turnos.edit');
     Route::put('/turnos/{id}', [TurnoController::class, 'update'])->name('turnos.update');
     Route::delete('/turnos/{id}', [TurnoController::class, 'destroy'])->name('turnos.destroy');
-//});
+});
+
+
+
 
 /*
 Route::get('/', function () {
@@ -60,4 +66,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

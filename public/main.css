@@ -40,7 +40,14 @@
 .card .bi{
     color: var(--color-texto);
 }
-
+.card H1{
+    text-align: center;
+    text-decoration:underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--color-texto);
+    margin-bottom: 10px;
+}
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     body {

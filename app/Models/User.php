@@ -23,9 +23,14 @@ class User extends Authenticatable
         'surname',
         'dni',
         'birthdate',
+        'genero',
+        'country',
+        'province',
+        'city',
         'address',
         'phone',
         'email',
+        'estado',
         'password',
     ];
 

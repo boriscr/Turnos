@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Equipo;
-use App\Http\Requests\EquipoUpdateRequest;
 use App\Models\Especialidad;
 use Illuminate\Support\Facades\Log;
 
@@ -44,7 +43,7 @@ class EquipoController extends Controller
         $equipo->telefono = $request->input('telefono');
         $equipo->especialidad_id = $request->input('especialidad');
         $equipo->matricula = $request->input('matricula');
-        $equipo->rol = $request->input('rol');
+        $equipo->role = $request->input('rol');
         $equipo->estado = $request->input('estado', 0); // Valor por defecto 0 si no existe
 
         // Guardar el equipo en la base de datos
@@ -133,7 +132,7 @@ class EquipoController extends Controller
         $equipo->telefono = $request->input('telefono');
         $equipo->especialidad_id = $request->input('especialidad');
         $equipo->matricula = $request->input('matricula');
-        $equipo->rol = $request->input('rol');
+        $equipo->role = $request->input('rol');
         $equipo->estado = $request->input('estado', 0); // Valor por defecto 0 si no existe
 
         // Guardar los cambios en la base de datos
