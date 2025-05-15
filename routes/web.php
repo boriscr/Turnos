@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/usuario', [UsuarioController::class, 'index'])->name('usuario.index');
     Route::get('/usuario/create', [UsuarioController::class, 'create'])->name('usuario.create');
     Route::post('/usuario/store', [UsuarioController::class, 'store'])->name('usuario.store');
-    Route::get('/usuario/{id}', [UsuarioController::class, 'show'])->name('usuario.show');
+    Route::get('/usuario/{id}/show', [UsuarioController::class, 'show'])->name('usuario.show');
     Route::get('/usuario/{id}/edit', [UsuarioController::class, 'edit'])->name('usuario.edit');
     Route::put('/usuario/{id}', [UsuarioController::class, 'update'])->name('usuario.update');
     Route::delete('/usuario/{id}', [UsuarioController::class, 'destroy'])->name('usuario.destroy');
@@ -30,13 +30,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/equipo', [EquipoController::class, 'index'])->name('equipo.index');
     Route::post('/equipo/store', [EquipoController::class, 'store'])->name('equipo.store');
     Route::get('/equipo/create', [EquipoController::class, 'create'])->name('equipo.create');
-    Route::get('/equipo/{id}', [EquipoController::class, 'show'])->name('equipo.show');
+    Route::get('/equipo/{id}/show', [EquipoController::class, 'show'])->name('equipo.show');
     Route::get('/equipo/{id}/edit', [EquipoController::class, 'edit'])->name('equipo.edit');
     Route::put('/equipo/{id}', [EquipoController::class, 'update'])->name('equipo.update');
     Route::delete('/equipo/{id}', [EquipoController::class, 'destroy'])->name('equipo.destroy');
     //Control de especialidades
     Route::get('/equipos-por-especialidad/{id}', [EquipoController::class, 'getPorEspecialidad']);
+    Route::get('/especialidad', [EspecialidadController::class, 'index'])->name('especialidad.index');
+    Route::get('/especialidad/create', [EspecialidadController::class, 'create'])->name('especialidad.create');
     Route::post('/especialidad', [EspecialidadController::class, 'store'])->name('especialidad.store');
+    Route::get('/especialidad/{id}/show', [EspecialidadController::class, 'show'])->name('especialidad.show');
+    Route::get('/especialidad/{id}/edit', [EspecialidadController::class, 'edit'])->name('especialidad.edit');
+    Route::put('/especialidad/{id}', [EspecialidadController::class, 'update'])->name('especialidad.update');
+    Route::delete('/especialidad/{id}', [EspecialidadController::class, 'destroy'])->name('especialidad.destroy');
 
     //Turnos disponibles
     Route::get('/turnos', [TurnoController::class, 'index'])->name('turnos.index');

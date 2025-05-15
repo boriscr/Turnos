@@ -22,14 +22,18 @@
                             <td>{{ $equipo->apellido }}</td>
                             <td class="option-movil">{{ $equipo->dni }}</td>
                             <td>{{ $equipo->especialidad->nombre }}</td>
-                            <td class="option-movil">{{ $equipo->rol}}</td>
+                            <td class="option-movil">{{ $equipo->rol }}</td>
                             <td class="acciones">
-                                <a href="{{ route('equipo.show', $equipo->id) }}" class="btn btn-view"><i class="bi bi-eye"></i></a>
-                                <a href="{{ route('equipo.edit', $equipo->id) }}" class="btn btn-edit"><i class="bi bi-pencil-fill"></i></a>
-                                <form action="{{ route('equipo.destroy', $equipo->id) }}" method="POST" style="display:inline;">
+                                <a href="{{ route('equipo.show', $equipo->id) }}" class="btn btn-view"><i
+                                        class="bi bi-eye"></i></a>
+                                <a href="{{ route('equipo.edit', $equipo->id) }}" class="btn btn-edit"><i
+                                        class="bi bi-pencil-fill"></i></a>
+                                <form action="{{ route('equipo.destroy', $equipo->id) }}" method="POST"
+                                    style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-delete"><i class="bi bi-trash-fill"></i></button>
+                                    <button type="submit" class="btn btn-delete delete-btn"><i
+                                            class="bi bi-trash-fill"></i></button>
                                 </form>
                             </td>
                             <td class="accionesMovil"><button><i class="bi bi-gear"></i></button></td>

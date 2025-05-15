@@ -1,6 +1,6 @@
 <form action="{{$ruta}}" method="post">
     @csrf
-    @if ($edit)
+    @if (isset($edit))
         @method('PUT')
     @endif
     <div class="item">
@@ -22,11 +22,11 @@
     <div class="item">
         <label for="genero"><span aria-hidden="true" style="color: red;">*</span> Genero</label>
         <select name="genero" id="genero" class="w-full rounded p-2" required>
-            <option value="Femenino" {{ $edit && $genero == 'Femenino' ? 'Selected' : '' }}>Femenino</option>
-            <option value="Masculino" {{ $edit && $genero == 'Masculino' ? 'Selected' : '' }}>Masculino</option>
-            <option value="No binario" {{ $edit && $genero == 'No binario' ? 'Selected' : '' }}>No binario</option>
-            <option value="Otro" {{ $edit && $genero == 'Otro' ? 'Selected' : '' }}>Otro</option>
-            <option value="Prefiero no decir" {{ $edit && $genero == 'Prefiero no decir' ? 'Selected' : '' }}>Prefiero
+            <option value="Femenino" {{ isset($edit) && $genero == 'Femenino' ? 'Selected' : '' }}>Femenino</option>
+            <option value="Masculino" {{ isset($edit) && $genero == 'Masculino' ? 'Selected' : '' }}>Masculino</option>
+            <option value="No binario" {{ isset($edit) && $genero == 'No binario' ? 'Selected' : '' }}>No binario</option>
+            <option value="Otro" {{ isset($edit) && $genero == 'Otro' ? 'Selected' : '' }}>Otro</option>
+            <option value="Prefiero no decir" {{ isset($edit) && $genero == 'Prefiero no decir' ? 'Selected' : '' }}>Prefiero
                 no decir
             </option>
         </select>
@@ -58,11 +58,11 @@
     <div class="item">
         <label for="email"><span aria-hidden="true" style="color: red;">*</span> Estado</label>
         <select name="estado" id="estado">
-            <option value="1" {{ $edit && $estado == 1 ? 'selected' : '' }}>Activo</option>
-            <option value="0" {{ $edit && $estado == 0 ? 'selected' : '' }}>Inactivo</option>
+            <option value="1" {{ isset($edit) && $estado == 1 ? 'selected' : '' }}>Activo</option>
+            <option value="0" {{ isset($edit) && $estado == 0 ? 'selected' : '' }}>Inactivo</option>
         </select>
     </div>
-    @if ($edit)
+    @if (isset($edit))
         <div class="item">
             <label for="role"><span aria-hidden="true" style="color: red;">Rol</span></label>
             <input type="text" required value="{{ $role }}" readonly>

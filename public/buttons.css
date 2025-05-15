@@ -1,0 +1,136 @@
+/*Btn crear especialidad desde new equipo*/
+.box-new-especialidad #especialidad-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 0px 0px 100px 100px;
+    background-color: #3e8e41;
+}
+
+.box-new-especialidad #especialidad-btn:hover {
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+}
+
+#close-btn {
+    width: 100%;
+    padding: 16px 20px;
+}
+
+#close-btn:hover {
+    opacity: 0.8;
+}
+
+/*botones submit*/
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    opacity: 0.8;
+}
+
+button[type="submit"]:active {
+    background-color: #3e8e41;
+}
+
+
+/*Botones de acciones de las tablas*/
+/*heder*/
+.opciones {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0px 10px;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.opciones>* {
+    width: 70px;
+    height: 50px;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+.main-table .container-form .opciones .btn-add {
+    background-color: #3e8e41;
+    width: 150px;
+}
+.main-table .container-form .opciones .btn-add:hover {
+    background-color: #4CAF50;
+}
+
+.content-wrapper .btn-edit {
+    background-color: #ffc107;
+    padding: 10px;
+}
+
+.content-wrapper .btn-edit:hover {
+    background-color: #e0a800;
+}
+
+.opciones .delete-form {
+    background-color: #dc3545;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+}
+
+.opciones .delete-form:hover {
+    background-color: #c82333;
+}
+.opciones .btn-delete{
+    width: 100%;
+    height: 100%;
+}
+
+/*body*/
+.main-table .container-form .acciones .btn-view {
+    background-color: #007bff;
+}
+
+.main-table .container-form .acciones .btn-view:hover {
+    background-color: #0056b3;
+    /* Azul más oscuro */
+}
+
+.main-table .container-form .acciones .btn-edit {
+    background-color: #ffc107;
+}
+
+.main-table .container-form .acciones .btn-edit:hover {
+    background-color: #e0a800;
+    /* Amarillo más intenso */
+}
+
+.main-table .container-form .btn-delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 40px;
+    border-radius: 100px;
+    background-color: #dc3545;
+}
+
+.main-table .container-form .btn-delete:hover {
+    background-color: #c82333;
+    /* Rojo más oscuro */
+
+}

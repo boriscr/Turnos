@@ -52,23 +52,6 @@ th {
 }
 
 
-.main-table .container-form .acciones .btn-view {
-    background-color: #007bff;
-}
-
-.main-table .container-form .acciones .btn-view:hover {
-    background-color: #0056b3;
-    /* Azul más oscuro */
-}
-
-.main-table .container-form .acciones .btn-edit {
-    background-color: #ffc107;
-}
-
-.main-table .container-form .acciones .btn-edit:hover {
-    background-color: #e0a800;
-    /* Amarillo más intenso */
-}
 
 
 .main-table .container-form form {
@@ -78,21 +61,7 @@ th {
     padding: 0px;
 }
 
-.main-table .container-form button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 55px;
-    height: 40px;
-    border-radius: 100px;
-    background-color: #dc3545;
-}
 
-.main-table .container-form button:hover {
-    background-color: #c82333;
-    /* Rojo más oscuro */
-
-}
 
 .main-table .container-form .bi {
     font-size: 15px;

@@ -29,7 +29,7 @@
                         <hr>
                         <li><a class="dropdown-item2" href="{{ route('equipo.index') }}"><i class="bi bi-eye"></i> Ver equipo</a></li>
                         <li><a class="dropdown-item2" href="{{ route('equipo.create') }}"><i class="bi bi-person-fill-add"></i> Agregar equipo</a></li>
-                        <li><a class="dropdown-item2" href="#"><i class="bi bi-heart-pulse-fill"></i> Especialidades</a></li>
+                        <li><a class="dropdown-item2" href="{{route('especialidad.index')}}"><i class="bi bi-heart-pulse-fill"></i> Especialidades</a></li>
                         <br>
                         <p>Seccion Turnos</p>
                         <hr>

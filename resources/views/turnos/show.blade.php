@@ -1,6 +1,7 @@
 <x-body.body>
     <div class="content-wrapper">
-        <H1 class="section-title">Lista de equipos</H1>
+        <H3 class="title-form">Detalles</H3>
+
         <div class="section-container">
             <div class="card">
                 <p><b>Nombre:</b> {{ $turno->nombre }}</p>
@@ -13,7 +14,7 @@
                 <p><b>Hora de inicio:</b> {{ \Carbon\Carbon::parse($turno->hora_inicio)->format('H:i') }}</p>
                 <p><b>Hora de finalizacion:</b> {{ \Carbon\Carbon::parse($turno->hora_fin)->format('H:i') }}</p>
                 @if ($turno->horarios_disponibles)
-                <p><b>Horarios dispobibles:</b> {{ $turno->horarios_disponibles }}</p>
+                    <p><b>Horarios dispobibles:</b> {{ $turno->horarios_disponibles }}</p>
                 @endif
             </div>
             <div class="card">
@@ -29,5 +30,16 @@
                 </p>
             </div>
         </div>
+        <div class="opciones">
+            <a href="{{ route('turnos.edit', $turno->id) }}" class="btn-edit"><i
+                    class="bi bi-pencil-fill">Editar</i></a>
+            <form action="{{ route('turnos.destroy', $turno->id) }}" method="POST" class="delete-form">
+                @csrf
+                @method('DELETE')
+                <button type="button" class="btn-delete delete-btn"><i class="bi bi-trash-fill"></i> Eliminar</button>
+            </form>
+        </div>
     </div>
+    <script src="../../delete-btn.js"></script>
+
 </x-body.body>

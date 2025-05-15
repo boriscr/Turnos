@@ -7,7 +7,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th>Descripcion</th>
+                        <th class="option-movil">Descripcion</th>
                         <th class="option-movil">Especialidad</th>
                         <th>Encargado</th>
                         <th class="option-movil">Turno</th>
@@ -20,11 +20,11 @@
                         <tr>
                             <td>{{ $turno->id }}</td>
                             <td>{{ $turno->nombre }}</td>
-                            <td>{{ $turno->descripcion }}</td>
+                            <td class="option-movil">{{ $turno->descripcion }}</td>
                             <td class="option-movil">{{ $turno->especialidad->nombre }}</td>
                             <td>{{ $turno->equipo->nombre . ' ' . $turno->equipo->apellido }}</td>
                             <td class="option-movil">{{ $turno->turno }}</td>
-                            <td class="option-movil">{{ $turno->estado ? 'Activo' : 'Inactivo' }}</td>
+                            <td>{{ $turno->estado ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones">
                                 <a href="{{ route('turnos.show', $turno->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i></a>
@@ -34,7 +34,7 @@
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-delete"><i
+                                    <button type="submit" class="btn btn-delete delete-btn"><i
                                             class="bi bi-trash-fill"></i></button>
                                 </form>
                             </td>
