@@ -51,7 +51,7 @@
             @endif
         </select>
     </div>
-    @if(isset($crear))
+    @if(isset($crear) || isset($nuevoEquipo))
     <div class="box-new-especialidad">
         <button type="button" id="especialidad-btn">Crear especialidad</button>
     </div>
@@ -88,7 +88,7 @@
         <p id="estadoTxt" class="estadoTxt">Activo</p>
         @endif
     </div>
-    <button type="submit">Registrar</button>
+    <button type="submit" class="submit-btn">Registrar</button>
 </form>
 @if ($errors->any())
     <div style="color: red;">

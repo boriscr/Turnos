@@ -1,0 +1,38 @@
+.search-filters {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.date-filters {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.date-filters .btn-group {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.date-filters .btn-group .btn {
+    flex: 1;
+}
+
+.date-filters .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+@media (max-width: 768px) {
+    .date-filters .col-md-5,
+    .date-filters .col-md-2 {
+        padding: 0 5px;
+    }
+    
+    .date-filters .btn {
+        padding: 5px 8px;
+        font-size: 14px;
+    }
+}

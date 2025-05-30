@@ -7,8 +7,8 @@
                 <p><b>Nombre:</b> {{ $turno->nombre }}</p>
                 <p><b>Descripción:</b> {{ $turno->descripcion }}</p>
                 <p><b>Especialidad:</b> {{ $turno->especialidad->nombre }}</p>
-                <p><b>Encargado/a:</b> {{ $turno->equipo->nombre . ' ' . $turno->equipo->apellido }} <a href=""><i
-                            class="bi bi-eye"></i></a></p>
+                <p><b>Encargado/a:</b> {{ $turno->equipo->nombre . ' ' . $turno->equipo->apellido }} <a
+                        href="{{ route('equipo.show', $turno->equipo->id) }}"><i class="bi bi-eye"></i></a></p>
                 <p><b>Turno:</b> {{ $turno->turno }}</p>
                 <p><b>Cantidad de turnos:</b> {{ $turno->cantidad_turnos }} </p>
                 <p><b>Hora de inicio:</b> {{ \Carbon\Carbon::parse($turno->hora_inicio)->format('H:i') }}</p>
@@ -39,7 +39,8 @@
                 <button type="button" class="btn-delete delete-btn"><i class="bi bi-trash-fill"></i> Eliminar</button>
             </form>
         </div>
-    </div>
-    <script src="../../delete-btn.js"></script>
+        <script src="../../delete-btn.js"></script>
 
+        <br>
+        <a href="{{ route('disponible.index', $turno->equipo_id) }}">Ver turnos disponibles</a>
 </x-body.body>

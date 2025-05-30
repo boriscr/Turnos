@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TurnoDisponibleController extends Controller
 {
+
     public function create()
     {
         $turnoDisponible = TurnoDisponible::all();

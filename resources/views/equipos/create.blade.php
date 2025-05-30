@@ -37,7 +37,7 @@
                         </div>
                         <p id="estadoTxt-esp" class="estadoTxt">Activo</p>
                     </div>
-                    <button type="submit">Registrar</button>
+                    <button type="submit" class="submit-btn">Registrar</button>
                     <button type="button" id="close-btn" style="background: red; color: #fff;">Cancelar</button>
                 </form>
 

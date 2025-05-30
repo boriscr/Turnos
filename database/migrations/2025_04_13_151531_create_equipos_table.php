@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('equipos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('nombre');
             $table->string('apellido');
-            $table->integer('dni')->unique();
-            $table->string('email')->unique();
+            $table->integer('dni');
+            $table->string('email');
             $table->string('telefono');
-            $table->foreignId('especialidad_id')->constrained('especialidads')->onDelete('cascade');
-            $table->string('matricula');
+            $table->foreignId('especialidad_id')->nullable()->constrained('especialidads')->onDelete('cascade');
+            $table->string('matricula')->nullable();
             $table->string('role');
-            $table->boolean('estado');
+            $table->boolean('estado')->default(true); // Valor por defecto true
             $table->timestamps();
         });
     }

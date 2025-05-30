@@ -10,7 +10,7 @@
                     <p><b> Especialidad: </b>{{ $equipo->especialidad->nombre }}</p>
                     <p><b> Email: </b>{{ $equipo->email }}</p>
                     <p><b> Celular: </b>{{ $equipo->telefono }}</p>
-                    <p><b> Rol: </b>{{ $equipo->rol }}</p>
+                    <p><b> Rol: </b>{{ $equipo->role }}</p>
                     <p><b> Estado: </b>{{ $equipo->estado ? 'Activo' : 'Inactivo' }}</p>
                     <p><b> Fecha de creación: </b>{{ $equipo->created_at }}</p>
                     <p><b> Fecha de última actualizacion: </b>{{ $equipo->updated_at }}</p>

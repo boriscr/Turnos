@@ -9,6 +9,10 @@ class Reserva extends Model
     protected $fillable = [
         'turno_disponible_id',
         'user_id',
+        'asistio',
+    ];
+    protected $casts = [
+        'asistencia' => 'boolean',
     ];
 
     public function turnoDisponible()
@@ -16,7 +20,6 @@ class Reserva extends Model
         return $this->belongsTo(TurnoDisponible::class);
     }
 
-    
     public function user()
     {
         return $this->belongsTo(User::class);

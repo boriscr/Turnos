@@ -8,6 +8,7 @@ class Equipo extends Model
 {
     protected $table = 'equipos';
     protected $fillable = [
+        'user_id',
         'nombre',
         'apellido',
         'dni',
@@ -15,19 +16,26 @@ class Equipo extends Model
         'telefono',
         'especialidad',
         'matricula',
-        'rol',
+        'estado',
+        'role',
     ];
+
+    // Relación inversa (pertenece a un User)
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
     public function turnosDisponibles()
     {
         return $this->hasMany(TurnoDisponible::class);
     }
     public function especialidad()
     {
-        return $this->belongsTo(Especialidad::class, 'id');
+        return $this->belongsTo(Especialidad::class);
     }
-    
-    public function turnos()
+
+    public function reservas()
     {
-        return $this->hasMany(Turno::class);
+        return $this->hasMany(Reserva::class);
     }
 }

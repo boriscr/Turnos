@@ -7,22 +7,14 @@
         <label for="nombre"><span aria-hidden="true" style="color: red;">*</span> Nombre de la especialidad</label>
         <input type="text" name="nombre" id="nombre" required value="{{ $nombre }}">
         @error('nombre')
-            <div style="color: red;">
-                <ul>
-                    <li>{{ $message }}</li>
-                </ul>
-            </div>
+            <div class="error">{{ $message }}</div>
         @enderror
     </div>
     <div class="item">
         <label for="descripcion">Descripcion</label>
         <textarea name="descripcion" id="descripcion" cols="30" rows="5">{{ $descripcion }}</textarea>
         @error('descripcion')
-            <div style="color: red;">
-                <ul>
-                    <li>{{ $message }}</li>
-                </ul>
-            </div>
+            <div class="error">{{ $message }}</div>
         @enderror
     </div>
 
@@ -36,6 +28,6 @@
     </div>
     <br>
     <hr>
-    <button type="submit">Registrar</button>
+    <button type="submit" class="submit-btn">Registrar</button>
     <button type="button" id="close-btn" style="background: red; color: #fff;">Cancelar</button>
 </form>

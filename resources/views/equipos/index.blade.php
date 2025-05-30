@@ -21,8 +21,8 @@
                             <td>{{ $equipo->nombre }}</td>
                             <td>{{ $equipo->apellido }}</td>
                             <td class="option-movil">{{ $equipo->dni }}</td>
-                            <td>{{ $equipo->especialidad->nombre }}</td>
-                            <td class="option-movil">{{ $equipo->rol }}</td>
+                            <td>{{ $equipo->especialidad->nombre??null }}</td>
+                            <td class="option-movil">{{ $equipo->role }}</td>
                             <td class="acciones">
                                 <a href="{{ route('equipo.show', $equipo->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i></a>
@@ -44,4 +44,6 @@
 
         </div>
     </div>
+    <script src="../../delete-btn.js"></script>
+
 </x-body.body>

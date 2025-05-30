@@ -25,7 +25,7 @@ class EquipoController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'dni' => 'required|integer|unique:equipos,dni',
+            'dni' => 'required|integer|digits_between:7,8|unique:equipos,dni',
             'email' => 'required|email|unique:equipos,email',
             'telefono' => 'required|string|max:255',
             'especialidad' => 'required|string|max:255',
@@ -36,13 +36,14 @@ class EquipoController extends Controller
         //dd('Llega');
         // Crear el nuevo equipo
         $equipo = new Equipo();
-        $equipo->nombre = $request->input('nombre');
-        $equipo->apellido = $request->input('apellido');
-        $equipo->dni = $request->input('dni');
-        $equipo->email = $request->input('email');
-        $equipo->telefono = $request->input('telefono');
-        $equipo->especialidad_id = $request->input('especialidad');
-        $equipo->matricula = $request->input('matricula');
+        
+        $equipo->nombre = trim($request->input('nombre'));
+        $equipo->apellido = trim($request->input('apellido'));
+        $equipo->dni = trim($request->input('dni'));
+        $equipo->email = trim($request->input('email'));
+        $equipo->telefono = trim($request->input('telefono'));
+        $equipo->especialidad_id = trim($request->input('especialidad'));
+        $equipo->matricula = trim($request->input('matricula'));
         $equipo->role = $request->input('rol');
         $equipo->estado = $request->input('estado', 0); // Valor por defecto 0 si no existe
 
@@ -105,7 +106,7 @@ class EquipoController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'dni' => 'required|integer|unique:equipos,dni,' . $id,
+            'dni' => 'required|integer|digits_between:7,8|unique:equipos,dni,' . $id,
             'email' => 'required|email|unique:equipos,email,' . $id,
             'telefono' => 'required|string|max:255',
             'especialidad' => 'required|string|max:255',
@@ -125,13 +126,13 @@ class EquipoController extends Controller
             Log::error('Equipo no encontrado', ['id' => $id]);
             return back();
         }
-        $equipo->nombre = $request->input('nombre');
-        $equipo->apellido = $request->input('apellido');
-        $equipo->dni = $request->input('dni');
-        $equipo->email = $request->input('email');
-        $equipo->telefono = $request->input('telefono');
-        $equipo->especialidad_id = $request->input('especialidad');
-        $equipo->matricula = $request->input('matricula');
+        $equipo->nombre = trim($request->input('nombre'));
+        $equipo->apellido = trim($request->input('apellido'));
+        $equipo->dni = trim($request->input('dni'));
+        $equipo->email = trim($request->input('email'));
+        $equipo->telefono = trim($request->input('telefono'));
+        $equipo->especialidad_id = trim($request->input('especialidad'));
+        $equipo->matricula = trim($request->input('matricula'));
         $equipo->role = $request->input('rol');
         $equipo->estado = $request->input('estado', 0); // Valor por defecto 0 si no existe
 

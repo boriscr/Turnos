@@ -32,9 +32,9 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'dni' => ['required', 'string', 'max:8', 'unique:' . User::class],
+            'dni' => ['required', 'integer', 'digits_between:7,8', 'unique:' . User::class],
             'birthdate' => ['required', 'date'],
-            'genero' => ['required', 'string', 'max:255'],
+            'genero' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,otro,Prefiero no decir'],
             'country' => ['required', 'string', 'max:255'],
             'province' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
@@ -65,17 +65,17 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'surname' => $request->surname,
-            'dni' => $request->dni,
+            'name' => trim($request->name),
+            'surname' => trim($request->surname),
+            'dni' => trim($request->dni),
             'birthdate' => $request->birthdate,
             'genero' => $request->genero,
             'country' => $request->country,
-            'province' => $request->province,
-            'city' => $request->city,
-            'address' => $request->address,
-            'phone' => $request->phone,
-            'email' => $request->email,
+            'province' => trim($request->province),
+            'city' => trim($request->city),
+            'address' => trim($request->address),
+            'phone' => trim($request->phone),
+            'email' => trim($request->email),
             'password' => Hash::make($request->password),
         ]);
 

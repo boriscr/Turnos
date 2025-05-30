@@ -14,6 +14,8 @@
                 <p><b>Fecha de creación: </b>{{ \Carbon\Carbon::parse($usuario->created_at)->format('d/m/Y H:i') }}</p>
                 <p><b>Ultima actualización:</b> {{ \Carbon\Carbon::parse($usuario->updated_at)->format('d/m/Y H:i') }}
                 <p><b>Estado: </b>{{ $usuario->estado ? 'Activo' : 'Inactivo' }}</p>
+                <p><b>Turnos perdidos: </b>{{ $usuario->faults === null ? 'Ninguno' : $usuario->faults }}</p>
+
             </div>
             <div class="card">
                 <h1><b>Direccion</b></h1>
@@ -39,4 +41,5 @@
         </div>
     </div>
     <script src="../../delete-btn.js"></script>
+
 </x-body.body>

@@ -27,7 +27,6 @@ class TurnoController extends Controller
     }
     public function store(Request $request)
     {
-        //dd($request->all());
         // Decodificar fechas seleccionadas
         $fechas = json_decode($request->selected_dates, true);
 
@@ -40,12 +39,12 @@ class TurnoController extends Controller
 
         // Crear el turno principal
         $turno = Turno::create([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
+            'nombre' => trim($request->nombre),
+            'descripcion' => trim($request->descripcion),
             'especialidad_id' => $request->especialidad_id,
             'equipo_id' => $request->equipo_id,
             'turno' => $request->turno, // Asignar el turno si se proporciona
-            'cantidad_turnos' => $request->cantidad,
+            'cantidad_turnos' => trim($request->cantidad),
             'hora_inicio' => $request->hora_inicio,
             'hora_fin' => $request->hora_fin,
             'horarios_disponibles' => $request->horarios_disponibles,
@@ -90,24 +89,110 @@ class TurnoController extends Controller
 
     public function show($id)
     {
+        // Obtener el turno específico
         $turno = Turno::findOrFail($id);
-        return view('turnos/show', compact('turno'));
+        // Obtener el turno disponible relacionado con el equipo de ese turno
+        $turnoDisponibles = TurnoDisponible::where('equipo_id', $turno->equipo_id)
+            ->orderByDesc('fecha')
+            ->orderByDesc('hora')
+            ->paginate(10);
+
+        return view('turnos.show', compact('turno', 'turnoDisponibles'));
     }
-//Editar Turno
+    public function search(Request $request)
+    {
+        // Si se presionó "Mostrar Todo", ignoramos todos los filtros
+        if ($request->has('mostrar_todo')) {
+            $turnoDisponibles = TurnoDisponible::with(['turno', 'reservas.user'])
+                ->orderByDesc('fecha')
+                ->orderByDesc('hora')
+                ->paginate(10);
+
+            return view('disponibles.index', [
+                'turnoDisponibles' => $turnoDisponibles,
+                'reservaFiltro' => 'todos',
+                'fechaFiltro' => 'todos',
+                'search' => null,
+                'fechaInicio' => null,
+                'fechaFin' => null
+            ]);
+        }
+
+        // Procesamiento normal de filtros
+        $search = $request->input('search');
+        $reservaFiltro = $request->input('reserva', 'reservados');
+        $fechaFiltro = $request->input('fecha', 'hoy');
+        $fechaInicio = $request->input('fecha_inicio');
+        $fechaFin = $request->input('fecha_fin');
+        $hoy = now()->format('Y-m-d');
+        $manana = now()->addDay()->format('Y-m-d'); // Nueva variable para mañana
+
+        $query = TurnoDisponible::with(['turno', 'reservas.user'])
+            ->when($search, function ($query) use ($search) {
+                $query->whereHas('reservas.user', function ($userQuery) use ($search) {
+                    $userQuery->where('dni', 'like', "%$search%")
+                        ->orWhere('name', 'like', "%$search%")
+                        ->orWhere('surname', 'like', "%$search%");
+                });
+            })
+            ->when($reservaFiltro !== 'todos', function ($query) use ($reservaFiltro) {
+                switch ($reservaFiltro) {
+                    case 'reservados':
+                        $query->where('cupos_reservados', '>=', 1);
+                        break;
+                    case 'sin_reserva':
+                        $query->where('cupos_reservados', 0);
+                        break;
+                }
+            });
+
+        // Manejo de fechas
+        if ($fechaFiltro === 'personalizado') {
+            if ($fechaInicio && $fechaFin) {
+                $query->whereBetween('fecha', [$fechaInicio, $fechaFin]);
+            } elseif ($fechaInicio) {
+                $query->whereDate('fecha', '>=', $fechaInicio);
+            } elseif ($fechaFin) {
+                $query->whereDate('fecha', '<=', $fechaFin);
+            }
+        } elseif ($fechaFiltro !== 'todos') {
+            switch ($fechaFiltro) {
+                case 'hoy':
+                    $query->whereDate('fecha', $hoy);
+                    break;
+                case 'anteriores':
+                    $query->whereDate('fecha', '<', $hoy);
+                    break;
+                case 'futuros':
+                    // Cambiado para mostrar solo mañana
+                    $query->whereDate('fecha', $manana);
+                    break;
+            }
+        }
+
+        $turnoDisponibles = $query
+            ->orderByDesc('fecha')
+            ->orderByDesc('hora')
+            ->paginate(10);
+
+        return view('disponibles.index', compact('turnoDisponibles', 'reservaFiltro', 'fechaFiltro', 'search', 'fechaInicio', 'fechaFin'));
+    }
+
+    //Editar Turno
     public function edit($id)
     {
         $turno = Turno::with(['especialidad', 'equipo', 'disponibilidades'])->findOrFail($id);
         $especialidades = Especialidad::where('estado', 1)->get();
-        
+
         // Procesar horarios_disponibles para la vista
         $horarios_disponibles = $turno->horarios_disponibles;
-        
+
         // Verificar si es un array JSON (horario2)
         $horariosArray = json_decode($turno->horarios_disponibles, true);
         if (json_last_error() === JSON_ERROR_NONE && is_array($horariosArray)) {
             $horarios_disponibles = json_encode($horariosArray);
         }
-        
+
         return view('turnos.edit', [
             'turno' => $turno,
             'especialidades' => $especialidades,
@@ -125,7 +210,7 @@ class TurnoController extends Controller
             'horarios_disponibles' => $horarios_disponibles
         ]);
     }
-    
+
     public function update(Request $request, $id)
     {
         // Validación básica
@@ -139,52 +224,52 @@ class TurnoController extends Controller
             'hora_fin' => 'required',
             'selected_dates' => 'required'
         ]);
-    
+
         // Decodificar fechas seleccionadas
         $fechas = json_decode($request->selected_dates, true);
-    
+
         if (empty($fechas)) {
             return back()->with('error', 'Debe seleccionar al menos una fecha')->withInput();
         }
-    
+
         // Validación específica para horarios
         if ($request->turno === 'horario2') {
             if (empty($request->horarios_disponibles) || !json_decode($request->horarios_disponibles)) {
                 return back()->withErrors(['horarios_disponibles' => 'Para turnos por hora, debe seleccionar al menos un horario'])->withInput();
             }
         }
-    
+
         // Resto del código de actualización...
-    
+
 
         // Obtener el turno a actualizar
         $turno = Turno::findOrFail($id);
-    
+
         // Actualizar el turno principal
-        $turno->nombre = $request->nombre;
-        $turno->descripcion = $request->descripcion;
+        $turno->nombre = trim($request->nombre);
+        $turno->descripcion = trim($request->descripcion);
         $turno->especialidad_id = $request->especialidad_id;
         $turno->equipo_id = $request->equipo_id;
         $turno->turno = $request->turno;
-        $turno->cantidad_turnos = $request->cantidad;
+        $turno->cantidad_turnos = trim($request->cantidad);
         $turno->hora_inicio = $request->hora_inicio;
         $turno->hora_fin = $request->hora_fin;
         $turno->horarios_disponibles = $request->horarios_disponibles;
         $turno->user_id_update = Auth::id();
         $turno->fechas_disponibles = $fechas;
         $turno->estado = $request->estado ?? $turno->estado;
-        
+
         $turno->save();
 
         // Eliminar disponibilidades existentes
         $turno->disponibilidades()->delete();
-    
+
         // Crear nuevas disponibilidades según la configuración
         foreach ($fechas as $fecha) {
             if ($request->horarios_disponibles && json_decode($request->horarios_disponibles)) {
                 // Caso CON horarios específicos (horario2)
                 $horarios = json_decode($request->horarios_disponibles, true);
-    
+
                 foreach ($horarios as $hora) {
                     TurnoDisponible::create([
                         'turno_id' => $turno->id,
@@ -205,7 +290,7 @@ class TurnoController extends Controller
                 ]);
             }
         }
-    
+
         return redirect()->route('turnos.index')->with('success', 'Turno actualizado correctamente');
     }
 }

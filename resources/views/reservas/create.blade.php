@@ -86,6 +86,6 @@
             </form>
         </div>
     </div>
-    <script src="forms/formulario-3paso-reserva.js"></script>
-    <script src="forms/filtro-turnos.js"></script>
+    <script src="../forms/formulario-3paso-reserva.js"></script>
+    <script src="../forms/filtro-turnos.js"></script>
 </x-body.body>

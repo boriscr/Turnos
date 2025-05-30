@@ -5,6 +5,9 @@
     --color-texto-light: #fff;
     --color-texto-dark: #000;
 }
+.error{
+    color: red;
+}
 .form-grid H3, .calendario-box H3{
     margin-top: 0px;
     font-weight: bold;

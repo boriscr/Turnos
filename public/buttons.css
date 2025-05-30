@@ -25,21 +25,21 @@
 }
 
 /*botones submit*/
-button[type="submit"] {
-    background-color: #4CAF50;
+
+.submit-btn {
+    background-color: #4CAF50 !important;
     color: white;
-    padding: 16px 20px;
     margin: 8px 0;
     border: none;
     cursor: pointer;
     width: 100%;
 }
 
-button[type="submit"]:hover {
+.submit-btn:hover {
     opacity: 0.8;
 }
 
-button[type="submit"]:active {
+.submit-btn:active {
     background-color: #3e8e41;
 }
 
@@ -71,6 +71,7 @@ button[type="submit"]:active {
     background-color: #3e8e41;
     width: 150px;
 }
+
 .main-table .container-form .opciones .btn-add:hover {
     background-color: #4CAF50;
 }
@@ -90,17 +91,22 @@ button[type="submit"]:active {
     justify-content: center;
     align-items: center;
     padding: 0px;
+    width: 100%;
 }
 
 .opciones .delete-form:hover {
     background-color: #c82333;
 }
-.opciones .btn-delete{
+
+.opciones .btn-delete {
     width: 100%;
     height: 100%;
 }
 
+
+
 /*body*/
+
 .main-table .container-form .acciones .btn-view {
     background-color: #007bff;
 }
@@ -123,7 +129,7 @@ button[type="submit"]:active {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60px;
+    width: 100%;
     height: 40px;
     border-radius: 100px;
     background-color: #dc3545;
@@ -133,4 +139,54 @@ button[type="submit"]:active {
     background-color: #c82333;
     /* Rojo más oscuro */
 
+}
+
+
+/*Tabla seccion acciones reservas*/
+.btn-asistencia {
+    padding: 5px 10px;
+    border: 1px solid #fff;
+}
+
+.btn-asistencia:hover {
+    transform: scale(1.1);
+}
+
+.btn-asistencia>.bi {
+    font-size: 25px !important;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-danger {
+    background-color: #dc3545 !important;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+
+@media screen and (max-width: 600px) {
+    .accionesMovil .btn-acciones-movil{
+        background-color: #28a745;
+        padding: 5px 10px;
+    }
 }

@@ -22,27 +22,37 @@
                     <ul class="dropdown-menu">
                         <p>Seccion Usuarios</p>
                         <hr>
-                        <li><a class="dropdown-item2" href="{{ route('usuario.index') }}"><i class="bi bi-eye"></i> Ver usuarios</a></li>
-                        <li><a class="dropdown-item2" href="{{ route('usuario.create') }}"><i class="bi bi-person-fill-add"></i> Agregar usuario</a></li>
+                        <li><a class="dropdown-item2" href="{{ route('usuario.index') }}"><i class="bi bi-eye"></i> Ver
+                                usuarios</a></li>
                         <br>
                         <p>Seccion Equipo</p>
                         <hr>
-                        <li><a class="dropdown-item2" href="{{ route('equipo.index') }}"><i class="bi bi-eye"></i> Ver equipo</a></li>
-                        <li><a class="dropdown-item2" href="{{ route('equipo.create') }}"><i class="bi bi-person-fill-add"></i> Agregar equipo</a></li>
-                        <li><a class="dropdown-item2" href="{{route('especialidad.index')}}"><i class="bi bi-heart-pulse-fill"></i> Especialidades</a></li>
+                        <li><a class="dropdown-item2" href="{{ route('equipo.index') }}"><i class="bi bi-eye"></i> Ver
+                                equipo</a></li>
+                        <li><a class="dropdown-item2" href="{{ route('equipo.create') }}"><i
+                                    class="bi bi-person-fill-add"></i> Agregar equipo</a></li>
+                        <li><a class="dropdown-item2" href="{{ route('especialidad.index') }}"><i
+                                    class="bi bi-heart-pulse-fill"></i> Especialidades</a></li>
                         <br>
                         <p>Seccion Turnos</p>
                         <hr>
-                        <li><a class="dropdown-item2" href="{{route('turnos.index')}}"><i class="bi bi-eye"></i> Ver Turnos</a></li>
-                        <li><a class="dropdown-item2" href="{{route('turnos.create')}}"><i class="bi bi-clock"></i> Crear Turnos</a></li>
+                        <li><a class="dropdown-item2" href="{{ route('turnos.index') }}"><i class="bi bi-eye"></i> Ver
+                                Turnos</a></li>
+                        <li><a class="dropdown-item2" href="{{ route('turnos.create') }}"><i class="bi bi-clock"></i>
+                                Crear Turnos</a></li>
+                        <br>
+                        <p>Seccion Reservas</p>
+                        <hr>
+                        <li><a class="dropdown-item2" href="{{ route('reservas.index') }}"><i class="bi bi-eye"></i> Ver
+                                reservas</a></li>
 
                     </ul>
                 </li>
 
                 @if (auth()->check())
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Mi perfil
                         </a>
                         <ul class="dropdown-menu">
@@ -50,14 +60,15 @@
                             <li>
                                 <form action="{{ route('logout') }}" method="post">
                                     @csrf
-                                    <button type="submit" class="dropdown-item" style="background: red; ">Cerrar sesión</button>
+                                    <button type="submit" class="dropdown-item" style="background: red; ">Cerrar
+                                        sesión</button>
                                 </form>
                         </ul>
                     </li>
                 @else
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Iniciar sesión
                         </a>
                         <ul class="dropdown-menu">

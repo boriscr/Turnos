@@ -4,7 +4,7 @@
             <h3 class="title-form">Especialidades</h3>
             <div class="opciones">
                 <button class="btn-add">
-                    <a href="{{ route('especialidad.create') }}">Crear especialidad</a>
+                    <a href="{{ route('equipo.create') }}">Crear equipo</a>
                 </button>
             </div>
             <table>
@@ -13,27 +13,26 @@
                         <th>Id</th>
                         <th>Nombre</th>
                         <th>Descripcion</th>
-                        <th>Equipo</th>
+                        <th>Especialidad</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($especialidades as $especialidades)
+                    @foreach ($equipo as $equipo)
                         <tr>
-                            <td>{{ $especialidades->id }}</td>
-                            <td>{{ $especialidades->nombre }}</td>
-                            <td>{{ $especialidades->descripcion ?? 'Sin datos' }}</td>
-                            <td> <a href="{{ route('lista.equipos', $especialidades->id) }}" class="btn btn-view"><i
-                                        class="bi bi-eye"></i></a></td>
+                            <td>{{ $equipo->id }}</td>
+                            <td>{{ $equipo->nombre }}</td>
+                            <td>{{ $equipo->descripcion ?? 'Sin datos' }}</td>
+                            <td>{{ $equipo->especialidad->nombre }}</td>
 
-                            <td class="option-movil">{{ $especialidades->estado ? 'Activo' : 'Inactivo' }}</td>
+                            <td class="option-movil">{{ $equipo->estado ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones">
-                                <a href="{{ route('especialidad.show', $especialidades->id) }}" class="btn btn-view"><i
+                                <a href="{{ route('equipo.show', $equipo->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i></a>
-                                <a href="{{ route('especialidad.edit', $especialidades->id) }}" class="btn btn-edit"><i
+                                <a href="{{ route('equipo.edit', $equipo->id) }}" class="btn btn-edit"><i
                                         class="bi bi-pencil-fill"></i></a>
-                                <form action="{{ route('especialidad.destroy', $especialidades->id) }}" method="POST"
+                                <form action="{{ route('equipo.destroy', $equipo->id) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')

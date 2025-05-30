@@ -32,12 +32,21 @@ class User extends Authenticatable
         'email',
         'estado',
         'password',
+        'role',
+        'faults',
     ];
 
     public function turno()
     {
         return $this->hasMany(Turno::class);
     } 
+// Relación 1:1 con Equipo (un usuario PUEDE ser un profesional)
+public function equipo()
+{
+    return $this->hasOne(Equipo::class, 'user_id'); 
+    // 'user_id' es la FK en la tabla equipos
+}
+
     /**
      * The attributes that should be hidden for serialization.
      *

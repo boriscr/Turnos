@@ -15,8 +15,6 @@
     @isset($method)
         @method($method)
     @endisset
-
-
             <!-- Paso 1 - Datos Iniciales -->
             <div class="form-step active" data-step="1">
                 <div class="form-grid">
@@ -24,11 +22,17 @@
                         <label for="nombre">Nombre del Turno</label>
                         <input type="text" name="nombre" id="nombre" value="{{ $nombre }}" required
                             class="form-control">
+                            @error('nombre')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                     </div>
 
                     <div class="form-group">
                         <label for="descripcion">Descripción</label>
                         <textarea name="descripcion" id="descripcion" rows="2" required class="form-control">{{ $descripcion }}</textarea>
+                        @error('descripcion')
+                            <div class="error">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="form-group">
@@ -40,6 +44,9 @@
                                 @endif
                             @endforeach
                         </select>
+                        @error('especialidad_id')
+                            <div class="error">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="form-group">
@@ -47,6 +54,9 @@
                         <select name="equipo_id" id="equipo_id" required class="form-control">
                             <option value="">Seleccione un equipo</option>
                         </select>
+                        @error('equipo_id')
+                            <div class="error">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
@@ -85,18 +95,27 @@
                         <label for="cantidad">Cantidad de citas</label>
                         <input type="number" name="cantidad" id="cantidad" value="{{ $cantidad }}" min="1"
                             required class="form-control">
+                        @error('cantidad')
+                            <div class="error">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="form-group">
                         <label for="hora_inicio">Hora de Inicio</label>
                         <input type="time" name="hora_inicio" id="hora_inicio" value="{{ $inicio }}" required
                             class="form-control">
+                        @error('hora_inicio')
+                            <div class="error">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="form-group">
                         <label for="hora_fin">Hora de Fin</label>
                         <input type="time" name="hora_fin" id="hora_fin" value="{{ $fin }}" required
                             class="form-control">
+                        @error('hora_fin')
+                            <div class="error">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="box-style">

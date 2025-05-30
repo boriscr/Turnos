@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('turno_disponible_id')->constrained('turno_disponibles')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->boolean('asistencia')->nullable();
             $table->timestamps();
         });
     }

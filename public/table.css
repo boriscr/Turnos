@@ -30,11 +30,7 @@ th {
 }
 
 .main-table .container-form .acciones {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 1px;
-    /*responsive*/
     flex-wrap: wrap;
 }
 
@@ -47,16 +43,11 @@ th {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 55px;
-    height: 40px;
 }
 
 
 
-
 .main-table .container-form form {
-    width: auto;
-    height: auto;
     margin: 0px;
     padding: 0px;
 }
@@ -79,13 +70,8 @@ th {
     }
 
     .main-table .container-form .accionesMovil {
-        display: flex;
+        display: table-cell;
         justify-content: center;
         align-items: center;
-    }
-
-    .main-table .container-form .accionesMovil button {
-        width: 40px;
-        height: 25px;
-    }
+        }
 }
