@@ -33,12 +33,14 @@
                                         class="bi bi-eye"></i></a>
                                 <a href="{{ route('especialidad.edit', $especialidades->id) }}" class="btn btn-edit"><i
                                         class="bi bi-pencil-fill"></i></a>
+
                                 <form action="{{ route('especialidad.destroy', $especialidades->id) }}" method="POST"
-                                    style="display:inline;">
+                                    class="delete-form" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-delete delete-btn"><i
-                                            class="bi bi-trash-fill"></i></button>
+                                    <button type="submit" class="btn btn-delete delete-btn">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
                                 </form>
                             </td>
                             <td class="accionesMovil"><button><i class="bi bi-gear"></i></button></td>
@@ -49,6 +51,6 @@
 
         </div>
     </div>
-    <script src="../../delete-btn.js"></script>
+    <script src="delete-btn.js"></script>
 
 </x-body.body>

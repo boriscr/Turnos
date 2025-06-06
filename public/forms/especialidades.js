@@ -13,7 +13,7 @@ function cargarEquiposPorEspecialidad(especialidadId) {
                 data.forEach(equipo => {
                     let option = document.createElement("option");
                     option.value = equipo.id;
-                    option.text = equipo.nombre;
+                    option.text = equipo.nombre+' '+equipo.apellido;
                     equipoSelect.appendChild(option);
                 });
             }

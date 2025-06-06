@@ -293,4 +293,15 @@ class TurnoController extends Controller
 
         return redirect()->route('turnos.index')->with('success', 'Turno actualizado correctamente');
     }
+
+    function destroy($id)
+    {
+        $turno = Turno::findOrFail($id);
+        $turno->disponibilidades()->delete(); // Eliminar disponibilidades asociadas
+        $turno->delete(); // Eliminar el turno
+
+        return redirect()->route('turnos.index')->with('success', 'Turno eliminado correctamente');
+    }
+
+
 }
