@@ -40,6 +40,7 @@
             text-align: center;
 
         }
+
         .btn-registro:hover {
             background-color: #4CAF50;
             color: white;
@@ -125,8 +126,14 @@
 
             <div class="mt-6 flex justify-end">
                 <button type="button" @click="nextStep(1)"
-                    class="bg-pink-500 text-white px-4 py-2 rounded">Siguiente</button>
+                    class="border border-white bg-pink-500 text-white px-4 py-2 rounded">Siguiente</button>
             </div>
+            <br>
+            <hr>
+            <br>
+            <x-secondary-button class="ms-3">
+                <a href="{{ route('login') }}">{{ __('¿Ya tienes una cuenta?') }}</a>
+            </x-secondary-button>
         </div>
 
         <!-- Paso 2 -->
@@ -201,9 +208,9 @@
 
             <div class="mt-6 flex justify-between">
                 <button type="button" @click="step--"
-                    class="bg-gray-400 text-white px-4 py-2 rounded">Atrás</button>
+                    class="border border-white bg-gray-400 text-white px-4 py-2 rounded">Atrás</button>
                 <button type="button" @click="nextStep(2)"
-                    class="bg-pink-500 text-white px-4 py-2 rounded">Siguiente</button>
+                    class="border border-white bg-pink-500 text-white px-4 py-2 rounded">Siguiente</button>
             </div>
         </div>
 
@@ -243,7 +250,7 @@
 
             <div class="mt-6 flex justify-between">
                 <button type="button" @click="step--"
-                    class="bg-gray-400 text-white px-4 py-2 rounded">Atrás</button>
+                    class="border border-white bg-gray-400 text-white px-4 py-2 rounded">Atrás</button>
                 <button type="button" @click="confirmSubmit" class="btn-registro">Registrar</button>
             </div>
         </div>
