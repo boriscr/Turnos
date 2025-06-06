@@ -17,6 +17,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/getEquiposPorEspecialidad/{especialidad_id}', [TurnoDisponibleController::class, 'getEquiposPorEspecialidad']);
     Route::get('/getTurnosPorEquipo/{equipo_id}', [TurnoDisponibleController::class, 'getTurnosPorEquipo']);
     Route::post('/reservarTurno', [TurnoDisponibleController::class, 'reservarTurno'])->name('reservarTurno');
+    Route::delete('/disponible/{id}', [TurnoDisponibleController::class, 'destroy'])->name('disponible.destroy');
+
+
 
     //Reservas
     Route::get('/reservas', [ReservaController::class, 'index'])->name('reservas.index');
@@ -67,8 +70,7 @@ Route::middleware('auth')->group(function () {
     //Route::get('/turnos-disponibles', [TurnoController::class, 'search'])->name('turnosDisponibles.search');
 
     //disponibles
-    Route::get('/disponible/{equipoId?}',[TurnoController::class,'search'])->name('disponible.index');
-
+    Route::get('/disponible/{equipoId?}', [TurnoController::class, 'search'])->name('disponible.index');
 });
 
 

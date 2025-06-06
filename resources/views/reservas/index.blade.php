@@ -105,7 +105,7 @@
                                 <a href="{{ route('reservas.show', $reserva->id) }}" class="btn btn-view">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <form action="{{ route('reservas.destroy', $reserva->id) }}" method="POST"
+                                <form action="{{ route('disponible.destroy', $reserva->id) }}" method="POST"
                                     style="display:inline;" class="delete-form">
                                     @csrf
                                     @method('DELETE')

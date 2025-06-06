@@ -80,8 +80,10 @@ class UsuarioController extends Controller
                     // Redirigir a edición del equipo recién creado
                     $nuevoEquipo = true;
                     return redirect()->route('equipo.edit', $equipo->id)
-                        ->with('success', 'Perfil profesional creado. Complete los datos específicos.')
-                        ->with('nuevoEquipo', $nuevoEquipo);
+                        ->with([
+                            'success' => 'Perfil profesional creado. Complete los datos específicos.',
+                            'nuevoEquipo' => $nuevoEquipo
+                        ]);
                 }
             } elseif ($originalRole === 'equipo' && $request->role !== 'equipo') {
                 $user->equipo()->delete();

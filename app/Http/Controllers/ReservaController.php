@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Reserva;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+
 class ReservaController extends Controller
 {
     public function index(Request $request)
@@ -66,7 +67,7 @@ class ReservaController extends Controller
         DB::transaction(function () use ($reserva) {
             $estadoAnterior = $reserva->asistencia;
             $nuevoEstado = $estadoAnterior === null ? false : !$estadoAnterior;
-            
+
             $reserva->asistencia = $nuevoEstado;
             $reserva->save();
 
@@ -79,6 +80,7 @@ class ReservaController extends Controller
     }
 
     // Método para verificación automática (se llamará desde la tarea programada)
+    // php artisan schedule:work
     public function verificarAsistenciasAutomaticamente()
     {
         $now = Carbon::now();
@@ -86,13 +88,13 @@ class ReservaController extends Controller
 
         $reservasPendientes = Reserva::with(['turnoDisponible', 'user'])
             ->whereNull('asistencia')
-            ->whereHas('turnoDisponible', function($query) use ($now, $fourHoursAgo) {
-                $query->where(function($q) use ($now, $fourHoursAgo) {
+            ->whereHas('turnoDisponible', function ($query) use ($now, $fourHoursAgo) {
+                $query->where(function ($q) use ($now, $fourHoursAgo) {
                     $q->where('fecha', '<', $now->toDateString())
-                      ->orWhere(function($q2) use ($now, $fourHoursAgo) {
-                          $q2->where('fecha', $now->toDateString())
-                             ->where('hora', '<=', $fourHoursAgo->toTimeString());
-                      });
+                        ->orWhere(function ($q2) use ($now, $fourHoursAgo) {
+                            $q2->where('fecha', $now->toDateString())
+                                ->where('hora', '<=', $fourHoursAgo->toTimeString());
+                        });
                 });
             })
             ->get();
@@ -114,19 +116,25 @@ class ReservaController extends Controller
         ]);
     }
 
-protected function gestionarFaltas(Reserva $reserva, $estadoAnterior, $nuevoEstado)
-{
-    $estadoAnterior = (bool) $estadoAnterior;
-    $nuevoEstado = (bool) $nuevoEstado;
+    protected function gestionarFaltas(Reserva $reserva, $estadoAnterior, $nuevoEstado)
+    {
+        $estadoAnterior = (bool) $estadoAnterior;
+        $nuevoEstado = (bool) $nuevoEstado;
 
-    if ($nuevoEstado == false && $estadoAnterior != false) {
-        $reserva->user->increment('faults');
-    } elseif ($nuevoEstado === true && $estadoAnterior === false) {
-        if ($reserva->user->faults > 0) {
-            $reserva->user->decrement('faults');
+        if ($nuevoEstado == false && $estadoAnterior != false) {
+            $reserva->user->increment('faults');
+        } elseif ($nuevoEstado === true && $estadoAnterior === false) {
+            if ($reserva->user->faults > 0) {
+                $reserva->user->decrement('faults');
+            }
         }
     }
-}
+
+    public function show($id)
+    {
+        $reserva = Reserva::with(['user', 'turnoDisponible.equipo'])->findOrFail($id);
+        return view('reservas.show', compact('reserva'));
+    }
 
 
 }

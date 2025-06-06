@@ -6,6 +6,15 @@
                 <div class="card">
                     <p><b> Nombre y apellido: </b>{{ $equipo->nombre . ' ' . $equipo->apellido }}</p>
                     <p><b> Dni: </b>{{ $equipo->dni }}</p>
+                    <p><b>Perfil:</b>
+                        @if ($equipo->user_id)
+                            <a href="{{ route('usuario.show', $equipo->user_id) }}">
+                                Ver <i class="bi bi-eye"></i>
+                            </a>
+                        @else
+                            No tiene un perfil de usuario
+                        @endif
+                    </p>
                     <p><b> Matricula: </b>{{ $equipo->matricula ?? 'Sin datos' }}</p>
                     <p><b> Especialidad: </b>{{ $equipo->especialidad->nombre }}</p>
                     <p><b> Email: </b>{{ $equipo->email }}</p>

@@ -36,7 +36,7 @@ class EquipoController extends Controller
         //dd('Llega');
         // Crear el nuevo equipo
         $equipo = new Equipo();
-        
+
         $equipo->nombre = trim($request->input('nombre'));
         $equipo->apellido = trim($request->input('apellido'));
         $equipo->dni = trim($request->input('dni'));
@@ -64,12 +64,12 @@ class EquipoController extends Controller
     public function getPorEspecialidad($id)
     {
         $equipos = Equipo::where('especialidad_id', $id)
-                         ->where('estado', 1) // Solo activos
-                         ->get();
-    
+            ->where('estado', 1) // Solo activos
+            ->get();
+
         return response()->json($equipos);
     }
-    
+
 
     public function show($id)
     {
@@ -145,24 +145,35 @@ class EquipoController extends Controller
         ]);
         return back();
     }
+    
     public function destroy($id)
     {
-        $equipo = Equipo::find($id);
-        if (!$equipo) {
-            session()->flash('error', [
+        try {
+            $equipo = Equipo::findOrFail($id);
+
+            $equipo->delete();
+
+            return back()->with('success', [
+                'title' => 'Eliminado!',
+                'text' => 'Equipo eliminado con éxito.',
+                'icon' => 'success'
+            ]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            Log::error('Equipo no encontrado', ['id' => $id, 'error' => $e->getMessage()]);
+
+            return back()->with('error', [
                 'title' => 'Error!',
                 'text' => 'Equipo no encontrado.',
-                'icon' => 'error',
+                'icon' => 'error'
             ]);
-            Log::error('Equipo no encontrado', ['id' => $id]);
-            return back();
+        } catch (\Exception $e) {
+            Log::error('Error al eliminar equipo', ['id' => $id, 'error' => $e->getMessage()]);
+
+            return back()->with('error', [
+                'title' => 'Error!',
+                'text' => 'Ocurrió un error al eliminar el equipo.',
+                'icon' => 'error'
+            ]);
         }
-        $equipo->delete();
-        session()->flash('success', [
-            'title' => 'Eliminado!',
-            'text' => 'Equipo eliminado con éxito.',
-            'icon' => 'success',
-        ]);
-        return back();
     }
 }

@@ -9,6 +9,8 @@ use App\Models\Turno;
 use App\Models\Especialidad;
 use App\Models\Reserva;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TurnoDisponibleController extends Controller
 {
@@ -63,7 +65,6 @@ class TurnoDisponibleController extends Controller
 
     function reservarTurno(Request $request)
     {
-        
         $turno = TurnoDisponible::find($request->turno_id);
         if ($turno) {
             // Verificar si hay cupos disponibles
@@ -77,13 +78,9 @@ class TurnoDisponibleController extends Controller
                 return response()->json(['success' => false, 'message' => 'La fecha y hora seleccionadas ya han pasado']);
             }
             // Reservar el turno
-            // Aquí puedes agregar la lógica para asociar el turno reservado al usuario
-            // Por ejemplo, podrías crear un registro en una tabla de reservas
             $turno->cupos_disponibles -= 1;
-            $turno->cupos_reservados += 1; // Aumentar los cupos reservados
-            // Guardar el turno actualizado
+            $turno->cupos_reservados += 1;
             $turno->save();
-            // Aquí puedes guardar la reserva en la base de datos
             //guardar los datos del usuario que reserva el turno
             $reserva = new Reserva();
             if (Auth::check()) {
@@ -96,12 +93,72 @@ class TurnoDisponibleController extends Controller
             }
 
             //return response()->json(['success' => true]);
-            session()->flash('success',[
-                'title'=>'Turno reservado',
-                'text'=>'El turno ha sido reservado con éxito',
-                'icon'=>'success',
+            session()->flash('success', [
+                'title' => 'Turno reservado',
+                'text' => 'El turno ha sido reservado con éxito',
+                'icon' => 'success',
             ]);
             return back();
+        }
+    }
+
+    //Eliminar reserva y actualizar los cupos disponibles
+    public function destroy($id)
+    {
+        try {
+            // 1. Encontrar la reserva a eliminar
+            $reserva = Reserva::findOrFail($id);
+
+            // 2. Obtener el turno disponible asociado
+            $turnoDisponible = TurnoDisponible::find($reserva->turno_disponible_id);
+
+            if (!$turnoDisponible) {
+                throw new \Exception('Turno asociado no encontrado');
+            }
+
+            // 3. Lógica inversa a reservarTurno
+            $turnoDisponible->cupos_disponibles += 1; // Aumentar cupos disponibles
+            $turnoDisponible->cupos_reservados -= 1; // Disminuir cupos reservados
+
+            // 4. Validar que no haya inconsistencias
+            if ($turnoDisponible->cupos_reservados < 0) {
+                $turnoDisponible->cupos_reservados = 0;
+            }
+
+            // 5. Guardar cambios y eliminar reserva
+            DB::beginTransaction();
+
+            try {
+                $turnoDisponible->save();
+                $reserva->delete();
+
+                DB::commit();
+
+                return back()->with('success', [
+                    'title' => 'Reserva eliminada!',
+                    'text' => 'La reserva fue cancelada y los cupos se actualizaron correctamente.',
+                    'icon' => 'success'
+                ]);
+            } catch (\Exception $e) {
+                DB::rollBack();
+                throw $e;
+            }
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            Log::error('Reserva no encontrada', ['id' => $id, 'error' => $e->getMessage()]);
+
+            return back()->with('error', [
+                'title' => 'Error!',
+                'text' => 'Reserva no encontrada.',
+                'icon' => 'error'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error al cancelar reserva', ['id' => $id, 'error' => $e->getMessage()]);
+
+            return back()->with('error', [
+                'title' => 'Error!',
+                'text' => 'Ocurrió un error al cancelar la reserva: ' . $e->getMessage(),
+                'icon' => 'error'
+            ]);
         }
     }
 }
