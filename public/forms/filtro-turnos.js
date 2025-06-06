@@ -27,14 +27,14 @@ function cargarEquipos(especialidadId, equipoIdSeleccionado = null) {
             data.equipos.forEach(equipo => {
                 const option = document.createElement('option');
                 option.value = equipo.id;
-                option.textContent = equipo.nombre;
+                option.textContent = equipo.nombre + ' ' + equipo.apellido;
                 if (equipoIdSeleccionado && equipo.id == equipoIdSeleccionado) {
                     option.selected = true;
                 }
                 selectEquipo.appendChild(option);
             });
             selectEquipo.disabled = false;
-            
+
             // Si hay un equipo seleccionado, cargar sus turnos
             if (equipoIdSeleccionado) {
                 cargarTurnos(equipoIdSeleccionado);
@@ -91,7 +91,7 @@ function cargarTurnos(equipoId, fechaSeleccionada = null, turnoIdSeleccionado = 
             });
 
             selectFecha.disabled = false;
-            
+
             // Si hay una fecha seleccionada, cargar sus horas
             if (fechaSeleccionada) {
                 cargarHoras(fechaSeleccionada, turnoIdSeleccionado);
@@ -142,35 +142,35 @@ function cargarHoras(fechaSeleccionada, turnoIdSeleccionado = null) {
 }
 
 // Event listeners
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Obtener valores iniciales si estamos en edición
     const especialidadSelect = document.getElementById('especialidad_id');
     const equipoSelect = document.getElementById('equipo_id');
     const especialidadIdInicial = especialidadSelect.value;
     const equipoIdInicial = equipoSelect ? equipoSelect.value : null;
-    
+
     // Si hay una especialidad seleccionada, cargar sus equipos
     if (especialidadIdInicial) {
         cargarEquipos(especialidadIdInicial, equipoIdInicial);
     }
 
     // Event listener para cambio de especialidad
-    document.getElementById('especialidad_id').addEventListener('change', function() {
+    document.getElementById('especialidad_id').addEventListener('change', function () {
         cargarEquipos(this.value);
     });
 
     // Event listener para cambio de equipo
-    document.getElementById('equipo_id').addEventListener('change', function() {
+    document.getElementById('equipo_id').addEventListener('change', function () {
         cargarTurnos(this.value);
     });
 
     // Event listener para cambio de fecha
-    document.getElementById('fecha_turno').addEventListener('change', function() {
+    document.getElementById('fecha_turno').addEventListener('change', function () {
         cargarHoras(this.value);
     });
 
     // Event listener para cambio de hora
-    document.getElementById('hora_turno').addEventListener('change', function() {
+    document.getElementById('hora_turno').addEventListener('change', function () {
         document.getElementById('turno_id').value = this.value;
     });
 });
