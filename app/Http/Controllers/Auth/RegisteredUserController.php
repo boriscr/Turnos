@@ -82,7 +82,12 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-
+        session()->flash('success',[
+            'title' => 'Registro exitoso',
+            'message' => '¡Bienvenido/a! Tu cuenta ha sido creada exitosamente.',
+            'icon' => 'success',
+            'timer' => 5000,
+        ]);
         return redirect(route('home', absolute: false));
     }
 }

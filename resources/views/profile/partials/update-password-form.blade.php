@@ -31,6 +31,13 @@
             <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
         </div>
 
+            <ul class="message-list-password">
+                <li>Mínimo 12 caracteres (recomendado)</li>
+                <li>Combina mayúsculas, minúsculas, números y símbolos</li>
+                <li>Evita contraseñas comunes o filtradas en hackeos</li>
+                <li>No uses datos personales (fechas, nombres, etc.)</li>
+            </ul>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

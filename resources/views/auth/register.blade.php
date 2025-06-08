@@ -6,7 +6,7 @@
             padding: 10px;
         }
 
-        H1 {
+        h1 {
             color: #4CAF50;
             text-align: center;
             text-decoration: underline;
@@ -87,7 +87,7 @@
 
         <!-- Paso 1 -->
         <div x-show="step === 1" x-transition>
-            <H1>Registro</H1>
+            <h1>Registro</h1>
             <div class="mt-4">
                 <x-input-label for="name" :value="__('Nombre/s')" />
                 <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" required />
@@ -139,7 +139,7 @@
         <!-- Paso 2 -->
         <div x-show="step === 2" x-transition>
             <!-- Address -->
-            <H1>Domicillio</H1>
+            <h1>Domicillio</h1>
             <div class="mt-4">
                 <x-input-label for="country" :value="__('Pais')" />
                 <select name="country" id="country">
@@ -216,7 +216,7 @@
 
         <!-- Paso 3 -->
         <div x-show="step === 3" x-transition>
-            <H1>Contacto y Acceso</H1>
+            <h1>Contacto y Acceso</h1>
             <div class="mt-4">
                 <x-input-label for="phone" :value="__('Teléfono')" />
                 <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" required />

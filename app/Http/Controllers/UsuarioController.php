@@ -14,10 +14,8 @@ class UsuarioController extends Controller
     public function index()
     {
         $usuarios = User::all();
-
         return view('usuarios/index', compact('usuarios'));
     }
-
 
     public function show($id)
     {
@@ -57,7 +55,6 @@ class UsuarioController extends Controller
         return DB::transaction(function () use ($validated, $request, $id) {
             $user = User::findOrFail($id);
             $originalRole = $user->role;
-
             // Actualizar usuario
             $user->fill($validated);
             $user->save();
@@ -74,7 +71,6 @@ class UsuarioController extends Controller
                         'telefono' => $user->phone,
                         'estado' => $user->estado,
                         'role' => 'equipo', // Asignar el rol de equipo
-                        // No es necesario guardar el role aquí si ya está en users
                     ]);
 
                     // Redirigir a edición del equipo recién creado
@@ -88,7 +84,6 @@ class UsuarioController extends Controller
             } elseif ($originalRole === 'equipo' && $request->role !== 'equipo') {
                 $user->equipo()->delete();
             }
-
             return redirect()->route('usuario.index')
                 ->with('success', 'Usuario actualizado correctamente.');
         });
@@ -100,9 +95,6 @@ class UsuarioController extends Controller
         if (!$usuario) {
             return redirect()->route('usuario.index')->with('error', 'Usuario no encontrado.');
         };
-
-        // Aquí puedes manejar la lógica para eliminar un usuario específico
-        // Por ejemplo, eliminarlo de la base de datos
         $usuario->delete();
         return redirect()->route('usuario.index')->with('success', 'Usuario eliminado correctamente.');
     }
