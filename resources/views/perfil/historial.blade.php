@@ -15,24 +15,24 @@
                 </thead>
                 <tbody>
                     <?php
-                    $id = $totalReservas+1;
+                    $id = $totalReservas + 1;
                     ?>
                     @foreach ($reservas as $reserva)
                         <?php
                         $id--;
                         ?>
                         <tr>
-                            <td>{{ $id}}</td>
+                            <td>{{ $id }}</td>
                             <td>{{ $reserva->turnoDisponible->equipo->especialidad->nombre }}</td>
                             <td class="fecha-td">
                                 {{ \Carbon\Carbon::parse($reserva->turnoDisponible->fecha)->format('d/m/Y') }}</td>
                             <td>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</td>
                             <td
-                                class="{{$reserva->turnoDisponible->turno->estado===true? ($reserva->asistencia === null ? 'btn-secondary' : ($reserva->asistencia == true ? 'btn-success' : 'btn-danger')) : 'btn-danger'}}">
+                                class="{{ $reserva->turnoDisponible->turno->estado === true ? ($reserva->asistencia === null ? 'btn-secondary' : ($reserva->asistencia == true ? 'btn-success' : 'btn-danger')) : 'btn-danger' }}">
                                 <i
                                     class="bi {{ $reserva->asistencia === null ? 'bi-hourglass-split' : ($reserva->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill') }}">
                                 </i>
-                                {{$reserva->turnoDisponible->turno->estado===true? ($reserva->asistencia === null ? 'Pendiente' : ($reserva->asistencia ? 'Asistió' : 'No asistió')) : 'Turno Inactivo'}}
+                                {{ $reserva->turnoDisponible->turno->estado === true ? ($reserva->asistencia === null ? 'Pendiente' : ($reserva->asistencia ? 'Asistió' : 'No asistió')) : 'Turno Inactivo' }}
                             </td>
                             <td class="acciones">
                                 <a href="{{ route('perfil.show', $reserva->id) }}" class="btn btn-view">
@@ -56,5 +56,6 @@
 
         </div>
     </div>
+    <script src="../../cancel-btn.js"></script>
 
 </x-body.body>
