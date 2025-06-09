@@ -65,7 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/turnos', [TurnoController::class, 'store'])->name('turnos.store');
     Route::get('/turnos/{id}/show', [TurnoController::class, 'show'])->name('turnos.show');
     Route::get('/turnos/{id}/edit', [TurnoController::class, 'edit'])->name('turnos.edit');
-    Route::put('/turnos/{id}', [TurnoController::class, 'update'])->name('turnos.update');
+    Route::patch('/turnos/{id}', [TurnoController::class, 'update'])->name('turnos.update');
     Route::delete('/turnos/{id}', [TurnoController::class, 'destroy'])->name('turnos.destroy');
     //Route::get('/turnos-disponibles', [TurnoController::class, 'search'])->name('turnosDisponibles.search');
 

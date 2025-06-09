@@ -14,7 +14,7 @@
                 @submit.prevent="updateSelectedDatesInput(); $el.submit()" method="POST" 
                 action="{{ route('turnos.update', $turno->id) }}">
                 @csrf
-                @method('PUT')
+                @method('PATCH')
 
                 <!-- Paso 1 - Datos Iniciales -->
                 <div class="form-step active" data-step="1">

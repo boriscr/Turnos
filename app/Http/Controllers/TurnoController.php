@@ -262,34 +262,26 @@ class TurnoController extends Controller
         $turno->save();
 
         // Eliminar disponibilidades existentes
-        $turno->disponibilidades()->delete();
 
         // Crear nuevas disponibilidades según la configuración
         foreach ($fechas as $fecha) {
             if ($request->horarios_disponibles && json_decode($request->horarios_disponibles)) {
-                // Caso CON horarios específicos (horario2)
                 $horarios = json_decode($request->horarios_disponibles, true);
 
                 foreach ($horarios as $hora) {
-                    TurnoDisponible::create([
-                        'turno_id' => $turno->id,
-                        'equipo_id' => $request->equipo_id,
-                        'fecha' => $fecha,
-                        'hora' => $hora,
-                        'cupos_disponibles' => 1,
-                    ]);
+                    TurnoDisponible::updateOrCreate(
+                        ['turno_id' => $turno->id, 'equipo_id' => $request->equipo_id, 'fecha' => $fecha, 'hora' => $hora],
+                        ['cupos_disponibles' => 1]
+                    );
                 }
             } else {
-                // Caso SIN horarios específicos (horario1)
-                TurnoDisponible::create([
-                    'turno_id' => $turno->id,
-                    'equipo_id' => $request->equipo_id,
-                    'fecha' => $fecha,
-                    'hora' => $request->hora_inicio,
-                    'cupos_disponibles' => $request->cantidad,
-                ]);
+                TurnoDisponible::updateOrCreate(
+                    ['turno_id' => $turno->id, 'equipo_id' => $request->equipo_id, 'fecha' => $fecha, 'hora' => $request->hora_inicio],
+                    ['cupos_disponibles' => $request->cantidad]
+                );
             }
         }
+
 
         return redirect()->route('turnos.index')->with('success', 'Turno actualizado correctamente');
     }
@@ -302,6 +294,4 @@ class TurnoController extends Controller
 
         return redirect()->route('turnos.index')->with('success', 'Turno eliminado correctamente');
     }
-
-
 }

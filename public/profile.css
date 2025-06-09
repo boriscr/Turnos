@@ -50,6 +50,44 @@
     background-color: var(--color-texto);
 }
 
+/*Seccion Error- Turno inactivo*/
+.card-error,
+h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-error .card {
+    background-color: rgb(248, 170, 170);
+    color: red;
+}
+
+.card-error .card h1 {
+    text-decoration: none;
+    font-weight: bold;
+    background-color: rgb(250, 147, 129);
+    padding: 2px;
+}
+
+.card-error .card h2 {
+    font-weight: bold;
+
+}
+.mensaje-error-box{
+    box-shadow: 0px 0px 10px 2px rgba(154, 18, 18, 0.5);
+    padding: 5px;
+    border-radius: 10px;
+}
+.icono-error-box {
+    display: flex;
+    justify-content: center;
+}
+
+.icono-error-box .bi {
+    font-size: 60px;
+    color: red;
+}
 
 /* Modo claro */
 @media (prefers-color-scheme: light) {
@@ -57,8 +95,9 @@
         color: var(--color-texto);
         font-size: 100px;
     }
+
     /*Botones*/
-.card-profile button {
-    background-color: #4caf4f48;
-}
+    .card-profile button {
+        background-color: #4caf4f48;
+    }
 }
