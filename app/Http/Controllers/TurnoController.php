@@ -208,6 +208,7 @@ class TurnoController extends Controller
             'fechas' => json_encode($turno->fechas_disponibles),
 
             'horarios_disponibles' => $horarios_disponibles
+            
         ]);
     }
 

@@ -59,11 +59,5 @@
 
     </div>
 </div>
-<div class="form-group">
-    <label for="estado">Estado</label>
-    <select name="estado" id="estado" required class="form-control">
-        <option value="1">Activo</option>
-        <option value="0">Inactivo</option>
-    </select>
-</div>
+
 <!-- FIN CALENDARIO -->

@@ -11,7 +11,7 @@
             </div>
 
             <form x-data="iosCalendar()" x-init="init({{ json_encode($fechas) }})" id="multiStepForm"
-                @submit.prevent="updateSelectedDatesInput(); $el.submit()" method="POST" 
+                @submit.prevent="updateSelectedDatesInput(); $el.submit()" method="POST"
                 action="{{ route('turnos.update', $turno->id) }}">
                 @csrf
                 @method('PATCH')
@@ -34,20 +34,20 @@
                             <label for="especialidad_id">Especialidad</label>
                             <select name="especialidad_id" id="especialidad_id" required class="form-control">
                                 @foreach ($especialidades as $especialidad)
-                                    <option value="{{ $especialidad->id }}" 
+                                    <option value="{{ $especialidad->id }}"
                                         {{ $especialidad_id == $especialidad->id ? 'selected' : '' }}>
                                         {{ $especialidad->nombre }}
                                     </option>
                                 @endforeach
                             </select>
 
-                            
+
                         </div>
 
                         <div class="form-group">
                             <label for="equipo_id">Equipo</label>
                             <select name="equipo_id" id="equipo_id" required class="form-control">
-                                @if($equipo_id)
+                                @if ($equipo_id)
                                     <option value="{{ $equipo_id }}" selected>
                                         {{ $equipo_nombre }}
                                     </option>
@@ -70,7 +70,7 @@
                             <h3>Asignar turno</h3>
                             <div class="item-style">
                                 <div class="item">
-                                    <input type="checkbox" name="turno" value="mañana" id="manana" 
+                                    <input type="checkbox" name="turno" value="mañana" id="manana"
                                         {{ $turnoTipo == 'mañana' ? 'checked' : '' }}>
                                     <label for="manana">Turno Mañana</label>
                                 </div>
@@ -94,14 +94,14 @@
 
                         <div class="form-group">
                             <label for="cantidad">Cantidad de citas</label>
-                            <input type="number" name="cantidad" id="cantidad" value="{{ $cantidad }}" min="1"
-                                required class="form-control">
+                            <input type="number" name="cantidad" id="cantidad" value="{{ $cantidad }}"
+                                min="1" required class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label for="hora_inicio">Hora de Inicio</label>
-                            <input type="time" name="hora_inicio" id="hora_inicio" value="{{ $inicio }}" required
-                                class="form-control">
+                            <input type="time" name="hora_inicio" id="hora_inicio" value="{{ $inicio }}"
+                                required class="form-control">
                         </div>
 
                         <div class="form-group">
@@ -113,17 +113,17 @@
                         <div class="box-style">
                             <br>
                             <h3>Distribución de horarios</h3>
-                            <input type="hidden" name="horarios_disponibles" id="horarios_disponibles" 
+                            <input type="hidden" name="horarios_disponibles" id="horarios_disponibles"
                                 value="{{ $horarios_disponibles }}">
                             <div class="item-style">
                                 <div class="item">
-                                    <input type="checkbox" name="horario1" id="horario1" 
-                                        {{ $horarios_disponibles==null ? 'checked' : '' }}>
+                                    <input type="checkbox" name="horario1" id="horario1"
+                                        {{ $horarios_disponibles == null ? 'checked' : '' }}>
                                     <label for="horario1">Asignar turnos sin horarios</label>
                                 </div>
                                 <div class="item">
                                     <input type="checkbox" name="horario2" id="horario2"
-                                        {{ $horarios_disponibles==!null ? 'checked' : '' }}>
+                                        {{ $horarios_disponibles == !null ? 'checked' : '' }}>
                                     <label for="horario2">Asignar turnos con división horaria</label>
                                 </div>
                             </div>
@@ -148,10 +148,17 @@
                         @include('layouts.calendario')
                         <input type="hidden" name="selected_dates" x-ref="selectedDatesInput">
                     </div>
-
+                    <div class="form-group">
+                        <label for="estado">Estado</label>
+                        <select name="estado" id="estado" required class="form-control">
+                            <option {{ $turno->estado == true ? 'selected' : '' }} value="1">Activo</option>
+                            <option {{ $turno->estado == false ? 'selected' : '' }} value="0">Inactivo</option>
+                        </select>
+                    </div>
                     <div class="form-navigation">
                         <button type="button" class="prev-btn"><i class="bi bi-chevron-left"></i></button>
-                        <button type="submit" class="submit-btn">Actualizar Turno <i class="bi bi-check-circle"></i></button>
+                        <button type="submit" class="submit-btn">Actualizar Turno <i
+                                class="bi bi-check-circle"></i></button>
                     </div>
                 </div>
             </form>
@@ -163,4 +170,3 @@
     <script src="../../forms/calendario-edit.js"></script>
 
 </x-body.body>
-
