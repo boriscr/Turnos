@@ -54,8 +54,6 @@ class PerfilController extends Controller
 
     public function show($id)
     {
-        // Aquí puedes implementar la lógica para mostrar un perfil específico
-        // Por ejemplo, podrías buscar un usuario por su ID y pasarlo a la vista
         $reserva = Reserva::findOrfail($id); // Obtiene el usuario autenticado
         if (!$reserva) {
             return redirect()->route('perfil.historial')->with('error', 'Reserva no encontrada.');

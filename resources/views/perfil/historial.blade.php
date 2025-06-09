@@ -26,7 +26,7 @@
                             <td>{{ $reserva->turnoDisponible->equipo->especialidad->nombre }}</td>
                             <td class="fecha-td">
                                 {{ \Carbon\Carbon::parse($reserva->turnoDisponible->fecha)->format('d/m/Y') }}</td>
-                            <td>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:m') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</td>
                             <td
                                 class="{{$reserva->turnoDisponible->turno->estado===true? ($reserva->asistencia === null ? 'btn-secondary' : ($reserva->asistencia == true ? 'btn-success' : 'btn-danger')) : 'btn-danger'}}">
                                 <i

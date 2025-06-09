@@ -11,7 +11,7 @@
                     <p><b> DNI: </b>{{ $reserva->user->dni }}</p>
                     <p><b> Activo: </b>{{ $reserva->user->estado ? 'Si' : 'No' }}</p>
                     <p><b> Hora del turno:
-                        </b>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:m') }}</p>
+                        </b>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</p>
                     <p><b> Fecha del turno:
                         </b>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->fecha)->format('d/m/Y') }}</p>
                     <p><b> Cantidad de turno/s reservado/s: </b>{{ $reserva->turnoDisponible->cupos_reservados }}</p>

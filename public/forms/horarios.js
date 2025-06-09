@@ -2,6 +2,7 @@
 //input de tipo checkbox
 //horarios de turnos formulario crear nuevo turno
 //input de tipo checkbox
+let sinHorario = document.getElementById("horario1");
 let horario2 = document.getElementById("horario2");
 //cantidad de turnos
 let cantidad = document.getElementById("cantidad");
@@ -63,7 +64,7 @@ horario2.addEventListener("change", function () {
 });
 
 // Evento input para el campo cantidad (solo cuando horario2 está activado)
-cantidad.addEventListener("input", function() {
+cantidad.addEventListener("input", function () {
     if (horario2.checked && this.value >= 1) {
         generarHorarios();
     }

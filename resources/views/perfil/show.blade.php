@@ -15,7 +15,7 @@
                     <h1>Turno</h1>
                     <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->equipo->especialidad->nombre }}</p>
                     <p><b> Hora del turno:
-                        </b>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:m') }}</p>
+                        </b>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</p>
                     <p><b> Fecha del turno:
                         </b>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->fecha)->format('d/m/Y') }}</p>
                     <p><b> Direccion: </b>{{ $reserva->turnoDisponible->direccion }}</p>
