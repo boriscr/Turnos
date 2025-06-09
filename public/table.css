@@ -9,8 +9,9 @@
     width: 100%;
     gap: 10px;
 }
-table {
 
+table {
+    border-collapse: collapse;
     width: 100%;
 }
 
@@ -26,7 +27,7 @@ th {
     border: 1px solid #000000;
     text-align: center;
     padding: 2px;
-
+    word-break: break-word;
 }
 
 .main-table .container-form .acciones {
@@ -60,7 +61,10 @@ th {
 }
 
 
-@media (max-width: 650px) {
+@media (max-width: 700px) {
+    th,td {
+        font-size: 0.70rem;
+    }
     .main-table .container-form .acciones {
         display: none;
     }
@@ -73,5 +77,5 @@ th {
         display: table-cell;
         justify-content: center;
         align-items: center;
-        }
+    }
 }

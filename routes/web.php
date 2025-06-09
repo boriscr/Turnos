@@ -76,10 +76,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil.index');
     Route::get('/perfil/create', [PerfilController::class, 'create'])->name('perfil.create');
     Route::post('/perfil/store', [PerfilController::class, 'store'])->name('perfil.store');
+    Route::get('/perfil/historial', [PerfilController::class, 'historial'])->name('perfil.historial');
     Route::get('/perfil/{id}/show', [PerfilController::class, 'show'])->name('perfil.show');
-    Route::get('/perfil/{id}/edit', [PerfilController::class, 'edit'])->name('perfil.edit');
-    Route::put('/perfil/{id}', [PerfilController::class, 'update'])->name('perfil.update');
-    Route::delete('/perfil/{id}', [PerfilController::class, 'destroy'])->name('perfil.destroy');
 });
 
 

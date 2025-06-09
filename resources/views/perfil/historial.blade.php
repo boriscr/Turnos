@@ -1,0 +1,60 @@
+<x-body.body>
+    <div class="main-table">
+        <div class="container-form">
+            <h3 class="title-form">Historial</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Especialidad</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Asistencia</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $id = $totalReservas+1;
+                    ?>
+                    @foreach ($reservas as $reserva)
+                        <?php
+                        $id--;
+                        ?>
+                        <tr>
+                            <td>{{ $id}}</td>
+                            <td>{{ $reserva->turnoDisponible->equipo->especialidad->nombre }}</td>
+                            <td class="fecha-td">
+                                {{ \Carbon\Carbon::parse($reserva->turnoDisponible->fecha)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:m') }}</td>
+                            <td
+                                class="{{$reserva->turnoDisponible->turno->estado===true? ($reserva->asistencia === null ? 'btn-secondary' : ($reserva->asistencia == true ? 'btn-success' : 'btn-danger')) : 'btn-danger'}}">
+                                <i
+                                    class="bi {{ $reserva->asistencia === null ? 'bi-hourglass-split' : ($reserva->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill') }}">
+                                </i>
+                                {{$reserva->turnoDisponible->turno->estado===true? ($reserva->asistencia === null ? 'Pendiente' : ($reserva->asistencia ? 'Asistió' : 'No asistió')) : 'Turno Inactivo'}}
+                            </td>
+                            <td class="acciones">
+                                <a href="{{ route('perfil.show', $reserva->id) }}" class="btn btn-view">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <form action="{{ route('disponible.destroy', $reserva->id) }}" method="POST"
+                                    style="display:inline;" class="delete-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-delete delete-btn">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </form>
+                            </td>
+                            <td class="accionesMovil"><button type="button"><i class="bi bi-gear"></i></button></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $reservas->links() }}
+
+        </div>
+    </div>
+
+</x-body.body>

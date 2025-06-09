@@ -51,7 +51,7 @@
                 <div class="card-profile">
                     <h1><b>Mi historial</b></h1>
                     <i class="bi bi-journal-text"></i>
-                    <a href="{{route('profile.edit')}}">Ver historial</a>
+                    <a href="{{route('perfil.historial')}}">Ver historial</a>
                 </div>
             </div>
     </div>
