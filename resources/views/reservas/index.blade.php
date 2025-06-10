@@ -31,21 +31,54 @@
                             <td><a
                                     href="{{ route('usuario.show', $reserva->user->id) }}">{{ $reserva->user->name . ' ' . $reserva->user->surname }}</a>
                             </td>
-                            <td
-                                class="option-movil {{ $reserva->asistencia === null ? 'btn-secondary' : ($reserva->asistencia ? 'btn-success' : 'btn-danger') }}">
-                                <form action="{{ route('reservas.asistencia', $reserva->id) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit"
-                                        class="btn-asistencia {{ $reserva->asistencia === null ? 'btn-secondary' : ($reserva->asistencia ? 'btn-success' : 'btn-danger') }}"
-                                        title="{{ $reserva->asistencia === null ? 'Marcar asistencia' : ($reserva->asistencia ? 'Cambiar a No asistió' : 'Cambiar a Asistió') }}">
-                                        <i
-                                            class="bi {{ $reserva->asistencia === null ? 'bi-hourglass-split' : ($reserva->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill') }}"></i>
-                                        {{ $reserva->asistencia === null ? 'Pendiente' : ($reserva->asistencia ? 'Asistió' : 'No asistió') }}
-                                    </button>
-                                </form>
+
+                            
+                            <td class="option-movil">
+                                @if ($reserva->asistencia === null)
+                                    <div class="ios-dropdown">
+                                        <button class="btn-asistencia btn-secondary dropdown-toggle"
+                                            title="Marcar asistencia">
+                                            <i class="bi bi-hourglass-split"></i> Pendiente
+                                        </button>
+                                        <div class="ios-dropdown-menu">
+                                            <form action="{{ route('reservas.asistencia', $reserva->id) }}"
+                                                method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="asistencia" value="1">
+                                                <button type="submit" class="ios-dropdown-item success">
+                                                    <i class="bi bi-check-circle-fill"></i> Asistió
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('reservas.asistencia', $reserva->id) }}"
+                                                method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="asistencia" value="0">
+                                                <button type="submit" class="ios-dropdown-item danger">
+                                                    <i class="bi bi-x-circle-fill"></i> No asistió
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @else
+                                    <form action="{{ route('reservas.asistencia', $reserva->id) }}" method="POST"
+                                        style="display:inline;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit"
+                                            class="btn-asistencia {{ $reserva->asistencia ? 'btn-success' : 'btn-danger' }}"
+                                            title="{{ $reserva->asistencia ? 'Cambiar a No asistió' : 'Cambiar a Asistió' }}">
+                                            <i
+                                                class="bi {{ $reserva->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill' }}"></i>
+                                            {{ $reserva->asistencia ? 'Asistió' : 'No asistió' }}
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
+
+
+
                             <td class="acciones">
                                 <a href="{{ route('reservas.show', $reserva->id) }}" class="btn btn-view">
                                     <i class="bi bi-eye"></i>

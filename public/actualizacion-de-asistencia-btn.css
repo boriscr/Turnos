@@ -1,0 +1,65 @@
+/*Boton de asistencia para reservas, cambio de null a true-false*/
+
+.ios-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.ios-dropdown:hover .ios-dropdown-menu {
+    display: block;
+}
+
+.ios-dropdown-menu {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    min-width: 180px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    margin-top: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.ios-dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.ios-dropdown-item:hover {
+    background-color: #c4c4c4;
+}
+
+.ios-dropdown-item.success {
+    color: #28a745;
+}
+
+.ios-dropdown-item.success:hover {
+    color: #fff;
+    background-color: #28a745;
+}
+
+.ios-dropdown-item.danger {
+    color: #dc3545;
+}
+
+.ios-dropdown-item.danger:hover {
+    color: #fff;
+    background-color: #dc3545;
+}
+
+.ios-dropdown-item i {
+    margin-right: 8px;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}

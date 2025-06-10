@@ -11,7 +11,7 @@
     <link href="{{ asset('main.css') }}" rel="stylesheet">
     <link href="{{ asset('profile.css') }}" rel="stylesheet">
     <link href="{{ asset('search.css') }}" rel="stylesheet">
-    <link href="{{ asset('paginador.css') }}" rel="stylesheet">
+    <link href="{{ asset('actualizacion-de-asistencia-btn.css') }}" rel="stylesheet">
 
     <link href="{{ asset('nav.css') }}" rel="stylesheet">
     <link href="{{ asset('buttons.css') }}" rel="stylesheet">

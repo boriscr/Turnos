@@ -9,6 +9,7 @@ use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\TurnoDisponibleController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\PerfilController;
+
 Route::view('/', 'home')->name('home');
 
 Route::middleware('auth')->group(function () {
@@ -18,7 +19,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/getTurnosPorEquipo/{equipo_id}', [TurnoDisponibleController::class, 'getTurnosPorEquipo']);
     Route::post('/reservarTurno', [TurnoDisponibleController::class, 'reservarTurno'])->name('reservarTurno');
     Route::delete('/disponible/{id}', [TurnoDisponibleController::class, 'destroy'])->name('disponible.destroy');
-
 
 
     //Reservas
