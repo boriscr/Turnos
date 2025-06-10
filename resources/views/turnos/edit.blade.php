@@ -165,8 +165,9 @@
         </div>
     </div>
 
-    <script src="../../forms/formulario-3paso-turno.js"></script>
-    <script src="../../forms/horarios-edit.js"></script>
     <script src="../../forms/calendario-edit.js"></script>
+    <script src="../../forms/horarios-edit.js"></script>
+    <script src="../../forms/checkboxs.js"></script>
+    <script src="../../forms/formulario-3paso-turno.js"></script>
 
 </x-body.body>
