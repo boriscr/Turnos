@@ -17,7 +17,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Administración
+                        Administración <i class="bi bi-chevron-down"></i>
                     </a>
                     <ul class="dropdown-menu">
                         <p>Seccion Usuarios</p>
