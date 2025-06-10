@@ -53,7 +53,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Mi perfil
+                            Mi perfil <i class="bi bi-chevron-down"></i>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('perfil.index') }}">Mi perfil</a></li>
