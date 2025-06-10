@@ -61,29 +61,29 @@ class ReservaController extends Controller
         return view('reservas.index', compact('reservas', 'fechaFiltro', 'fechaInicio', 'fechaFin'));
     }
 
-public function actualizarAsistencia(Request $request, Reserva $reserva)
-{
-    DB::transaction(function () use ($reserva, $request) {
-        $estadoAnterior = $reserva->asistencia;
-        
-        // Si se envía el valor específico en el request, usarlo
-        if ($request->has('asistencia')) {
-            $nuevoEstado = $request->asistencia == '1';
-        } else {
-            // Comportamiento original de toggle
-            $nuevoEstado = $estadoAnterior === null ? false : !$estadoAnterior;
-        }
+    public function actualizarAsistencia(Request $request, Reserva $reserva)
+    {
+        DB::transaction(function () use ($reserva, $request) {
+            $estadoAnterior = $reserva->asistencia;
 
-        $reserva->asistencia = $nuevoEstado;
-        $reserva->save();
+            // Si se envía el valor específico en el request, usarlo
+            if ($request->has('asistencia')) {
+                $nuevoEstado = $request->asistencia == '1';
+            } else {
+                // Comportamiento original de toggle
+                $nuevoEstado = $estadoAnterior === null ? false : !$estadoAnterior;
+            }
 
-        if ($reserva->user) {
-            $this->gestionarFaltas($reserva, $estadoAnterior, $nuevoEstado);
-        }
-    });
+            $reserva->asistencia = $nuevoEstado;
+            $reserva->save();
 
-    return back()->with('success', 'Estado de asistencia actualizado correctamente');
-}
+            if ($reserva->user) {
+                $this->gestionarFaltas($reserva, $estadoAnterior, $nuevoEstado);
+            }
+        });
+
+        return back()->with('success', 'Estado de asistencia actualizado correctamente');
+    }
 
     // Método para verificación automática (se llamará desde la tarea programada)
     // php artisan schedule:work
@@ -141,6 +141,4 @@ public function actualizarAsistencia(Request $request, Reserva $reserva)
         $reserva = Reserva::with(['user', 'turnoDisponible.equipo'])->findOrFail($id);
         return view('reservas.show', compact('reserva'));
     }
-
-
 }
