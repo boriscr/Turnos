@@ -10,7 +10,7 @@
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Fecha del reserva</th>
+                        <th>Fecha del turno</th>
                         <th class="option-movil">Hora</th>
                         <th>Profesional</th>
                         <th>Paciente</th>
@@ -32,7 +32,7 @@
                                     href="{{ route('usuario.show', $reserva->user->id) }}">{{ $reserva->user->name . ' ' . $reserva->user->surname }}</a>
                             </td>
 
-                            
+
                             <td class="option-movil">
                                 @if ($reserva->asistencia === null)
                                     <div class="ios-dropdown">
