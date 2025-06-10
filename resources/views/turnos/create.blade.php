@@ -71,13 +71,8 @@
                                     <input type="checkbox" name="turno" value="noche" id="noche">
                                     <label for="noche">Turno Noche</label>
                                 </div>
-                                <div class="item">
-                                    <input type="checkbox" name="turno" value="sin-turno" id="sin-turno">
-                                    <label for="sin-turno">No aplica</label>
-                                </div>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="cantidad">Cantidad de citas</label>
                             <input type="number" name="cantidad" id="cantidad" value="{{ old('cantidad') }}"

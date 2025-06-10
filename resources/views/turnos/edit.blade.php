@@ -84,11 +84,6 @@
                                         {{ $turnoTipo == 'noche' ? 'checked' : '' }}>
                                     <label for="noche">Turno Noche</label>
                                 </div>
-                                <div class="item">
-                                    <input type="checkbox" name="turno" value="sin-turno" id="sin-turno"
-                                        {{ $turnoTipo == 'sin-turno' ? 'checked' : '' }}>
-                                    <label for="sin-turno">No aplica</label>
-                                </div>
                             </div>
                         </div>
 

@@ -4,8 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const turnoManana = document.getElementById('manana');
     const turnoTarde = document.getElementById('tarde');
     const turnoNoche = document.getElementById('noche');
-    const sinTurno = document.getElementById('sin-turno');
-    const grupoTurnos = [turnoManana, turnoTarde, turnoNoche, sinTurno];
+    const grupoTurnos = [turnoManana, turnoTarde, turnoNoche];
     
     // Grupo 2: Distribución de horarios
     const horario1 = document.getElementById('horario1');
@@ -30,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
             manejarSeleccionExclusiva(this, grupoTurnos);
             
             // Si se selecciona "No aplica", desmarcar los horarios
-            if (this === sinTurno && this.checked) {
+            if (this.checked) {
                 grupoHorarios.forEach(h => h.checked = false);
             }
         });
@@ -41,10 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
         checkbox.addEventListener('change', function() {
             manejarSeleccionExclusiva(this, grupoHorarios);
             
-            // Si se selecciona un horario, desmarcar "No aplica"
-            if ((this === horario1 || this === horario2) && this.checked) {
-                sinTurno.checked = false;
-            }
         });
     });
     
@@ -71,16 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
-        
-        // Si "No aplica" está marcado, desmarcar horarios
-        if (sinTurno.checked) {
-            grupoHorarios.forEach(h => h.checked = false);
-        }
-        
-        // Si hay horarios marcados, desmarcar "No aplica"
-        if (horario1.checked || horario2.checked) {
-            sinTurno.checked = false;
-        }
+
     }
     
     validarEstadoInicial();
