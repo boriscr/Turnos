@@ -11,7 +11,7 @@ function obtenerFechaActual() {
 // Función para cargar equipos basados en especialidad seleccionada
 function cargarEquipos(especialidadId, equipoIdSeleccionado = null) {
     const selectEquipo = document.getElementById('equipo_id');
-    selectEquipo.innerHTML = '<option value="">Seleccione un equipo</option>';
+    selectEquipo.innerHTML = '<option value="">Seleccione un profesional</option>';
     document.getElementById('fecha_turno').innerHTML = '<option value="">Seleccione una fecha</option>';
     document.getElementById('hora_turno').innerHTML = '<option value="">Seleccione una hora</option>';
 
@@ -23,7 +23,7 @@ function cargarEquipos(especialidadId, equipoIdSeleccionado = null) {
     fetch(`/getEquiposPorEspecialidad/${especialidadId}`)
         .then(response => response.json())
         .then(data => {
-            selectEquipo.innerHTML = '<option value="">Seleccione un equipo</option>';
+            selectEquipo.innerHTML = '<option value="">Seleccione un profesional</option>';
             data.equipos.forEach(equipo => {
                 const option = document.createElement('option');
                 option.value = equipo.id;
@@ -52,7 +52,7 @@ function cargarTurnos(equipoId, fechaSeleccionada = null, turnoIdSeleccionado = 
     const selectHora = document.getElementById('hora_turno');
 
     selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
-    selectHora.innerHTML = '<option value="">Seleccione una hora</option>';
+    selectHora.innerHTML = '<option value="">Seleccione un horario</option>';
 
     if (!equipoId) return;
 
@@ -106,7 +106,7 @@ function cargarTurnos(equipoId, fechaSeleccionada = null, turnoIdSeleccionado = 
 // Función para cargar horas basadas en fecha seleccionada
 function cargarHoras(fechaSeleccionada, turnoIdSeleccionado = null) {
     const selectHora = document.getElementById('hora_turno');
-    selectHora.innerHTML = '<option value="">Seleccione una hora</option>';
+    selectHora.innerHTML = '<option value="">Seleccione un horario</option>';
 
     if (!fechaSeleccionada) return;
 

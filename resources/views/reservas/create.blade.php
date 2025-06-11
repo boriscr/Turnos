@@ -45,7 +45,7 @@
                 <!-- Paso 2 - Selección de Turno -->
                 <div class="form-step" data-step="2">
                     <div class="form-group">
-                        <label for="especialidad_id">Especialidad</label>
+                        <label for="especialidad_id"><i class="bi bi-1-circle"></i> Especialidad</label>
                         <select name="especialidad_id" id="especialidad_id" required class="form-control">
                             <option value="">Seleccione una especialidad</option>
                             @foreach ($especialidades as $especialidad)
@@ -57,23 +57,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="equipo_id">Profesional</label>
+                        <label for="equipo_id"><i class="bi bi-2-circle"></i> Doctor/a</label>
                         <select name="equipo_id" id="equipo_id" required class="form-control">
-                            <option value="">Seleccione un equipo</option>
+                            <option value="">Seleccione un profesional</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="fecha_turno">Fecha del Turno</label>
+                        <label for="fecha_turno"><i class="bi bi-3-circle"></i> Fecha del Turno</label>
                         <select name="fecha_turno" id="fecha_turno" required class="form-control">
                             <option value="">Seleccione una fecha</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="hora_turno">Hora del Turno</label>
+                        <label for="hora_turno"><i class="bi bi-4-circle"></i> Horario del Turno</label>
                         <select name="hora_turno" id="hora_turno" required class="form-control">
-                            <option value="">Seleccione una hora</option>
+                            <option value="">Seleccione un horario</option>
                         </select>
                         <input type="hidden" name="turno_id" id="turno_id">
                     </div>

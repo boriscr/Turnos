@@ -159,6 +159,12 @@ option {
 .box-style .item-style .item label {
     background-color: transparent;
 }
+/*Formulario crear turno*/
+.form-group{
+    margin-bottom: 25px;
+}
+
+
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
