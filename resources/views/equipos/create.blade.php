@@ -11,9 +11,10 @@
             :matricula="old('matricula')" 
             :email="old('email')" 
             :telefono="old('telefono')" 
-            :rol="old('rol')"
+            :role="old('role')"
             :estado="old('estado')" 
-            :especialidad="old('especialidad')" />
+            :especialidad="old('especialidad')" 
+            />
             
             <div class="form-especialidad" id="especialidad-form">
                 <form action="{{ route('especialidad.store') }}" method="post">

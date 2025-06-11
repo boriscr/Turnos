@@ -13,7 +13,7 @@
                 :matricula="$equipo->matricula"
                 :email="$equipo->email"
                 :telefono="$equipo->telefono"
-                :rol="$equipo->role"
+                :role="$equipo->role"
                 :estado="$equipo->estado"
                 :especialidad="$equipo->especialidad_id"
             />

@@ -33,28 +33,30 @@
     </div>
     <div class="item">
         <label for="telefono"><span aria-hidden="true" style="color: red;">*</span> Telefono</label>
-        <input type="number" name="telefono" id="telefono" required value="{{ $telefono }}">
+        <input type="tel" name="telefono" id="telefono" required value="{{ $telefono }}">
         @error('telefono')
             <div class="error">{{ $message }}</div>
         @enderror
     </div>
     <div class="item">
-        <label for="especialidad"><span aria-hidden="true" style="color: red;">*</span> Especialidad</label>
-        <select name="especialidad" id="especialidad" required>
+        <label for="especialidad_id"><span aria-hidden="true" style="color: red;">*</span> Especialidad</label>
+        <select name="especialidad_id" id="especialidad_id" required>
             <option value="">Seleccionar</option>
             @if (isset($especialidades) && !empty($especialidades))
                 @foreach ($especialidades as $especialidades)
-                    <option value="{{ $especialidades->id }}" {{$especialidades->id == $especialidad?'selected':''}}>{{ $especialidades->nombre }}</option>
+                    <option value="{{ $especialidades->id }}"
+                        {{ $especialidades->id == $especialidad ? 'selected' : '' }}>{{ $especialidades->nombre }}
+                    </option>
                 @endforeach
             @else
                 <option value="">No hay especialidades disponibles</option>
             @endif
         </select>
     </div>
-    @if(isset($crear) || isset($nuevoEquipo))
-    <div class="box-new-especialidad">
-        <button type="button" id="especialidad-btn">Crear especialidad</button>
-    </div>
+    @if (isset($crear) || isset($nuevoEquipo))
+        <div class="box-new-especialidad">
+            <button type="button" id="especialidad-btn">Crear especialidad</button>
+        </div>
     @endif
     <div class="item">
         <label for="matricula"><span aria-hidden="true" style="color: red;">*</span> Matricula</label>
@@ -65,30 +67,31 @@
     </div>
 
     <div class="item">
-        <label for="rol"><span aria-hidden="true" style="color: red;">*</span> Rol</label>
-        <select name="rol" id="rol" required value="{{ $rol }}">
+        <label for="role"><span aria-hidden="true" style="color: red;">*</span> Rol</label>
+        <select name="role" id="role" required value="{{ $role }}">
             <option value="">Seleccionar</option>
-            <option value="admin" {{$rol=='admin'?'selected':''}}>Admin</option>
-            <option value="equipo" {{$rol=='equipo'?'selected':''}}>Equipo</option>
+            <option value="admin" {{ $role == 'admin' ? 'selected' : '' }}>Admin</option>
+            <option value="equipo" {{ $role == 'equipo' ? 'selected' : '' }}>Equipo</option>
         </select>
     </div>
     <div class="item switch-item">
         <label for="descripcion"><b>Estado</b></label>
         <div class="switch">
-            @if(!isset($crear))
-            <input type="checkbox" id="toggle" name="estado" value="1" @if (isset($estado) && $estado == 1) checked @endif>
+            @if (!isset($crear))
+                <input type="checkbox" id="toggle" name="estado" value="1"
+                    @if (isset($estado) && $estado == 1) checked @endif>
             @else
-            <input type="checkbox" id="toggle" name="estado" value="1" checked>
+                <input type="checkbox" id="toggle" name="estado" value="1" checked>
             @endif
             <label for="toggle"></label>
         </div>
-        @if(!isset($crear))
-        <p id="estadoTxt" class="estadoTxt">{{$estado=='1'?'Activo':'Inactivo'}}</p>
+        @if (!isset($crear))
+            <p id="estadoTxt" class="estadoTxt">{{ $estado == '1' ? 'Activo' : 'Inactivo' }}</p>
         @else
-        <p id="estadoTxt" class="estadoTxt">Activo</p>
+            <p id="estadoTxt" class="estadoTxt">Activo</p>
         @endif
     </div>
-    <button type="submit" class="submit-btn">Registrar</button>
+    <button type="submit" class="submit-btn">{{ isset($crear) ? 'Registrar' : 'Actualizar' }}</button>
 </form>
 @if ($errors->any())
     <div style="color: red;">
