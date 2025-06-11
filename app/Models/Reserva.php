@@ -9,7 +9,7 @@ class Reserva extends Model
     protected $fillable = [
         'turno_disponible_id',
         'user_id',
-        'asistio',
+        'asistencia',
     ];
     protected $casts = [
         'asistencia' => 'boolean',
