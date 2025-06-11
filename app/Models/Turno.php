@@ -42,11 +42,6 @@ class Turno extends Model
         return $this->belongsTo(Equipo::class);
     }
 
-    public function creador()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
     public function disponibilidades()
     {
         return $this->hasMany(TurnoDisponible::class);
