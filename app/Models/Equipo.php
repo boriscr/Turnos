@@ -14,7 +14,7 @@ class Equipo extends Model
         'dni',
         'email',
         'telefono',
-        'especialidad',
+        'especialidad_id',
         'matricula',
         'estado',
         'role',
