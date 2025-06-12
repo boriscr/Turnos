@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Especialidad;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreEquipoRequest extends FormRequest
@@ -27,7 +28,7 @@ class StoreEquipoRequest extends FormRequest
             'dni' => 'required|integer|digits_between:7,8|unique:equipos,dni',
             'email' => 'required|email|unique:equipos,email',
             'telefono' => 'required|string|max:255',
-            'especialidad_id' => 'required|exists:especialidads,id',
+            'especialidad_id' => 'required|exists:'.Especialidad::TABLE.',id',
             'matricula' => 'required|string|max:255',
             'role' => 'required|string|max:255',
             'estado' => 'sometimes|boolean',

@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Especialidad extends Model
 {
-    protected $table = 'especialidads';
+    // Definimos constante para nombre de tabla
+    public const TABLE = 'especialidads';
+
+    protected $table = self::TABLE;
     protected $fillable = [
         'nombre',
         'descripcion',
@@ -17,5 +20,4 @@ class Especialidad extends Model
     {
         return $this->hasMany(Equipo::class, 'especialidad_id');
     }
-        
 }

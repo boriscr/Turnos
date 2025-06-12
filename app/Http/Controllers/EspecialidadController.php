@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\EspecialidadUpdateRequest;
 use App\Models\Especialidad;
 use App\Models\Equipo;
+use App\Http\Requests\StoreEspecialidadRequest;
+use App\Http\Requests\UpdateEspecialidadRequest;
 
 class EspecialidadController extends Controller
 {
@@ -18,19 +18,10 @@ class EspecialidadController extends Controller
     {
         return view('especialidades/create');
     }
-    public function store(Request $request)
+    public function store(StoreEspecialidadRequest $request)
     {
-        $validated = $request->validate([
-            'nombre' => 'required|string|max:255|unique:especialidads,nombre',
-            'descripcion' => 'nullable|string|max:255',
-            'estado' => 'sometimes|boolean',
-        ]);
-        $especialidad = new Especialidad();
-        $especialidad->nombre = trim($validated['nombre']);
-        $especialidad->descripcion = $validated['descripcion'] ? trim($validated['descripcion']) : null;
-        $especialidad->estado = $request->boolean('estado', false);
-
-        $especialidad->save();
+        // Validar los datos de la solicitud y crear una nueva especialidad
+        Especialidad::create($request->validated());
 
         session()->flash('success', [
             'title' => 'Creado!',
@@ -38,7 +29,7 @@ class EspecialidadController extends Controller
             'icon' => 'success',
         ]);
 
-        return back();
+        return redirect()->route('especialidad.index');
     }
 
     public function show($id)
@@ -51,22 +42,12 @@ class EspecialidadController extends Controller
         $especialidad = Especialidad::findOrFail($id);
         return view('especialidades/edit', compact('especialidad'));
     }
-    public function update(Request $request, $id)
+    public function update(UpdateEspecialidadRequest $request, $id)
     {
-        $validated = $request->validate([
-            'nombre' => 'required|string|max:255|unique:especialidads,nombre,' . $id,
-            'descripcion' => 'nullable|string|max:255',
-            'estado' => 'sometimes|boolean',
-        ]);
         // Validar el ID de la especialidad
         $especialidad = Especialidad::findOrFail($id);
         // Actualizar los campos de la especialidad
-        $especialidad->nombre = trim($validated['nombre']);
-        $especialidad->descripcion = $validated['descripcion'] ? trim($validated['descripcion']) : null;
-        $especialidad->estado = $request->boolean('estado', false);
-
-        // Guardar los cambios en la base de datos
-        $especialidad->save();
+        $especialidad->update($request->validated());
 
         session()->flash('success', [
             'title' => 'Actualizado!',
@@ -77,7 +58,7 @@ class EspecialidadController extends Controller
         return redirect()->route('especialidad.index');
     }
 
-    
+
     public function destroy($id)
     {
         $especialidad = Especialidad::findOrFail($id);
@@ -95,6 +76,7 @@ class EspecialidadController extends Controller
     //View lista del equipo con la especialidad
     public function listaEquipo($id)
     {
+        
         $equipo = Equipo::with('especialidad')->where('especialidad_id', $id)->get();
 
         return view('especialidades/list', compact('equipo'));

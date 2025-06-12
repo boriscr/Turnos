@@ -218,7 +218,7 @@ class TurnoController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
-            'especialidad_id' => 'required|exists:especialidads,id',
+            'especialidad_id' => 'required|exists:'.Especialidad::TABLE.',id',
             'equipo_id' => 'required|exists:equipos,id',
             'cantidad' => 'required|integer|min:1',
             'hora_inicio' => 'required',
