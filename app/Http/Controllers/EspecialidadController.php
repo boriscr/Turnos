@@ -6,6 +6,8 @@ use App\Models\Especialidad;
 use App\Models\Equipo;
 use App\Http\Requests\StoreEspecialidadRequest;
 use App\Http\Requests\UpdateEspecialidadRequest;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class EspecialidadController extends Controller
 {
@@ -20,40 +22,56 @@ class EspecialidadController extends Controller
     }
     public function store(StoreEspecialidadRequest $request)
     {
-        // Validar los datos de la solicitud y crear una nueva especialidad
-        Especialidad::create($request->validated());
+        try {
+            Especialidad::create($request->validated());
 
-        session()->flash('success', [
-            'title' => 'Creado!',
-            'text' => 'Nueva especialidad creada con éxito.',
-            'icon' => 'success',
-        ]);
+            session()->flash('success', [
+                'title' => 'Creado!',
+                'text' => 'Nueva especialidad creada con éxito.',
+                'icon' => 'success',
+            ]);
+        } catch (Exception $e) {
+            return back()->withErrors('Error al crear la especialidad: ' . $e->getMessage());
+        }
 
         return redirect()->route('especialidad.index');
     }
 
     public function show($id)
     {
-        $especialidad = Especialidad::findOrFail($id);
-        return view('especialidades/show', compact('especialidad'));
+        try {
+            $especialidad = Especialidad::findOrFail($id);
+            return view('especialidades/show', compact('especialidad'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('especialidad.index')->withErrors('Especialidad no encontrada.');
+        }
     }
     public function edit($id)
     {
-        $especialidad = Especialidad::findOrFail($id);
-        return view('especialidades/edit', compact('especialidad'));
+        try {
+            $especialidad = Especialidad::findOrFail($id);
+            return view('especialidades/edit', compact('especialidad'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('especialidad.index')->withErrors('Especialidad no encontrada.');
+        }
     }
+
     public function update(UpdateEspecialidadRequest $request, $id)
     {
-        // Validar el ID de la especialidad
-        $especialidad = Especialidad::findOrFail($id);
-        // Actualizar los campos de la especialidad
-        $especialidad->update($request->validated());
+        try {
+            $especialidad = Especialidad::findOrFail($id);
+            $especialidad->update($request->validated());
 
-        session()->flash('success', [
-            'title' => 'Actualizado!',
-            'text' => 'Especialidad actualizada con éxito.',
-            'icon' => 'success',
-        ]);
+            session()->flash('success', [
+                'title' => 'Actualizado!',
+                'text' => 'Especialidad actualizada con éxito.',
+                'icon' => 'success',
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('especialidad.index')->withErrors('Especialidad no encontrada.');
+        } catch (Exception $e) {
+            return back()->withErrors('Error al actualizar la especialidad: ' . $e->getMessage());
+        }
 
         return redirect()->route('especialidad.index');
     }
@@ -61,24 +79,43 @@ class EspecialidadController extends Controller
 
     public function destroy($id)
     {
-        $especialidad = Especialidad::findOrFail($id);
-        $especialidad->delete();
+        try {
+            $especialidad = Especialidad::findOrFail($id);
 
-        session()->flash('success', [
-            'title' => 'Eliminado!',
-            'text' => 'Especialidad eliminada con éxito.',
-            'icon' => 'success',
-        ]);
+            // Evitar eliminar si tiene equipos asociados
+            /*if ($especialidad->equipos()->exists()) {
+                return redirect()->back()->withErrors('No se puede eliminar una especialidad con equipos asociados.');
+            }*/
+            // Eliminar la especialidad
+
+            $especialidad->delete();
+
+            session()->flash('success', [
+                'title' => 'Eliminado!',
+                'text' => 'Especialidad eliminada con éxito.',
+                'icon' => 'success',
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('especialidad.index')->withErrors('Especialidad no encontrada.');
+        } catch (Exception $e) {
+            return back()->withErrors('Error al eliminar la especialidad: ' . $e->getMessage());
+        }
 
         return redirect()->route('especialidad.index');
     }
 
-    //View lista del equipo con la especialidad
+    // View lista del equipo con la especialidad
     public function listaEquipo($id)
     {
-        
-        $equipo = Equipo::with('especialidad')->where('especialidad_id', $id)->get();
+        try {
+            $especialidad = Especialidad::findOrFail($id);
+            $equipo = Equipo::with('especialidad')->where('especialidad_id', $id)->get();
 
-        return view('especialidades/list', compact('equipo'));
+            return view('especialidades/list', compact('equipo', 'especialidad'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('especialidad.index')->withErrors('Especialidad no encontrada.');
+        } catch (Exception $e) {
+            return back()->withErrors('Error al obtener los equipos: ' . $e->getMessage());
+        }
     }
 }
