@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Especialidad;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreEspecialidadRequest extends FormRequest
+class EspecialidadStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

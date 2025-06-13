@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Especialidad;
 use App\Models\Equipo;
-use App\Http\Requests\StoreEspecialidadRequest;
-use App\Http\Requests\UpdateEspecialidadRequest;
+use App\Http\Requests\EspecialidadStoreRequest;
+use App\Http\Requests\EspecialidadUpdateRequest;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -20,7 +20,7 @@ class EspecialidadController extends Controller
     {
         return view('especialidades/create');
     }
-    public function store(StoreEspecialidadRequest $request)
+    public function store(EspecialidadStoreRequest $request)
     {
         try {
             Especialidad::create($request->validated());
@@ -56,7 +56,7 @@ class EspecialidadController extends Controller
         }
     }
 
-    public function update(UpdateEspecialidadRequest $request, $id)
+    public function update(EspecialidadUpdateRequest $request, $id)
     {
         try {
             $especialidad = Especialidad::findOrFail($id);
