@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Especialidad;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Especialidad;
 
-class StoreEquipoRequest extends FormRequest
+class EquipoUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,12 +21,16 @@ class StoreEquipoRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
+
     {
+        // Obtener el ID del equipo desde la ruta (ej: /equipos/{equipo})
+        $equipo_id = $this->route('id'); // Asegúrate de que el nombre del parámetro en la ruta coincida
+
         return [
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'dni' => 'required|integer|digits_between:7,8|unique:equipos,dni',
-            'email' => 'required|email|unique:equipos,email',
+            'dni' => 'required|integer|digits_between:7,8|unique:equipos,dni,' . $equipo_id,
+            'email' => 'required|email|unique:equipos,email,' . $equipo_id,
             'telefono' => 'required|string|max:255',
             'especialidad_id' => 'required|exists:'.Especialidad::TABLE.',id',
             'matricula' => 'required|string|max:255',

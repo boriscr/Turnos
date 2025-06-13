@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Equipo;
 use App\Models\Especialidad;
 use Illuminate\Support\Facades\Log;
-use App\Http\Requests\StoreEquipoRequest;
-use App\Http\Requests\UpdateEquipoRequest;
+use App\Http\Requests\EquipoStoreRequest;
+use App\Http\Requests\EquipoUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -24,7 +24,7 @@ class EquipoController extends Controller
         return view('equipos.create', compact('especialidades'));
     }
 
-    public function store(StoreEquipoRequest $request)
+    public function store(EquipoStoreRequest $request)
     {
         try {
             Equipo::create($request->validated());
@@ -102,7 +102,7 @@ class EquipoController extends Controller
         }
     }
 
-    public function update(UpdateEquipoRequest $request, $id)
+    public function update(EquipoUpdateRequest $request, $id)
     {
         try {
             $equipo = Equipo::findOrFail($id);
