@@ -69,7 +69,13 @@ class TurnoDisponibleController extends Controller
         if ($turno) {
             // Verificar si hay cupos disponibles
             if ($turno->cupos_disponibles <= 0) {
-                return response()->json(['success' => false, 'message' => 'No hay cupos disponibles']);
+                session()->flash('error', [
+                    'title' => 'Cupos no disponibles',
+                    'text' => 'No hay cupos disponibles para el turno seleccionado. Seleccione otro horario o fecha',
+                    'icon' => 'error',
+                ]);
+
+                return back();
             }
             // Verificar si la fecha y hora son válidas
             $hoy = now()->format('Y-m-d');
