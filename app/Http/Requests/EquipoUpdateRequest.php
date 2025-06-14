@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Equipo;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Especialidad;
 
@@ -29,8 +30,8 @@ class EquipoUpdateRequest extends FormRequest
         return [
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'dni' => 'required|integer|digits_between:7,8|unique:equipos,dni,' . $equipo_id,
-            'email' => 'required|email|unique:equipos,email,' . $equipo_id,
+            'dni' => 'required|integer|digits_between:7,8|unique:'.Equipo::TABLE.',dni,' . $equipo_id,
+            'email' => 'required|email|unique:'.Equipo::TABLE.',email,' . $equipo_id,
             'telefono' => 'required|string|max:255',
             'especialidad_id' => 'required|exists:'.Especialidad::TABLE.',id',
             'matricula' => 'required|string|max:255',

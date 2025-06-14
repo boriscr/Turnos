@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Equipo extends Model
 {
+        // Definimos constante para nombre de tabla
+    public const TABLE = 'equipos';
     protected $table = 'equipos';
     protected $fillable = [
         'user_id',
