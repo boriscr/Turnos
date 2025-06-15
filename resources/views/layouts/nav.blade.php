@@ -56,7 +56,7 @@
                             Mi perfil <i class="bi bi-chevron-down"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('perfil.index') }}">Mi perfil</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profile.index') }}">Mi perfil</a></li>
                             <li>
                                 <form action="{{ route('logout') }}" method="post">
                                     @csrf

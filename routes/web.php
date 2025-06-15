@@ -71,13 +71,6 @@ Route::middleware('auth')->group(function () {
 
     //disponibles
     Route::get('/disponible/{equipoId?}', [TurnoController::class, 'search'])->name('disponible.index');
-
-    //Users
-    Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil.index');
-    Route::get('/perfil/create', [PerfilController::class, 'create'])->name('perfil.create');
-    Route::post('/perfil/store', [PerfilController::class, 'store'])->name('perfil.store');
-    Route::get('/perfil/historial', [PerfilController::class, 'historial'])->name('perfil.historial');
-    Route::get('/perfil/{id}/show', [PerfilController::class, 'show'])->name('perfil.show');
 });
 
 
@@ -93,9 +86,13 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/show/{id}', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/updateAdm', [ProfileController::class, 'updateAdmin'])->name('profile.updateAdmin');
+    Route::get('/profile/historial', [ProfileController::class, 'historial'])->name('profile.historial');
+    Route::delete('/profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__ . '/auth.php';

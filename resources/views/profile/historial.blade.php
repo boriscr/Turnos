@@ -35,7 +35,7 @@
                                 {{ $reserva->turnoDisponible->turno->estado === true ? ($reserva->asistencia === null ? 'Pendiente' : ($reserva->asistencia ? 'Asistió' : 'No asistió')) : 'Turno Inactivo' }}
                             </td>
                             <td class="acciones">
-                                <a href="{{ route('perfil.show', $reserva->id) }}" class="btn btn-view">
+                                <a href="{{ route('profile.show', $reserva->id) }}" class="btn btn-view">
                                     <i class="bi bi-eye"></i>
                                 </a>
                                 <form action="{{ route('disponible.destroy', $reserva->id) }}" method="POST"
@@ -56,6 +56,6 @@
 
         </div>
     </div>
-    <script src="../../cancel-btn.js"></script>
+    <script src="../../../cancel-btn.js"></script>
 
 </x-body.body>
