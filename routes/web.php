@@ -8,7 +8,6 @@ use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\TurnoDisponibleController;
 use App\Http\Controllers\ReservaController;
-use App\Http\Controllers\PerfilController;
 
 Route::view('/', 'home')->name('home');
 
@@ -19,7 +18,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/getTurnosPorEquipo/{equipo_id}', [TurnoDisponibleController::class, 'getTurnosPorEquipo']);
     Route::post('/reservarTurno', [TurnoDisponibleController::class, 'reservarTurno'])->name('reservarTurno');
     Route::delete('/disponible/{id}', [TurnoDisponibleController::class, 'destroy'])->name('disponible.destroy');
-
 
     //Reservas
     Route::get('/reservas', [ReservaController::class, 'index'])->name('reservas.index');
@@ -71,21 +69,9 @@ Route::middleware('auth')->group(function () {
 
     //disponibles
     Route::get('/disponible/{equipoId?}', [TurnoController::class, 'search'])->name('disponible.index');
-});
 
 
-
-
-/*
-Route::get('/', function () {
-    return view('welcome');
-});
-*/
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
+    // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/show/{id}', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -93,6 +79,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile/updateAdm', [ProfileController::class, 'updateAdmin'])->name('profile.updateAdmin');
     Route::get('/profile/historial', [ProfileController::class, 'historial'])->name('profile.historial');
     Route::delete('/profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
+
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 require __DIR__ . '/auth.php';
