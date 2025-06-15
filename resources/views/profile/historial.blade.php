@@ -56,6 +56,6 @@
 
         </div>
     </div>
-    <script src="../../../cancel-btn.js"></script>
+    <script src="../anular-btn.js"></script>
 
 </x-body.body>
