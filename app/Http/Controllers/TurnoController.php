@@ -27,7 +27,18 @@ class TurnoController extends Controller
     }
     public function store(Request $request)
     {
-
+        // Validación básica
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'direccion' => 'required|string',
+            'especialidad_id' => 'required|exists:especialidades,id',
+            'equipo_id' => 'required|exists:equipos,id',
+            'cantidad' => 'required|integer|min:1',
+            'hora_inicio' => 'required',
+            'hora_fin' => 'required',
+            'selected_dates' => 'required|json', // Aseguramos que sea un JSON válido
+            'estado' => 'required|boolean',
+        ]);
         // Decodificar fechas seleccionadas
         $fechas = json_decode($request->selected_dates, true);
 
@@ -84,8 +95,12 @@ class TurnoController extends Controller
                 ]);
             }
         }
-
-        return redirect()->route('turnos.index')->with('success', 'Turno creado exitosamente');
+        session()->flash('success', [
+            'title' => 'Turno creado exitosamente',
+            'text' => 'El turno ha sido creado correctamente.',
+            'icon' => 'success'
+        ]);
+        return redirect()->route('turnos.index');
     }
 
     public function show($id)
@@ -209,7 +224,7 @@ class TurnoController extends Controller
             'fechas' => json_encode($turno->fechas_disponibles),
 
             'horarios_disponibles' => $horarios_disponibles
-            
+
         ]);
     }
 
@@ -232,6 +247,7 @@ class TurnoController extends Controller
         $fechas = json_decode($request->selected_dates, true);
 
         if (empty($fechas)) {
+
             return back()->with('error', 'Debe seleccionar al menos una fecha')->withInput();
         }
 
@@ -241,9 +257,6 @@ class TurnoController extends Controller
                 return back()->withErrors(['horarios_disponibles' => 'Para turnos por hora, debe seleccionar al menos un horario'])->withInput();
             }
         }
-
-        // Resto del código de actualización...
-
 
         // Obtener el turno a actualizar
         $turno = Turno::findOrFail($id);
@@ -285,8 +298,12 @@ class TurnoController extends Controller
             }
         }
 
-
-        return redirect()->route('turnos.index')->with('success', 'Turno actualizado correctamente');
+        session()->flash('success', [
+            'title' => 'Turno actualizado exitosamente',
+            'text' => 'El turno ha sido actualizado correctamente.',
+            'icon' => 'success'
+        ]);
+        return redirect()->route('turnos.index');
     }
 
     function destroy($id)
@@ -294,7 +311,11 @@ class TurnoController extends Controller
         $turno = Turno::findOrFail($id);
         $turno->disponibilidades()->delete(); // Eliminar disponibilidades asociadas
         $turno->delete(); // Eliminar el turno
-
-        return redirect()->route('turnos.index')->with('success', 'Turno eliminado correctamente');
+        session()->flash('success', [
+            'title' => 'Turno eliminado exitosamente',
+            'text' => 'El turno ha sido eliminado correctamente.',
+            'icon' => 'success'
+        ]);
+        return redirect()->route('turnos.index');
     }
 }
