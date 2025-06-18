@@ -86,7 +86,7 @@ class TurnoController extends Controller
             }
         }
         session()->flash('success', [
-            'title' => 'Turno creado exitosamente',
+            'title' => 'Creado!',
             'text' => 'El turno ha sido creado correctamente.',
             'icon' => 'success'
         ]);
@@ -276,7 +276,7 @@ class TurnoController extends Controller
         }
 
         session()->flash('success', [
-            'title' => 'Turno actualizado exitosamente',
+            'title' => 'Actualizado!',
             'text' => 'El turno ha sido actualizado correctamente.',
             'icon' => 'success'
         ]);
@@ -289,7 +289,7 @@ class TurnoController extends Controller
         $turno->disponibilidades()->delete(); // Eliminar disponibilidades asociadas
         $turno->delete(); // Eliminar el turno
         session()->flash('success', [
-            'title' => 'Turno eliminado exitosamente',
+            'title' => 'Eliminado!',
             'text' => 'El turno ha sido eliminado correctamente.',
             'icon' => 'success'
         ]);
