@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TurnoStoreRequest;
+use App\Http\Requests\TurnoUpdateRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Turno;
@@ -25,20 +27,8 @@ class TurnoController extends Controller
 
         return view('turnos/create', compact('especialidades', 'equipos'));
     }
-    public function store(Request $request)
+    public function store(TurnoStoreRequest $request)
     {
-        // Validación básica
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'direccion' => 'required|string',
-            'especialidad_id' => 'required|exists:especialidades,id',
-            'equipo_id' => 'required|exists:equipos,id',
-            'cantidad' => 'required|integer|min:1',
-            'hora_inicio' => 'required',
-            'hora_fin' => 'required',
-            'selected_dates' => 'required|json', // Aseguramos que sea un JSON válido
-            'estado' => 'required|boolean',
-        ]);
         // Decodificar fechas seleccionadas
         $fechas = json_decode($request->selected_dates, true);
 
@@ -228,21 +218,8 @@ class TurnoController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(TurnoUpdateRequest $request, $id)
     {
-        // Validación básica
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'direccion' => 'required|string',
-            'especialidad_id' => 'required|exists:especialidades,id',
-            'equipo_id' => 'required|exists:equipos,id',
-            'cantidad' => 'required|integer|min:1',
-            'hora_inicio' => 'required',
-            'hora_fin' => 'required',
-            'selected_dates' => 'required',
-            'estado' => 'required|boolean',
-        ]);
-
         // Decodificar fechas seleccionadas
         $fechas = json_decode($request->selected_dates, true);
 
