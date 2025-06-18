@@ -159,23 +159,16 @@ option {
 .box-style .item-style .item label {
     background-color: transparent;
 }
-/*Formulario crear turno*/
-.form-group{
-    margin-bottom: 25px;
-}
-
 
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
 
-    .form-group input,
     .item input {
         background-color: var(--background-light);
         color: var(--color-texto-dark);
     }
 
-    .form-group label,
     .item label {
         color: var(--color-texto-light);
     }
@@ -194,7 +187,6 @@ option {
 /* Modo claro */
 @media (prefers-color-scheme: light) {
 
-    .form-group input,
     .item input {
         background-color: var(--color-texto-light);
         color: var(--color-texto-dark);

@@ -19,7 +19,7 @@
                 <!-- Paso 1 - Datos Iniciales -->
                 <div class="form-step active" data-step="1">
                     <div class="form-grid">
-                        <div class="form-group">
+                        <div class="item">
                             <label for="nombre">Nombre del Turno</label>
                             <input type="text" name="nombre" id="nombre" value="{{ $nombre }}" required
                                 class="form-control">
@@ -28,7 +28,7 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
+                        <div class="item">
                             <label for="direccion">Dirección</label>
                             <textarea name="direccion" id="direccion" rows="2" required class="form-control">{{ $direccion }}</textarea>
                             @error('direccion')
@@ -36,7 +36,7 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
+                        <div class="item">
                             <label for="especialidad_id">Especialidad</label>
                             <select name="especialidad_id" id="especialidad_id" required class="form-control">
                                 @foreach ($especialidades as $especialidad)
@@ -52,7 +52,7 @@
 
                         </div>
 
-                        <div class="form-group">
+                        <div class="item">
                             <label for="equipo_id">Equipo</label>
                             <select name="equipo_id" id="equipo_id" required class="form-control">
                                 @if ($equipo_id)
@@ -98,7 +98,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="item">
                             <label for="cantidad">Cantidad de citas</label>
                             <input type="number" name="cantidad" id="cantidad" value="{{ $cantidad }}"
                                 min="1" required class="form-control">
@@ -107,7 +107,7 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
+                        <div class="item">
                             <label for="hora_inicio">Hora de Inicio</label>
                             <input type="time" name="hora_inicio" id="hora_inicio" value="{{ $inicio }}"
                                 required class="form-control">
@@ -116,7 +116,7 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
+                        <div class="item">
                             <label for="hora_fin">Hora de Fin</label>
                             <input type="time" name="hora_fin" id="hora_fin" value="{{ $fin }}" required
                                 class="form-control">
@@ -163,7 +163,7 @@
                         @include('layouts.calendario')
                         <input type="hidden" name="selected_dates" x-ref="selectedDatesInput">
                     </div>
-                    <div class="form-group">
+                    <div class="item">
                         <label for="estado">Estado</label>
                         <select name="estado" id="estado" required class="form-control">
                             <option {{ $turno->estado == true ? 'selected' : '' }} value="1">Activo</option>
