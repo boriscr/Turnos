@@ -19,8 +19,7 @@
                     <div class="form-grid">
                         <div class="item">
                             <label for="nombre">Nombre del Turno</label>
-                            <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" required
-                            >
+                            <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" required>
                             @error('nombre')
                                 <div class="error">{{ $message }}</div>
                             @enderror
@@ -28,7 +27,11 @@
 
                         <div class="item">
                             <label for="direccion">Direccion</label>
-                            <input type="text" name="direccion" id="direccion" value="{{old('direccion')}}" required></input>
+                            <input type="text" name="direccion" id="direccion" value="{{ old('direccion') }}"
+                                required></input>
+                            @error('direccion')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="item">
@@ -40,6 +43,9 @@
                                     @endif
                                 @endforeach
                             </select>
+                            @error('especialidad_id')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="item">
@@ -47,6 +53,9 @@
                             <select name="equipo_id" id="equipo_id" required>
                                 <option value="">Seleccione un equipo</option>
                             </select>
+                            @error('equipo_id')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
@@ -80,18 +89,26 @@
                             <label for="cantidad">Cantidad de citas</label>
                             <input type="number" name="cantidad" id="cantidad" value="{{ old('cantidad') }}"
                                 min="1" required>
+                            @error('cantidad')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="item">
                             <label for="hora_inicio">Hora de Inicio</label>
                             <input type="time" name="hora_inicio" id="hora_inicio" value="{{ old('inicio') }}"
                                 required>
+                            @error('hora_inicio')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="item">
                             <label for="hora_fin">Hora de Fin</label>
-                            <input type="time" name="hora_fin" id="hora_fin" value="{{ old('fin') }}" required
-                            >
+                            <input type="time" name="hora_fin" id="hora_fin" value="{{ old('fin') }}" required>
+                            @error('hora_fin')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="box-style">
@@ -136,6 +153,9 @@
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                         </select>
+                        @error('estado')
+                            <div class="error">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-navigation">
                         <button type="button" class="prev-btn"><i class="bi bi-chevron-left"></i></button>
