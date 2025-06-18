@@ -20,17 +20,20 @@
                         <div class="item">
                             <label for="nombre">Nombre del Turno</label>
                             <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" required
-                                class="form-control">
+                            >
+                            @error('nombre')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="item">
                             <label for="direccion">Direccion</label>
-                            <textarea name="direccion" id="direccion" rows="2" required class="form-control">{{ old('direccion') }}</textarea>
+                            <input type="text" name="direccion" id="direccion" value="{{old('direccion')}}" required></input>
                         </div>
 
                         <div class="item">
                             <label for="especialidad_id">Especialidad</label>
-                            <select name="especialidad_id" id="especialidad_id" required class="form-control">
+                            <select name="especialidad_id" id="especialidad_id" required>
                                 @foreach ($especialidades as $especialidad)
                                     @if ($especialidad->estado == 1)
                                         <option value="{{ $especialidad->id }}">{{ $especialidad->nombre }}</option>
@@ -41,7 +44,7 @@
 
                         <div class="item">
                             <label for="equipo_id">Equipo</label>
-                            <select name="equipo_id" id="equipo_id" required class="form-control">
+                            <select name="equipo_id" id="equipo_id" required>
                                 <option value="">Seleccione un equipo</option>
                             </select>
                         </div>
@@ -76,19 +79,19 @@
                         <div class="item">
                             <label for="cantidad">Cantidad de citas</label>
                             <input type="number" name="cantidad" id="cantidad" value="{{ old('cantidad') }}"
-                                min="1" required class="form-control">
+                                min="1" required>
                         </div>
 
                         <div class="item">
                             <label for="hora_inicio">Hora de Inicio</label>
                             <input type="time" name="hora_inicio" id="hora_inicio" value="{{ old('inicio') }}"
-                                required class="form-control">
+                                required>
                         </div>
 
                         <div class="item">
                             <label for="hora_fin">Hora de Fin</label>
                             <input type="time" name="hora_fin" id="hora_fin" value="{{ old('fin') }}" required
-                                class="form-control">
+                            >
                         </div>
 
                         <div class="box-style">
@@ -129,7 +132,7 @@
                     </div>
                     <div class="item">
                         <label for="estado">Estado</label>
-                        <select name="estado" id="estado" required class="form-control">
+                        <select name="estado" id="estado" required>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                         </select>

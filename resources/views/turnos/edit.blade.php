@@ -9,7 +9,6 @@
                 <div class="step" data-step="2"><i class="bi bi-clock-history"></i> Horario/s</div>
                 <div class="step" data-step="3"><i class="bi bi-calendar-date-fill"></i> Fecha/s</div>
             </div>
-
             <form x-data="iosCalendar()" x-init="init({{ json_encode($fechas) }})" id="multiStepForm"
                 @submit.prevent="updateSelectedDatesInput(); $el.submit()" method="POST"
                 action="{{ route('turnos.update', $turno->id) }}">
@@ -21,16 +20,15 @@
                     <div class="form-grid">
                         <div class="item">
                             <label for="nombre">Nombre del Turno</label>
-                            <input type="text" name="nombre" id="nombre" value="{{ $nombre }}" required
-                                class="form-control">
+                            <input type="text" name="nombre" id="nombre" value="{{ $nombre }}" required>
                             @error('nombre')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
-
+turno
                         <div class="item">
                             <label for="direccion">Dirección</label>
-                            <textarea name="direccion" id="direccion" rows="2" required class="form-control">{{ $direccion }}</textarea>
+                            <textarea name="direccion" id="direccion" rows="2" required>{{ $direccion }}</textarea>
                             @error('direccion')
                                 <div class="error">{{ $message }}</div>
                             @enderror
@@ -38,10 +36,10 @@
 
                         <div class="item">
                             <label for="especialidad_id">Especialidad</label>
-                            <select name="especialidad_id" id="especialidad_id" required class="form-control">
+                            <select name="especialidad_id" id="especialidad_id" required>
                                 @foreach ($especialidades as $especialidad)
                                     <option value="{{ $especialidad->id }}"
-                                        {{ $especialidad_id == $especialidad->id ? 'selected' : '' }}>
+                                        {{ $especialidadId == $especialidad->id ? 'selected' : '' }}>
                                         {{ $especialidad->nombre }}
                                     </option>
                                 @endforeach
@@ -54,10 +52,10 @@
 
                         <div class="item">
                             <label for="equipo_id">Equipo</label>
-                            <select name="equipo_id" id="equipo_id" required class="form-control">
-                                @if ($equipo_id)
-                                    <option value="{{ $equipo_id }}" selected>
-                                        {{ $equipo_nombre }}
+                            <select name="equipo_id" id="equipo_id" required>
+                                @if ($equipoId)
+                                    <option value="{{ $equipoId }}" selected>
+                                        {{ $equipoNombre }}
                                     </option>
                                 @else
                                     <option value="">Seleccione un equipo</option>
@@ -101,7 +99,7 @@
                         <div class="item">
                             <label for="cantidad">Cantidad de citas</label>
                             <input type="number" name="cantidad" id="cantidad" value="{{ $cantidad }}"
-                                min="1" required class="form-control">
+                                min="1" required>
                             @error('cantidad')
                                 <div class="error">{{ $message }}</div>
                             @enderror
@@ -110,7 +108,7 @@
                         <div class="item">
                             <label for="hora_inicio">Hora de Inicio</label>
                             <input type="time" name="hora_inicio" id="hora_inicio" value="{{ $inicio }}"
-                                required class="form-control">
+                                required>
                             @error('hora_inicio')
                                 <div class="error">{{ $message }}</div>
                             @enderror
@@ -119,7 +117,7 @@
                         <div class="item">
                             <label for="hora_fin">Hora de Fin</label>
                             <input type="time" name="hora_fin" id="hora_fin" value="{{ $fin }}" required
-                                class="form-control">
+                            >
                             @error('hora_fin')
                                 <div class="error">{{ $message }}</div>
                             @enderror
@@ -129,16 +127,16 @@
                             <br>
                             <h3>Distribución de horarios</h3>
                             <input type="hidden" name="horarios_disponibles" id="horarios_disponibles"
-                                value="{{ $horarios_disponibles }}">
+                                value="{{ $horariosDisponibles }}">
                             <div class="item-style">
                                 <div class="item">
                                     <input type="checkbox" name="horario1" id="horario1"
-                                        {{ $horarios_disponibles == null ? 'checked' : '' }}>
+                                        {{ $horariosDisponibles == null ? 'checked' : '' }}>
                                     <label for="horario1">Asignar turnos sin horarios</label>
                                 </div>
                                 <div class="item">
                                     <input type="checkbox" name="horario2" id="horario2"
-                                        {{ $horarios_disponibles == !null ? 'checked' : '' }}>
+                                        {{ $horariosDisponibles == !null ? 'checked' : '' }}>
                                     <label for="horario2">Asignar turnos con división horaria</label>
                                 </div>
                             </div>
@@ -165,9 +163,9 @@
                     </div>
                     <div class="item">
                         <label for="estado">Estado</label>
-                        <select name="estado" id="estado" required class="form-control">
-                            <option {{ $turno->estado == true ? 'selected' : '' }} value="1">Activo</option>
-                            <option {{ $turno->estado == false ? 'selected' : '' }} value="0">Inactivo</option>
+                        <select name="estado" id="estado" required>
+                            <option {{isset($edit)? ($turno->estado == true ? 'selected' : ''):'' }} value="1">Activo</option>
+                            <option {{isset($edit)? ($turno->estado == false ? 'selected' : ''):'' }} value="0">Inactivo</option>
                             @error('estado')
                                 <div class="error">{{ $message }}</div>
                             @enderror
@@ -180,6 +178,7 @@
                     </div>
                 </div>
             </form>
+
         </div>
     </div>
 
