@@ -33,7 +33,7 @@ class EquipoUpdateRequest extends FormRequest
             'dni' => 'required|integer|digits_between:7,8|unique:'.Equipo::TABLE.',dni,' . $equipo_id,
             'email' => 'required|email|unique:'.Equipo::TABLE.',email,' . $equipo_id,
             'telefono' => 'required|string|max:255',
-            'especialidad_id' => 'required|exists:'.Especialidad::TABLE.',id',
+            'especialidad_id' => 'required|exists:especialidades,id',
             'matricula' => 'required|string|max:255',
             'role' => 'required|string|max:255',
             'estado' => 'sometimes|boolean',

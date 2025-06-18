@@ -23,7 +23,7 @@ class EspecialidadStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:255|unique:'.Especialidad::TABLE.',nombre',
+            'nombre' => 'required|string|max:255|unique:especialidades,nombre',
             'descripcion' => 'required|string|max:255',
             'estado' => 'required|boolean',
         ];

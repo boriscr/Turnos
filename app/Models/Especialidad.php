@@ -6,10 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Especialidad extends Model
 {
-    // Definimos constante para nombre de tabla
-    public const TABLE = 'especialidades';
+ protected $table = 'especialidades';
 
-    protected $table = self::TABLE;
     protected $fillable = [
         'nombre',
         'descripcion',

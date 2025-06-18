@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('dni');
             $table->string('email');
             $table->string('telefono');
-            $table->foreignId('especialidad_id')->nullable()->constrained(Especialidad::TABLE)->onDelete('cascade');
+            $table->foreignId('especialidad_id')->nullable()->constrained('especialidades')->onDelete('cascade');
             $table->string('matricula')->nullable();
             $table->string('role');
             $table->boolean('estado')->default(true); // Valor por defecto true

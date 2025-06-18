@@ -25,7 +25,7 @@ class EspecialidadUpdateRequest extends FormRequest
         $especialidad_id = $this->route('id'); // Asegúrate de que el nombre del parámetro en la ruta coincida
 
         return [
-            'nombre' => 'required|string|max:255|unique:'.Especialidad::TABLE.',nombre,' . $especialidad_id,
+            'nombre' => 'required|string|max:255|unique:especialidades,nombre,' . $especialidad_id,
             'descripcion' => 'required|string|max:255',
             'estado' => 'required|boolean',
         ];

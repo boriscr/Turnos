@@ -28,7 +28,7 @@ class EquipoStoreRequest extends FormRequest
             'dni' => 'required|integer|digits_between:7,8|unique:'.Equipo::TABLE.',dni',
             'email' => 'required|email|unique:'.Equipo::TABLE.',email',
             'telefono' => 'required|string|max:255',
-            'especialidad_id' => 'required|exists:'.Especialidad::TABLE.',id',
+            'especialidad_id' => 'required|exists:especialidades,id',
             'matricula' => 'required|string|max:255',
             'role' => 'required|string|max:255',
             'estado' => 'sometimes|boolean',
