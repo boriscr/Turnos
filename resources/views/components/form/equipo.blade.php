@@ -53,7 +53,7 @@
             @endif
         </select>
     </div>
-    @if (isset($crear) || isset($nuevoEquipo))
+    @if (isset($nuevoEquipo) != null || isset($crear))
         <div class="box-new-especialidad">
             <button type="button" id="especialidad-btn">Crear especialidad</button>
         </div>
@@ -93,12 +93,3 @@
     </div>
     <button type="submit" class="submit-btn">{{ isset($crear) ? 'Registrar' : 'Actualizar' }}</button>
 </form>
-@if ($errors->any())
-    <div style="color: red;">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif

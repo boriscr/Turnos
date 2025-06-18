@@ -16,7 +16,7 @@
                         @endif
                     </p>
                     <p><b> Matricula: </b>{{ $equipo->matricula ?? 'Sin datos' }}</p>
-                    <p><b> Especialidad: </b>{{ $equipo->especialidad->nombre }}</p>
+                    <p><b> Especialidad: </b>{{ $equipo->especialidad->nombre??'Sin datos' }}</p>
                     <p><b> Email: </b>{{ $equipo->email }}</p>
                     <p><b> Celular: </b>{{ $equipo->telefono }}</p>
                     <p><b> Rol: </b>{{ $equipo->role }}</p>

@@ -21,7 +21,7 @@
                             <td>{{ $equipo->nombre }}</td>
                             <td>{{ $equipo->apellido }}</td>
                             <td class="option-movil">{{ $equipo->dni }}</td>
-                            <td>{{ $equipo->especialidad->nombre ?? null }}</td>
+                            <td>{{ $equipo->especialidad->nombre ?? 'Sin datos' }}</td>
                             <td class="option-movil">{{ $equipo->role }}</td>
                             <td class="acciones">
                                 <a href="{{ route('equipo.show', $equipo->id) }}" class="btn btn-view"><i
