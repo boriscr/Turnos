@@ -7,7 +7,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th class="option-movil">Descripcion</th>
+                        <th class="option-movil">Direccion</th>
                         <th class="option-movil">Especialidad</th>
                         <th>Encargado</th>
                         <th class="option-movil">Turno</th>
@@ -20,7 +20,7 @@
                         <tr>
                             <td>{{ $turno->id }}</td>
                             <td>{{ $turno->nombre }}</td>
-                            <td class="option-movil">{{ $turno->descripcion }}</td>
+                            <td class="option-movil">{{ $turno->direccion }}</td>
                             <td class="option-movil">{{ $turno->especialidad->nombre }}</td>
                             <td>{{ $turno->equipo->nombre . ' ' . $turno->equipo->apellido }}</td>
                             <td class="option-movil">{{ $turno->turno }}</td>

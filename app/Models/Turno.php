@@ -11,7 +11,7 @@ class Turno extends Model
 
     protected $fillable = [
         'nombre',
-        'descripcion',
+        'direccion',
         'especialidad_id',
         'equipo_id',
         'turno',

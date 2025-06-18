@@ -23,11 +23,17 @@
                             <label for="nombre">Nombre del Turno</label>
                             <input type="text" name="nombre" id="nombre" value="{{ $nombre }}" required
                                 class="form-control">
+                            @error('nombre')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
-                            <label for="descripcion">Descripción</label>
-                            <textarea name="descripcion" id="descripcion" rows="2" required class="form-control">{{ $descripcion }}</textarea>
+                            <label for="direccion">Dirección</label>
+                            <textarea name="direccion" id="direccion" rows="2" required class="form-control">{{ $direccion }}</textarea>
+                            @error('direccion')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -40,7 +46,9 @@
                                     </option>
                                 @endforeach
                             </select>
-
+                            @error('especialidad_id')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
 
                         </div>
 
@@ -55,6 +63,9 @@
                                     <option value="">Seleccione un equipo</option>
                                 @endif
                             </select>
+                            @error('equipo_id')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
@@ -91,18 +102,27 @@
                             <label for="cantidad">Cantidad de citas</label>
                             <input type="number" name="cantidad" id="cantidad" value="{{ $cantidad }}"
                                 min="1" required class="form-control">
+                            @error('cantidad')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label for="hora_inicio">Hora de Inicio</label>
                             <input type="time" name="hora_inicio" id="hora_inicio" value="{{ $inicio }}"
                                 required class="form-control">
+                            @error('hora_inicio')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label for="hora_fin">Hora de Fin</label>
                             <input type="time" name="hora_fin" id="hora_fin" value="{{ $fin }}" required
                                 class="form-control">
+                            @error('hora_fin')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="box-style">
@@ -148,6 +168,9 @@
                         <select name="estado" id="estado" required class="form-control">
                             <option {{ $turno->estado == true ? 'selected' : '' }} value="1">Activo</option>
                             <option {{ $turno->estado == false ? 'selected' : '' }} value="0">Inactivo</option>
+                            @error('estado')
+                                <div class="error">{{ $message }}</div>
+                            @enderror
                         </select>
                     </div>
                     <div class="form-navigation">

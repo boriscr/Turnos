@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('turnos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->text('descripcion');
-            $table->foreignId('especialidad_id')->constrained()->onDelete('cascade'); // OK
+            $table->string('direccion');
+            $table->foreignId('especialidad_id')->constrained('especialidades')->onDelete('cascade'); // OK
             $table->foreignId('equipo_id')->constrained()->onDelete('cascade'); // OK
             $table->string('turno')->nullable();
             $table->integer('cantidad_turnos');

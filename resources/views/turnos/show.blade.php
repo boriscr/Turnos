@@ -5,7 +5,7 @@
         <div class="section-container">
             <div class="card">
                 <p><b>Nombre:</b> {{ $turno->nombre }}</p>
-                <p><b>Descripción:</b> {{ $turno->descripcion }}</p>
+                <p><b>Direccion:</b> {{ $turno->direccion }}</p>
                 <p><b>Especialidad:</b> {{ $turno->especialidad->nombre }}</p>
                 <p><b>Encargado/a:</b> {{ $turno->equipo->nombre . ' ' . $turno->equipo->apellido }} <a
                         href="{{ route('equipo.show', $turno->equipo->id) }}"><i class="bi bi-eye"></i></a></p>

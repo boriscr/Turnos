@@ -27,6 +27,7 @@ class TurnoController extends Controller
     }
     public function store(Request $request)
     {
+
         // Decodificar fechas seleccionadas
         $fechas = json_decode($request->selected_dates, true);
 
@@ -40,7 +41,7 @@ class TurnoController extends Controller
         // Crear el turno principal
         $turno = Turno::create([
             'nombre' => trim($request->nombre),
-            'descripcion' => trim($request->descripcion),
+            'direccion' => trim($request->direccion),
             'especialidad_id' => $request->especialidad_id,
             'equipo_id' => $request->equipo_id,
             'turno' => $request->turno, // Asignar el turno si se proporciona
@@ -200,7 +201,7 @@ class TurnoController extends Controller
             'equipo_id' => $turno->equipo_id,
             'equipo_nombre' => $turno->equipo->nombre ?? 'Equipo no disponible',
             'nombre' => $turno->nombre,
-            'descripcion' => $turno->descripcion,
+            'direccion' => $turno->direccion,
             'cantidad' => $turno->cantidad_turnos,
             'inicio' => $turno->hora_inicio ? Carbon::parse($turno->hora_inicio)->format('H:i') : null,
             'fin' => $turno->hora_fin ? Carbon::parse($turno->hora_fin)->format('H:i') : null,
@@ -217,13 +218,14 @@ class TurnoController extends Controller
         // Validación básica
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'especialidad_id' => 'required|exists:'.Especialidad::TABLE.',id',
+            'direccion' => 'required|string',
+            'especialidad_id' => 'required|exists:especialidades,id',
             'equipo_id' => 'required|exists:equipos,id',
             'cantidad' => 'required|integer|min:1',
             'hora_inicio' => 'required',
             'hora_fin' => 'required',
-            'selected_dates' => 'required'
+            'selected_dates' => 'required',
+            'estado' => 'required|boolean',
         ]);
 
         // Decodificar fechas seleccionadas
@@ -248,7 +250,7 @@ class TurnoController extends Controller
 
         // Actualizar el turno principal
         $turno->nombre = trim($request->nombre);
-        $turno->descripcion = trim($request->descripcion);
+        $turno->direccion = trim($request->direccion);
         $turno->especialidad_id = $request->especialidad_id;
         $turno->equipo_id = $request->equipo_id;
         $turno->turno = $request->turno;

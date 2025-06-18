@@ -74,22 +74,14 @@
             <option value="equipo" {{ $role == 'equipo' ? 'selected' : '' }}>Equipo</option>
         </select>
     </div>
-    <div class="item switch-item">
-        <label for="descripcion"><b>Estado</b></label>
-        <div class="switch">
-            @if (!isset($crear))
-                <input type="checkbox" id="toggle" name="estado" value="1"
-                    @if (isset($estado) && $estado == 1) checked @endif>
-            @else
-                <input type="checkbox" id="toggle" name="estado" value="1" checked>
-            @endif
-            <label for="toggle"></label>
-        </div>
-        @if (!isset($crear))
-            <p id="estadoTxt" class="estadoTxt">{{ $estado == '1' ? 'Activo' : 'Inactivo' }}</p>
-        @else
-            <p id="estadoTxt" class="estadoTxt">Activo</p>
-        @endif
+
+    <div class="item">
+        <label for="descripcion-esp"><span aria-hidden="true" style="color: red;">*</span> Estado</label>
+        <select class="{{isset($estado) && $estado == 0? 'btn-danger':'btn-success'}}" name="estado" id="estado" required>
+            <option value="1"{{ isset($edit) ? '' : 'selected' }}
+                {{ isset($estado) && $estado == 1 ? 'selected' : '' }}>Activo</option>
+            <option value="0" {{ isset($estado) && $estado == 0 ? 'selected' : '' }}>Inactivo</option>
+        </select>
     </div>
     <button type="submit" class="submit-btn">{{ isset($crear) ? 'Registrar' : 'Actualizar' }}</button>
 </form>

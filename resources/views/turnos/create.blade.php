@@ -24,8 +24,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="descripcion">Descripción</label>
-                            <textarea name="descripcion" id="descripcion" rows="2" required class="form-control">{{ old('descripcion') }}</textarea>
+                            <label for="direccion">Direccion</label>
+                            <textarea name="direccion" id="direccion" rows="2" required class="form-control">{{ old('direccion') }}</textarea>
                         </div>
 
                         <div class="form-group">
