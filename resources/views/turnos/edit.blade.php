@@ -39,7 +39,7 @@ turno
                             <select name="especialidad_id" id="especialidad_id" required>
                                 @foreach ($especialidades as $especialidad)
                                     <option value="{{ $especialidad->id }}"
-                                        {{ $especialidadId == $especialidad->id ? 'selected' : '' }}>
+                                        {{ $especialidad_id == $especialidad->id ? 'selected' : '' }}>
                                         {{ $especialidad->nombre }}
                                     </option>
                                 @endforeach
@@ -53,9 +53,9 @@ turno
                         <div class="item">
                             <label for="equipo_id">Equipo</label>
                             <select name="equipo_id" id="equipo_id" required>
-                                @if ($equipoId)
-                                    <option value="{{ $equipoId }}" selected>
-                                        {{ $equipoNombre }}
+                                @if ($equipo_id)
+                                    <option value="{{ $equipo_id }}" selected>
+                                        {{ $equipo_nombre }}
                                     </option>
                                 @else
                                     <option value="">Seleccione un equipo</option>
@@ -127,16 +127,16 @@ turno
                             <br>
                             <h3>Distribución de horarios</h3>
                             <input type="hidden" name="horarios_disponibles" id="horarios_disponibles"
-                                value="{{ $horariosDisponibles }}">
+                                value="{{ $horarios_disponibles }}">
                             <div class="item-style">
                                 <div class="item">
                                     <input type="checkbox" name="horario1" id="horario1"
-                                        {{ $horariosDisponibles == null ? 'checked' : '' }}>
+                                        {{ $horarios_disponibles == null ? 'checked' : '' }}>
                                     <label for="horario1">Asignar turnos sin horarios</label>
                                 </div>
                                 <div class="item">
                                     <input type="checkbox" name="horario2" id="horario2"
-                                        {{ $horariosDisponibles == !null ? 'checked' : '' }}>
+                                        {{ $horarios_disponibles == !null ? 'checked' : '' }}>
                                     <label for="horario2">Asignar turnos con división horaria</label>
                                 </div>
                             </div>
