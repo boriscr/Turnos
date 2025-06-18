@@ -3,8 +3,8 @@
                 <!-- Barra de búsqueda existente -->
                 <form action="{{ route('reservas.index') }}" method="GET" class="mb-3">
                     <div class="input-group">
-                        <input type="text" name="search" class="form-control"
-                            placeholder="Buscar por nombre, apellido o DNI..." value="{{ request('search') }}">
+                        <input type="text" name="search" placeholder="Buscar por nombre, apellido o DNI..."
+                            value="{{ request('search') }}">
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-search"></i> Buscar
                         </button>
@@ -38,12 +38,12 @@
 
                         <div class="row mt-2">
                             <div class="col-md-5">
-                                <input type="date" name="fecha_inicio" class="form-control"
-                                    value="{{ request('fecha_inicio') }}" placeholder="Fecha inicio">
+                                <input type="date" name="fecha_inicio" value="{{ request('fecha_inicio') }}"
+                                    placeholder="Fecha inicio">
                             </div>
                             <div class="col-md-5">
-                                <input type="date" name="fecha_fin" class="form-control"
-                                    value="{{ request('fecha_fin') }}" placeholder="Fecha fin">
+                                <input type="date" name="fecha_fin" value="{{ request('fecha_fin') }}"
+                                    placeholder="Fecha fin">
                             </div>
                             <div class="col-md-2">
                                 <button type="submit" name="fecha" value="personalizado"

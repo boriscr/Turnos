@@ -6,8 +6,8 @@
                 <!-- Formulario de búsqueda y filtros rápidos -->
                 <form action="{{ route('disponible.index') }}" method="GET" class="mb-4" id="filterForm">
                     <div class="input-group mb-3">
-                        <input type="text" name="search" class="form-control"
-                            placeholder="Buscar por DNI o nombre..." value="{{ request('search') }}">
+                        <input type="text" name="search" placeholder="Buscar por DNI o nombre..."
+                            value="{{ request('search') }}">
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-search"></i> Buscar
                         </button>
@@ -124,13 +124,11 @@
 
                         <div class="col-md-4">
                             <label class="form-label">Fecha inicio</label>
-                            <input type="date" name="fecha_inicio" class="form-control"
-                                value="{{ request('fecha_inicio') }}">
+                            <input type="date" name="fecha_inicio" value="{{ request('fecha_inicio') }}">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Fecha fin</label>
-                            <input type="date" name="fecha_fin" class="form-control"
-                                value="{{ request('fecha_fin') }}">
+                            <input type="date" name="fecha_fin" value="{{ request('fecha_fin') }}">
                         </div>
                         <div class="col-md-2">
                             <button type="submit" name="fecha" value="personalizado" class="btn btn-primary w-100">
@@ -148,55 +146,56 @@
             </div>
 
 
-        <div class="main-table">
-            <div class="container-form">
-                <h3 class="title-form">Turnos reservados</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th class="option-movil">Nombre del turno</th>
-                            <th class="option-movil">Descripcion</th>
-                            <th class="option-movil">Fecha</th>
-                            <th>Hora</th>
-                            <th class="option-movil">Disponible</th>
-                            <th>Reservas</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($turnoDisponibles as $turnoDisponible)
+            <div class="main-table">
+                <div class="container-form">
+                    <h3 class="title-form">Turnos reservados</h3>
+                    <table>
+                        <thead>
                             <tr>
-                                <td>{{ $turnoDisponible->id }}</td>
-                                <td class="option-movil">{{ $turnoDisponible->turno->nombre }}</td>
-                                <td class="option-movil">{{ $turnoDisponible->turno->descripcion }}</td>
-                                <td class="option-movil">
-                                    {{ \Carbon\Carbon::parse($turnoDisponible->fecha)->format('d-m-Y') }}</td>
-                                <td> {{ \Carbon\Carbon::parse($turnoDisponible->hora)->format('H:i') }}</td>
-                                <td class="option-movil">{{ $turnoDisponible->cupos_disponibles }}</td>
-                                <td class="{{ $turnoDisponible->cupos_reservados ? 'btn-success' : 'btn-danger' }}">
-                                    {{ $turnoDisponible->cupos_reservados ? 'Reservado' : 'Sin reserva' }}</td>
-                                <td class="acciones">
-                                    <a href="{{ route('turnos.show', $turnoDisponible->id) }}"
-                                        class="btn btn-view"><i class="bi bi-eye"></i></a>
-                                    <a href="{{ route('turnos.edit', $turnoDisponible->id) }}"
-                                        class="btn btn-edit"><i class="bi bi-pencil-fill"></i></a>
-                                    <form action="{{ route('turnos.destroy', $turnoDisponible->id) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-delete delete-btn"><i
-                                                class="bi bi-trash-fill"></i></button>
-                                    </form>
-                                </td>
-                                <td class="accionesMovil"><button class="btn-acciones-movil"><i
-                                            class="bi bi-gear"></i></button></td>
+                                <th>Id</th>
+                                <th class="option-movil">Nombre del turno</th>
+                                <th class="option-movil">Descripcion</th>
+                                <th class="option-movil">Fecha</th>
+                                <th>Hora</th>
+                                <th class="option-movil">Disponible</th>
+                                <th>Reservas</th>
+                                <th>Acciones</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($turnoDisponibles as $turnoDisponible)
+                                <tr>
+                                    <td>{{ $turnoDisponible->id }}</td>
+                                    <td class="option-movil">{{ $turnoDisponible->turno->nombre }}</td>
+                                    <td class="option-movil">{{ $turnoDisponible->turno->descripcion }}</td>
+                                    <td class="option-movil">
+                                        {{ \Carbon\Carbon::parse($turnoDisponible->fecha)->format('d-m-Y') }}</td>
+                                    <td> {{ \Carbon\Carbon::parse($turnoDisponible->hora)->format('H:i') }}</td>
+                                    <td class="option-movil">{{ $turnoDisponible->cupos_disponibles }}</td>
+                                    <td
+                                        class="{{ $turnoDisponible->cupos_reservados ? 'btn-success' : 'btn-danger' }}">
+                                        {{ $turnoDisponible->cupos_reservados ? 'Reservado' : 'Sin reserva' }}</td>
+                                    <td class="acciones">
+                                        <a href="{{ route('turnos.show', $turnoDisponible->id) }}"
+                                            class="btn btn-view"><i class="bi bi-eye"></i></a>
+                                        <a href="{{ route('turnos.edit', $turnoDisponible->id) }}"
+                                            class="btn btn-edit"><i class="bi bi-pencil-fill"></i></a>
+                                        <form action="{{ route('turnos.destroy', $turnoDisponible->id) }}"
+                                            method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-delete delete-btn"><i
+                                                    class="bi bi-trash-fill"></i></button>
+                                        </form>
+                                    </td>
+                                    <td class="accionesMovil"><button class="btn-acciones-movil"><i
+                                                class="bi bi-gear"></i></button></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
             <div class="mt-3">
                 {{ $turnoDisponibles->appends(request()->query())->links() }}
             </div>

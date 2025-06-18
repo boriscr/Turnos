@@ -46,7 +46,7 @@
                 <div class="form-step" data-step="2">
                     <div class="item">
                         <label for="especialidad_id"><i class="bi bi-1-circle"></i> Especialidad</label>
-                        <select name="especialidad_id" id="especialidad_id" required class="form-control">
+                        <select name="especialidad_id" id="especialidad_id" required>
                             <option value="">Seleccione una especialidad</option>
                             @foreach ($especialidades as $especialidad)
                                 @if ($especialidad->estado == 1)
@@ -58,21 +58,21 @@
 
                     <div class="item">
                         <label for="equipo_id"><i class="bi bi-2-circle"></i> Doctor/a</label>
-                        <select name="equipo_id" id="equipo_id" required class="form-control">
+                        <select name="equipo_id" id="equipo_id" required>
                             <option value="">Seleccione un profesional</option>
                         </select>
                     </div>
 
                     <div class="item">
                         <label for="fecha_turno"><i class="bi bi-3-circle"></i> Fecha del Turno</label>
-                        <select name="fecha_turno" id="fecha_turno" required class="form-control">
+                        <select name="fecha_turno" id="fecha_turno" required>
                             <option value="">Seleccione una fecha</option>
                         </select>
                     </div>
 
                     <div class="item">
                         <label for="hora_turno"><i class="bi bi-4-circle"></i> Horario del Turno</label>
-                        <select name="hora_turno" id="hora_turno" required class="form-control">
+                        <select name="hora_turno" id="hora_turno" required>
                             <option value="">Seleccione un horario</option>
                         </select>
                         <input type="hidden" name="turno_id" id="turno_id">
