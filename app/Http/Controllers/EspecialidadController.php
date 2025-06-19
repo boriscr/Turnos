@@ -82,9 +82,14 @@ class EspecialidadController extends Controller
             $especialidad = Especialidad::findOrFail($id);
 
             // Evitar eliminar si tiene medicos asociados
-            /*if ($especialidad->medicos()->exists()) {
-                return redirect()->back()->withErrors('No se puede eliminar una especialidad con medicos asociados.');
-            }*/
+            if ($especialidad->medicos()->exists()) {
+                session()->flash('error', [
+                    'title' => 'Error!',
+                    'text' => 'No se puede eliminar una especialidad con médicos asociados.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->back();
+            }
             // Eliminar la especialidad
 
             $especialidad->delete();
@@ -102,20 +107,4 @@ class EspecialidadController extends Controller
 
         return redirect()->route('especialidad.index');
     }
-
-    // View lista del medico con la especialidad
-    /*
-    public function listaEquipo($id)
-    {
-        try {
-            $especialidad = Especialidad::findOrFail($id);
-            $medicos = Medico::with('especialidad')->where('especialidad_id', $id)->get();
-
-            return view('especialidades/list', compact('medicos', 'especialidad'));
-        } catch (ModelNotFoundException $e) {
-            return redirect()->route('especialidad.index')->withErrors('Especialidad no encontrada.');
-        } catch (Exception $e) {
-            return back()->withErrors('Error al obtener lista de médicos: ' . $e->getMessage());
-        }
-    }*/
 }
