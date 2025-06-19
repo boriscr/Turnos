@@ -52,13 +52,13 @@
             </div>
 
             <div class="opciones">
-                <a href="{{ route('medico.edit', $reserva->id) }}" class="btn-edit"><i
-                        class="bi bi-pencil-fill">Editar</i></a>
-                <form action="{{ route('medico.destroy', $reserva->id) }}" method="POST" class="delete-form">
+                <form action="{{ route('disponible.destroy', $reserva->id) }}" method="POST" style="display:inline;"
+                    class="delete-form">
                     @csrf
                     @method('DELETE')
-                    <button type="button" class="btn-delete delete-btn"><i class="bi bi-trash-fill"></i>
-                        Eliminar</button>
+                    <button type="button" class="btn btn-delete delete-btn">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
                 </form>
             </div>
         </div>

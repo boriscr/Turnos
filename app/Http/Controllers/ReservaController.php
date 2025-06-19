@@ -141,4 +141,7 @@ class ReservaController extends Controller
         $reserva = Reserva::with(['user', 'turnoDisponible.medico'])->findOrFail($id);
         return view('reservas.show', compact('reserva'));
     }
+
+
 }
+

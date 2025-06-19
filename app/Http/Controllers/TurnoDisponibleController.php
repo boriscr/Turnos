@@ -114,7 +114,7 @@ class TurnoDisponibleController extends Controller
         try {
             // 1. Encontrar la reserva a eliminar
             $reserva = Reserva::findOrFail($id);
-
+            $user = Auth::user();
             // 2. Obtener el turno disponible asociado
             $turnoDisponible = TurnoDisponible::find($reserva->turno_disponible_id);
 
@@ -139,32 +139,42 @@ class TurnoDisponibleController extends Controller
                 $reserva->delete();
 
                 DB::commit();
-
-                return back()->with('success', [
-                    'title' => 'Reserva eliminada!',
-                    'text' => 'La reserva fue cancelada y los cupos se actualizaron correctamente.',
-                    'icon' => 'success'
-                ]);
+                // 6. Mensaje de éxito
+                if ($user->role == 'medico' || $user->role == 'admin') {
+                    session()->flash('success', [
+                        'title' => 'Reserva eliminada',
+                        'text' => 'La reserva ha sido cancelada y los cupos se han actualizado correctamente.',
+                        'icon' => 'success'
+                    ]);
+                    return redirect()->route('reservas.index');
+                } else if ($user->role == 'user') {
+                    session()->flash('success', [
+                        'title' => 'Reserva cancelada',
+                        'text' => 'La reserva de su turno ha sido cancelada.',
+                        'icon' => 'success'
+                    ]);
+                    return redirect()->route('profile.historial');
+                }
             } catch (\Exception $e) {
                 DB::rollBack();
                 throw $e;
             }
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             Log::error('Reserva no encontrada', ['id' => $id, 'error' => $e->getMessage()]);
-
-            return back()->with('error', [
+            session()->flash('error', [
                 'title' => 'Error!',
                 'text' => 'Reserva no encontrada.',
                 'icon' => 'error'
             ]);
+            return redirect()->route('reservas.index');
         } catch (\Exception $e) {
             Log::error('Error al cancelar reserva', ['id' => $id, 'error' => $e->getMessage()]);
-
-            return back()->with('error', [
+            session()->flash('error', [
                 'title' => 'Error!',
                 'text' => 'Ocurrió un error al cancelar la reserva: ' . $e->getMessage(),
                 'icon' => 'error'
             ]);
+            return redirect()->route('reservas.index');
         }
     }
 }
