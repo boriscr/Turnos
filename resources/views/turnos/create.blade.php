@@ -49,11 +49,11 @@
                         </div>
 
                         <div class="item">
-                            <label for="equipo_id">Equipo</label>
-                            <select name="equipo_id" id="equipo_id" required>
-                                <option value="">Seleccione un equipo</option>
+                            <label for="medico_id">Médico</label>
+                            <select name="medico_id" id="medico_id" required>
+                                <option value="">Seleccione un médico</option>
                             </select>
-                            @error('equipo_id')
+                            @error('medico_id')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
@@ -171,7 +171,7 @@
     <script src="../forms/calendario.js"></script>
     <script src="../forms/horarios.js"></script>
     <script src="../forms/checkboxs.js"></script>
-    <script src="../forms/especialidades.js"></script>
+    <script src="../forms/especialidades-create-turnos.js"></script>
     <script src="../forms/formulario-3paso-turno.js"></script>
 
 </x-body.body>

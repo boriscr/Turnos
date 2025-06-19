@@ -4,7 +4,7 @@
             <h3 class="title-form">Especialidades</h3>
             <div class="opciones">
                 <button class="btn-add">
-                    <a href="{{ route('equipo.create') }}">Crear equipo</a>
+                    <a href="{{ route('medico.create') }}">Crear medico</a>
                 </button>
             </div>
             <table>
@@ -19,20 +19,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($equipo as $equipo)
+                    @foreach ($medicos as $medico)
                         <tr>
-                            <td>{{ $equipo->id }}</td>
-                            <td>{{ $equipo->nombre }}</td>
-                            <td>{{ $equipo->descripcion ?? 'Sin datos' }}</td>
-                            <td>{{ $equipo->especialidad->nombre }}</td>
+                            <td>{{ $medicos->id }}</td>
+                            <td>{{ $medicos->nombre }}</td>
+                            <td>{{ $medicos->descripcion ?? 'Sin datos' }}</td>
+                            <td>{{ $medicos->especialidad->nombre }}</td>
 
-                            <td class="option-movil">{{ $equipo->estado ? 'Activo' : 'Inactivo' }}</td>
+                            <td class="option-movil">{{ $medicos->estado ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones">
-                                <a href="{{ route('equipo.show', $equipo->id) }}" class="btn btn-view"><i
+                                <a href="{{ route('medico.create', $medicos->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i></a>
-                                <a href="{{ route('equipo.edit', $equipo->id) }}" class="btn btn-edit"><i
+                                <a href="{{ route('medico.edit', $medicos->id) }}" class="btn btn-edit"><i
                                         class="bi bi-pencil-fill"></i></a>
-                                <form action="{{ route('equipo.destroy', $equipo->id) }}" method="POST"
+                                <form action="{{ route('medico.destroy', $medicos->id) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')

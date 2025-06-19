@@ -48,8 +48,8 @@ class ProfileController extends Controller
 
     public function historial()
     {
-        // Aquí puedes implementar la lógica para mostrar el historial de reservas del usuario
-        // Por ejemplo, podrías obtener las reservas del usuario autenticado y pasarlas a la vista
+        // implementar la lógica para mostrar el historial de reservas del usuario
+        // Por ejemplo, btener las reservas del usuario autenticado y pasarlas a la vista
         if (Auth::check()) {
             $totalReservas = Reserva::where('user_id', Auth::user()->id)->count(); // Cuenta todas las reservas
             $reservas = Reserva::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(10);

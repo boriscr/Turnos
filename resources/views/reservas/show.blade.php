@@ -24,37 +24,37 @@
                 <div class="card">
                     <H1>Doctor/a</H1>
                     <p><b> Doctor/a:
-                        </b>{{ $reserva->turnoDisponible->equipo->nombre . ' ' . $reserva->turnoDisponible->equipo->apellido }}
-                        <a href="{{ route('equipo.show', $reserva->turnoDisponible->equipo->id) }}"><i
+                        </b>{{ $reserva->turnoDisponible->medico->nombre . ' ' . $reserva->turnoDisponible->medico->apellido }}
+                        <a href="{{ route('medico.create', $reserva->turnoDisponible->medico->id) }}"><i
                                 class="bi bi-eye"></i></a>
                     </p>
-                    <p><b> DNI: </b>{{ $reserva->turnoDisponible->equipo->dni }}</p>
-                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->equipo->estado ? 'Si' : 'No' }}</p>
+                    <p><b> DNI: </b>{{ $reserva->turnoDisponible->medico->dni }}</p>
+                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->estado ? 'Si' : 'No' }}</p>
                     <p><b>Perfil de usuario:</b>
-                        @if ($reserva->turnoDisponible->equipo->user_id)
-                            <a href="{{ route('usuario.show', $reserva->turnoDisponible->equipo->user_id) }}">
+                        @if ($reserva->turnoDisponible->medico->user_id)
+                            <a href="{{ route('usuario.show', $reserva->turnoDisponible->medico->user_id) }}">
                                 Ver <i class="bi bi-eye"></i>
                             </a>
                         @else
                             No tiene un perfil de usuario
                         @endif
                     </p>
-                    <p><b>Perfil de equipo:</b>
-                        <a href="{{ route('equipo.show', $reserva->turnoDisponible->equipo_id) }}">
+                    <p><b>Perfil de medico:</b>
+                        <a href="{{ route('medico.create', $reserva->turnoDisponible->medico_id) }}">
                             Ver <i class="bi bi-eye"></i>
                         </a>
                     </p>
 
-                    <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->equipo->especialidad->nombre }}</p>
+                    <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->medico->especialidad->nombre }}</p>
                     <p><b> Fecha de creación: </b>{{ $reserva->created_at }}</p>
                     <p><b> Fecha de última actualizacion: </b>{{ $reserva->updated_at }}</p>
                 </div>
             </div>
 
             <div class="opciones">
-                <a href="{{ route('equipo.edit', $reserva->id) }}" class="btn-edit"><i
+                <a href="{{ route('medico.edit', $reserva->id) }}" class="btn-edit"><i
                         class="bi bi-pencil-fill">Editar</i></a>
-                <form action="{{ route('equipo.destroy', $reserva->id) }}" method="POST" class="delete-form">
+                <form action="{{ route('medico.destroy', $reserva->id) }}" method="POST" class="delete-form">
                     @csrf
                     @method('DELETE')
                     <button type="button" class="btn-delete delete-btn"><i class="bi bi-trash-fill"></i>

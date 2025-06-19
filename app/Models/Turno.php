@@ -13,7 +13,7 @@ class Turno extends Model
         'nombre',
         'direccion',
         'especialidad_id',
-        'equipo_id',
+        'medico_id',
         'turno',
         'hora_inicio',
         'hora_fin',
@@ -37,9 +37,9 @@ class Turno extends Model
         return $this->belongsTo(Especialidad::class);
     }
 
-    public function equipo()
+    public function medico()
     {
-        return $this->belongsTo(Equipo::class);
+        return $this->belongsTo(Medico::class);
     }
 
     public function disponibilidades()

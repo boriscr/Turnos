@@ -57,9 +57,9 @@
                     </div>
 
                     <div class="item">
-                        <label for="equipo_id"><i class="bi bi-2-circle"></i> Doctor/a</label>
-                        <select name="equipo_id" id="equipo_id" required>
-                            <option value="">Seleccione un profesional</option>
+                        <label for="medico_id"><i class="bi bi-2-circle"></i> Médico/a</label>
+                        <select name="medico_id" id="medico_id" required>
+                            <option value="">Seleccione un médico</option>
                         </select>
                     </div>
 

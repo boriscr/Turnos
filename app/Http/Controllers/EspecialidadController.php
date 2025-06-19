@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Especialidad;
-use App\Models\Equipo;
 use App\Http\Requests\EspecialidadStoreRequest;
 use App\Http\Requests\EspecialidadUpdateRequest;
 use Exception;
@@ -82,9 +81,9 @@ class EspecialidadController extends Controller
         try {
             $especialidad = Especialidad::findOrFail($id);
 
-            // Evitar eliminar si tiene equipos asociados
-            /*if ($especialidad->equipos()->exists()) {
-                return redirect()->back()->withErrors('No se puede eliminar una especialidad con equipos asociados.');
+            // Evitar eliminar si tiene medicos asociados
+            /*if ($especialidad->medicos()->exists()) {
+                return redirect()->back()->withErrors('No se puede eliminar una especialidad con medicos asociados.');
             }*/
             // Eliminar la especialidad
 
@@ -104,18 +103,19 @@ class EspecialidadController extends Controller
         return redirect()->route('especialidad.index');
     }
 
-    // View lista del equipo con la especialidad
+    // View lista del medico con la especialidad
+    /*
     public function listaEquipo($id)
     {
         try {
             $especialidad = Especialidad::findOrFail($id);
-            $equipo = Equipo::with('especialidad')->where('especialidad_id', $id)->get();
+            $medicos = Medico::with('especialidad')->where('especialidad_id', $id)->get();
 
-            return view('especialidades/list', compact('equipo', 'especialidad'));
+            return view('especialidades/list', compact('medicos', 'especialidad'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('especialidad.index')->withErrors('Especialidad no encontrada.');
         } catch (Exception $e) {
-            return back()->withErrors('Error al obtener los equipos: ' . $e->getMessage());
+            return back()->withErrors('Error al obtener lista de médicos: ' . $e->getMessage());
         }
-    }
+    }*/
 }

@@ -13,7 +13,7 @@
                         <th>Id</th>
                         <th>Nombre</th>
                         <th>Descripcion</th>
-                        <th>Equipo</th>
+                        <th>Medico</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -24,7 +24,7 @@
                             <td>{{ $especialidades->id }}</td>
                             <td>{{ $especialidades->nombre }}</td>
                             <td>{{ $especialidades->descripcion ?? 'Sin datos' }}</td>
-                            <td> <a href="{{ route('lista.equipos', $especialidades->id) }}" class="btn btn-view"><i
+                            <td> <a href="{{ route('lista.medicos', $especialidades->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i></a></td>
 
                             <td class="option-movil">{{ $especialidades->estado ? 'Activo' : 'Inactivo' }}</td>

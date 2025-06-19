@@ -25,12 +25,12 @@
                         <li><a class="dropdown-item2" href="{{ route('usuario.index') }}"><i class="bi bi-eye"></i> Ver
                                 usuarios</a></li>
                         <br>
-                        <p>Seccion Equipo</p>
+                        <p>Seccion Medico</p>
                         <hr>
-                        <li><a class="dropdown-item2" href="{{ route('equipo.index') }}"><i class="bi bi-eye"></i> Ver
-                                equipo</a></li>
-                        <li><a class="dropdown-item2" href="{{ route('equipo.create') }}"><i
-                                    class="bi bi-person-fill-add"></i> Agregar equipo</a></li>
+                        <li><a class="dropdown-item2" href="{{ route('medico.index') }}"><i class="bi bi-eye"></i> Ver
+                                medico</a></li>
+                        <li><a class="dropdown-item2" href="{{ route('medico.create') }}"><i
+                                    class="bi bi-person-fill-add"></i> Agregar medico</a></li>
                         <li><a class="dropdown-item2" href="{{ route('especialidad.index') }}"><i
                                     class="bi bi-heart-pulse-fill"></i> Especialidades</a></li>
                         <br>

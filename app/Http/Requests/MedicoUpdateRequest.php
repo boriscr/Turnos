@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Equipo;
+use App\Models\Medico;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Especialidad;
 
-class EquipoUpdateRequest extends FormRequest
+class MedicoUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,14 @@ class EquipoUpdateRequest extends FormRequest
     public function rules(): array
 
     {
-        // Obtener el ID del equipo desde la ruta (ej: /equipos/{equipo})
-        $equipo_id = $this->route('id'); // Asegúrate de que el nombre del parámetro en la ruta coincida
+        // Obtener el ID del medico desde la ruta (ej: /medicos/{equip
+        $medico_id = $this->route('id'); // Asegúrate de que el nombre del parámetro en la ruta coincida
 
         return [
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'dni' => 'required|integer|digits_between:7,8|unique:'.Equipo::TABLE.',dni,' . $equipo_id,
-            'email' => 'required|email|unique:'.Equipo::TABLE.',email,' . $equipo_id,
+            'dni' => 'required|integer|digits_between:7,8|unique:'.Medico::TABLE.',dni,' . $medico_id,
+            'email' => 'required|email|unique:'.Medico::TABLE.',email,' . $medico_id,
             'telefono' => 'required|string|max:255',
             'especialidad_id' => 'required|exists:especialidades,id',
             'matricula' => 'required|string|max:255',

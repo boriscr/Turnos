@@ -22,7 +22,7 @@
                             <td>{{ $turno->nombre }}</td>
                             <td class="option-movil">{{ $turno->direccion }}</td>
                             <td class="option-movil">{{ $turno->especialidad->nombre }}</td>
-                            <td>{{ $turno->equipo->nombre . ' ' . $turno->equipo->apellido }}</td>
+                            <td>{{ $turno->medico->nombre . ' ' . $turno->medico->apellido }}</td>
                             <td class="option-movil">{{ $turno->turno }}</td>
                             <td>{{ $turno->estado ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones">

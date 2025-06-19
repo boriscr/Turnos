@@ -106,7 +106,7 @@
             <label for="role"><span aria-hidden="true" style="color: red;">*</span> Estado</label>
             <select name="role" id="role">
                 <option value="user" {{ isset($edit) && $role == 'user' ? 'selected' : '' }}>User</option>
-                <option value="equipo" {{ isset($edit) && $role == 'equipo' ? 'selected' : '' }}>Equipo</option>
+                <option value="medico" {{ isset($edit) && $role == 'medico' ? 'selected' : '' }}>Medico</option>
                 <option value="admin" {{ isset($edit) && $role == 'admin' ? 'selected' : '' }}>Admin</option>
             </select>
             @error('role')

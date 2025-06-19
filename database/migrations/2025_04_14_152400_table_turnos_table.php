@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use App\Models\Medico;
 return new class extends Migration
 {
     /**
@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('direccion');
             $table->foreignId('especialidad_id')->constrained('especialidades')->onDelete('cascade'); // OK
-            $table->foreignId('equipo_id')->constrained()->onDelete('cascade'); // OK
+            $table->foreignId('medico_id')->constrained(Medico::TABLE)->onDelete('cascade'); // OK
             $table->string('turno')->nullable();
             $table->integer('cantidad_turnos');
             $table->time('hora_inicio');

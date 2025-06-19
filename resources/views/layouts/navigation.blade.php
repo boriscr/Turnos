@@ -19,7 +19,7 @@
     <!-- Dropdown con Alpine.js -->
     <div x-data="{ open: false }" class="relative">
         <button @click="open = !open" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
-            <span>Equipo</span>
+            <span>Medico</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
@@ -34,14 +34,14 @@
              x-transition:leave-start="transform opacity-100 scale-100"
              x-transition:leave-end="transform opacity-0 scale-95"
              class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <x-nav-link-dropdown :href="route('equipo.list')">
-                {{ __('Ver Equipo') }}
+            <x-nav-link-dropdown :href="route('medico.list')">
+                {{ __('Ver Medico') }}
             </x-nav-link-dropdown>
-            <x-nav-link-dropdown :href="route('equipo.list')">
-                {{ __('Ver Equipo') }}
+            <x-nav-link-dropdown :href="route('medico.list')">
+                {{ __('Ver Medico') }}
             </x-nav-link-dropdown>
-            <x-nav-link-dropdown :href="route('equipo.list')">
-                {{ __('Ver Equipo') }}
+            <x-nav-link-dropdown :href="route('medico.list')">
+                {{ __('Ver Medico') }}
             </x-nav-link-dropdown>
         </div>
     </div>
@@ -49,8 +49,8 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Asignar Turnos') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('equipo.index')" :active="request()->routeIs('equipo.index')">
-                        {{ __('Equipo') }}
+                    <x-nav-link :href="route('medico.index')" :active="request()->routeIs('medico.index')">
+                        {{ __('Medico') }}
                     </x-nav-link>
                     <x-nav-link :href="route('usuario.index')" :active="request()->routeIs('usuario.index')">
                         {{ __('Agregar Usuario') }}
@@ -135,11 +135,11 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Asignar Turnos') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('equipo.index')" :active="request()->routeIs('equipo.index')">
-                {{ __('Agregar Equipo') }}
+            <x-responsive-nav-link :href="route('medico.index')" :active="request()->routeIs('medico.index')">
+                {{ __('Agregar Medico') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('equipo.list')" :active="request()->routeIs('equipo.list')">
-                {{ __('Ver Equipo') }}
+            <x-responsive-nav-link :href="route('medico.list')" :active="request()->routeIs('medico.list')">
+                {{ __('Ver Medico') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('usuario.index')" :active="request()->routeIs('usuario.index')">
                 {{ __('Agregar Usuario') }}

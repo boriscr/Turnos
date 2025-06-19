@@ -9,7 +9,7 @@ class TurnoDisponible extends Model
     use HasFactory;
 
     protected $fillable = [
-        'equipo_id',
+        'medico_id',
         'turno_id',
         'fecha',
         'hora',
@@ -31,9 +31,9 @@ class TurnoDisponible extends Model
     {
         return $this->hasMany(Reserva::class);
     }
-    public function equipo()
+    public function medico()
     {
-        return $this->belongsTo(Equipo::class);
+        return $this->belongsTo(Medico::class);
     }
 
     public function getCuposRestantesAttribute()

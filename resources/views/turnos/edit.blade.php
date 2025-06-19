@@ -25,7 +25,6 @@
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
-turno
                         <div class="item">
                             <label for="direccion">Dirección</label>
                             <textarea name="direccion" id="direccion" rows="2" required>{{ $direccion }}</textarea>
@@ -51,17 +50,17 @@ turno
                         </div>
 
                         <div class="item">
-                            <label for="equipo_id">Equipo</label>
-                            <select name="equipo_id" id="equipo_id" required>
-                                @if ($equipo_id)
-                                    <option value="{{ $equipo_id }}" selected>
-                                        {{ $equipo_nombre }}
+                            <label for="medico_id">Medico</label>
+                            <select name="medico_id" id="medico_id" required>
+                                @if ($medico_id)
+                                    <option value="{{ $medico_id }}" selected>
+                                        {{ $medico_nombre }}
                                     </option>
                                 @else
-                                    <option value="">Seleccione un equipo</option>
+                                    <option value="">Seleccione un medico</option>
                                 @endif
                             </select>
-                            @error('equipo_id')
+                            @error('medico_id')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>

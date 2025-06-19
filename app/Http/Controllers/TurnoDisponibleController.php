@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Equipo;
+use App\Models\Medico;
 use Illuminate\Http\Request;
 use App\Models\TurnoDisponible;
 use App\Models\Turno;
@@ -24,23 +24,23 @@ class TurnoDisponibleController extends Controller
     }
 
 
-    // 1. Obtener equipos por especialidad
-    public function getEquiposPorEspecialidad($especialidad_id)
+    // 1. Obtener medicos por especialidad
+    public function getMedicosPorEspecialidad($especialidad_id)
     {
-        $equipos = Equipo::where('especialidad_id', $especialidad_id)
+        $medicos = Medico::where('especialidad_id', $especialidad_id)
             ->where('estado', 1)
             ->get();
 
-        return response()->json(['equipos' => $equipos]);
+        return response()->json(['medicos' => $medicos]);
     }
 
-    // 2. Obtener turnos por equipo (filtrado por fecha/hora)
-    public function getTurnosPorEquipo($equipo_id)
+    // 2. Obtener turnos por medico (filtrado por fecha/hora)
+    public function getTurnosPorEquipo($medico_id)
     {
         $hoy = now()->format('Y-m-d');
         $horaActual = now()->format('H:i:s');
 
-        $turnos = TurnoDisponible::where('equipo_id', $equipo_id)
+        $turnos = TurnoDisponible::where('medico_id', $medico_id)
             ->where('cupos_disponibles', '>', 0)
             ->where(function ($query) use ($hoy, $horaActual) {
                 $query->whereDate('fecha', '>', $hoy)

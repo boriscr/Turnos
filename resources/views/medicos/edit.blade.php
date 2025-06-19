@@ -1,13 +1,13 @@
 <x-body.body>
     <div class="main">
         <div class="container-form">
-            <h3 class="title-form">Editar datos del equipo</h3>
-            <x-form.equipo :ruta="route('equipo.update', $equipo->id)" :nuevoEquipo="$equipo->user_id" :especialidades="$especialidades"
-                :especialidad="$equipo->$especialidad_id ?? null" :nombre="$equipo->nombre" :apellido="$equipo->apellido" :dni="$equipo->dni" :matricula="$equipo->matricula"
-                :email="$equipo->email" :telefono="$equipo->telefono" :role="$equipo->role" :estado="$equipo->estado" :especialidad="$equipo->especialidad_id" />
+            <h3 class="title-form">Editar datos del medico</h3>
+            <x-form.medico :ruta="route('medico.update', $medicos->id)" :nuevoMedico="$medicos->user_id" :especialidades="$especialidades"
+                :especialidad="$medicos->$especialidad_id ?? null" :nombre="$medicos->nombre" :apellido="$medicos->apellido" :dni="$medicos->dni" :matricula="$medicos->matricula"
+                :email="$medicos->email" :telefono="$medicos->telefono" :role="$medicos->role" :estado="$medicos->estado" :especialidad="$medicos->especialidad_id" />
             
                 {{--Formulario para crear una nueva especialidad--}}
-            @if($equipo->user_id!=Null)
+            @if($medicos->user_id!=Null)
                 <div class="form-especialidad" id="especialidad-form">
                     <x-form.especialidad 
                     :ruta="route('especialidad.store',)" 

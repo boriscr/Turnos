@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Equipo extends Model
+class Medico extends Model
 {
         // Definimos constante para nombre de tabla
-    public const TABLE = 'equipos';
-    protected $table = 'equipos';
+    public const TABLE = 'medicos';
+    protected $table = 'medicos';
     protected $fillable = [
         'user_id',
         'nombre',

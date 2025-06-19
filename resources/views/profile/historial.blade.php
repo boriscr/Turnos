@@ -23,7 +23,7 @@
                         ?>
                         <tr>
                             <td>{{ $id }}</td>
-                            <td>{{ $reserva->turnoDisponible->equipo->especialidad->nombre }}</td>
+                            <td>{{ $reserva->turnoDisponible->medico->especialidad->nombre }}</td>
                             <td class="fecha-td">
                                 {{ \Carbon\Carbon::parse($reserva->turnoDisponible->fecha)->format('d/m/Y') }}</td>
                             <td>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</td>

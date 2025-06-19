@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User; // Asegúrate de importar el modelo Usuario
-use App\Models\TurnoDisponible;
-use App\Models\Equipo; // Asegúrate de importar el modelo Equipo
+use App\Models\User;
+use App\Models\Medico;
 
 use Illuminate\Support\Facades\DB;
 
@@ -49,7 +48,7 @@ class UsuarioController extends Controller
             'phone' => ['required', 'string', 'max:15', 'unique:' . User::class . ',phone,' . $id],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class . ',email,' . $id],
             'estado' => ['required', 'boolean'],
-            'role' => ['required', 'string', 'max:25', 'in:user,equipo,admin'],
+            'role' => ['required', 'string', 'max:25', 'in:user,medico,admin'],
         ]);
 
         return DB::transaction(function () use ($validated, $request, $id) {
@@ -59,10 +58,10 @@ class UsuarioController extends Controller
             $user->fill($validated);
             $user->save();
 
-            // Manejo del equipo médico
-            if ($request->role === 'equipo') {
-                if (!$user->equipo) {
-                    $equipo = Equipo::create([
+            // Manejo del médico
+            if ($request->role === 'medico') {
+                if (!$user->medico) {
+                    $medico = Medico::create([
                         'user_id' => $user->id,
                         'nombre' => $user->name,
                         'apellido' => $user->surname,
@@ -70,19 +69,19 @@ class UsuarioController extends Controller
                         'email' => $user->email,
                         'telefono' => $user->phone,
                         'estado' => $user->estado,
-                        'role' => 'equipo', // Asignar el rol de equipo
+                        'role' => 'medico', // Asignar el rol de medico
                     ]);
 
-                    // Redirigir a edición del equipo recién creado
-                    $nuevoEquipo = true;
-                    return redirect()->route('equipo.edit', $equipo->id)
+                    // Redirigir a edición del medico recién creado
+                    $nuevoMedico = true;
+                    return redirect()->route('medico.edit', $medico->id)
                         ->with([
                             'success' => 'Perfil profesional creado. Complete los datos específicos.',
-                            'nuevoEquipo' => $nuevoEquipo
+                            'nuevoMedico' => $nuevoMedico
                         ]);
                 }
-            } elseif ($originalRole === 'equipo' && $request->role !== 'equipo') {
-                $user->equipo()->delete();
+            } elseif ($originalRole === 'medico' && $request->role !== 'medico') {
+                $user->medico()->delete();
             }
             return redirect()->route('usuario.index')
                 ->with('success', 'Usuario actualizado correctamente.');

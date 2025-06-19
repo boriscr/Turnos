@@ -53,7 +53,7 @@
             @endif
         </select>
     </div>
-    @if (isset($nuevoEquipo) != null || isset($crear))
+    @if (isset($nuevoMedico) != null || isset($crear))
         <div class="box-new-especialidad">
             <button type="button" id="especialidad-btn">Crear especialidad</button>
         </div>
@@ -71,7 +71,7 @@
         <select name="role" id="role" required value="{{ $role }}">
             <option value="">Seleccionar</option>
             <option value="admin" {{ $role == 'admin' ? 'selected' : '' }}>Admin</option>
-            <option value="equipo" {{ $role == 'equipo' ? 'selected' : '' }}>Equipo</option>
+            <option value="medico" {{ $role == 'medico' ? 'selected' : '' }}>Medico</option>
         </select>
     </div>
 

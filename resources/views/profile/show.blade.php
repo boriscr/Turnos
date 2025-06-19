@@ -8,12 +8,12 @@
                     <p><b> Paciente: </b> {{ Auth::user()->name . ' ' . Auth::user()->surname }}
                     </p>
                     <p><b> DNI: </b>{{ Auth::user()->dni }}</p>
-                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->equipo->estado ? 'Si' : 'No' }}</p>
+                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->estado ? 'Si' : 'No' }}</p>
 
                 </div>
                 <div class="card">
                     <h1>Turno</h1>
-                    <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->equipo->especialidad->nombre }}</p>
+                    <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->medico->especialidad->nombre }}</p>
                     <p><b> Hora del turno:
                         </b>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</p>
                     <p><b> Fecha del turno:
@@ -29,11 +29,11 @@
                 <div class="card">
                     <h1>Doctor/a</h1>
                     <p><b> Doctor/a:
-                        </b>{{ $reserva->turnoDisponible->equipo->nombre . ' ' . $reserva->turnoDisponible->equipo->apellido }}
+                        </b>{{ $reserva->turnoDisponible->medico->nombre . ' ' . $reserva->turnoDisponible->medico->apellido }}
                     </p>
-                    <p><b> DNI: </b>{{ $reserva->turnoDisponible->equipo->dni }}</p>
-                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->equipo->estado ? 'Si' : 'No' }}</p>
-                    <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->equipo->especialidad->nombre }}</p>
+                    <p><b> DNI: </b>{{ $reserva->turnoDisponible->medico->dni }}</p>
+                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->estado ? 'Si' : 'No' }}</p>
+                    <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->medico->especialidad->nombre }}</p>
                 </div>
             </div>
         </div>

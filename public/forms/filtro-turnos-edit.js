@@ -1,60 +1,60 @@
 // Variables globales para la edición
 let todosLosTurnos = [];
-let equipoInicial = document.getElementById('equipo_id').value;
+let medicoInicial = document.getElementById('medico_id').value;
 let especialidadInicial = document.getElementById('especialidad_id').value;
 
-// Función para cargar equipos con selección inicial
-async function cargarEquipos(especialidadId, equipoSeleccionado = null) {
-    const selectEquipo = document.getElementById('equipo_id');
+// Función para cargar médicos con selección inicial
+async function cargarMedicos(especialidadId, medicoSeleccionado = null) {
+    const selectMedico = document.getElementById('medico_id');
     
     if (!especialidadId) {
-        selectEquipo.innerHTML = '<option value="">Seleccione un equipo</option>';
+        selectMedico.innerHTML = '<option value="">Seleccione un médico</option>';
         return;
     }
 
-    selectEquipo.disabled = true;
-    selectEquipo.innerHTML = '<option value="">Cargando equipos...</option>';
+    selectMedico.disabled = true;
+    selectMedico.innerHTML = '<option value="">Cargando médicos...</option>';
 
     try {
-        const response = await fetch(`/getEquiposPorEspecialidad/${especialidadId}`);
+        const response = await fetch(`/getMedicosPorEspecialidad/${especialidadId}`);
         const data = await response.json();
         
-        selectEquipo.innerHTML = '<option value="">Seleccione un equipo</option>';
-        data.equipos.forEach(equipo => {
-            const option = new Option(equipo.nombre, equipo.id);
-            if (equipoSeleccionado && equipo.id == equipoSeleccionado) {
+        selectMedico.innerHTML = '<option value="">Seleccione un médico</option>';
+        data.medicos.forEach(medico => {
+            const option = new Option(medico.nombre, medico.id);
+            if (medicoSeleccionado && medico.id == medicoSeleccionado) {
                 option.selected = true;
             }
-            selectEquipo.add(option);
+            selectMedico.add(option);
         });
         
-        selectEquipo.disabled = false;
+        selectMedico.disabled = false;
         
-        // Si hay equipo seleccionado, cargar sus turnos
-        if (equipoSeleccionado) {
-            await cargarTurnos(equipoSeleccionado);
+        // Si hay medico seleccionado, cargar sus turnos
+        if (medicoSeleccionado) {
+            await cargarTurnos(medicoSeleccionado);
         }
     } catch (error) {
-        console.error("Error al cargar equipos:", error);
-        selectEquipo.innerHTML = '<option value="">Error al cargar</option>';
+        console.error("Error al cargar lista de médicos:", error);
+        selectMedico.innerHTML = '<option value="">Error al cargar</option>';
     }
 }
 
 // Función para cargar turnos con selección inicial
-async function cargarTurnos(equipoId) {
+async function cargarTurnos(medicoId) {
     const selectFecha = document.getElementById('fecha_turno');
     const selectHora = document.getElementById('hora_turno');
 
     selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
     selectHora.innerHTML = '<option value="">Seleccione una hora</option>';
 
-    if (!equipoId) return;
+    if (!medicoId) return;
 
     selectFecha.disabled = true;
     selectFecha.innerHTML = '<option value="">Cargando fechas...</option>';
 
     try {
-        const response = await fetch(`/getTurnosPorEquipo/${equipoId}`);
+        const response = await fetch(`/getTurnosPorEquipo/${medicoId}`);
         const data = await response.json();
         
         todosLosTurnos = data.turnos;
@@ -91,17 +91,17 @@ async function cargarTurnos(equipoId) {
 
 // Inicialización al cargar la página
 document.addEventListener('DOMContentLoaded', async function() {
-    // Cargar equipos si hay especialidad seleccionada
+    // Cargar médicos si hay especialidad seleccionada
     if (especialidadInicial) {
-        await cargarEquipos(especialidadInicial, equipoInicial);
+        await cargarMedicos(especialidadInicial, medicoInicial);
     }
 
     // Event listeners
     document.getElementById('especialidad_id').addEventListener('change', function() {
-        cargarEquipos(this.value);
+        cargarMedicos(this.value);
     });
 
-    document.getElementById('equipo_id').addEventListener('change', function() {
+    document.getElementById('medico_id').addEventListener('change', function() {
         cargarTurnos(this.value);
     });
 

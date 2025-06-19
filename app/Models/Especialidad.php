@@ -14,8 +14,8 @@ class Especialidad extends Model
         'estado',
     ];
 
-    public function equipos()
+    public function medicos()
     {
-        return $this->hasMany(Equipo::class, 'especialidad_id');
+        return $this->hasMany(Medico::class, 'especialidad_id');
     }
 }
