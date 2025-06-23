@@ -1,83 +1,92 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{{ route('home') }}">Turnos.com</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+<nav class="main-nav">
+    <div class="nav-header">
+        <a class="nav-brand" href="{{ route('home') }}">Turnos.com</a>
+        <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <i class="bi bi-list"></i>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('reserva.create') }}">Reservar Turno</a>
-                </li>
+    </div>
 
+    <div class="nav-collapse">
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('reserva.create') }}">Reservar Turno</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+                    Administración <i class="bi bi-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-section">
+                        <span>Sección Usuarios</span>
+                        <a class="dropdown-item" href="{{ route('usuario.index') }}">
+                            <i class="bi bi-eye"></i> Ver usuarios
+                        </a>
+                    </li>
+
+                    <li class="dropdown-section">
+                        <span>Sección Medico</span>
+                        <a class="dropdown-item" href="{{ route('medico.index') }}">
+                            <i class="bi bi-eye"></i> Ver medico
+                        </a>
+                        <a class="dropdown-item" href="{{ route('medico.create') }}">
+                            <i class="bi bi-person-fill-add"></i> Agregar medico
+                        </a>
+                        <a class="dropdown-item" href="{{ route('especialidad.index') }}">
+                            <i class="bi bi-heart-pulse-fill"></i> Especialidades
+                        </a>
+                    </li>
+
+                    <li class="dropdown-section">
+                        <span>Sección Turnos</span>
+                        <a class="dropdown-item" href="{{ route('turnos.index') }}">
+                            <i class="bi bi-eye"></i> Ver Turnos
+                        </a>
+                        <a class="dropdown-item" href="{{ route('turnos.create') }}">
+                            <i class="bi bi-clock"></i> Crear Turnos
+                        </a>
+                    </li>
+
+                    <li class="dropdown-section">
+                        <span>Sección Reservas</span>
+                        <a class="dropdown-item" href="{{ route('reservas.index') }}">
+                            <i class="bi bi-eye"></i> Ver reservas
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            @if (auth()->check())
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Administración <i class="bi bi-chevron-down"></i>
-                    </a>
+                    <button class="nav-link dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+                        Mi perfil <i class="bi bi-chevron-down"></i>
+                    </button>
                     <ul class="dropdown-menu">
-                        <p>Seccion Usuarios</p>
-                        <hr>
-                        <li><a class="dropdown-item2" href="{{ route('usuario.index') }}"><i class="bi bi-eye"></i> Ver
-                                usuarios</a></li>
-                        <br>
-                        <p>Seccion Medico</p>
-                        <hr>
-                        <li><a class="dropdown-item2" href="{{ route('medico.index') }}"><i class="bi bi-eye"></i> Ver
-                                medico</a></li>
-                        <li><a class="dropdown-item2" href="{{ route('medico.create') }}"><i
-                                    class="bi bi-person-fill-add"></i> Agregar medico</a></li>
-                        <li><a class="dropdown-item2" href="{{ route('especialidad.index') }}"><i
-                                    class="bi bi-heart-pulse-fill"></i> Especialidades</a></li>
-                        <br>
-                        <p>Seccion Turnos</p>
-                        <hr>
-                        <li><a class="dropdown-item2" href="{{ route('turnos.index') }}"><i class="bi bi-eye"></i> Ver
-                                Turnos</a></li>
-                        <li><a class="dropdown-item2" href="{{ route('turnos.create') }}"><i class="bi bi-clock"></i>
-                                Crear Turnos</a></li>
-                        <br>
-                        <p>Seccion Reservas</p>
-                        <hr>
-                        <li><a class="dropdown-item2" href="{{ route('reservas.index') }}"><i class="bi bi-eye"></i> Ver
-                                reservas</a></li>
-
+                        <li><a class="dropdown-item" href="{{ route('profile.index') }}">Mi perfil</a></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="post">
+                                @csrf
+                                <button type="submit" class="dropdown-item logout-btn">Cerrar sesión</button>
+                            </form>
+                        </li>
                     </ul>
                 </li>
-
-                @if (auth()->check())
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Mi perfil <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('profile.index') }}">Mi perfil</a></li>
-                            <li>
-                                <form action="{{ route('logout') }}" method="post">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item" style="background: red; ">Cerrar
-                                        sesión</button>
-                                </form>
-                        </ul>
-                    </li>
-                @else
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Iniciar sesión
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('login') }}">Iniciar sesión</a></li>
-                            <li><a class="dropdown-item" href="{{ route('register') }}">Registrarse</a></li>
-                        </ul>
-                    </li>
-                @endif
-            </ul>
-        </div>
+            @else
+                <li class="nav-item dropdown">
+                    <button class="nav-link dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+                        Iniciar sesión
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('login') }}">Iniciar sesión</a></li>
+                        <li><a class="dropdown-item" href="{{ route('register') }}">Registrarse</a></li>
+                    </ul>
+                </li>
+            @endif
+        </ul>
     </div>
 </nav>
+
+<script src="../nav/nav.js"></script>

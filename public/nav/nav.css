@@ -1,0 +1,246 @@
+:root {
+    --background-light: #F2F2F2;
+    --background-dark: #003B46;
+    --color-texto: #4CAF50;
+    --color-texto-light: #fff;
+    --color-texto-dark: #000;
+}
+
+.main-nav {
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(2, 200, 255, 0.1);
+    position: relative;
+}
+
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nav-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: none;
+}
+
+.bi-list {
+    font-size: 35px;
+}
+
+.nav-collapse {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: space-between;
+}
+
+
+.nav-item {
+    position: relative;
+    margin: 0 0.5rem;
+}
+
+.nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+
+
+.dropdown-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+    list-style: none;
+    padding: 0.5rem 0;
+    min-width: 200px;
+    z-index: 1000;
+    display: none;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    color: grey;
+}
+
+.dropdown-item:hover {
+    border-radius: 5px;
+}
+
+.dropdown-section {
+    padding: 0.5rem 1rem;
+}
+
+.dropdown-section span {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    color: var(--color-texto)
+}
+
+.logout-btn {
+    background-color: #dc3545;
+    color: white !important;
+    width: 100%;
+    border: none;
+    padding: 0.5rem 1rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
+}
+
+/* Estilos para móvil */
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: flex;
+    }
+
+    .nav-collapse {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .nav-list {
+        flex-direction: column;
+    }
+
+    .nav-item {
+        margin: 0.25rem 0;
+    }
+
+    .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        border: none;
+        display: none;
+        padding-left: 1rem;
+        border: 1px solid var(--color-texto);
+
+    }
+
+    .nav-collapse.active {
+        display: flex;
+    }
+
+    .dropdown-menu.active {
+        display: block;
+    }
+}
+
+@media (min-width: 769px) {
+    .main-nav {
+
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-toggle {
+        position: relative;
+    }
+}
+
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+    .main-nav {
+        background-color: var(--background-dark);
+
+        .nav-brand,
+        .nav-link,
+        .dropdown-toggle {
+            color: var(--color-texto-light);
+        }
+
+        .hamburger {
+            background-color: var(--color-texto-light);
+        }
+
+        .dropdown-menu {
+            background-color: var(--background-dark);
+        }
+
+        .dropdown-item:hover {
+            background-color: transparent;
+            color: var(--color-texto-light);
+            border: 1px solid var(--color-texto);
+        }
+    }
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+    .main-nav {
+        background-color: var(--background-light);
+
+        .nav-brand,
+        .nav-link,
+        .dropdown-toggle,
+        .hamburger {
+            color: var(--color-texto-dark);
+        }
+
+        .dropdown-menu {
+            background-color: var(--background-light);
+        }
+    }
+
+    .dropdown-item:hover {
+        border: 1px solid var(--color-texto);
+    }
+}
