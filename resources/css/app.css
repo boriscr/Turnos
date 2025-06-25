@@ -1,5 +1,19 @@
+/* app.css */
+@import 'layouts/navbar.css';
+/*Components*/
+@import 'pages/components/main.css';
+@import 'pages/components/buttons.css';
+@import 'pages/components/table.css';
+@import 'pages/components/formulario-multipaso-turno.css';
+@import 'pages/components/forms.css';
+/*pages*/
+@import 'pages/profiles/profile.css';
+@import 'pages/turnos/calendario.css';
+@import 'pages/reservas/search.css';
+@import 'pages/reservas/actualizacion-de-asistencia-btn.css';
+
+@import 'pages/especialidades/form-especialidad.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-

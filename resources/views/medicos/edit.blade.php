@@ -13,7 +13,6 @@
                     :ruta="route('especialidad.store',)" 
                     :crear="false" :nombre="old('nombre')" 
                     :descripcion="old('descripcion')" />
-                    <script src="../../.jsforms/especialidad.js"></script>
                 </div>
             @endif
         </div>

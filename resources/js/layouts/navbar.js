@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const toggleButton = document.querySelector('.nav-toggle');
     const navCollapse = document.querySelector('.nav-collapse');

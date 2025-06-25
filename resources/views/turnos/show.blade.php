@@ -39,8 +39,6 @@
                 <button type="button" class="btn-delete delete-btn"><i class="bi bi-trash-fill"></i> Eliminar</button>
             </form>
         </div>
-        <script src="../../delete-btn.js"></script>
-
         <br>
         <a href="{{ route('disponible.index', $turno->medico_id) }}">Ver turnos disponibles</a>
 </x-body.body>

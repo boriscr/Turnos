@@ -110,7 +110,4 @@
             @endif
         </div>
     </div>
-
-    <script src="delete-btn.js"></script>
-    <script src="validar-fechas.js"></script>
 </x-body.body>

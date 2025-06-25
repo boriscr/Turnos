@@ -166,12 +166,4 @@
             </form>
         </div>
     </div>
-
-
-    <script src="../forms/calendario.js"></script>
-    <script src="../forms/horarios.js"></script>
-    <script src="../forms/checkboxs.js"></script>
-    <script src="../forms/especialidades-create-turnos.js"></script>
-    <script src="../forms/formulario-3paso-turno.js"></script>
-
 </x-body.body>

@@ -11,7 +11,6 @@
                 <x-form.especialidad :ruta="route('especialidad.store')" 
                 :crear="true" :nombre="old('nombre')" 
                 :descripcion="old('descripcion')" />
-                <script src="../forms/especialidad.js"></script>
             </div>
         </div>
 </x-body.body>

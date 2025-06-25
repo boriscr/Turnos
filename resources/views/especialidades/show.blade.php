@@ -24,6 +24,4 @@
             </div>
         </div>
     @endif
-    <script src="../../delete-btn.js"></script>
-
 </x-body.body>

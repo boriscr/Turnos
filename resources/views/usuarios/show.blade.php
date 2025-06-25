@@ -40,6 +40,4 @@
             </form>
         </div>
     </div>
-    <script src="../../delete-btn.js"></script>
-
 </x-body.body>

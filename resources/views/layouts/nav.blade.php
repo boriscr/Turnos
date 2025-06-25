@@ -12,7 +12,7 @@
                 <a class="nav-link" href="{{ route('home') }}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('reserva.create') }}">Reservar Turno</a>
+                <a class="nav-link" href="{{ route('disponible.create') }}">Reservar Turno</a>
             </li>
 
             <li class="nav-item dropdown">
@@ -88,5 +88,3 @@
         </ul>
     </div>
 </nav>
-
-<script src="../nav/nav.js"></script>

@@ -56,6 +56,4 @@
 
         </div>
     </div>
-    <script src="../anular-btn.js"></script>
-
 </x-body.body>

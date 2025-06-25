@@ -13,11 +13,11 @@ Route::view('/', 'home')->name('home');
 
 Route::middleware('auth')->group(function () {
     //Turnos disponibles "Reservas"
-    Route::get('/reserva/create', [TurnoDisponibleController::class, 'create'])->name('reserva.create');
+    Route::get('/disponibles/create', [TurnoDisponibleController::class, 'create'])->name('disponible.create');
     Route::get('/getMedicosPorEspecialidad/{especialidad_id}', [TurnoDisponibleController::class, 'getMedicosPorEspecialidad']);
     Route::get('/getTurnosPorEquipo/{medico_id}', [TurnoDisponibleController::class, 'getTurnosPorEquipo']);
     Route::post('/reservarTurno', [TurnoDisponibleController::class, 'reservarTurno'])->name('reservarTurno');
-    Route::delete('/disponible/{id}', [TurnoDisponibleController::class, 'destroy'])->name('disponible.destroy');
+    Route::delete('/disponibles/{id}', [TurnoDisponibleController::class, 'destroy'])->name('disponible.destroy');
 
     //Reservas
     Route::get('/reservas', [ReservaController::class, 'index'])->name('reservas.index');
@@ -33,19 +33,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/usuario', [UsuarioController::class, 'index'])->name('usuario.index');
     //Route::get('/usuario/create', [UsuarioController::class, 'create'])->name('usuario.create');
     //Route::post('/usuario/store', [UsuarioController::class, 'store'])->name('usuario.store');
-    Route::get('/usuario/{id}/show', [UsuarioController::class, 'show'])->name('usuario.show');
-    Route::get('/usuario/{id}/edit', [UsuarioController::class, 'edit'])->name('usuario.edit');
-    Route::put('/usuario/{id}', [UsuarioController::class, 'update'])->name('usuario.update');
-    Route::delete('/usuario/{id}', [UsuarioController::class, 'destroy'])->name('usuario.destroy');
+    Route::get('/usuarios/{id}/show', [UsuarioController::class, 'show'])->name('usuario.show');
+    Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('usuario.edit');
+    Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuario.update');
+    Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuario.destroy');
 
     //Control del Medicos
-    Route::get('/medico', [MedicoController::class, 'index'])->name('medico.index');
-    Route::get('/medico/create', [MedicoController::class, 'create'])->name('medico.create');
-    Route::post('/medico/store', [MedicoController::class, 'store'])->name('medico.store');
-    Route::get('/medico/{id}/show', [MedicoController::class, 'show'])->name('medico.show');
-    Route::get('/medico/{id}/edit', [MedicoController::class, 'edit'])->name('medico.edit');
-    Route::put('/medico/{id}', [MedicoController::class, 'update'])->name('medico.update');
-    Route::delete('/medico/{id}/destroy', [MedicoController::class, 'destroy'])->name('medico.destroy');
+    Route::get('/medicos', [MedicoController::class, 'index'])->name('medico.index');
+    Route::get('/medicos/create', [MedicoController::class, 'create'])->name('medico.create');
+    Route::post('/medicos/store', [MedicoController::class, 'store'])->name('medico.store');
+    Route::get('/medicos/{id}/show', [MedicoController::class, 'show'])->name('medico.show');
+    Route::get('/medicos/{id}/edit', [MedicoController::class, 'edit'])->name('medico.edit');
+    Route::put('/medicos/{id}', [MedicoController::class, 'update'])->name('medico.update');
+    Route::delete('/medicos/{id}/destroy', [MedicoController::class, 'destroy'])->name('medico.destroy');
     //Control de especialidades
     Route::get('/especialidad', [EspecialidadController::class, 'index'])->name('especialidad.index');
     Route::get('/especialidad/create', [EspecialidadController::class, 'create'])->name('especialidad.create');
