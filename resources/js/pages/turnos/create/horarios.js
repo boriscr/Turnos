@@ -2,7 +2,7 @@
 //input de tipo checkbox
 //horarios de turnos formulario crear nuevo turno
 //input de tipo checkbox
-if (window.location.pathname.includes('/turnos/create')) {
+if (window.location.pathname.includes('/turnos/create') ||window.location.pathname.includes('/turnos/edit')) {
 
     let sinHorario = document.getElementById("horario1");
     let horario2 = document.getElementById("horario2");

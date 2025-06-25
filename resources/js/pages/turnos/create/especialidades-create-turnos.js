@@ -1,6 +1,6 @@
 //Automatizacion de la carg Medicos por especialidad
 // Este script se encarga de cargar los medico disponibles en función de la especialidad seleccionada
-if (window.location.pathname.includes('/turnos/create')) {
+if (window.location.pathname.includes('/turnos/create')|| window.location.pathname.includes('/turnos/edit')) {
 
     function cargarMedicosPorEspecialidad(especialidadId) {
         fetch(`/medicos-por-especialidad/${especialidadId}`)

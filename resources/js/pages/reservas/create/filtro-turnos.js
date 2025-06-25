@@ -1,3 +1,4 @@
+if (window.location.pathname.includes('/disponibles/create')) {
 
     // Variables globales
     let todosLosTurnos = [];
@@ -175,3 +176,4 @@
             document.getElementById('turno_id').value = this.value;
         });
     });
+}

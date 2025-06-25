@@ -1,5 +1,5 @@
 //Checkboxs para turnos -crear nuevo turno seccion horarios y turnos
-if (window.location.pathname.includes('/turnos/create' || window.location.pathname.includes('/turnos/edit'))) {
+if (window.location.pathname.includes('/turnos/create') || window.location.pathname.includes('/turnos/edit/')) {
 
     document.addEventListener('DOMContentLoaded', function () {
         // Grupo 1: Turnos (mañana, tarde, noche, no aplica)

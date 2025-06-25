@@ -50,7 +50,8 @@ form {
 
 
 
-input,textarea {
+input,
+textarea {
     width: 100%;
     padding: 10px;
     margin: 5px 0 22px 0;
@@ -68,23 +69,24 @@ input:focus {
 
 input[type="text"],
 input[type="number"],
-input[type="time"]{
+input[type="time"] {
     background-color: #96cffb;
     color: #000;
     border-radius: 5px;
     padding: 10px;
+    border-radius: 5px !important;
 }
 
 
 select {
     width: 100%;
     padding: 10px;
-
 }
 
 option {
     text-align: center;
 }
+
 
 
 /*opciones tipos de turnos mañana-tardenoche*/
@@ -179,7 +181,8 @@ option {
     }
 
     select,
-    option,textarea  {
+    option,
+    textarea {
         color: var(--color-texto-dark) !important;
     }
 }

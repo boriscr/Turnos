@@ -50,7 +50,7 @@
 }
 
 .days-grid button:hover:not(.disabled) {
-    background-color: #f0f0f0;
+    background-color: #3b82f6;
 }
 
 .days-grid button.selected {
@@ -59,7 +59,7 @@
 }
 
 .days-grid button.range:not(.selected) {
-    background-color: #bfdbfe;
+    background-color: transparent;
 }
 
 .days-grid button.today {

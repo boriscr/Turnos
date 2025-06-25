@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/turnos/create', [TurnoController::class, 'create'])->name('turnos.create');
     Route::post('/turnos', [TurnoController::class, 'store'])->name('turnos.store');
     Route::get('/turnos/{id}/show', [TurnoController::class, 'show'])->name('turnos.show');
-    Route::get('/turnos/{id}/edit', [TurnoController::class, 'edit'])->name('turnos.edit');
+    Route::get('/turnos/edit/{id}', [TurnoController::class, 'edit'])->name('turnos.edit');
     Route::patch('/turnos/{id}', [TurnoController::class, 'update'])->name('turnos.update');
     Route::delete('/turnos/{id}', [TurnoController::class, 'destroy'])->name('turnos.destroy');
     Route::get('/medicos-por-especialidad/{id}', [TurnoController::class, 'getPorEspecialidad']);//En controlador Medicos
