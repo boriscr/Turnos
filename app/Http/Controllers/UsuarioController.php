@@ -51,40 +51,45 @@ class UsuarioController extends Controller
             'role' => ['required', 'string', 'max:25', 'in:user,medico,admin'],
         ]);
 
-        return DB::transaction(function () use ($validated, $request, $id) {
+        return DB::transaction(function () use ($validated, $id) {
             $user = User::findOrFail($id);
-            $originalRole = $user->role;
-            // Actualizar usuario
+            $originalRole = $user->getRoleNames()->first(); // Más seguro que $user->role
+
+            // Actualiza los campos del usuario
             $user->fill($validated);
             $user->save();
 
-            // Manejo del médico
-            if ($request->role === 'medico') {
-                if (!$user->medico) {
-                    $medico = Medico::create([
-                        'user_id' => $user->id,
-                        'nombre' => $user->name,
-                        'apellido' => $user->surname,
-                        'dni' => $user->dni,
-                        'email' => $user->email,
-                        'telefono' => $user->phone,
-                        'estado' => $user->estado,
-                        'role' => 'medico', // Asignar el rol de medico
-                    ]);
+            // Asegura que el usuario tiene el rol actualizado
+            if (!$user->hasRole('medico') && $validated['role'] === 'medico') {
+                $user->syncRoles(['medico']);
+            }
 
-                    // Redirigir a edición del medico recién creado
-                    $nuevoMedico = true;
-                    return redirect()->route('medico.edit', $medico->id)
-                        ->with([
-                            'success' => 'Perfil profesional creado. Complete los datos específicos.',
-                            'nuevoMedico' => $nuevoMedico
-                        ]);
-                }
-            } elseif ($originalRole === 'medico' && $request->role !== 'medico') {
+            // Si ahora es médico y no tiene perfil relacionado
+            if ($user->hasRole('medico') && !$user->medico) {
+                $medico = Medico::create([
+                    'user_id' => $user->id,
+                    'nombre' => $user->name,
+                    'apellido' => $user->surname,
+                    'dni' => $user->dni,
+                    'email' => $user->email,
+                    'telefono' => $user->phone,
+                    'estado' => $user->estado,
+                    'role' => 'medico',
+                ]);
+
+                return redirect()->route('medico.edit', $medico->id)->with([
+                    'success' => 'Perfil profesional creado. Complete los datos específicos.',
+                    'nuevoMedico' => true,
+                ]);
+            }
+
+            // Si ya no tiene rol de médico, eliminar relación
+            if ($originalRole === 'medico' && $validated['role'] === 'user') {
+                $user->syncRoles(['user']);
                 $user->medico()->delete();
             }
-            return redirect()->route('usuario.index')
-                ->with('success', 'Usuario actualizado correctamente.');
+
+            return redirect()->route('usuario.index')->with('success', 'Usuario actualizado correctamente.');
         });
     }
 

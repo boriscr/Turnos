@@ -11,12 +11,26 @@ use App\Http\Controllers\ReservaController;
 
 Route::view('/', 'home')->name('home');
 
-Route::middleware('auth')->group(function () {
-    //Turnos disponibles "Reservas"
+Route::middleware(['auth'])->group(function () {
+    //Solicitud de Turnos
     Route::get('/disponibles/create', [TurnoDisponibleController::class, 'create'])->name('disponible.create');
     Route::get('/getMedicosPorEspecialidad/{especialidad_id}', [TurnoDisponibleController::class, 'getMedicosPorEspecialidad']);
     Route::get('/getTurnosPorEquipo/{medico_id}', [TurnoDisponibleController::class, 'getTurnosPorEquipo']);
     Route::post('/reservarTurno', [TurnoDisponibleController::class, 'reservarTurno'])->name('reservarTurno');
+
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/show/{id}', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/updateAdm', [ProfileController::class, 'updateAdmin'])->name('profile.updateAdmin');
+    Route::get('/profile/historial', [ProfileController::class, 'historial'])->name('profile.historial');
+    Route::delete('/profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+Route::group(['middleware' => ['role:admin']], function () {
+    //Turnos disponibles "Reservas"
     Route::delete('/disponibles/{id}', [TurnoDisponibleController::class, 'destroy'])->name('disponible.destroy');
 
     //Reservas
@@ -64,22 +78,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/turnos/edit/{id}', [TurnoController::class, 'edit'])->name('turnos.edit');
     Route::patch('/turnos/{id}', [TurnoController::class, 'update'])->name('turnos.update');
     Route::delete('/turnos/{id}', [TurnoController::class, 'destroy'])->name('turnos.destroy');
-    Route::get('/medicos-por-especialidad/{id}', [TurnoController::class, 'getPorEspecialidad']);//En controlador Medicos
+    Route::get('/medicos-por-especialidad/{id}', [TurnoController::class, 'getPorEspecialidad']); //En controlador Medicos
 
     //disponibles
     Route::get('/disponible/{equipoId?}', [TurnoController::class, 'search'])->name('disponible.index');
-
-
-    // Profile
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::get('/profile/show/{id}', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::patch('/profile/updateAdm', [ProfileController::class, 'updateAdmin'])->name('profile.updateAdmin');
-    Route::get('/profile/historial', [ProfileController::class, 'historial'])->name('profile.historial');
-    Route::delete('/profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
 });
+
+
+
 
 
 Route::get('/dashboard', function () {

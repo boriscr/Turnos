@@ -14,51 +14,51 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('disponible.create') }}">Reservar Turno</a>
             </li>
+            @role('admin')
+                <li class="nav-item dropdown">
+                    <button class="nav-link dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+                        Administración <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-section">
+                            <span>Sección Usuarios</span>
+                            <a class="dropdown-item" href="{{ route('usuario.index') }}">
+                                <i class="bi bi-eye"></i> Ver usuarios
+                            </a>
+                        </li>
 
-            <li class="nav-item dropdown">
-                <button class="nav-link dropdown-toggle" aria-expanded="false" aria-haspopup="true">
-                    Administración <i class="bi bi-chevron-down"></i>
-                </button>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-section">
-                        <span>Sección Usuarios</span>
-                        <a class="dropdown-item" href="{{ route('usuario.index') }}">
-                            <i class="bi bi-eye"></i> Ver usuarios
-                        </a>
-                    </li>
+                        <li class="dropdown-section">
+                            <span>Sección Medico</span>
+                            <a class="dropdown-item" href="{{ route('medico.index') }}">
+                                <i class="bi bi-eye"></i> Ver medico
+                            </a>
+                            <a class="dropdown-item" href="{{ route('medico.create') }}">
+                                <i class="bi bi-person-fill-add"></i> Agregar medico
+                            </a>
+                            <a class="dropdown-item" href="{{ route('especialidad.index') }}">
+                                <i class="bi bi-heart-pulse-fill"></i> Especialidades
+                            </a>
+                        </li>
 
-                    <li class="dropdown-section">
-                        <span>Sección Medico</span>
-                        <a class="dropdown-item" href="{{ route('medico.index') }}">
-                            <i class="bi bi-eye"></i> Ver medico
-                        </a>
-                        <a class="dropdown-item" href="{{ route('medico.create') }}">
-                            <i class="bi bi-person-fill-add"></i> Agregar medico
-                        </a>
-                        <a class="dropdown-item" href="{{ route('especialidad.index') }}">
-                            <i class="bi bi-heart-pulse-fill"></i> Especialidades
-                        </a>
-                    </li>
+                        <li class="dropdown-section">
+                            <span>Sección Turnos</span>
+                            <a class="dropdown-item" href="{{ route('turnos.index') }}">
+                                <i class="bi bi-eye"></i> Ver Turnos
+                            </a>
+                            <a class="dropdown-item" href="{{ route('turnos.create') }}">
+                                <i class="bi bi-clock"></i> Crear Turnos
+                            </a>
+                        </li>
 
-                    <li class="dropdown-section">
-                        <span>Sección Turnos</span>
-                        <a class="dropdown-item" href="{{ route('turnos.index') }}">
-                            <i class="bi bi-eye"></i> Ver Turnos
-                        </a>
-                        <a class="dropdown-item" href="{{ route('turnos.create') }}">
-                            <i class="bi bi-clock"></i> Crear Turnos
-                        </a>
-                    </li>
-
-                    <li class="dropdown-section">
-                        <span>Sección Reservas</span>
-                        <a class="dropdown-item" href="{{ route('reservas.index') }}">
-                            <i class="bi bi-eye"></i> Ver reservas
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
+                        <li class="dropdown-section">
+                            <span>Sección Reservas</span>
+                            <a class="dropdown-item" href="{{ route('reservas.index') }}">
+                                <i class="bi bi-eye"></i> Ver reservas
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endrole
             @if (auth()->check())
                 <li class="nav-item dropdown">
                     <button class="nav-link dropdown-toggle" aria-expanded="false" aria-haspopup="true">
