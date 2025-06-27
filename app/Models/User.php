@@ -33,7 +33,6 @@ class User extends Authenticatable
         'email',
         'estado',
         'password',
-        'role',
         'faults',
     ];
 

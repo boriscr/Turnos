@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Medico;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 
 class UsuarioController extends Controller
 {
@@ -48,7 +49,8 @@ class UsuarioController extends Controller
             'phone' => ['required', 'string', 'max:15', 'unique:' . User::class . ',phone,' . $id],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class . ',email,' . $id],
             'estado' => ['required', 'boolean'],
-            'role' => ['required', 'string', 'max:25', 'in:user,medico,admin'],
+            'role' => ['required', 'string', 'in:admin,medico,user'],
+
         ]);
 
         return DB::transaction(function () use ($validated, $id) {
@@ -56,7 +58,7 @@ class UsuarioController extends Controller
             $originalRole = $user->getRoleNames()->first(); // Más seguro que $user->role
 
             // Actualiza los campos del usuario
-            $user->fill($validated);
+            $user->fill(Arr::except($validated, 'role'));
             $user->save();
 
             // Asegura que el usuario tiene el rol actualizado

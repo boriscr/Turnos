@@ -8,7 +8,7 @@
                         <th>Id</th>
                         <th>Nombre y Apellido</th>
                         <th class="option-movil">DNI</th>
-                        <th class="option-movil">Nacimiento</th>
+                        <th class="option-movil">Rol</th>
                         <th class="option-movil">Direccion</th>
                         <th>Estado</th>
                         <th>Acciones</th>
@@ -20,7 +20,7 @@
                             <td>{{ $usuario->id }}</td>
                             <td>{{ $usuario->name . ' ' . $usuario->surname }}</td>
                             <td class="option-movil">{{ $usuario->dni }}</td>
-                            <td class="option-movil">{{ $usuario->birthdate }}</td>
+                            <td class="option-movil"> {{ $usuario->getRoleNames()->first() }}</p></td>
                             <td class="option-movil">{{ $usuario->address }}</td>
                             <td>{{ $usuario->estado ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones">
