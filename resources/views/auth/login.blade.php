@@ -1,7 +1,8 @@
-<x-guest-layout>
+<x-body.body>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
+    <div class="main">
+        <div class="container-form-register">
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
@@ -53,4 +54,6 @@
             <a href="{{ route('register') }}">{{ __('¿No tienes cuenta? Crea una') }}</a>
         </x-secondary-button>
     </div>
-</x-guest-layout>
+        </div>
+    </div>
+</x-body.body>

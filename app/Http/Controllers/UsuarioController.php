@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Medico;
-
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 
@@ -39,7 +39,7 @@ class UsuarioController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'dni' => ['required', 'integer', 'digits_between:7,8', 'unique:' . User::class . ',dni,' . $id],
+            'dni' => ['required', 'digits_between:7,8', Rule::unique('users', 'dni')->ignore($id)],
             'birthdate' => ['required', 'date'],
             'genero' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,otro,Prefiero no decir'],
             'country' => ['required', 'string', 'max:255'],

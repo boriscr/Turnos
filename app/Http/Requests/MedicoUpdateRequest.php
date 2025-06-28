@@ -30,8 +30,8 @@ class MedicoUpdateRequest extends FormRequest
         return [
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'dni' => 'required|integer|digits_between:7,8|unique:'.Medico::TABLE.',dni,' . $medico_id,
-            'email' => 'required|email|unique:'.Medico::TABLE.',email,' . $medico_id,
+            'dni' => 'required|digits_between:7,8|unique:medicos,dni,' . $medico_id,
+            'email' => 'required|email|unique:' . Medico::TABLE . ',email,' . $medico_id,
             'telefono' => 'required|string|max:255',
             'especialidad_id' => 'required|exists:especialidades,id',
             'matricula' => 'required|string|max:255',

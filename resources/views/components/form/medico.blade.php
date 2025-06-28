@@ -19,7 +19,7 @@
     </div>
     <div class="item">
         <label for="dni"><span aria-hidden="true" style="color: red;">*</span> Dni</label>
-        <input type="number" name="dni" id="dni" required value="{{ $dni }}">
+        <input type="text" name="dni" id="dni" inputmode="numeric" required value="{{ $dni }}">
         @error('dni')
             <div class="error">{{ $message }}</div>
         @enderror

@@ -8,14 +8,30 @@
     position: absolute;
 }
 
-.main .container-form #especialidad-form .item textarea {
-    color: black;
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+    #especialidad-form {
+        background-color: var(--background-dark) !important;
+        color: var(--color-texto-light) !important;
+    }
 }
 
-.main .container-form #especialidad-form .item input[type="text"] {
-    width: 100% !important;
-    padding: 10px;
-    margin: 5px 0 22px 0;
-    border: none;
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+    #especialidad-form {
+        background: var(--background-light);
+    }
+    #especialidad-form {
+        color: var(--color-texto-dark);
+    }
+
 }
 
+
+@media (max-width: 600px) {
+
+    #especialidad-form {
+        width: 90% !important;
+        padding: 10px;
+    }
+}

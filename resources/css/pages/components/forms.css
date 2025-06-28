@@ -1,9 +1,11 @@
 :root {
     --background-light: #F2F2F2;
     --background-dark: #003B46;
+    --background-dark-register: rgba(24, 24, 24, 0.427);
     --color-texto: #4CAF50;
     --color-texto-light: #fff;
     --color-texto-dark: #000;
+    --background-input: rgba(255, 255, 255, 0.05);
 }
 
 .main {
@@ -26,12 +28,32 @@
     border-radius: 5px;
 }
 
+.container-form-register {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 500px;
+    box-shadow: 0px 0px 10px 5px rgba(143, 143, 143, 0.393);
+    border-radius: 25px;
+}
+
+.container-form-register {
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+
 /*Btn agregar especialidades*/
 .box-new-especialidad {
     margin: 0px 10%;
     width: 80%;
     height: 50px;
-    color: #fff;
+    color: var(--color-texto-light);
 }
 
 /*Titulo agg medico y usuario*/
@@ -39,44 +61,39 @@
     text-align: center;
     margin: 10px 0px;
     font-size: 25px;
-    color: #4CAF50;
+    color: var(--color-texto);
 }
 
 form {
     width: 100%;
     padding: 10px;
-
 }
-
 
 
 input,
 textarea {
+    border-radius: 5px !important;
+    backdrop-filter: blur(8px);
+    transition: 0.3s ease;
     width: 100%;
     padding: 10px;
     margin: 5px 0 22px 0;
-    border: none;
-    background-color: #96cffb;
-    color: #000;
-}
-
-input:focus {
-    background-color: #96cffb;
-    outline: none;
 }
 
 
-
-input[type="text"],
-input[type="number"],
-input[type="time"] {
-    background-color: #96cffb;
-    color: #000;
-    border-radius: 5px;
-    padding: 10px;
-    border-radius: 5px !important;
+input[type="time"],
+input[type="date"] {
+    display: flex;
+    justify-content: center;
 }
 
+input[type="checkbox"] {
+    background-color: #a0a0a0 !important;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--color-texto) !important;
+}
 
 select {
     width: 100%;
@@ -109,11 +126,6 @@ option {
 
 .box-style .item-style input[type="checkbox"] {
     margin-right: 10px;
-    background-color: #a0a0a0;
-}
-
-.box-style .item-style input[type="checkbox"]:checked {
-    background-color: #4CAF50;
 }
 
 .box-style .item-style .item {
@@ -123,14 +135,14 @@ option {
     justify-content: space-between;
     text-align: center;
     margin: 2px 3px;
-    border: 1px solid #4CAF50;
+    border: 1px solid var(--color-texto);
     border-radius: 5px;
     padding: 5px;
 }
 
 .box-style .item-style .item label {
     width: 90%;
-    background-color: #4CAF50;
+    background-color: var(--color-texto);
 }
 
 #horario-box {
@@ -154,8 +166,8 @@ option {
 
 .box-style .item-style .item:hover {
     cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
+    background-color: var(--color-texto);
+    color: var(--color-texto-light);
 }
 
 .box-style .item-style .item label {
@@ -165,38 +177,44 @@ option {
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
-
-    .item input {
-        background-color: var(--background-light);
-        color: var(--color-texto-dark);
+    .container-form-register {
+        background: var(--background-dark-register);
     }
 
-    .item label {
-        color: var(--color-texto-light);
-    }
-
-    #especialidad-form {
-        background-color: var(--background-dark);
-        color: var(--color-texto-light);
-    }
-
-    select,
-    option,
+    input,
     textarea {
-        color: var(--color-texto-dark) !important;
+        background: var(--background-input) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
+
+    input:focus {
+        background: var(--background-input) !important;
+        border-color: #00bcd4 !important;
+    }
+
+    select {
+        background-color: var(--background-dark) !important;
+        color: var(--color-texto-light);
+    }
+
+    option {
+        text-align: center;
+        background-color: var(--background-dark) !important;
+        color: var(--color-texto-light) !important;
+    }
+
+
 }
 
 /* Modo claro */
 @media (prefers-color-scheme: light) {
 
-    .item input {
-        background-color: var(--color-texto-light);
-        color: var(--color-texto-dark);
+    .container-form-register,
+    input {
+        background: var(--background-light);
     }
 
-    #especialidad-form {
-        background-color: var(--background-light);
+    input {
         color: var(--color-texto-dark);
     }
 
@@ -204,7 +222,9 @@ option {
 
 
 @media (max-width: 600px) {
-    .container-form {
+
+    .container-form,
+    .container-form-register {
         width: 90%;
         padding: 10px;
     }
@@ -217,11 +237,6 @@ option {
     select,
     button[type="submit"] {
         width: 100%;
-        padding: 10px;
-    }
-
-    #especialidad-form {
-        width: 90%;
         padding: 10px;
     }
 

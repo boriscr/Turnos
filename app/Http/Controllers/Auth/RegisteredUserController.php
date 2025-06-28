@@ -19,7 +19,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+    $disabledNav = true;
+        return view('auth.register', compact('disabledNav'));
     }
 
     /**
@@ -32,7 +33,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'dni' => ['required', 'integer', 'digits_between:7,8', 'unique:' . User::class],
+            'dni' => ['required', 'digits_between:7,8', 'unique:' . User::class],
             'birthdate' => ['required', 'date'],
             'genero' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,otro,Prefiero no decir'],
             'country' => ['required', 'string', 'max:255'],
@@ -83,7 +84,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-        session()->flash('success',[
+        session()->flash('success', [
             'title' => 'Registro exitoso',
             'message' => '¡Bienvenido/a! Tu cuenta ha sido creada exitosamente.',
             'icon' => 'success',
