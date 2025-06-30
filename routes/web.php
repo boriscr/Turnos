@@ -8,6 +8,7 @@ use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\TurnoDisponibleController;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\SettingController;
 
 Route::view('/', 'home')->name('home');
 
@@ -82,6 +83,9 @@ Route::group(['middleware' => ['role:admin']], function () {
 
     //disponibles
     Route::get('/disponible/{equipoId?}', [TurnoController::class, 'search'])->name('disponible.index');
+    //Setting
+    Route::get('/settings/edit', [SettingController::class, 'edit'])->name('settings.edit');
+    Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 });
 
 

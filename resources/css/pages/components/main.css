@@ -1,14 +1,17 @@
 :root {
     --background-light: #F2F2F2;
-    --background-dark:#003B46;
+    --background-dark: #003B46;
     --color-texto: #4CAF50;
     --color-texto-light: #fff;
     --color-texto-dark: #000;
 }
-.error{
+
+.error {
     color: red;
 }
-.form-grid H3, .calendario-box H3{
+
+.form-grid H3,
+.calendario-box H3 {
     margin-top: 0px;
     font-weight: bold;
 }
@@ -26,10 +29,12 @@
     border-radius: 10px;
     flex-wrap: wrap;
 }
-.section-title{
+
+.section-title {
     text-align: center;
     margin: 10px 0;
 }
+
 .card {
     border: none;
     background-color: transparent;
@@ -37,39 +42,49 @@
     padding: 10px;
     border-radius: 10px;
 }
-.card b{
+
+.card b {
     color: var(--color-texto);
 }
-.card .bi{
+
+.card .bi {
     color: var(--color-texto);
 }
-.card H1{
+
+.card H1 {
     text-align: center;
-    text-decoration:underline;
+    text-decoration: underline;
     text-underline-offset: 5px;
     text-decoration-thickness: 2px;
     text-decoration-color: var(--color-texto);
     margin-bottom: 10px;
 }
+
+small {
+    color: #ffffff79;
+}
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     body {
-        background-color: var(--background-dark) !important; /*azul petroleo*/
-        color: var( --color-texto-light);
+        background-color: var(--background-dark) !important;
+        /*azul petroleo*/
+        color: var(--color-texto-light);
     }
 
+
     .card {
-        color: var( --color-texto-light);
+        color: var(--color-texto-light);
     }
 }
 
 /* Modo claro */
 @media (prefers-color-scheme: light) {
     body {
-        background-color: var( --background-light);
+        background-color: var(--background-light);
         color: var(--color-texto-dark);
     }
 }
+
 /*adaptar el tamaño de la pantalla*/
 @media (max-width: 670px) {
     .section-container {

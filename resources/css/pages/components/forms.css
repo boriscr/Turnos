@@ -92,6 +92,12 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked {
+    margin-right: 10px;
+    background-color: var(--color-texto) !important;
+}
+
+input[type="radio"]:checked {
+    margin-right: 10px;
     background-color: var(--color-texto) !important;
 }
 

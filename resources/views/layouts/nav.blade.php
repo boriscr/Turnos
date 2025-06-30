@@ -58,6 +58,9 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('settings.edit') }}">Settings</a>
+                </li>
             @endrole
             @if (auth()->check())
                 <li class="nav-item dropdown">

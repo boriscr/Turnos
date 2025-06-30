@@ -11,16 +11,72 @@ use App\Models\Reserva;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\Setting;
+
+
 
 class TurnoDisponibleController extends Controller
 {
 
     public function create()
     {
-        $turnoDisponible = TurnoDisponible::all();
-        $turno = Turno::where('estado', 1)->get();
-        $especialidades = Especialidad::where('estado', 1)->get();
-        return view('reservas/create', compact('turnoDisponible', 'turno', 'especialidades'));
+        $settings = Setting::first();
+        $user = Auth::user();
+        $turnos_activos = Reserva::where('user_id', $user->id)
+            ->whereHas('turnoDisponible', function ($query) {
+                $query->whereNull('asistencia');
+            })
+            ->count();
+        if ($user->estado == 1 && $user->faults <= $settings->faltas &&  $turnos_activos < $settings->limites && $settings->limites > 0) {
+            $turnoDisponible = TurnoDisponible::all();
+            $turno = Turno::where('estado', 1)->get();
+            $especialidades = Especialidad::where('estado', 1)->get();
+            return view('reservas/create', compact('turnoDisponible', 'turno', 'especialidades'));
+        } else {
+            if ($user->faults > $settings->faltas && $user->estado == 0 && $turnos_activos >= $settings->limites) {
+                session()->flash('error', [
+                    'title' => 'Acceso denegado',
+                    'html' => '1. Has alcanzado el límite de faltas permitidas.<br>2. Su cuenta está inactiva.<br> Contacta al administrador.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('home');
+            } elseif ($user->estado == 0) {
+                session()->flash('error', [
+                    'title' => 'Acceso denegado',
+                    'html' => 'Su cuenta está inactiva.<br> Contacta al administrador.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('home');
+            } elseif ($user->faults > $settings->faltas) {
+                session()->flash('error', [
+                    'title' => 'Acceso denegado',
+                    'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes reservar turnos.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('home');
+            } elseif ($turnos_activos >= $settings->limites) {
+                session()->flash('error', [
+                    'title' => 'Acceso denegado',
+                    'html' => 'Has alcanzado el límite de turnos activos permitidos.<br> Asiste a los turnos solicitados antes de solicitar uno nuevo.<br> No puedes reservar más turnos.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('home');
+            } elseif ($settings->limites <= 0) {
+                session()->flash('error', [
+                    'title' => 'Acceso denegado',
+                    'html' => 'No puedes reservar turnos en este momento. El límite de turnos activos ha sido deshabilitado.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('home');
+            } else {
+                session()->flash('error', [
+                    'title' => 'Error al reservar',
+                    'html' => 'Error al ejecutar la petición.<br> Contacta al administrador.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('home');
+            }
+        }
     }
 
 
@@ -66,7 +122,16 @@ class TurnoDisponibleController extends Controller
     function reservarTurno(Request $request)
     {
         $turno = TurnoDisponible::find($request->turno_id);
-        if ($turno) {
+        $user = Auth::user();
+        //Contar cuantos turnos se ha reservado el usuario
+        $turnos_activos = Reserva::where('user_id', $user->id)
+            ->whereHas('turnoDisponible', function ($query) {
+                $query->whereNull('asistencia');
+            })
+            ->count();
+        // Verificar si el usuario tiene permisos para reservar turnos
+        $settings = Setting::first();
+        if ($turno && $user->faults <= $settings->faltas && $user->estado == 1 && $turnos_activos < $settings->limites) {
             // Verificar si hay cupos disponibles
             if ($turno->cupos_disponibles <= 0) {
                 session()->flash('error', [
@@ -104,7 +169,51 @@ class TurnoDisponibleController extends Controller
                 'text' => 'El turno ha sido reservado con éxito',
                 'icon' => 'success',
             ]);
-            return back();
+            return redirect()->route('profile.historial');
+        } else {
+            if ($user->estado == 1 && $user->faults <= $settings->faltas &&  $turnos_activos >= $settings->limites && $settings->limites > 0) {
+                session()->flash('error', [
+                    'title' => 'Acceso denegado',
+                    'html' => '1. Has alcanzado el límite de faltas permitidas.<br>2. Su cuenta está inactiva.<br>3. Has alcanzado el límite de turnos activos permitidos.<br> Contacta al administrador.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('home');
+            } elseif ($user->estado == 0) {
+                session()->flash('error', [
+                    'title' => 'Acceso denegado',
+                    'html' => 'Su cuenta está inactiva.<br> Contacta al administrador.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('home');
+            } elseif ($user->faults > $settings->faltas) {
+                session()->flash('error', [
+                    'title' => 'Acceso denegado',
+                    'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes reservar turnos.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('home');
+            } elseif ($user->turnos_activos >= $settings->limites) {
+                session()->flash('error', [
+                    'title' => 'Acceso denegado',
+                    'html' => 'Has alcanzado el límite de turnos activos permitidos.<br> Asiste a los turnos solicitados antes de solicitar uno nuevo.<br> No puedes reservar más turnos.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('home');
+            } elseif ($settings->limites <= 0) {
+                session()->flash('error', [
+                    'title' => 'Acceso denegado',
+                    'html' => 'No puedes reservar turnos en este momento. El límite de turnos activos ha sido deshabilitado.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('home');
+            } else {
+                session()->flash('error', [
+                    'title' => 'Error al reservar',
+                    'html' => 'Error al ejecutar la petición.<br> Contacta al administrador.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('home');
+            }
         }
     }
 
@@ -140,14 +249,17 @@ class TurnoDisponibleController extends Controller
 
                 DB::commit();
                 // 6. Mensaje de éxito
-                if ($user->role == 'medico' || $user->role == 'admin') {
+                /** @var \App\Models\User $user */
+                $user = Auth::user();
+
+                if ($user->hasRole('medico') || $user->hasRole('admin')) {
                     session()->flash('success', [
                         'title' => 'Reserva eliminada',
                         'text' => 'La reserva ha sido cancelada y los cupos se han actualizado correctamente.',
                         'icon' => 'success'
                     ]);
                     return redirect()->route('reservas.index');
-                } else if ($user->role == 'user') {
+                } else if ($user->hasRole('user')) {
                     session()->flash('success', [
                         'title' => 'Reserva cancelada',
                         'text' => 'La reserva de su turno ha sido cancelada.',
