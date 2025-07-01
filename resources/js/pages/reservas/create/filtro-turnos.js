@@ -1,7 +1,11 @@
 if (window.location.pathname.includes('/disponibles/create')) {
-
     // Variables globales
     let todosLosTurnos = [];
+    let medicoInicial = document.getElementById('medico_id')?.value;
+    let especialidadInicial = document.getElementById('especialidad_id')?.value;
+    let fechaInicial = document.getElementById('fecha_turno')?.value;
+    let turnoIdInicial = document.getElementById('hora_turno')?.value;
+    let previewSettings = { amount: 30, unit: 'dia' }; // Valores por defecto
 
     // Función para obtener fecha actual en formato ISO (YYYY-MM-DD)
     function obtenerFechaActual() {
@@ -9,47 +13,90 @@ if (window.location.pathname.includes('/disponibles/create')) {
         return ahora.split(',')[0];
     }
 
+    // Función para calcular fecha límite según configuración
+    function calcularFechaLimite() {
+        const ahora = new Date();
+        switch (previewSettings.unit) {
+            case 'hora':
+                ahora.setHours(ahora.getHours() + previewSettings.amount);
+                break;
+            case 'mes':
+                ahora.setMonth(ahora.getMonth() + previewSettings.amount);
+                break;
+            case 'dia':
+            default:
+                ahora.setDate(ahora.getDate() + previewSettings.amount);
+                break;
+        }
+        return ahora.toISOString().split('T')[0];
+    }
 
-    // Función para cargar medicos basados en especialidad seleccionada
-    function cargarMedicos(especialidadId, medicoIdSeleccionado = null) {
-        selectMedico = document.getElementById('medico_id');
+    // Función para filtrar turnos según configuración
+    function filtrarTurnos(turnos) {
+        const fechaLimite = calcularFechaLimite();
+        const fechaActual = obtenerFechaActual();
+        const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
+        const horaActual = ahora.split(',')[1] ? ahora.split(',')[1].trim() : '00:00';
+
+        return turnos.filter(turno => {
+            // Filtro por fecha límite
+            if (turno.fecha > fechaLimite) return false;
+            
+            // Filtro para turnos del día actual
+            if (turno.fecha === fechaActual) {
+                const turnoDate = new Date(`${turno.fecha}T${turno.hora}:00`);
+                const ahoraDate = new Date(`${fechaActual}T${horaActual}:00`);
+                return turnoDate.getTime() >= ahoraDate.getTime();
+            }
+            
+            return true;
+        });
+    }
+
+    // Función para cargar médicos basados en especialidad seleccionada
+    async function cargarMedicos(especialidadId, medicoSeleccionado = null) {
+        const selectMedico = document.getElementById('medico_id');
+        const selectFecha = document.getElementById('fecha_turno');
+        const selectHora = document.getElementById('hora_turno');
+
         selectMedico.innerHTML = '<option value="">Seleccione un médico</option>';
-        document.getElementById('fecha_turno').innerHTML = '<option value="">Seleccione una fecha</option>';
-        document.getElementById('hora_turno').innerHTML = '<option value="">Seleccione una hora</option>';
+        selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
+        selectHora.innerHTML = '<option value="">Seleccione una hora</option>';
 
         if (!especialidadId) return;
 
         selectMedico.disabled = true;
         selectMedico.innerHTML = '<option value="">Cargando médicos...</option>';
 
-        fetch(`/getMedicosPorEspecialidad/${especialidadId}`)
-            .then(response => response.json())
-            .then(data => {
-                selectMedico.innerHTML = '<option value="">Seleccione un profesional</option>';
-                data.medicos.forEach(medico => {
-                    const option = document.createElement('option');
-                    option.value = medico.id;
-                    option.textContent = medico.nombre + ' ' + medico.apellido;
-                    if (medicoIdSeleccionado && medico.id == medicoIdSeleccionado) {
-                        option.selected = true;
-                    }
-                    selectMedico.appendChild(option);
-                });
-                selectMedico.disabled = false;
+        try {
+            const response = await fetch(`/getMedicosPorEspecialidad/${especialidadId}`);
+            const data = await response.json();
 
-                // Si hay un médico seleccionado, cargar sus turnos
-                if (medicoIdSeleccionado) {
-                    cargarTurnos(medicoIdSeleccionado);
+            selectMedico.innerHTML = '<option value="">Seleccione un profesional</option>';
+            data.medicos.forEach(medico => {
+                const option = document.createElement('option');
+                option.value = medico.id;
+                option.textContent = `${medico.nombre} ${medico.apellido}`;
+                if (medicoSeleccionado && medico.id == medicoSeleccionado) {
+                    option.selected = true;
                 }
-            })
-            .catch(error => {
-                console.error("Error al cargar lista de médicos:", error);
-                selectMedico.innerHTML = '<option value="">Error al cargar</option>';
+                selectMedico.appendChild(option);
             });
+
+            selectMedico.disabled = false;
+
+            // Si hay un médico seleccionado, cargar sus turnos
+            if (medicoSeleccionado) {
+                await cargarTurnos(medicoSeleccionado, fechaInicial, turnoIdInicial);
+            }
+        } catch (error) {
+            console.error("Error al cargar lista de médicos:", error);
+            selectMedico.innerHTML = '<option value="">Error al cargar</option>';
+        }
     }
 
     // Función para cargar turnos basados en el médico seleccionado
-    function cargarTurnos(medicoId, fechaSeleccionada = null, turnoIdSeleccionado = null) {
+    async function cargarTurnos(medicoId, fechaSeleccionada = null, turnoIdSeleccionado = null) {
         const selectFecha = document.getElementById('fecha_turno');
         const selectHora = document.getElementById('hora_turno');
 
@@ -61,52 +108,62 @@ if (window.location.pathname.includes('/disponibles/create')) {
         selectFecha.disabled = true;
         selectFecha.innerHTML = '<option value="">Cargando fechas...</option>';
 
-        fetch(`/getTurnosPorEquipo/${medicoId}`)
-            .then(response => response.json())
-            .then(data => {
-                todosLosTurnos = data.turnos;
+        try {
+            const response = await fetch(`/getTurnosPorEquipo/${medicoId}`);
+            const data = await response.json();
 
-                if (todosLosTurnos.length === 0) {
-                    selectFecha.innerHTML = '<option value="">Sin fechas disponibles</option>';
-                    selectFecha.disabled = true;
-                    return;
-                }
+            // Guardar configuración de previsualización
+            if (data.preview_settings) {
+                previewSettings = data.preview_settings;
+            }
 
-                // Obtener fechas únicas de los turnos
-                const fechasUnicas = [...new Set(todosLosTurnos.map(t => t.fecha))];
+            // Filtrar turnos en el frontend como capa adicional
+            todosLosTurnos = filtrarTurnos(data.turnos);
 
-                selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
-                fechasUnicas.forEach(fecha => {
-                    const fechaObj = new Date(fecha);
-                    const option = document.createElement('option');
-                    option.value = fecha;
-                    option.textContent = fechaObj.toLocaleDateString('es-ES', {
-                        weekday: 'long',
-                        day: '2-digit',
-                        month: 'long',
-                        year: 'numeric'
-                    });
-                    if (fechaSeleccionada && fecha === fechaSeleccionada) {
-                        option.selected = true;
-                    }
-                    selectFecha.appendChild(option);
+            if (todosLosTurnos.length === 0) {
+                selectFecha.innerHTML = '<option value="">Sin fechas disponibles</option>';
+                selectFecha.disabled = true;
+                return;
+            }
+
+            // Obtener fechas únicas de los turnos
+            const fechasUnicas = [...new Set(todosLosTurnos.map(t => t.fecha))];
+
+            selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
+            fechasUnicas.forEach(fecha => {
+                const fechaObj = new Date(fecha);
+                const option = document.createElement('option');
+                option.value = fecha;
+                option.textContent = fechaObj.toLocaleDateString('es-ES', {
+                    weekday: 'long',
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
                 });
-
-                selectFecha.disabled = false;
-
-                // Si hay una fecha seleccionada, cargar sus horas
-                if (fechaSeleccionada) {
-                    cargarHoras(fechaSeleccionada, turnoIdSeleccionado);
+                if (fechaSeleccionada && fecha === fechaSeleccionada) {
+                    option.selected = true;
                 }
-            })
-            .catch(error => {
-                console.error("Error al cargar turnos:", error);
-                selectFecha.innerHTML = '<option value="">Error al cargar</option>';
+                selectFecha.appendChild(option);
             });
+
+            selectFecha.disabled = false;
+
+            // Si hay una fecha seleccionada, cargar sus horas
+            if (fechaSeleccionada) {
+                await cargarHoras(fechaSeleccionada, turnoIdSeleccionado);
+            }
+        } catch (error) {
+            console.error("Error al cargar turnos:", error);
+            selectFecha.innerHTML = '<option value="">Error al cargar</option>';
+        }
     }
 
+    // Resto del código (cargarHoras y event listeners) permanece igual...
+    // [Mantener las funciones cargarHoras y los event listeners del script anterior]
+
+
     // Función para cargar horas basadas en fecha seleccionada
-    function cargarHoras(fechaSeleccionada, turnoIdSeleccionado = null) {
+    async function cargarHoras(fechaSeleccionada, turnoIdSeleccionado = null) {
         const selectHora = document.getElementById('hora_turno');
         selectHora.innerHTML = '<option value="">Seleccione un horario</option>';
 
@@ -133,7 +190,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
         } else {
             turnosDisponibles.forEach(turno => {
                 const option = document.createElement('option');
-                option.value = turno.id; // Ahora guarda el id del turno
+                option.value = turno.id;
                 option.textContent = turno.hora;
                 if (turnoIdSeleccionado && turno.id == turnoIdSeleccionado) {
                     option.selected = true;
@@ -144,16 +201,10 @@ if (window.location.pathname.includes('/disponibles/create')) {
     }
 
     // Event listeners
-    document.addEventListener('DOMContentLoaded', function () {
-        // Obtener valores iniciales si estamos en edición
-        const especialidadSelect = document.getElementById('especialidad_id');
-        const medicoSelect = document.getElementById('medico_id');
-        const especialidadIdInicial = especialidadSelect.value;
-        const medicoIdInicial = medicoSelect ? medicoSelect.value : null;
-
+    document.addEventListener('DOMContentLoaded', async function () {
         // Si hay una especialidad seleccionada, cargar los médicos
-        if (especialidadIdInicial) {
-            cargarMedicos(especialidadIdInicial, medicoIdInicial);
+        if (especialidadInicial) {
+            await cargarMedicos(especialidadInicial, medicoInicial);
         }
 
         // Event listener para cambio de especialidad

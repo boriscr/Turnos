@@ -6,7 +6,6 @@ import '../js/pages/profiles/anular-btn.js';
 
 import '../js/pages/reservas/index/validar-fechas.js';
 import '../js/pages/reservas/create/filtro-turnos.js';
-import '../js/pages/reservas/create/filtro-turnos-create.js';
 import '../js/pages/reservas/create/formulario-3paso-reserva.js';
 
 import '../js/pages/turnos/components/checkboxs.js';

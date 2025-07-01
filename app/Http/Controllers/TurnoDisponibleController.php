@@ -91,13 +91,45 @@ class TurnoDisponibleController extends Controller
     }
 
     // 2. Obtener turnos por medico (filtrado por fecha/hora)
+    //Filtrado por fecha y hora configurado en settings
+    // Devuelve los turnos disponibles para un médico específico, filtrando por fecha y hora
+    // y aplicando la configuración de previsualización de turnos.
+    // La previsualización se basa en la configuración de la ventana de tiempo definida en la base de datos.
+    // La función también maneja la lógica de filtrado para mostrar solo los turnos que están disponibles
+    // y que son futuros, teniendo en cuenta la fecha y hora actuales.
+    // El resultado se devuelve en formato JSON, incluyendo los turnos disponibles y la configuración de
+    // previsualización utilizada para la consulta.
     public function getTurnosPorEquipo($medico_id)
     {
         $hoy = now()->format('Y-m-d');
         $horaActual = now()->format('H:i:s');
 
+        // Obtener configuración de previsualización
+        $previewWindow = Setting::first();
+        $previewAmount = $previewWindow->preview_window_amount ?? 30; // Valor por defecto
+        $previewUnit = $previewWindow->preview_window_unit ?? 'dia'; // Valor por defecto
+
+        // Calcular fecha límite según configuración
+        $fechaLimite = now();
+
+        switch ($previewUnit) {
+            case 'hora':
+                $fechaLimite->addHours($previewAmount);
+                break;
+            case 'mes':
+                $fechaLimite->addMonths($previewAmount);
+                break;
+            case 'dia':
+            default:
+                $fechaLimite->addDays($previewAmount);
+                break;
+        }
+
+        $fechaLimite = $fechaLimite->format('Y-m-d');
+
         $turnos = TurnoDisponible::where('medico_id', $medico_id)
             ->where('cupos_disponibles', '>', 0)
+            ->whereDate('fecha', '<=', $fechaLimite) // Filtro superior
             ->where(function ($query) use ($hoy, $horaActual) {
                 $query->whereDate('fecha', '>', $hoy)
                     ->orWhere(function ($q) use ($hoy, $horaActual) {
@@ -112,11 +144,17 @@ class TurnoDisponibleController extends Controller
                 return [
                     'id' => $turno->id,
                     'fecha' => $turno->fecha,
-                    'hora'  => $turno->hora ? \Carbon\Carbon::parse($turno->hora)->format('H:i') : null,
+                    'hora' => $turno->hora ? \Carbon\Carbon::parse($turno->hora)->format('H:i') : null,
                 ];
             });
 
-        return response()->json(['turnos' => $turnos]);
+        return response()->json([
+            'turnos' => $turnos,
+            'preview_settings' => [
+                'amount' => $previewAmount,
+                'unit' => $previewUnit
+            ]
+        ]);
     }
 
     function reservarTurno(Request $request)
