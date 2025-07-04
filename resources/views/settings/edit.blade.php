@@ -74,7 +74,13 @@
                                 </div>
                             </div>
                         </div>
+                        <h3>Frecuancia de verificacion Asistencias</h3>
+                        <small>Cada x hora se verifican las asistencias automáticamente. Marcando si Asistío o No
+                            asistio</small>
+                        <input type="number" name="hora_verificacion_asistencias" id="hora_verificacion_asistencias"
+                            value="{{ $settings->hora_verificacion_asistencias }}" min="1" required>
                     </div>
+
                     <button type="submit" class="submit-btn">Actualizar</button>
             </form>
         </div>

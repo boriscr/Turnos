@@ -12,7 +12,7 @@ class SettingSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('settings')->insert([
+        DB::table('settings')->updateOrInsert([
             'nombre' => 'Turnos.com',
             'mensaje_bienvenida' => 'Bienvenido a nuestra aplicación de turnos...',
             'pie_pagina' => '© 2025 Turnos.com. Todos los derechos reservados.',
@@ -22,6 +22,7 @@ class SettingSeeder extends Seeder
             'cancelacion_turnos' => 24,
             'preview_window_amount' => 24,
             'preview_window_unit' => 'hora',
+            'hora_verificacion_asistencias' => 1, // Horas para verificar asistencias automáticamente
         ]);
     }
 }

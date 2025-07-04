@@ -16,6 +16,7 @@ class Setting extends Model
         'preview_window_unit',
         'faltas',
         'limites',
+        'hora_verificacion_asistencias',
     ];
 
     public $timestamps = false;

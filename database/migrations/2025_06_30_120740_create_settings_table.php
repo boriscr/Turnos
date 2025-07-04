@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('preview_window_amount');//valor 1,24,30,etc
             $table->string('preview_window_unit'); // 'hora', 'dia' o 'mes'
             $table->string('logo')->nullable(); // Path to the logo image
+            $table->string('hora_verificacion_asistencias'); // Horas para verificar asistencias automáticamente
             $table->timestamps();
         });
     }

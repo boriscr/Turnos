@@ -27,6 +27,7 @@ class SettingController extends Controller
             'preview_window_unit' => $request->input('preview_window_unit'),
             'faltas' => $request->input('faltas'),
             'limites' => $request->input('limites'),
+            'hora_verificacion_asistencias' => $request->input('hora_verificacion_asistencias'),
         ]);
         session()->flash('success', [
             'title' => 'Configuración actualizada',

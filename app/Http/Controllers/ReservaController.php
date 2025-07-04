@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Reserva;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\Setting;
 
 class ReservaController extends Controller
 {
@@ -89,8 +90,9 @@ class ReservaController extends Controller
     // php artisan schedule:work
     public function verificarAsistenciasAutomaticamente()
     {
+        $hora = Setting::value('hora_verificacion_asistencias');
         $now = Carbon::now();
-        $fourHoursAgo = $now->copy()->subHours(1);
+        $fourHoursAgo = $now->copy()->subHours($hora);
 
         $reservasPendientes = Reserva::with(['turnoDisponible', 'user'])
             ->whereNull('asistencia')
