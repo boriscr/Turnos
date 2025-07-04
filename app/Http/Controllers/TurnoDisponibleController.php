@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\Setting;
-
+use Carbon\Carbon;
 
 
 class TurnoDisponibleController extends Controller
@@ -181,33 +181,40 @@ class TurnoDisponibleController extends Controller
                 return back();
             }
             // Verificar si la fecha y hora son válidas
-            $hoy = now()->format('Y-m-d');
-            $horaActual = now()->format('H:i:s');
-            if ($turno->fecha < $hoy || ($turno->fecha == $hoy && $turno->hora < $horaActual)) {
-                return response()->json(['success' => false, 'message' => 'La fecha y hora seleccionadas ya han pasado']);
-            }
-            // Reservar el turno
-            $turno->cupos_disponibles -= 1;
-            $turno->cupos_reservados += 1;
-            $turno->save();
-            //guardar los datos del usuario que reserva el turno
-            $reserva = new Reserva();
-            if (Auth::check()) {
-                // Asigna los valores correctamente
-                $reserva->user_id = auth::id(); // ID del usuario autenticado
-                $reserva->turno_disponible_id = $turno->id;
-                $reserva->save();
-            } else {
-                return response()->json(['error' => 'Usuario no autenticado'], 401);
-            }
+            $fechaHoraTurno = Carbon::parse($turno->fecha)->setTimeFrom(Carbon::parse($turno->hora));
+            $ahora = now();
 
-            //return response()->json(['success' => true]);
-            session()->flash('success', [
-                'title' => 'Turno reservado',
-                'text' => 'El turno ha sido reservado con éxito',
-                'icon' => 'success',
-            ]);
-            return redirect()->route('profile.historial');
+            if ($fechaHoraTurno->lessThan($ahora)) {
+                session()->flash('error', [
+                    'title' => 'Fecha y hora inválidas',
+                    'text' => 'La fecha y hora seleccionadas ya han pasado. Seleccione una fecha y hora futura.',
+                    'icon' => 'error',
+                ]);
+                return back();
+            } else {
+                // Reservar el turno
+                $turno->cupos_disponibles -= 1;
+                $turno->cupos_reservados += 1;
+                $turno->save();
+                //guardar los datos del usuario que reserva el turno
+                $reserva = new Reserva();
+                if (Auth::check()) {
+                    // Asigna los valores correctamente
+                    $reserva->user_id = auth::id(); // ID del usuario autenticado
+                    $reserva->turno_disponible_id = $turno->id;
+                    $reserva->save();
+                } else {
+                    return response()->json(['error' => 'Usuario no autenticado'], 401);
+                }
+
+                //return response()->json(['success' => true]);
+                session()->flash('success', [
+                    'title' => 'Turno reservado',
+                    'text' => 'El turno ha sido reservado con éxito',
+                    'icon' => 'success',
+                ]);
+                return redirect()->route('profile.historial');
+            }
         } else {
             if ($user->estado == 1 && $user->faults <= $settings->faltas &&  $turnos_activos >= $settings->limites && $settings->limites > 0) {
                 session()->flash('error', [
