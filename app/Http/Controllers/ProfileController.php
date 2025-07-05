@@ -46,18 +46,22 @@ class ProfileController extends Controller
         return redirect()->route('profile.index')->with('success', 'Perfil actualizado correctamente.');
     }
 
-    public function historial()
-    {
-        // implementar la lógica para mostrar el historial de reservas del usuario
-        // Por ejemplo, btener las reservas del usuario autenticado y pasarlas a la vista
-        if (Auth::check()) {
-            $totalReservas = Reserva::where('user_id', Auth::user()->id)->count(); // Cuenta todas las reservas
-            $reservas = Reserva::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(10);
-            return view('profile.historial', compact('reservas', 'totalReservas'));
-        } else {
-            return 'Usuario no autenticado';
-        }
+public function historial()
+{
+    if (Auth::check()) {
+        $totalReservas = Reserva::where('user_id', Auth::user()->id)->count();
+        $reservas = Reserva::where('user_id', Auth::user()->id)
+                      ->with('turnoDisponible') // Asegúrate de cargar la relación
+                      ->orderBy('id', 'desc')
+                      ->paginate(10);
+        
+        $now = now(); // Fecha y hora actual
+        
+        return view('profile.historial', compact('reservas', 'totalReservas', 'now'));
+    } else {
+        return redirect()->route('login'); // Mejor redirigir que mostrar un mensaje
     }
+}
 
     public function show($id)
     {

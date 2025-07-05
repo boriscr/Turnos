@@ -263,75 +263,135 @@ class TurnoDisponibleController extends Controller
     }
 
     //Eliminar reserva y actualizar los cupos disponibles
-    public function destroy($id)
-    {
-        try {
-            // 1. Encontrar la reserva a eliminar
-            $reserva = Reserva::findOrFail($id);
-            $user = Auth::user();
-            // 2. Obtener el turno disponible asociado
-            $turnoDisponible = TurnoDisponible::find($reserva->turno_disponible_id);
+public function destroy($id)
+{
+    try {
+        /** @var \App\Models\Reserva $reserva */
+        $reserva = Reserva::findOrFail($id);
 
-            if (!$turnoDisponible) {
-                throw new \Exception('Turno asociado no encontrado');
-            }
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
-            // 3. Lógica inversa a reservarTurno
-            $turnoDisponible->cupos_disponibles += 1; // Aumentar cupos disponibles
-            $turnoDisponible->cupos_reservados -= 1; // Disminuir cupos reservados
+        /** @var \App\Models\TurnoDisponible $turnoDisponible */
+        $turnoDisponible = TurnoDisponible::find($reserva->turno_disponible_id);
 
-            // 4. Validar que no haya inconsistencias
-            if ($turnoDisponible->cupos_reservados < 0) {
-                $turnoDisponible->cupos_reservados = 0;
-            }
+        if (!$turnoDisponible) {
+            throw new \Exception('Turno asociado no encontrado');
+        }
 
-            // 5. Guardar cambios y eliminar reserva
-            DB::beginTransaction();
+        // Verificación de si el turno ya pasó (aplica para todos los roles)
+        $fechaHoraTurno = Carbon::parse($turnoDisponible->fecha->format('Y-m-d') . ' ' . $turnoDisponible->hora->format('H:i:s'));
+        
+        if ($fechaHoraTurno->isPast()) {
+            session()->flash('error', [
+                'title' => 'Error!',
+                'text' => 'No puedes cancelar un turno que ya ha pasado.',
+                'icon' => 'error'
+            ]);
+            return $user->hasRole('user') ? redirect()->route('profile.historial') : redirect()->route('reservas.index');
+        }
+
+        // Verificación de roles con type hints
+        if ($user->hasRole('user')) {
+            /** @var \App\Models\Setting $setting */
+            $setting = \App\Models\Setting::first();
+            $horasLimiteCancelacion = $setting->cancelacion_turnos ?? 24;
 
             try {
-                $turnoDisponible->save();
-                $reserva->delete();
+                // Opción 1: Si ya es un objeto DateTime/Carbon
+                if ($turnoDisponible->hora instanceof \DateTimeInterface) {
+                    $horaTurno = Carbon::instance($turnoDisponible->hora);
+                }
+                // Opción 2: Si es un string en formato 'H:i:s'
+                elseif (is_string($turnoDisponible->hora) && preg_match('/^\d{2}:\d{2}:\d{2}$/', $turnoDisponible->hora)) {
+                    $horaTurno = Carbon::createFromFormat('H:i:s', $turnoDisponible->hora);
+                }
+                // Opción 3: Si es un string en formato 'H:i'
+                elseif (is_string($turnoDisponible->hora) && preg_match('/^\d{2}:\d{2}$/', $turnoDisponible->hora)) {
+                    $horaTurno = Carbon::createFromFormat('H:i', $turnoDisponible->hora);
+                }
+                // Opción 4: Si es un timestamp o formato no reconocido
+                else {
+                    $horaTurno = Carbon::parse($turnoDisponible->hora);
+                }
 
-                DB::commit();
-                // 6. Mensaje de éxito
-                /** @var \App\Models\User $user */
-                $user = Auth::user();
+                // Calcular diferencia de horas
+                $horasRestantes = now()->diffInHours($fechaHoraTurno, false);
 
-                if ($user->hasRole('medico') || $user->hasRole('admin')) {
-                    session()->flash('success', [
-                        'title' => 'Reserva eliminada',
-                        'text' => 'La reserva ha sido cancelada y los cupos se han actualizado correctamente.',
-                        'icon' => 'success'
-                    ]);
-                    return redirect()->route('reservas.index');
-                } else if ($user->hasRole('user')) {
-                    session()->flash('success', [
-                        'title' => 'Reserva cancelada',
-                        'text' => 'La reserva de su turno ha sido cancelada.',
-                        'icon' => 'success'
+                if ($horasRestantes < $horasLimiteCancelacion) {
+                    session()->flash('error', [
+                        'title' => 'Error!',
+                        'text' => "No puedes cancelar el turno. Debes cancelar con al menos {$horasLimiteCancelacion} horas de anticipación.",
+                        'icon' => 'error'
                     ]);
                     return redirect()->route('profile.historial');
                 }
             } catch (\Exception $e) {
-                DB::rollBack();
-                throw $e;
+                Log::error('Error al procesar hora del turno', [
+                    'hora_turno' => $turnoDisponible->hora,
+                    'error' => $e->getMessage()
+                ]);
+
+                session()->flash('error', [
+                    'title' => 'Error!',
+                    'text' => 'Ocurrió un error al procesar el horario del turno.',
+                    'icon' => 'error'
+                ]);
+                return redirect()->route('profile.historial');
             }
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            Log::error('Reserva no encontrada', ['id' => $id, 'error' => $e->getMessage()]);
-            session()->flash('error', [
-                'title' => 'Error!',
-                'text' => 'Reserva no encontrada.',
-                'icon' => 'error'
-            ]);
-            return redirect()->route('reservas.index');
-        } catch (\Exception $e) {
-            Log::error('Error al cancelar reserva', ['id' => $id, 'error' => $e->getMessage()]);
-            session()->flash('error', [
-                'title' => 'Error!',
-                'text' => 'Ocurrió un error al cancelar la reserva: ' . $e->getMessage(),
-                'icon' => 'error'
-            ]);
-            return redirect()->route('reservas.index');
         }
+
+        // Resto de la lógica de cancelación...
+        $turnoDisponible->cupos_disponibles += 1;
+        $turnoDisponible->cupos_reservados -= 1;
+
+        if ($turnoDisponible->cupos_reservados < 0) {
+            $turnoDisponible->cupos_reservados = 0;
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $turnoDisponible->save();
+            $reserva->delete();
+
+            DB::commit();
+
+            if ($user->hasRole('medico') || $user->hasRole('admin')) {
+                session()->flash('success', [
+                    'title' => 'Reserva eliminada',
+                    'text' => 'La reserva ha sido cancelada y los cupos se han actualizado correctamente.',
+                    'icon' => 'success'
+                ]);
+                return redirect()->route('reservas.index');
+            } else if ($user->hasRole('user')) {
+                session()->flash('success', [
+                    'title' => 'Reserva cancelada',
+                    'text' => 'La reserva de su turno ha sido cancelada.',
+                    'icon' => 'success'
+                ]);
+                return redirect()->route('profile.historial');
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        Log::error('Reserva no encontrada', ['id' => $id, 'error' => $e->getMessage()]);
+        session()->flash('error', [
+            'title' => 'Error!',
+            'text' => 'Reserva no encontrada.',
+            'icon' => 'error'
+        ]);
+        return redirect()->route('reservas.index');
+    } catch (\Exception $e) {
+        Log::error('Error al cancelar reserva', ['id' => $id, 'error' => $e->getMessage()]);
+        session()->flash('error', [
+            'title' => 'Error!',
+            'text' => 'Ocurrió un error al cancelar la reserva: ' . $e->getMessage(),
+            'icon' => 'error'
+        ]);
+        return redirect()->route('reservas.index');
     }
+}
 }

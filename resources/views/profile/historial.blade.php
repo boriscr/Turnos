@@ -38,14 +38,25 @@
                                 <a href="{{ route('profile.show', $reserva->id) }}" class="btn btn-view">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <form action="{{ route('disponible.destroy', $reserva->id) }}" method="POST"
-                                    style="display:inline;" class="delete-form">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-delete delete-btn">
-                                        <i class="bi bi-x-lg"></i>
-                                    </button>
-                                </form>
+                                @php
+                                    // Correcto: Combinar solo la fecha (de turnoDisponible->fecha) con la hora (de turnoDisponible->hora)
+                                    $fechaHoraReserva = \Carbon\Carbon::parse(
+                                        $reserva->turnoDisponible->fecha->format('Y-m-d') .
+                                            ' ' .
+                                            $reserva->turnoDisponible->hora->format('H:i:s'),
+                                    );
+                                @endphp
+
+                                @if ($fechaHoraReserva->gt($now))
+                                    <form action="{{ route('disponible.destroy', $reserva->id) }}" method="POST"
+                                        style="display:inline;" class="delete-form">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-delete delete-btn">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                             <td class="accionesMovil"><button type="button"><i class="bi bi-gear"></i></button></td>
                         </tr>

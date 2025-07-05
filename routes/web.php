@@ -12,12 +12,13 @@ use App\Http\Controllers\SettingController;
 
 Route::view('/', 'home')->name('home');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','role:user'])->group(function () {
     //Solicitud de Turnos
     Route::get('/disponibles/create', [TurnoDisponibleController::class, 'create'])->name('disponible.create');
     Route::get('/getMedicosPorEspecialidad/{especialidad_id}', [TurnoDisponibleController::class, 'getMedicosPorEspecialidad']);
     Route::get('/getTurnosPorEquipo/{medico_id}', [TurnoDisponibleController::class, 'getTurnosPorEquipo']);
     Route::post('/reservarTurno', [TurnoDisponibleController::class, 'reservarTurno'])->name('reservarTurno');
+    Route::delete('/disponibles/{id}', [TurnoDisponibleController::class, 'destroy'])->name('disponible.destroy');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -32,10 +33,9 @@ Route::middleware(['auth'])->group(function () {
 
 Route::group(['middleware' => ['role:admin']], function () {
     //Turnos disponibles "Reservas"
-    Route::delete('/disponibles/{id}', [TurnoDisponibleController::class, 'destroy'])->name('disponible.destroy');
 
     //Reservas
-    Route::get('/reservas', [ReservaController::class, 'index'])->name('reservas.index');
+    Route::get('/reservas+', [ReservaController::class, 'index'])->name('reservas.index');
     Route::get('/reservas/create', [ReservaController::class, 'create'])->name('reservas.create');
     Route::post('/reservas/store', [ReservaController::class, 'store'])->name('reservas.store');
     Route::get('/reservas/{id}/show', [ReservaController::class, 'show'])->name('reservas.show');
