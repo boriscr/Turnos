@@ -12,7 +12,7 @@ use App\Http\Controllers\SettingController;
 
 Route::view('/', 'home')->name('home');
 
-Route::middleware(['auth','role:user'])->group(function () {
+Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     //Solicitud de Turnos
     Route::get('/disponibles/create', [TurnoDisponibleController::class, 'create'])->name('disponible.create');
     Route::get('/getMedicosPorEspecialidad/{especialidad_id}', [TurnoDisponibleController::class, 'getMedicosPorEspecialidad']);
