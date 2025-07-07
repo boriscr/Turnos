@@ -24,36 +24,40 @@ thead {
 
 td,
 th {
-    border: 1px solid #000000;
+    border: 1px solid #0000004d;
     text-align: center;
     padding: 2px;
     word-break: break-word;
 }
 
 .main-table .container-form .acciones {
+    gap: 3px;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%!important;
+}
+.main-table .container-form form {
+    margin: 0px;
+    padding: 0px;
+}
+.main-table .container-form .acciones form{
     gap: 1px;
     flex-wrap: wrap;
+    width: 45px;
 }
 
 .main-table .container-form .accionesMovil {
     display: none;
 }
 
-.main-table .container-form .acciones>a {
+.main-table .container-form .acciones>a{
     border-radius: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
-
-
-.main-table .container-form form {
-    margin: 0px;
-    padding: 0px;
-}
-
-
 
 .main-table .container-form .bi {
     font-size: 15px;
@@ -61,7 +65,7 @@ th {
 }
 
 
-@media (max-width: 700px) {
+@media (max-width: 738px) {
     th,td {
         font-size: 0.70rem;
     }

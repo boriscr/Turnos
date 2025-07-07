@@ -35,7 +35,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     //Turnos disponibles "Reservas"
 
     //Reservas
-    Route::get('/reservas+', [ReservaController::class, 'index'])->name('reservas.index');
+    Route::get('/reservas', [ReservaController::class, 'index'])->name('reservas.index');
     Route::get('/reservas/create', [ReservaController::class, 'create'])->name('reservas.create');
     Route::post('/reservas/store', [ReservaController::class, 'store'])->name('reservas.store');
     Route::get('/reservas/{id}/show', [ReservaController::class, 'show'])->name('reservas.show');
