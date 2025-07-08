@@ -18,7 +18,7 @@ import '../js/pages/turnos/edit/calendario-edit.js';
 import '../js/pages/turnos/edit/horarios-edit.js';
 //components
 import '../js/pages/components/delete-btn.js';
-
+import '../js/pages/components/table-acciones-movile.js';
 
 
 import Alpine from 'alpinejs';

@@ -1,0 +1,140 @@
+/* Movil Acciones - Estilos existentes mejorados */
+.box-accionesMovil {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    max-width: 300px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 15px;
+}
+
+.box-accionesMovil .contenido-accionesMovil a,
+.box-accionesMovil .contenido-accionesMovil form {
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-accionesMovil .contenido-accionesMovil form {
+    padding: 0px;
+}
+
+
+
+.box-accionesMovil.active {
+    display: block;
+}
+
+.box-accionesMovil hr {
+    margin: 10px 0;
+    border-color: #dee2e6;
+}
+
+.box-accionesMovil h1 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.contenido-accionesMovil {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.contenido-accionesMovil a,
+.contenido-accionesMovil .delete-form {
+    width: 100%;
+}
+
+.contenido-accionesMovil .btn {
+    width: 100%;
+    text-align: center;
+}
+
+.accionesMovilBtn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    transition: background-color 0.3s ease;
+}
+
+/* Nuevo estilo para el botón cuando está activo */
+.accionesMovilBtn.active {
+    background-color: #007bff;
+    color: white;
+}
+
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+    .accionesMovilBtn .bi {
+        color: var(--background-light) !important;
+    }
+
+    .box-accionesMovil {
+        background-color: var(--background-dark);
+        border: 1px solid #dee2e6;
+        box-shadow: 0 4px 8px rgba(255, 255, 255, 0.29);
+
+        * {
+            color: var(--color-texto-light);
+        }
+    }
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+    .accionesMovilBtn .bi {
+        color: var(--background-dark) !important;
+    }
+
+    .box-accionesMovil {
+        background-color: var(--background-light);
+        border: 1px solid #00000064;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.29);
+
+        * {
+            color: var(--color-texto-dark);
+        }
+    }
+}
+
+@media (max-width: 738px) {
+
+    th,
+    td {
+        font-size: 0.70rem;
+    }
+
+    .main-table .container-form .acciones {
+        display: none;
+    }
+
+    .option-movil {
+        display: none;
+    }
+
+    .main-table .container-form .accionesMovil {
+        display: table-cell;
+        text-align: center;
+
+    }
+}
+
+@media (min-width: 739px) {
+    .accionesMovil {
+        display: none !important;
+    }
+}

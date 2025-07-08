@@ -36,13 +36,15 @@ th {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%!important;
+    height: 100% !important;
 }
+
 .main-table .container-form form {
     margin: 0px;
     padding: 0px;
 }
-.main-table .container-form .acciones form{
+
+.main-table .container-form .acciones form {
     gap: 1px;
     flex-wrap: wrap;
     width: 45px;
@@ -52,7 +54,7 @@ th {
     display: none;
 }
 
-.main-table .container-form .acciones>a{
+.main-table .container-form .acciones>a {
     border-radius: 15px;
     display: flex;
     justify-content: center;
@@ -64,22 +66,3 @@ th {
     color: #fff;
 }
 
-
-@media (max-width: 738px) {
-    th,td {
-        font-size: 0.70rem;
-    }
-    .main-table .container-form .acciones {
-        display: none;
-    }
-
-    .option-movil {
-        display: none;
-    }
-
-    .main-table .container-form .accionesMovil {
-        display: table-cell;
-        justify-content: center;
-        align-items: center;
-    }
-}

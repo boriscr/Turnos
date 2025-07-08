@@ -34,7 +34,7 @@
                                 </i>
                                 {{ $reserva->turnoDisponible->turno->estado === true ? ($reserva->asistencia === null ? 'Pendiente' : ($reserva->asistencia ? 'Asistió' : 'No asistió')) : 'Turno Inactivo' }}
                             </td>
-                            <td class="acciones">
+                            <td>
                                 <a href="{{ route('profile.show', $reserva->id) }}" class="btn btn-view">
                                     <i class="bi bi-eye"></i>
                                 </a>
@@ -58,7 +58,6 @@
                                     </form>
                                 @endif
                             </td>
-                            <td class="accionesMovil"><button type="button"><i class="bi bi-gear"></i></button></td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -27,20 +27,24 @@
                             <td>{{ $turno->estado ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones">
                                 <a href="{{ route('turnos.show', $turno->id) }}" class="btn btn-view"><i
-                                        class="bi bi-eye"></i></a>
+                                        class="bi bi-eye"></i><b class="accionesMovil">Ver</b></a>
                                 <a href="{{ route('turnos.edit', $turno->id) }}" class="btn btn-edit"><i
-                                        class="bi bi-pencil-fill"></i></a>
+                                        class="bi bi-pencil-fill"></i><b class="accionesMovil">Editar</b></a>
 
                                 <form action="{{ route('turnos.destroy', $turno->id) }}" method="POST"
                                     class="delete-form" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-delete delete-btn">
-                                        <i class="bi bi-trash-fill"></i>
+                                        <i class="bi bi-trash-fill"></i><b class="accionesMovil">Eliminar</b>
                                     </button>
                                 </form>
                             </td>
-                            <td class="accionesMovil"><button><i class="bi bi-gear"></i></button></td>
+                            <td class="accionesMovil">
+                                <button type="button" class="accionesMovilBtn">
+                                    <i class="bi bi-gear"></i>
+                                </button>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

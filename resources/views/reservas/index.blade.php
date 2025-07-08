@@ -14,7 +14,7 @@
                         <th class="option-movil">Hora</th>
                         <th>Profesional</th>
                         <th>Paciente</th>
-                        <th class="option-movil">Asistencia</th>
+                        <th>Asistencia</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -24,7 +24,7 @@
                             <td>{{ $reserva->id }}</td>
                             <td>{{ Carbon\Carbon::parse($reserva->turnoDisponible->fecha)->format('d/m/Y') }}</td>
                             <td class="option-movil">
-                                {{ Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}
+                                {{ Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</td>
                             <td><a
                                     href="{{ route('medico.create', $reserva->turnoDisponible->medico->id) }}">{{ $reserva->turnoDisponible->medico->nombre . ' ' . $reserva->turnoDisponible->medico->apellido }}</a>
                             </td>
@@ -33,7 +33,7 @@
                             </td>
 
 
-                            <td class="option-movil">
+                            <td>
                                 @if ($reserva->asistencia === null)
                                     <div class="ios-dropdown">
                                         <button class="btn-asistencia btn-secondary dropdown-toggle"
@@ -77,31 +77,34 @@
                                 @endif
                             </td>
 
-
-
                             <td class="acciones">
                                 <a href="{{ route('reservas.show', $reserva->id) }}" class="btn btn-view">
-                                    <i class="bi bi-eye"></i>
+                                    <i class="bi bi-eye"></i><b class="accionesMovil">Ver</b>
                                 </a>
                                 <form action="{{ route('disponible.destroy', $reserva->id) }}" method="POST"
                                     style="display:inline;" class="delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-delete delete-btn">
-                                        <i class="bi bi-trash-fill"></i>
+                                        <i class="bi bi-trash-fill"></i><b class="accionesMovil">Eliminar</b>
                                     </button>
                                 </form>
                             </td>
-                            <td class="accionesMovil"><button type="button"><i class="bi bi-gear"></i></button></td>
+                            <td class="accionesMovil">
+                                <button type="button" class="accionesMovilBtn">
+                                    <i class="bi bi-gear"></i>
+                                </button>
+                            </td>
                         </tr>
+
                     @empty
                         <tr>
                             <td colspan="7" class="text-center">No se encontraron reservas</td>
                         </tr>
                     @endforelse
+
                 </tbody>
             </table>
-
             <!-- Paginación -->
             @if ($reservas->hasPages())
                 <div class="mt-4">

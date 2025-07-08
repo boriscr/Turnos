@@ -76,56 +76,29 @@
     background-color: #4CAF50;
 }
 
-.content-wrapper .btn-edit {
-    background-color: #ffc107;
-    padding: 10px;
-}
-
-.content-wrapper .btn-edit:hover {
-    background-color: #e0a800;
-}
-
-.opciones .delete-form {
-    background-color: #dc3545;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0px;
-    width: 100%;
-}
-
-.opciones .delete-form:hover {
-    background-color: #c82333;
-}
-
-.opciones .btn-delete {
-    width: 100%;
-    height: 100%;
-}
-
 
 
 /*body*/
 
-.main-table .container-form .acciones .btn-view {
+.btn-view {
     background-color: #007bff;
 }
 
-.main-table .container-form .acciones .btn-view:hover {
+.btn-view:hover {
     background-color: #0056b3;
     /* Azul más oscuro */
 }
 
-.main-table .container-form .acciones .btn-edit {
+.btn-edit {
     background-color: #ffc107;
 }
 
-.main-table .container-form .acciones .btn-edit:hover {
+.btn-edit:hover {
     background-color: #e0a800;
     /* Amarillo más intenso */
 }
 
-.main-table .container-form .btn-delete {
+.btn-delete {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -133,10 +106,8 @@
     background-color: #dc3545;
 }
 
-.main-table .container-form .btn-delete:hover {
+.btn-delete:hover {
     background-color: #c82333;
-    /* Rojo más oscuro */
-
 }
 
 
