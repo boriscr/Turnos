@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     <div class="content-wrapper">
         <H3 class="title-form">
             @if (Auth::user()->genero == 'Masculino')
@@ -39,20 +39,20 @@
                 <div class="card-profile">
                     <h1><b>Seccion Informacion</b></h1>
                     <i class="bi bi-person-bounding-box"></i>
-                    <a href="{{route('profile.edit')}}">Ver mis datos</a>
+                    <a href="{{ route('profile.edit') }}">Ver mis datos</a>
                 </div>
                 <div class="card-profile">
                     <h1><b>Seccion Turnos</b></h1>
                     <i class="bi bi-calendar3"></i>
-                    <a href="{{route('profile.edit')}}">Reservar turno</a>
+                    <a href="{{ route('profile.edit') }}">Reservar turno</a>
                 </div>
 
                 <!-- Notificaciones importantes -->
                 <div class="card-profile">
                     <h1><b>Mi historial</b></h1>
                     <i class="bi bi-journal-text"></i>
-                    <a href="{{route('profile.historial')}}">Ver historial</a>
+                    <a href="{{ route('profile.historial') }}">Ver historial</a>
                 </div>
             </div>
     </div>
-</x-body.body>
+</x-app-layout>

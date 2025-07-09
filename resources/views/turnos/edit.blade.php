@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     <div class="main">
         <div class="container-form">
             <h3 class="title-form">Editar turno</h3>
@@ -115,8 +115,7 @@
 
                         <div class="item">
                             <label for="hora_fin">Hora de Fin</label>
-                            <input type="time" name="hora_fin" id="hora_fin" value="{{ $fin }}" required
-                            >
+                            <input type="time" name="hora_fin" id="hora_fin" value="{{ $fin }}" required>
                             @error('hora_fin')
                                 <div class="error">{{ $message }}</div>
                             @enderror
@@ -163,8 +162,10 @@
                     <div class="item">
                         <label for="estado">Estado</label>
                         <select name="estado" id="estado" required>
-                            <option {{isset($edit)? ($turno->estado == true ? 'selected' : ''):'' }} value="1">Activo</option>
-                            <option {{isset($edit)? ($turno->estado == false ? 'selected' : ''):'' }} value="0">Inactivo</option>
+                            <option {{ isset($edit) ? ($turno->estado == true ? 'selected' : '') : '' }} value="1">
+                                Activo</option>
+                            <option {{ isset($edit) ? ($turno->estado == false ? 'selected' : '') : '' }} value="0">
+                                Inactivo</option>
                             @error('estado')
                                 <div class="error">{{ $message }}</div>
                             @enderror
@@ -180,4 +181,4 @@
 
         </div>
     </div>
-</x-body.body>
+</x-app-layout>

@@ -1,5 +1,6 @@
 /* app.css */
 @import 'layouts/navbar.css';
+@import 'layouts/icon.css';
 /*Components*/
 @import 'pages/components/main.css';
 @import 'pages/components/buttons.css';

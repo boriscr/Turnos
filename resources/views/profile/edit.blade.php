@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     <div class="main">
         <div class="container-form">
             <x-slot name="header">
@@ -30,4 +30,4 @@
             </div>
         </div>
     </div>
-</x-body.body>
+</x-app-layout>

@@ -1,3 +1,3 @@
-<x-body.body>
+<x-app-layout>
     @include('register')
-</x-body.body>
+</x-app-layout>

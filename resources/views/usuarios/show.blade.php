@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     <div class="content-wrapper">
         <H3 class="title-form">Detalles</H3>
 
@@ -40,4 +40,4 @@
             </form>
         </div>
     </div>
-</x-body.body>
+</x-app-layout>

@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     <div class="main">
         <div class="container-form">
             <h3 class="title-form">Agregar nuevo medico</h3>
@@ -8,9 +8,7 @@
 
             {{-- Formulario para crear una nueva especialidad --}}
             <div class="form-especialidad" id="especialidad-form">
-                <x-form.especialidad :ruta="route('especialidad.store')" 
-                :crear="true" :nombre="old('nombre')" 
-                :descripcion="old('descripcion')" />
+                <x-form.especialidad :ruta="route('especialidad.store')" :crear="true" :nombre="old('nombre')" :descripcion="old('descripcion')" />
             </div>
         </div>
-</x-body.body>
+</x-app-layout>

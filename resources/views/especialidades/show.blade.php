@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     @if (isset($especialidad))
         <div class="content-wrapper">
             <h3 class="title-form">Detalles</h3>
@@ -24,4 +24,4 @@
             </div>
         </div>
     @endif
-</x-body.body>
+</x-app-layout>

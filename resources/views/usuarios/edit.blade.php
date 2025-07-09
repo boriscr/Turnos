@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     <div class="main">
         <div class="container-form">
             <h3 class="title-form">Editar usuario</h3>
@@ -21,4 +21,4 @@
             />
         </div>
     </div>
-</x-body.body>
+</x-app-layout>

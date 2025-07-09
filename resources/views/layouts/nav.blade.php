@@ -1,6 +1,7 @@
 <nav class="main-nav">
     <div class="nav-header">
-        <a class="nav-brand" href="{{ route('home') }}">Turnos.com</a>
+        <a href="{{ route('home') }}"><img src="images/app-icon.ico" alt="icon" class="nav-icon"></a>
+        <a class="nav-brand" href="{{ route('home') }}">{{ config('app.name', 'Laravel') }}</a>
         <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
             <i class="bi bi-list"></i>
         </button>

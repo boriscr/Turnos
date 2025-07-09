@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     <div class="main-table">
         <div class="container-form">
             <h3 class="title-form">Lista de médicos</h3>
@@ -48,4 +48,4 @@
 
         </div>
     </div>
-</x-body.body>
+</x-app-layout>

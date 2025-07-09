@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     <style>
         select {
             width: 100%;
@@ -350,4 +350,4 @@
             }
         }
     </script>
-</x-body.body>
+</x-app-layout>

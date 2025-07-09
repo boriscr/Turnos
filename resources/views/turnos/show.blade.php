@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     <div class="content-wrapper">
         <H3 class="title-form">Detalles</H3>
 
@@ -41,4 +41,4 @@
         </div>
         <br>
         <a href="{{ route('disponible.index', $turno->medico_id) }}">Ver turnos disponibles</a>
-</x-body.body>
+</x-app-layout>

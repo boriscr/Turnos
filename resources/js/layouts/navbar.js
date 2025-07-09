@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Solo aplicar el toggle para móvil
     if (toggleButton) {
         toggleButton.addEventListener('click', function(e) {
-            e.preventDefault(); // Prevenir el comportamiento por defecto
-            e.stopPropagation(); // Detener la propagación del evento
+            e.preventDefault();
+            e.stopPropagation();
             
             const isExpanded = this.getAttribute('aria-expanded') === 'true';
             this.setAttribute('aria-expanded', !isExpanded);
@@ -20,15 +20,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.querySelectorAll('.dropdown-toggle').forEach(button => {
             // Eliminar eventos anteriores para evitar duplicados
-            const newButton = button.cloneNode(true);
-            button.parentNode.replaceChild(newButton, button);
+            button.replaceWith(button.cloneNode(true));
         });
 
         document.querySelectorAll('.dropdown-toggle').forEach(button => {
             if (isMobile) {
                 button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
+                    // Solo prevenir el comportamiento por defecto si el botón no tiene un href
+                    if (!this.hasAttribute('href')) {
+                        e.preventDefault();
+                    }
                     
                     const dropdown = this.nextElementSibling;
                     const isExpanded = this.getAttribute('aria-expanded') === 'true';
@@ -78,5 +79,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 button.setAttribute('aria-expanded', 'false');
             });
         }
+    });
+
+    // Asegurar que los clics en enlaces normales no sean prevenidos
+    document.querySelectorAll('.nav-link[href], .dropdown-item[href]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Permitir que el enlace se comporte normalmente
+            if (this.hasAttribute('href') && this.getAttribute('href') !== '#') {
+                return true;
+            }
+            e.preventDefault();
+        });
     });
 });

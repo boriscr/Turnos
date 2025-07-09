@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     @if (isset($medico))
         <div class="content-wrapper">
             <h3 class="title-form">Detalles</h3>
@@ -16,7 +16,7 @@
                         @endif
                     </p>
                     <p><b> Matricula: </b>{{ $medico->matricula ?? 'Sin datos' }}</p>
-                    <p><b> Especialidad: </b>{{ $medico->especialidad->nombre??'Sin datos' }}</p>
+                    <p><b> Especialidad: </b>{{ $medico->especialidad->nombre ?? 'Sin datos' }}</p>
                     <p><b> Email: </b>{{ $medico->email }}</p>
                     <p><b> Celular: </b>{{ $medico->telefono }}</p>
                     <p><b> Rol: </b>{{ $medico->role }}</p>
@@ -37,4 +37,4 @@
             </div>
         </div>
     @endif
-</x-body.body>
+</x-app-layout>

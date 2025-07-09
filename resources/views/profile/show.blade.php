@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     @if (isset($reserva) && $reserva->turnoDisponible->turno->estado === true)
         <div class="content-wrapper">
             <h3 class="title-form">Detalles</h3>
@@ -68,4 +68,4 @@
             </div>
         </div>
     @endif
-</x-body.body>
+</x-app-layout>

@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     <div class="main" style="color: #000000">
         <div class="box-presentacion bg-light p-5 rounded shadow-sm text-center">
             <h1>Turnos Online</h1>
@@ -18,6 +18,9 @@
                     <a href="{{ route('register') }}" class="btn btn-secondary">Registrarse</a>
                 </div>
             @endif
+
+            
+            
         </div>
     </div>
-</x-body.body>
+</x-app-layout>

@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     <div class="main-table">
         <div class="container-form">
             <h3 class="title-form">Turnos creados</h3>
@@ -214,4 +214,4 @@
         }
     </script>
 
-</x-body.body>
+</x-app-layout>

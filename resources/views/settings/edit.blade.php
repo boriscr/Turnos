@@ -1,4 +1,4 @@
-<x-body.body>
+<x-app-layout>
     <div class="main">
         <div class="container-form">
             <H3 class="title-form">Settings</H3>
@@ -84,4 +84,4 @@
                     <button type="submit" class="submit-btn">Actualizar</button>
             </form>
         </div>
-</x-body.body>
+</x-app-layout>
