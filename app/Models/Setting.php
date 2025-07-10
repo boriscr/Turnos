@@ -7,19 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
     protected $fillable = [
-        'nombre',
-        'mensaje_bienvenida',
-        'pie_pagina',
-        'nombre_institucion',
-        'cancelacion_turnos',
-        'preview_window_amount',
-        'preview_window_unit',
-        'faltas',
-        'limites',
-        'hora_verificacion_asistencias',
+        'key',
+        'value',
+        'type',
+        'group',
     ];
 
-    public $timestamps = false;
+    protected $primaryKey = 'key';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
-    // Define any relationships if necessary
+    public $timestamps = false;
 }

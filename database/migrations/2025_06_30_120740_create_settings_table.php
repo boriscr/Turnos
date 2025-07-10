@@ -12,18 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->text('mensaje_bienvenida'); //default('Bienvenido a nuestra aplicación de turnos. Aquí podrás reservar tus turnos de manera fácil y rápida.');
-            $table->text('pie_pagina'); //default('© 2025 Turnos.com. Todos los derechos reservados.');
-            $table->string('nombre_institucion');
-            $table->integer('faltas');
-            $table->integer('limites');
-            $table->integer('cancelacion_turnos');
-            $table->integer('preview_window_amount');//valor 1,24,30,etc
-            $table->string('preview_window_unit'); // 'hora', 'dia' o 'mes'
-            $table->string('logo')->nullable(); // Path to the logo image
-            $table->string('hora_verificacion_asistencias'); // Horas para verificar asistencias automáticamente
+            $table->string('key')->primary(); // Clave única en lugar de ID
+            $table->text('value');
+            $table->string('type')->default('string'); // Tipo de dato: string, integer, boolean, json
+            $table->string('group')->default('general'); // Agrupación: app, turnos, usuarios, etc.
             $table->timestamps();
         });
     }

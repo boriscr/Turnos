@@ -2,38 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Setting;
+use App\Http\Requests\SettingUpdateRequest;
+
 class SettingController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         //
     }
     public function edit()
     {
-        $settings = Setting::first();
-        return view('settings.edit',compact('settings'));
+        $settings = app('settings'); // o Setting::all()->pluck('value', 'key')
+        return view('settings.edit', compact('settings'));
     }
-    public function update(Request $request)
+
+
+    public function update(SettingUpdateRequest $request)
     {
-        $settings = Setting::first();
-        $settings->update([
-            'nombre' => $request->input('nombre'),
-            'mensaje_bienvenida' => $request->input('mensaje_bienvenida'),
-            'pie_pagina' => $request->input('pie_pagina'),
-            'nombre_institucion' => $request->input('nombre_institucion'),
-            'cancelacion_turnos' => $request->input('cancelacion_turnos'),
-            'preview_window_amount' => $request->input('preview_window_amount'),
-            'preview_window_unit' => $request->input('preview_window_unit'),
-            'faltas' => $request->input('faltas'),
-            'limites' => $request->input('limites'),
-            'hora_verificacion_asistencias' => $request->input('hora_verificacion_asistencias'),
-        ]);
+        foreach ($request->all() as $group => $items) {
+            if (is_array($items)) {
+                foreach ($items as $key => $value) {
+                    $fullKey = "{$group}.{$key}";
+
+                    // Determinar el tipo de dato
+                    $type = match (true) {
+                        is_numeric($value) => 'integer',
+                        is_bool($value) => 'boolean',
+                        $this->isJson($value) => 'json',
+                        default => 'string'
+                    };
+
+                    Setting::updateOrCreate(
+                        ['key' => $fullKey],
+                        [
+                            'value' => $value,
+                            'type' => $type,
+                            'group' => $group
+                        ]
+                    );
+                }
+            }
+        }
+
+        // Limpiar caché
+        cache()->forget('app_settings');
         session()->flash('success', [
-            'title' => 'Configuración actualizada',
-            'text' => 'La configuración se ha actualizado correctamente.',
             'icon' => 'success',
+            'title' => 'Configuración actualizada',
+            'text' => 'Los cambios se han guardado correctamente.'
         ]);
-        return redirect()->route('home');
+        return redirect()->route('settings.edit');
+    }
+
+    protected function isJson($string)
+    {
+        json_decode($string);
+        return json_last_error() === JSON_ERROR_NONE;
     }
 }

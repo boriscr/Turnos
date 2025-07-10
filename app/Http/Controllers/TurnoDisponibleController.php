@@ -20,20 +20,26 @@ class TurnoDisponibleController extends Controller
 
     public function create()
     {
-        $settings = Setting::first();
+        $settings = Setting::where('group', 'turnos')->pluck('value', 'key');
+        $turnos_antelacion_reserva = $settings['turnos.antelacion_reserva'];
+        $turnos_faltas_maximas = $settings['turnos.faltas_maximas'];
+        $turnos_horas_cancelacion = $settings['turnos.horas_cancelacion'];
+        $turnos_limite_diario = $settings['turnos.limite_diario'];
+        $turnos_unidad_antelacion = $settings['turnos.unidad_antelacion'];
+        /*dd($turnos_antelacion_reserva, $turnos_faltas_maximas, $turnos_horas_cancelacion, $turnos_limite_diario, $turnos_unidad_antelacion);*/
         $user = Auth::user();
         $turnos_activos = Reserva::where('user_id', $user->id)
             ->whereHas('turnoDisponible', function ($query) {
                 $query->whereNull('asistencia');
             })
             ->count();
-        if ($user->estado == 1 && $user->faults <= $settings->faltas &&  $turnos_activos < $settings->limites && $settings->limites > 0) {
+        if ($user->estado == 1 && $user->faults <= $turnos_faltas_maximas &&  $turnos_activos < $turnos_limite_diario && $turnos_limite_diario > 0) {
             $turnoDisponible = TurnoDisponible::all();
             $turno = Turno::where('estado', 1)->get();
             $especialidades = Especialidad::where('estado', 1)->get();
             return view('reservas/create', compact('turnoDisponible', 'turno', 'especialidades'));
         } else {
-            if ($user->faults > $settings->faltas && $user->estado == 0 && $turnos_activos >= $settings->limites) {
+            if ($user->faults > $turnos_faltas_maximas && $user->estado == 0 && $turnos_activos >= $turnos_limite_diario) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => '1. Has alcanzado el límite de faltas permitidas.<br>2. Su cuenta está inactiva.<br> Contacta al administrador.',
@@ -47,21 +53,21 @@ class TurnoDisponibleController extends Controller
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
-            } elseif ($user->faults > $settings->faltas) {
+            } elseif ($user->faults > $turnos_limite_diario) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes reservar turnos.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
-            } elseif ($turnos_activos >= $settings->limites) {
+            } elseif ($turnos_activos >= $turnos_limite_diario) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => 'Has alcanzado el límite de turnos activos permitidos.<br> Asiste a los turnos solicitados antes de solicitar uno nuevo.<br> No puedes reservar más turnos.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
-            } elseif ($settings->limites <= 0) {
+            } elseif ($turnos_limite_diario <= 0) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => 'No puedes reservar turnos en este momento. El límite de turnos activos ha sido deshabilitado.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
@@ -105,9 +111,13 @@ class TurnoDisponibleController extends Controller
         $horaActual = now()->format('H:i:s');
 
         // Obtener configuración de previsualización
-        $previewWindow = Setting::first();
-        $previewAmount = $previewWindow->preview_window_amount ?? 30; // Valor por defecto
-        $previewUnit = $previewWindow->preview_window_unit ?? 'dia'; // Valor por defecto
+        $settings = Setting::where('group', 'turnos')->pluck('value', 'key');
+        /*
+        $turnos_antelacion_reserva = $settings['turnos.antelacion_reserva'] ?? 30;
+        $turnos_unidad_antelacion  = $settings['turnos.unidad_antelacion'] ?? 'dia';
+*/
+        $previewAmount = (int) ($settings['turnos.antelacion_reserva'] ?? 30); // Valor por defecto
+        $previewUnit = $settings['turnos.unidad_antelacion'] ?? 'dia'; // Valor por defecto
 
         // Calcular fecha límite según configuración
         $fechaLimite = now();
@@ -120,6 +130,8 @@ class TurnoDisponibleController extends Controller
                 $fechaLimite->addMonths($previewAmount);
                 break;
             case 'dia':
+                $fechaLimite->addDays($previewAmount);
+                break;
             default:
                 $fechaLimite->addDays($previewAmount);
                 break;
@@ -168,8 +180,11 @@ class TurnoDisponibleController extends Controller
             })
             ->count();
         // Verificar si el usuario tiene permisos para reservar turnos
-        $settings = Setting::first();
-        if ($turno && $user->faults <= $settings->faltas && $user->estado == 1 && $turnos_activos < $settings->limites) {
+        $settings = Setting::where('group', 'turnos')->pluck('value', 'key');
+        $turnos_faltas_maximas = $settings['turnos.faltas_maximas'];
+        $turnos_limite_diario = $settings['turnos.limite_diario'];
+
+        if ($turno && $user->faults <= $turnos_faltas_maximas && $user->estado == 1 && $turnos_activos < $turnos_limite_diario) {
             // Verificar si hay cupos disponibles
             if ($turno->cupos_disponibles <= 0) {
                 session()->flash('error', [
@@ -216,7 +231,7 @@ class TurnoDisponibleController extends Controller
                 return redirect()->route('profile.historial');
             }
         } else {
-            if ($user->estado == 1 && $user->faults <= $settings->faltas &&  $turnos_activos >= $settings->limites && $settings->limites > 0) {
+            if ($user->estado == 1 && $user->faults <= $turnos_faltas_maximas &&  $turnos_activos >= $turnos_limite_diario && $turnos_limite_diario > 0) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => '1. Has alcanzado el límite de faltas permitidas.<br>2. Su cuenta está inactiva.<br>3. Has alcanzado el límite de turnos activos permitidos.<br> Contacta al administrador.',
@@ -230,21 +245,21 @@ class TurnoDisponibleController extends Controller
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
-            } elseif ($user->faults > $settings->faltas) {
+            } elseif ($user->faults > $turnos_faltas_maximas) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes reservar turnos.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
-            } elseif ($user->turnos_activos >= $settings->limites) {
+            } elseif ($user->turnos_activos >= $turnos_limite_diario) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => 'Has alcanzado el límite de turnos activos permitidos.<br> Asiste a los turnos solicitados antes de solicitar uno nuevo.<br> No puedes reservar más turnos.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
-            } elseif ($settings->limites <= 0) {
+            } elseif ($turnos_limite_diario <= 0) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => 'No puedes reservar turnos en este momento. El límite de turnos activos ha sido deshabilitado.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
@@ -263,135 +278,135 @@ class TurnoDisponibleController extends Controller
     }
 
     //Eliminar reserva y actualizar los cupos disponibles
-public function destroy($id)
-{
-    try {
-        /** @var \App\Models\Reserva $reserva */
-        $reserva = Reserva::findOrFail($id);
+    public function destroy($id)
+    {
+        try {
+            /** @var \App\Models\Reserva $reserva */
+            $reserva = Reserva::findOrFail($id);
 
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
+            /** @var \App\Models\User $user */
+            $user = Auth::user();
 
-        /** @var \App\Models\TurnoDisponible $turnoDisponible */
-        $turnoDisponible = TurnoDisponible::find($reserva->turno_disponible_id);
+            /** @var \App\Models\TurnoDisponible $turnoDisponible */
+            $turnoDisponible = TurnoDisponible::find($reserva->turno_disponible_id);
 
-        if (!$turnoDisponible) {
-            throw new \Exception('Turno asociado no encontrado');
-        }
+            if (!$turnoDisponible) {
+                throw new \Exception('Turno asociado no encontrado');
+            }
 
-        // Verificación de si el turno ya pasó (aplica para todos los roles)
-        $fechaHoraTurno = Carbon::parse($turnoDisponible->fecha->format('Y-m-d') . ' ' . $turnoDisponible->hora->format('H:i:s'));
-        
-        if ($fechaHoraTurno->isPast()) {
-            session()->flash('error', [
-                'title' => 'Error!',
-                'text' => 'No puedes cancelar un turno que ya ha pasado.',
-                'icon' => 'error'
-            ]);
-            return $user->hasRole('user') ? redirect()->route('profile.historial') : redirect()->route('reservas.index');
-        }
+            // Verificación de si el turno ya pasó (aplica para todos los roles)
+            $fechaHoraTurno = Carbon::parse($turnoDisponible->fecha->format('Y-m-d') . ' ' . $turnoDisponible->hora->format('H:i:s'));
 
-        // Verificación de roles con type hints
-        if ($user->hasRole('user')) {
-            /** @var \App\Models\Setting $setting */
-            $setting = \App\Models\Setting::first();
-            $horasLimiteCancelacion = $setting->cancelacion_turnos ?? 24;
+            if ($fechaHoraTurno->isPast()) {
+                session()->flash('error', [
+                    'title' => 'Error!',
+                    'text' => 'No puedes cancelar un turno que ya ha pasado.',
+                    'icon' => 'error'
+                ]);
+                return $user->hasRole('user') ? redirect()->route('profile.historial') : redirect()->route('reservas.index');
+            }
 
-            try {
-                // Opción 1: Si ya es un objeto DateTime/Carbon
-                if ($turnoDisponible->hora instanceof \DateTimeInterface) {
-                    $horaTurno = Carbon::instance($turnoDisponible->hora);
-                }
-                // Opción 2: Si es un string en formato 'H:i:s'
-                elseif (is_string($turnoDisponible->hora) && preg_match('/^\d{2}:\d{2}:\d{2}$/', $turnoDisponible->hora)) {
-                    $horaTurno = Carbon::createFromFormat('H:i:s', $turnoDisponible->hora);
-                }
-                // Opción 3: Si es un string en formato 'H:i'
-                elseif (is_string($turnoDisponible->hora) && preg_match('/^\d{2}:\d{2}$/', $turnoDisponible->hora)) {
-                    $horaTurno = Carbon::createFromFormat('H:i', $turnoDisponible->hora);
-                }
-                // Opción 4: Si es un timestamp o formato no reconocido
-                else {
-                    $horaTurno = Carbon::parse($turnoDisponible->hora);
-                }
+            // Verificación de roles con type hints
+            if ($user->hasRole('user')) {
+                $settings = Setting::where('group', 'turnos')->pluck('value', 'key');
+                $turnos_horas_cancelacion = $settings['turnos.horas_cancelacion'];
 
-                // Calcular diferencia de horas
-                $horasRestantes = now()->diffInHours($fechaHoraTurno, false);
+                $horasLimiteCancelacion = $turnos_horas_cancelacion ?? 24;
+                try {
+                    // Opción 1: Si ya es un objeto DateTime/Carbon
+                    if ($turnoDisponible->hora instanceof \DateTimeInterface) {
+                        $horaTurno = Carbon::instance($turnoDisponible->hora);
+                    }
+                    // Opción 2: Si es un string en formato 'H:i:s'
+                    elseif (is_string($turnoDisponible->hora) && preg_match('/^\d{2}:\d{2}:\d{2}$/', $turnoDisponible->hora)) {
+                        $horaTurno = Carbon::createFromFormat('H:i:s', $turnoDisponible->hora);
+                    }
+                    // Opción 3: Si es un string en formato 'H:i'
+                    elseif (is_string($turnoDisponible->hora) && preg_match('/^\d{2}:\d{2}$/', $turnoDisponible->hora)) {
+                        $horaTurno = Carbon::createFromFormat('H:i', $turnoDisponible->hora);
+                    }
+                    // Opción 4: Si es un timestamp o formato no reconocido
+                    else {
+                        $horaTurno = Carbon::parse($turnoDisponible->hora);
+                    }
 
-                if ($horasRestantes < $horasLimiteCancelacion) {
+                    // Calcular diferencia de horas
+                    $horasRestantes = now()->diffInHours($fechaHoraTurno, false);
+
+                    if ($horasRestantes < $horasLimiteCancelacion) {
+                        session()->flash('error', [
+                            'title' => 'Error!',
+                            'text' => "No puedes cancelar el turno. Debes cancelar con al menos {$horasLimiteCancelacion} horas de anticipación.",
+                            'icon' => 'error'
+                        ]);
+                        return redirect()->route('profile.historial');
+                    }
+                } catch (\Exception $e) {
+                    Log::error('Error al procesar hora del turno', [
+                        'hora_turno' => $turnoDisponible->hora,
+                        'error' => $e->getMessage()
+                    ]);
+
                     session()->flash('error', [
                         'title' => 'Error!',
-                        'text' => "No puedes cancelar el turno. Debes cancelar con al menos {$horasLimiteCancelacion} horas de anticipación.",
+                        'text' => 'Ocurrió un error al procesar el horario del turno.',
                         'icon' => 'error'
                     ]);
                     return redirect()->route('profile.historial');
                 }
+            }
+
+            // Resto de la lógica de cancelación...
+            $turnoDisponible->cupos_disponibles += 1;
+            $turnoDisponible->cupos_reservados -= 1;
+
+            if ($turnoDisponible->cupos_reservados < 0) {
+                $turnoDisponible->cupos_reservados = 0;
+            }
+
+            DB::beginTransaction();
+
+            try {
+                $turnoDisponible->save();
+                $reserva->delete();
+
+                DB::commit();
+
+                if ($user->hasRole('medico') || $user->hasRole('admin')) {
+                    session()->flash('success', [
+                        'title' => 'Reserva eliminada',
+                        'text' => 'La reserva ha sido cancelada y los cupos se han actualizado correctamente.',
+                        'icon' => 'success'
+                    ]);
+                    return redirect()->route('reservas.index');
+                } else if ($user->hasRole('user')) {
+                    session()->flash('success', [
+                        'title' => 'Reserva cancelada',
+                        'text' => 'La reserva de su turno ha sido cancelada.',
+                        'icon' => 'success'
+                    ]);
+                    return redirect()->route('profile.historial');
+                }
             } catch (\Exception $e) {
-                Log::error('Error al procesar hora del turno', [
-                    'hora_turno' => $turnoDisponible->hora,
-                    'error' => $e->getMessage()
-                ]);
-
-                session()->flash('error', [
-                    'title' => 'Error!',
-                    'text' => 'Ocurrió un error al procesar el horario del turno.',
-                    'icon' => 'error'
-                ]);
-                return redirect()->route('profile.historial');
+                DB::rollBack();
+                throw $e;
             }
-        }
-
-        // Resto de la lógica de cancelación...
-        $turnoDisponible->cupos_disponibles += 1;
-        $turnoDisponible->cupos_reservados -= 1;
-
-        if ($turnoDisponible->cupos_reservados < 0) {
-            $turnoDisponible->cupos_reservados = 0;
-        }
-
-        DB::beginTransaction();
-
-        try {
-            $turnoDisponible->save();
-            $reserva->delete();
-
-            DB::commit();
-
-            if ($user->hasRole('medico') || $user->hasRole('admin')) {
-                session()->flash('success', [
-                    'title' => 'Reserva eliminada',
-                    'text' => 'La reserva ha sido cancelada y los cupos se han actualizado correctamente.',
-                    'icon' => 'success'
-                ]);
-                return redirect()->route('reservas.index');
-            } else if ($user->hasRole('user')) {
-                session()->flash('success', [
-                    'title' => 'Reserva cancelada',
-                    'text' => 'La reserva de su turno ha sido cancelada.',
-                    'icon' => 'success'
-                ]);
-                return redirect()->route('profile.historial');
-            }
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            Log::error('Reserva no encontrada', ['id' => $id, 'error' => $e->getMessage()]);
+            session()->flash('error', [
+                'title' => 'Error!',
+                'text' => 'Reserva no encontrada.',
+                'icon' => 'error'
+            ]);
+            return redirect()->route('reservas.index');
         } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
+            Log::error('Error al cancelar reserva', ['id' => $id, 'error' => $e->getMessage()]);
+            session()->flash('error', [
+                'title' => 'Error!',
+                'text' => 'Ocurrió un error al cancelar la reserva: ' . $e->getMessage(),
+                'icon' => 'error'
+            ]);
+            return redirect()->route('reservas.index');
         }
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        Log::error('Reserva no encontrada', ['id' => $id, 'error' => $e->getMessage()]);
-        session()->flash('error', [
-            'title' => 'Error!',
-            'text' => 'Reserva no encontrada.',
-            'icon' => 'error'
-        ]);
-        return redirect()->route('reservas.index');
-    } catch (\Exception $e) {
-        Log::error('Error al cancelar reserva', ['id' => $id, 'error' => $e->getMessage()]);
-        session()->flash('error', [
-            'title' => 'Error!',
-            'text' => 'Ocurrió un error al cancelar la reserva: ' . $e->getMessage(),
-            'icon' => 'error'
-        ]);
-        return redirect()->route('reservas.index');
     }
-}
 }

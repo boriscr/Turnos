@@ -3,7 +3,8 @@
         <div class="box-presentacion bg-light p-5 rounded shadow-sm text-center">
             <h1>Turnos Online</h1>
             <h2>Bienvenido a la plataforma de gestión de turnos online</h2>
-            <p>En esta plataforma podrás gestionar tus turnos de manera fácil y rápida.</p>
+            <p>{{ config('app.mensaje_bienvenida') }}</p>
+            <p>{{ config('app.mensaje_paciente') }}</p>
             @if (auth()->check())
                 @auth
                     <div class="d-flex justify-content-center mt-4">
@@ -12,15 +13,15 @@
                     </div>
                 @endauth
             @else
-                <p>Para comenzar, por favor inicia sesión o regístrate si aún no tienes una cuenta.</p>
+                <b>Para comenzar, por favor inicia sesión o regístrate si aún no tienes una cuenta.</b>
                 <div class="d-flex justify-content-center mt-4">
                     <a href="{{ route('login') }}" class="btn btn-primary me-2">Iniciar sesión</a>
                     <a href="{{ route('register') }}" class="btn btn-secondary">Registrarse</a>
                 </div>
             @endif
 
-            
-            
+
+
         </div>
     </div>
 </x-app-layout>
