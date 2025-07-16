@@ -90,9 +90,15 @@ class ReservaController extends Controller
     // php artisan schedule:work
     public function verificarAsistenciasAutomaticamente()
     {
-        $hora = Setting::value('hora_verificacion_asistencias');
+        //$hora = Setting::value('hora_verificacion_asistencias');
+        $settings = Setting::where('group', 'turnos')->pluck('value', 'key');
+        $hora_asistencia = (int) ($settings['asistencias.intervalo_verificacion'] ?? 1); // Valor por defecto
+        /*
+        $turnos_antelacion_reserva = $settings['turnos.antelacion_reserva'] ?? 30;
+        $turnos_unidad_antelacion  = $settings['turnos.unidad_antelacion'] ?? 'dia';
+*/
         $now = Carbon::now();
-        $fourHoursAgo = $now->copy()->subHours($hora);
+        $fourHoursAgo = $now->copy()->subHours($hora_asistencia);
 
         $reservasPendientes = Reserva::with(['turnoDisponible', 'user'])
             ->whereNull('asistencia')
@@ -143,7 +149,4 @@ class ReservaController extends Controller
         $reserva = Reserva::with(['user', 'turnoDisponible.medico'])->findOrFail($id);
         return view('reservas.show', compact('reserva'));
     }
-
-
 }
-

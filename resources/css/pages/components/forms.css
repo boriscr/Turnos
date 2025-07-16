@@ -1,13 +1,3 @@
-:root {
-    --background-light: #F2F2F2;
-    --background-dark: #003B46;
-    --background-dark-register: rgba(24, 24, 24, 0.427);
-    --color-texto: #4CAF50;
-    --color-texto-light: #fff;
-    --color-texto-dark: #000;
-    --background-input: rgba(255, 255, 255, 0.05);
-}
-
 .main {
     display: flex;
     flex-direction: column;
@@ -53,7 +43,7 @@
     margin: 0px 10%;
     width: 80%;
     height: 50px;
-    color: var(--color-texto-light);
+    color: var(--color_texto_light);
 }
 
 /*Titulo agg medico y usuario*/
@@ -61,7 +51,6 @@
     text-align: center;
     margin: 10px 0px;
     font-size: 25px;
-    color: var(--color-texto);
 }
 
 form {
@@ -73,6 +62,7 @@ form {
 input,
 textarea {
     border-radius: 5px !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(8px);
     transition: 0.3s ease;
     width: 100%;
@@ -87,18 +77,14 @@ input[type="date"] {
     justify-content: center;
 }
 
-input[type="checkbox"] {
-    background-color: #a0a0a0 !important;
-}
-
-input[type="checkbox"]:checked {
-    margin-right: 10px;
-    background-color: var(--color-texto) !important;
-}
-
 input[type="radio"]:checked {
     margin-right: 10px;
-    background-color: var(--color-texto) !important;
+    background-color: var(--color_texto_titulo) !important;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #00bcd4 !important;
 }
 
 select {
@@ -109,8 +95,6 @@ select {
 option {
     text-align: center;
 }
-
-
 
 /*opciones tipos de turnos mañana-tardenoche*/
 .box-style {
@@ -130,10 +114,6 @@ option {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.201);
 }
 
-.box-style .item-style input[type="checkbox"] {
-    margin-right: 10px;
-}
-
 .box-style .item-style .item {
     display: flex;
     flex-direction: row;
@@ -141,14 +121,13 @@ option {
     justify-content: space-between;
     text-align: center;
     margin: 2px 3px;
-    border: 1px solid var(--color-texto);
+    border: 1px solid var(--color_texto_titulo);
     border-radius: 5px;
     padding: 5px;
 }
 
 .box-style .item-style .item label {
     width: 90%;
-    background-color: var(--color-texto);
 }
 
 #horario-box {
@@ -172,56 +151,42 @@ option {
 
 .box-style .item-style .item:hover {
     cursor: pointer;
-    background-color: var(--color-texto);
-    color: var(--color-texto-light);
+    background-color: var(--color_texto_titulo);
+    opacity: 0.8;
 }
 
-.box-style .item-style .item label {
-    background-color: transparent;
-}
+
 
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
-    .container-form-register {
-        background: var(--background-dark-register);
+
+    .container-form-register,
+    select {
+        background-color: var(--fondo_login_register_dark) !important;
     }
 
+    option,
     input,
     textarea {
-        background: var(--background-input) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: transparent !important;
+        color: var(--color_texto_form_elements_dark) !important;
     }
-
-    input:focus {
-        background: var(--background-input) !important;
-        border-color: #00bcd4 !important;
-    }
-
-    select {
-        background-color: var(--background-dark) !important;
-        color: var(--color-texto-light);
-    }
-
-    option {
-        text-align: center;
-        background-color: var(--background-dark) !important;
-        color: var(--color-texto-light) !important;
-    }
-
-
 }
 
 /* Modo claro */
 @media (prefers-color-scheme: light) {
 
     .container-form-register,
-    input {
-        background: var(--background-light);
+    select {
+        background-color: var(--fondo_login_register_light) !important;
     }
 
-    input {
-        color: var(--color-texto-dark);
+    option,
+    input,
+    textarea {
+        background: transparent !important;
+        color: var(--color_texto_form_elements_light) !important;
     }
 
 }

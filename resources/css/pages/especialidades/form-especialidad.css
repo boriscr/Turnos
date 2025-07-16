@@ -11,20 +11,15 @@
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     #especialidad-form {
-        background-color: var(--background-dark) !important;
-        color: var(--color-texto-light) !important;
+        background-color: var(--fondo_aplicacion_dark);
     }
 }
 
 /* Modo claro */
 @media (prefers-color-scheme: light) {
     #especialidad-form {
-        background: var(--background-light);
+        background: var(--fondo_aplicacion_light);
     }
-    #especialidad-form {
-        color: var(--color-texto-dark);
-    }
-
 }
 
 

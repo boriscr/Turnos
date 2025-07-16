@@ -63,15 +63,5 @@
 .form-navigation .submit-btn{
     width: 50%;
 }
-button {
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
-button:disabled {
-    cursor: not-allowed;
-}
 

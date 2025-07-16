@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main" style="color: #000000">
-        <div class="box-presentacion bg-light p-5 rounded shadow-sm text-center">
+    <div class="main">
+        <div class="box-presentacion">
             <h1>Turnos Online</h1>
             <h2>Bienvenido a la plataforma de gestión de turnos online</h2>
             <p>{{ config('app.mensaje_bienvenida') }}</p>

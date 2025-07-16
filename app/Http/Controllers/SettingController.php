@@ -20,6 +20,7 @@ class SettingController extends Controller
 
     public function update(SettingUpdateRequest $request)
     {
+       
         foreach ($request->all() as $group => $items) {
             if (is_array($items)) {
                 foreach ($items as $key => $value) {

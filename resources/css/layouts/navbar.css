@@ -1,10 +1,4 @@
-:root {
-    --background-light: #F2F2F2;
-    --background-dark: #003B46;
-    --color-texto: #4CAF50;
-    --color-texto-light: #fff;
-    --color-texto-dark: #000;
-}
+
 
 .main-nav {
     padding: 1rem;
@@ -113,7 +107,7 @@
     display: block;
     font-weight: bold;
     margin-bottom: 0.25rem;
-    color: var(--color-texto)
+    color: var(--color_texto_titulo)
 }
 
 .logout-btn {
@@ -156,7 +150,7 @@
         border: none;
         display: none;
         padding-left: 1rem;
-        border: 1px solid var(--color-texto);
+        border: 1px solid var(--color_texto_titulo);
 
     }
 
@@ -199,26 +193,26 @@
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     .main-nav {
-        background-color: var(--background-dark);
+        background-color: var(--fondo_navbar_dark);
 
         .nav-brand,
         .nav-link,
         .dropdown-toggle {
-            color: var(--color-texto-light);
+            color: var(--color_texto_dark);
         }
 
         .hamburger {
-            background-color: var(--color-texto-light);
+            background-color: var(--color_texto_dark);
         }
 
         .dropdown-menu {
-            background-color: var(--background-dark);
+            background-color: var(--fondo_navbar_dark);
         }
 
         .dropdown-item:hover {
             background-color: transparent;
-            color: var(--color-texto-light);
-            border: 1px solid var(--color-texto);
+            color: var(--color_texto_dark);
+            border: 1px solid var(--color_texto_titulo);
         }
     }
 }
@@ -226,21 +220,21 @@
 /* Modo claro */
 @media (prefers-color-scheme: light) {
     .main-nav {
-        background-color: var(--background-light);
+        background-color: var(--fondo_navbar_light);
 
         .nav-brand,
         .nav-link,
         .dropdown-toggle,
         .hamburger {
-            color: var(--color-texto-dark);
+            color: var(--color_texto_light);
         }
 
         .dropdown-menu {
-            background-color: var(--background-light);
+            background-color: var(--fondo_navbar_light);
         }
     }
 
     .dropdown-item:hover {
-        border: 1px solid var(--color-texto);
+        border: 1px solid var(--color_texto_titulo);
     }
 }

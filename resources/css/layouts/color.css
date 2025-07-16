@@ -1,0 +1,49 @@
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: var(--color_texto_titulo) !important;
+}
+
+b {
+    color: var(--color_texto_titulo);
+}
+
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--fondo_aplicacion_dark) !important;
+        color: var(--color_texto_dark);
+    }
+
+    .bi {
+        color: var(--color_texto_dark);
+    }
+
+    small {
+        color: var(--color_texto_small_dark) !important;
+    }
+
+    p {
+        color: var(--color_texto_dark);
+    }
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: var(--fondo_aplicacion_light);
+        color: var(--color_texto_light);
+    }
+
+    small {
+        color: var(--color_texto_small_light);
+
+    }
+
+    p {
+        color: var(--color_texto_light);
+    }
+}

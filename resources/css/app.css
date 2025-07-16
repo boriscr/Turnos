@@ -1,6 +1,7 @@
 /* app.css */
 @import 'layouts/navbar.css';
 @import 'layouts/icon.css';
+@import 'layouts/color.css';
 /*Components*/
 @import 'pages/components/main.css';
 @import 'pages/components/buttons.css';
@@ -9,6 +10,7 @@
 @import 'pages/components/formulario-multipaso-turno.css';
 @import 'pages/components/forms.css';
 /*pages*/
+@import 'pages/home/home.css';
 @import 'pages/profiles/profile.css';
 @import 'pages/turnos/calendario.css';
 @import 'pages/reservas/search.css';

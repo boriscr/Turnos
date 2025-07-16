@@ -38,7 +38,7 @@
             </div>
         </div>
     @else
-        <div>
+        <div class="content-wrapper">
             <h3 class="title-form">Upss...</h3>
             <div class="card-error">
                 <div class="card">

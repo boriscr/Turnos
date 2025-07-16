@@ -71,16 +71,16 @@
                             <h3>Asignar turno</h3>
                             <div class="item-style">
                                 <div class="item">
-                                    <input type="checkbox" name="turno" value="mañana" id="manana">
+                                    <input type="radio" name="turno" value="mañana" id="manana">
                                     <label for="manana">Turno Mañana</label>
                                 </div>
 
                                 <div class="item">
-                                    <input type="checkbox" name="turno" value="tarde" id="tarde">
+                                    <input type="radio" name="turno" value="tarde" id="tarde">
                                     <label for="tarde">Turno Tarde</label>
                                 </div>
                                 <div class="item">
-                                    <input type="checkbox" name="turno" value="noche" id="noche">
+                                    <input type="radio" name="turno" value="noche" id="noche">
                                     <label for="noche">Turno Noche</label>
                                 </div>
                             </div>
@@ -117,12 +117,12 @@
                             <input type="hidden" name="horarios_disponibles" id="horarios_disponibles">
                             <div class="item-style">
                                 <div class="item">
-                                    <input type="checkbox" name="horario1" id="horario1"
+                                    <input type="radio" name="horario1" id="horario1"
                                         value="{{ old('horario1') }}">
                                     <label for="horario1">Asignar turnos sin horarios</label>
                                 </div>
                                 <div class="item">
-                                    <input type="checkbox" name="horario2" id="horario2"
+                                    <input type="radio" name="horario2" id="horario2"
                                         value="{{ old('horario2') }}">
                                     <label for="horario2">Asignar turnos con division horaria</label>
                                 </div>

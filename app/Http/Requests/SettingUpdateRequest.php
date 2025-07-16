@@ -33,6 +33,30 @@ class SettingUpdateRequest extends FormRequest
             'turnos.antelacion_reserva' => 'required|integer|min:1',
             'turnos.unidad_antelacion' => 'required|in:hora,dia,mes',
             'asistencias.intervalo_verificacion' => 'required|integer|min:1',
+            //color de fonde de la aplicacion
+            'design.fondo_aplicacion_dark' => 'required|string|max:10',
+            'design.fondo_aplicacion_light' => 'required|string|max:10',
+            //Colores de los textos
+            'design.color_texto_titulo' => 'required|string|max:10',
+            'design.color_texto_dark' => 'required|string|max:10',
+            'design.color_texto_light' => 'required|string|max:10',
+            //Color texto letra pequeña (Small)
+            'design.color_texto_small_dark' => 'required|string|max:10',
+            'design.color_texto_small_light' => 'required|string|max:10',
+            //Color de fondo botones
+            'design.color_primario_btn' => 'required|string|max:10',
+            'design.color_secundario_btn' => 'required|string|max:10',
+            'design.color_texto_btn' => 'required|string|max:10',
+            //Navbar
+            'design.fondo_navbar_dark' => 'required|string|max:10',
+            'design.fondo_navbar_light' => 'required|string|max:10',
+            //Login-Register
+            'design.fondo_login_register_dark' => 'required|string|max:10',
+            'design.fondo_login_register_light' => 'required|string|max:10',
+            //Form elements text color
+            'design.color_texto_form_elements_dark' => 'required|string|max:10',
+            'design.color_texto_form_elements_light' => 'required|string|max:10',
+
         ];
     }
 }

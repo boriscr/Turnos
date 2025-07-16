@@ -79,26 +79,22 @@
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
-    .accionesMovilBtn .bi {
-        color: var(--background-light) !important;
-    }
-
     .box-accionesMovil {
-        background-color: var(--background-dark);
+        background-color: var(--fondo_aplicacion_dark);
         border: 1px solid #dee2e6;
         box-shadow: 0 4px 8px rgba(255, 255, 255, 0.29);
 
         * {
-            color: var(--color-texto-light);
+            color: var(--color_texto_dark);
         }
     }
 }
 
 /* Modo claro */
 @media (prefers-color-scheme: light) {
-    .accionesMovilBtn .bi {
-        color: var(--background-dark) !important;
-    }
+    /*.accionesMovilBtn .bi {
+        color: var(--fondo_aplicacion_dark) !important;
+    }*/
 
     .box-accionesMovil {
         background-color: var(--background-light);
@@ -106,7 +102,7 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.29);
 
         * {
-            color: var(--color-texto-dark);
+            color: var(--color_texto_dark);
         }
     }
 }

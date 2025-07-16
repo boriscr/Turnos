@@ -6,12 +6,12 @@
     width: 100%;
     height: 100%;
     border-radius: 0px 0px 100px 100px;
-    background-color: #3e8e41;
+    background-color: var(--color_secundario_btn);
+    color: var(--color_texto_btn);
 }
 
 .box-new-especialidad #especialidad-btn:hover {
-    background-color: #4CAF50;
-    color: white;
+    opacity: 0.8;
     text-decoration: none;
 }
 
@@ -27,8 +27,8 @@
 /*botones submit*/
 
 .submit-btn {
-    background-color: #4CAF50 !important;
-    color: white;
+    background-color: var(--color_primario_btn);
+    color: var(--color_texto_btn);
     margin: 8px 0;
     border: none;
     cursor: pointer;
@@ -68,12 +68,13 @@
 
 
 .main-table .container-form .opciones .btn-add {
-    background-color: #3e8e41;
+    background-color: var(--color_secundario_btn);
+    color: var(--color_texto_btn);
     width: 150px;
 }
 
 .main-table .container-form .opciones .btn-add:hover {
-    background-color: #4CAF50;
+    opacity: 0.8;
 }
 
 
@@ -152,10 +153,13 @@
     background-color: #c82333;
 }
 
+button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-@media screen and (max-width: 600px) {
-    .accionesMovil .btn-acciones-movil{
-        background-color: #28a745;
-        padding: 5px 10px;
-    }
+button:disabled {
+    cursor: not-allowed;
 }

@@ -83,6 +83,95 @@ class SettingSeeder extends Seeder
                     'type' => 'integer',
                     'desc' => 'Horas entre verificaciones automáticas'
                 ]
+            ],
+            //Configuracion de estilos y diseño
+            'design' => [
+                //color de fonde de la aplicacion
+                'fondo_aplicacion_dark' => [
+                    'value' => '#003B46',  // Verde petroleo
+                    'type' => 'string',
+                    'desc' => 'Color de fondo de la aplicación'
+                ],
+                'fondo_aplicacion_light' => [
+                    'value' => '#FFFAFA', // Blanco nieve
+                    'type' => 'string',
+                    'desc' => 'Color de fondo de la aplicación'
+                ],
+                'color_texto_titulo' => [
+                    'value' => '#4CAF50', // Verde claro
+                    'type' => 'string',
+                    'desc' => 'Color de texto para títulos y encabezados'
+                ],
+                'color_texto_dark' => [
+                    'value' => '#FFFAFA', // Blanco nieve
+                    'type' => 'string',
+                    'desc' => 'Color de texto para el modo oscuro'
+                ],
+                'color_texto_light' => [
+                    'value' => '#262626', // Gris claro
+                    'type' => 'string',
+                    'desc' => 'Color de texto para el modo claro2'
+                ],
+                //Color texto small
+                'color_texto_small_dark' => [
+                    'value' => '#808080', //Gris
+                    'type' => 'string',
+                    'desc' => 'Color de letra small en tema claro'
+                ],
+                'color_texto_small_light' => [
+                    'value' => '#808080', //Gris
+                    'type' => 'string',
+                    'desc' => 'Color de letra small en tema claro'
+                ],
+                //Color de botones
+                'color_primario_btn' => [
+                    'value' => '#4CAF50', // Verde claro
+                    'type' => 'string',
+                    'desc' => 'Color primario para botones y elementos principales'
+                ],
+                'color_secundario_btn' => [
+                    'value' => '#4CAF50', // Verde claro
+                    'type' => 'string',
+                    'desc' => 'Color secundario para acentos'
+                ],
+                'color_texto_btn' => [
+                    'value' => '#FFFAFA', // Blanco nieve
+                    'type' => 'string',
+                    'desc' => 'Color de texto para botones'
+                ],
+                //Barra de navegacion
+                'fondo_navbar_dark' => [
+                    'value' => '#002b33', //Verde Oscuro
+                    'type' => 'string',
+                    'desc' => 'Color de fondo del navbar en tema oscuro'
+                ],
+                'fondo_navbar_light' => [
+                    'value' => '#F0F0F0', // Blanco oscuro
+                    'type' => 'string',
+                    'desc' => 'Color de fondo del navbar en tema claro'
+                ],
+                //Formulario Login y Registro
+                'fondo_login_register_dark' => [
+                    'value' =>  '#003B46',  //Verde Petroleo
+                    'type' => 'string',
+                    'desc' => 'Color de fondo del login/register en tema claro'
+                ],
+                'fondo_login_register_light' => [
+                    'value' => '#FFFAFA', // Blanco nieve
+                    'type' => 'string',
+                    'desc' => 'Color de fondo del login/register en tema claro'
+                ],
+                //Form elements text color /inputs,option y textarea
+                'color_texto_form_elements_dark' => [
+                    'value' => '#FFFAFA', //Blanco nieve
+                    'type' => 'string',
+                    'desc' => 'Color de letra de los elementos de los formularios en tema claro'
+                ],
+                'color_texto_form_elements_light' => [
+                    'value' => '#00bcd4', //Seleste claro
+                    'type' => 'string',
+                    'desc' => 'Color de letra de los elementos de los formularios en tema claro'
+                ],
             ]
         ];
 
