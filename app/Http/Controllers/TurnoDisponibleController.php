@@ -53,7 +53,7 @@ class TurnoDisponibleController extends Controller
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
-            } elseif ($user->faults > $turnos_limite_diario) {
+            } elseif ($user->faults > $turnos_faltas_maximas) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes reservar turnos.',
