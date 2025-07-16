@@ -127,97 +127,106 @@
                         @enderror
                     </div>
                 </div>
-                <div class="item">
+                <div class="item-colores">
                     <hr>
-                    <h3>Colores</h3>
-                    <div class="item">
-                        <label for="color_texto_titulo">Titulos</label>
-                        <input type="color" name="design[color_texto_titulo]" id="color_texto_titulo"
-                            value="{{ $settings['design.color_texto_titulo'] }}">
-                    </div>
-                    <div class="item">
-                        <label for="color_primario_btn">Color primario boton</label>
-                        <input type="color" name="design[color_primario_btn]" id="color_primario_btn"
-                            value="{{ $settings['design.color_primario_btn'] }}">
-                    </div>
-                    <div class="item">
-                        <label for="color_secundario_btn">Color secundario boton</label>
-                        <input type="color" name="design[color_secundario_btn]" id="color_secundario_btn"
-                            value="{{ $settings['design.color_secundario_btn'] }}">
-                    </div>
-
-
-                    <div class="item">
-                        <label for="color_texto_btn">Color de texto boton</label>
-                        <input type="color" name="design[color_texto_btn]" id="color_texto_btn"
-                            value="{{ $settings['design.color_texto_btn'] }}">
-                    </div>
-                    <hr>
-                    <h3>Tema Oscuro</h3>
-                    <div class="item">
-                        <label for="fondo_aplicacion_dark">Color de fondo tema Oscuro</label>
-                        <input type="color" name="design[fondo_aplicacion_dark]" id="fondo_aplicacion_dark"
-                            value="{{ $settings['design.fondo_aplicacion_dark'] }}">
-                    </div>
-                    <div class="item">
-                        <label for="color_texto_dark">Texto fondo Oscuro</label>
-                        <input type="color" name="design[color_texto_dark]" id="color_texto_dark"
-                            value="{{ $settings['design.color_texto_dark'] }}">
+                    <h1>Personalizacion</h1>
+                    <div class="card">
+                        <h3>Colores generales</h3>
+                        <div class="item">
+                            <input type="color" name="design[color_texto_titulo]" id="color_texto_titulo"
+                                value="{{ $settings['design.color_texto_titulo'] }}">
+                            <label for="color_texto_titulo">Titulos</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[color_primario_btn]" id="color_primario_btn"
+                                value="{{ $settings['design.color_primario_btn'] }}">
+                            <label for="color_primario_btn">Color primario boton</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[color_secundario_btn]" id="color_secundario_btn"
+                                value="{{ $settings['design.color_secundario_btn'] }}">
+                            <label for="color_secundario_btn">Color secundario boton</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[color_texto_btn]" id="color_texto_btn"
+                                value="{{ $settings['design.color_texto_btn'] }}">
+                            <label for="color_texto_btn">Color de texto boton</label>
+                        </div>
                     </div>
                     <hr>
-                    <div class="item">
-                        <label for="color_texto_small_dark">Color de texto pequeño</label>
-                        <input type="color" name="design[color_texto_small_dark]" id="color_texto_small_dark"
-                            value="{{ $settings['design.color_texto_small_dark'] }}">
-                    </div>
-                    <h3>Barra de navegacion</h3>
-                    <div class="item">
-                        <label for="fondo_navbar_dark">Color de fondo tema Oscuro</label>
-                        <input type="color" name="design[fondo_navbar_dark]" id="fondo_navbar_dark"
-                            value="{{ $settings['design.fondo_navbar_dark'] }}">
+                    <div class="card card-oscuro">
+                        <h3>Tema Oscuro</h3>
+                        <div class="item">
+                            <input type="color" name="design[fondo_aplicacion_dark]" id="fondo_aplicacion_dark"
+                                value="{{ $settings['design.fondo_aplicacion_dark'] }}">
+                            <label for="fondo_aplicacion_dark">Color de fondo</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[color_texto_dark]" id="color_texto_dark"
+                                value="{{ $settings['design.color_texto_dark'] }}">
+                            <label for="color_texto_dark">Color de texto</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[color_texto_small_dark]" id="color_texto_small_dark"
+                                value="{{ $settings['design.color_texto_small_dark'] }}">
+                            <label for="color_texto_small_dark">Color de texto pequeño</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[fondo_navbar_dark]" id="fondo_navbar_dark"
+                                value="{{ $settings['design.fondo_navbar_dark'] }}">
+                            <label for="fondo_navbar_dark"><b>Barra de navegacion</b> color de fondo</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[fondo_login_register_dark]"
+                                id="fondo_login_register_dark"
+                                value="{{ $settings['design.fondo_login_register_dark'] }}">
+                            <label for="fondo_login_register_dark"><b>Login y Register</b> color de fondo</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[color_texto_form_elements_dark]"
+                                id="color_texto_form_elements_dark"
+                                value="{{ $settings['design.color_texto_form_elements_dark'] }}">
+                            <label for="color_texto_form_elements_dark"><b>Elementos en formulario</b> color de
+                                texto</label>
+                        </div>
                     </div>
                     <hr>
-                    <h3>Seccion Login-Registo</h3>
-                    <div class="item">
-                        <label for="fondo_login_register_dark">Color de fondo tema Oscuro</label>
-                        <input type="color" name="design[fondo_login_register_dark]" id="fondo_login_register_dark"
-                            value="{{ $settings['design.fondo_login_register_dark'] }}">
+                    <div class="card card-claro">
+                        <h3>Tema Claro</h3>
+                        <div class="item">
+                            <input type="color" name="design[fondo_aplicacion_light]" id="fondo_aplicacion_light"
+                                value="{{ $settings['design.fondo_aplicacion_light'] }}">
+                            <label for="fondo_aplicacion_light">Color de fondo</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[color_texto_light]" id="color_texto_light"
+                                value="{{ $settings['design.color_texto_light'] }}">
+                            <label for="color_texto_light">Color de texto</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[color_texto_small_light]" id="color_texto_small_light"
+                                value="{{ $settings['design.color_texto_small_light'] }}">
+                            <label for="color_texto_small_light">Color de texto pequeño</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[fondo_navbar_light]" id="fondo_navbar_light"
+                                value="{{ $settings['design.fondo_navbar_light'] }}">
+                            <label for="fondo_navbar_light"><b>Barra de navegacion</b> color de fondo</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[fondo_login_register_light]"
+                                id="fondo_login_register_light"
+                                value="{{ $settings['design.fondo_login_register_light'] }}">
+                            <label for="fondo_login_register_light"><b>Login y Register</b> color de fondo</label>
+                        </div>
+                        <div class="item">
+                            <input type="color" name="design[color_texto_form_elements_light]"
+                                id="color_texto_form_elements_light"
+                                value="{{ $settings['design.color_texto_form_elements_light'] }}">
+                            <label for="color_texto_form_elements_light"><b>Elementos en formulario</b> color de
+                                texto</label>
+                        </div>
                     </div>
-                    <h3>Color de texto de los elementos en formulario</h3>
-                    <div class="item">
-                        <label for="color_texto_form_elements_dark">Color de texto tema Oscuro</label>
-                        <input type="color" name="design[color_texto_form_elements_dark]"
-                            id="color_texto_form_elements_dark"
-                            value="{{ $settings['design.color_texto_form_elements_dark'] }}">
-                    </div>
-                    <hr>
-                </div>
-                <div class="item">
-                    <h3>Tema Claro</h3>
-                    <label for="fondo_aplicacion_light">Color de fondo</label>
-                    <input type="color" name="design[fondo_aplicacion_light]" id="fondo_aplicacion_light"
-                        value="{{ $settings['design.fondo_aplicacion_light'] }}">
-                    <label for="color_texto_light">Color de texto</label>
-                    <input type="color" name="design[color_texto_light]" id="color_texto-light"
-                        value="{{ $settings['design.color_texto_light'] }}">
-                    <hr>
-                    <label for="color_texto_small_light">Color de texto pequeño</label>
-                    <input type="color" name="design[color_texto_small_light]" id="color_texto_small_light"
-                        value="{{ $settings['design.color_texto_small_light'] }}">
-                    <h3>Barra de navegacion</h3>
-                    <label for="fondo_navbar_light">Color de fondo tema Claro</label>
-                    <input type="color" name="design[fondo_navbar_light]" id="fondo_navbar_light"
-                        value="{{ $settings['design.fondo_navbar_light'] }}">
-                    <hr>
-                    <h3>Seccion Login-Registo</h3>
-                    <label for="fondo_login_register_light">Color de fondo tema Claro</label>
-                    <input type="color" name="design[fondo_login_register_light]" id="fondo_login_register_light"
-                        value="{{ $settings['design.fondo_login_register_light'] }}">
-                    <h3>Color de texto de los elementos en formulario</h3>
-                    <label for="color_texto_form_elements_light">Color de texto tema Claro</label>
-                    <input type="color" name="design[color_texto_form_elements_light]"
-                        id="color_texto_form_elements_light"
-                        value="{{ $settings['design.color_texto_form_elements_light'] }}">
                 </div>
                 <button type="submit" class="submit-btn">Actualizar</button>
             </form>

@@ -61,8 +61,8 @@ form {
 
 input,
 textarea {
-    border-radius: 5px !important;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px !important;
+    border: 1px solid grey !important;
     backdrop-filter: blur(8px);
     transition: 0.3s ease;
     width: 100%;
@@ -82,9 +82,17 @@ input[type="radio"]:checked {
     background-color: var(--color_texto_titulo) !important;
 }
 
-input:focus,
-textarea:focus {
-    border-color: #00bcd4 !important;
+/*checkbox para Formulario login register*/
+input[type="checkbox"]:checked {
+    margin-right: 10px;
+    background-color: var(--color_texto_titulo) !important;
+}
+
+input[type="color"] {
+    width: 45px;
+    height: 45px;
+    box-shadow: 0px 0px 5px 1px var(--color_texto_titulo);
+    border: 2px solid var(--color_texto_titulo);
 }
 
 select {
@@ -162,8 +170,13 @@ option {
 @media (prefers-color-scheme: dark) {
 
     .container-form-register,
-    select {
-        background-color: var(--fondo_login_register_dark) !important;
+    .container-form-register select {
+        background-color: var(--fondo_login_register_dark);
+    }
+
+    .main .container-form,
+    .main .container-form select {
+        background-color: var(--fondo_aplicacion_dark);
     }
 
     option,
@@ -172,14 +185,24 @@ option {
         background: transparent !important;
         color: var(--color_texto_form_elements_dark) !important;
     }
+
+    input:focus,
+    textarea:focus {
+        border-color: var(--color_texto_form_elements_dark) !important;
+    }
 }
 
 /* Modo claro */
 @media (prefers-color-scheme: light) {
 
     .container-form-register,
-    select {
-        background-color: var(--fondo_login_register_light) !important;
+    .container-form-register select {
+        background-color: var(--fondo_login_register_light);
+    }
+
+    .main .container-form,
+    .main .container-form select {
+        background-color: var(--fondo_aplicacion_light);
     }
 
     option,
@@ -187,6 +210,11 @@ option {
     textarea {
         background: transparent !important;
         color: var(--color_texto_form_elements_light) !important;
+    }
+
+    input:focus,
+    textarea:focus {
+        border-color: var(--color_texto_form_elements_light) !important;
     }
 
 }

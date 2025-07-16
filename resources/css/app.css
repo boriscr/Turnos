@@ -9,6 +9,7 @@
 @import 'pages/components/table-acciones-movile.css';
 @import 'pages/components/formulario-multipaso-turno.css';
 @import 'pages/components/forms.css';
+@import 'pages/components/form-settings.css';
 /*pages*/
 @import 'pages/home/home.css';
 @import 'pages/profiles/profile.css';
