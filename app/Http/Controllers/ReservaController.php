@@ -7,6 +7,7 @@ use App\Models\Reserva;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Setting;
+use App\Models\Turno;
 
 class ReservaController extends Controller
 {
@@ -117,8 +118,8 @@ class ReservaController extends Controller
             DB::transaction(function () use ($reserva) {
                 $reserva->asistencia = false;
                 $reserva->save();
-
-                if ($reserva->user) {
+                $estado = Turno::where('id', $reserva->turnoDisponible->turno_id)->value('estado');
+                if ($reserva->user && $estado == true) {
                     $reserva->user->increment('faults');
                 }
             });
