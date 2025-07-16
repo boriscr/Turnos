@@ -78,17 +78,17 @@
                             <h3>Asignar turno</h3>
                             <div class="item-style">
                                 <div class="item">
-                                    <input type="checkbox" name="turno" value="mañana" id="manana"
+                                    <input type="radio" name="turno" value="mañana" id="manana"
                                         {{ $turnoTipo == 'mañana' ? 'checked' : '' }}>
                                     <label for="manana">Turno Mañana</label>
                                 </div>
                                 <div class="item">
-                                    <input type="checkbox" name="turno" value="tarde" id="tarde"
+                                    <input type="radio" name="turno" value="tarde" id="tarde"
                                         {{ $turnoTipo == 'tarde' ? 'checked' : '' }}>
                                     <label for="tarde">Turno Tarde</label>
                                 </div>
                                 <div class="item">
-                                    <input type="checkbox" name="turno" value="noche" id="noche"
+                                    <input type="radio" name="turno" value="noche" id="noche"
                                         {{ $turnoTipo == 'noche' ? 'checked' : '' }}>
                                     <label for="noche">Turno Noche</label>
                                 </div>
@@ -128,12 +128,12 @@
                                 value="{{ $horarios_disponibles }}">
                             <div class="item-style">
                                 <div class="item">
-                                    <input type="checkbox" name="horario1" id="horario1"
+                                    <input type="radio" name="horario1" id="horario1"
                                         {{ $horarios_disponibles == null ? 'checked' : '' }}>
                                     <label for="horario1">Asignar turnos sin horarios</label>
                                 </div>
                                 <div class="item">
-                                    <input type="checkbox" name="horario2" id="horario2"
+                                    <input type="radio" name="horario2" id="horario2"
                                         {{ $horarios_disponibles == !null ? 'checked' : '' }}>
                                     <label for="horario2">Asignar turnos con división horaria</label>
                                 </div>
@@ -162,9 +162,11 @@
                     <div class="item">
                         <label for="estado">Estado</label>
                         <select name="estado" id="estado" required>
-                            <option {{ isset($edit) ? ($turno->estado == true ? 'selected' : '') : '' }} value="1">
+                            <option {{ isset($edit) ? ($turno->estado == true ? 'selected' : '') : '' }}
+                                value="1">
                                 Activo</option>
-                            <option {{ isset($edit) ? ($turno->estado == false ? 'selected' : '') : '' }} value="0">
+                            <option {{ isset($edit) ? ($turno->estado == false ? 'selected' : '') : '' }}
+                                value="0">
                                 Inactivo</option>
                             @error('estado')
                                 <div class="error">{{ $message }}</div>
