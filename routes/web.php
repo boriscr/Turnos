@@ -16,7 +16,9 @@ Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     //Solicitud de Turnos
     Route::get('/disponibles/create', [TurnoDisponibleController::class, 'create'])->name('disponible.create');
     Route::get('/getMedicosPorEspecialidad/{especialidad_id}', [TurnoDisponibleController::class, 'getMedicosPorEspecialidad']);
-    Route::get('/getTurnosPorEquipo/{medico_id}', [TurnoDisponibleController::class, 'getTurnosPorEquipo']);
+    Route::get('/getTurnosPorNombre/{medico_id}', [TurnoDisponibleController::class, 'getTurnosPorNombre']);
+
+    Route::get('/getTurnosPorEquipo/{turno_nombre_id}', [TurnoDisponibleController::class, 'getTurnosPorEquipo']);
     Route::post('/reservarTurno', [TurnoDisponibleController::class, 'reservarTurno'])->name('reservarTurno');
     Route::delete('/disponibles/{id}', [TurnoDisponibleController::class, 'destroy'])->name('disponible.destroy');
 

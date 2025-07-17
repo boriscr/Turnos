@@ -88,7 +88,7 @@ class SettingSeeder extends Seeder
             'design' => [
                 //color de fonde de la aplicacion
                 'fondo_aplicacion_dark' => [
-                    'value' => '##00272E',  // Verde-azulado (gunmetal)
+                    'value' => '#00272E',  // Verde-azulado (gunmetal)
                     'type' => 'string',
                     'desc' => 'Color de fondo de la aplicación'
                 ],

@@ -62,16 +62,21 @@
                             <option value="">Seleccione un médico</option>
                         </select>
                     </div>
-
                     <div class="item">
-                        <label for="fecha_turno"><i class="bi bi-3-circle"></i> Fecha del Turno</label>
+                        <label for="turno_nombre_id"><i class="bi bi-3-circle"></i> Turno</label>
+                        <select name="turno_nombre_id" id="turno_nombre_id" required>
+                            <option value="">Seleccione un turno</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label for="fecha_turno"><i class="bi bi-4-circle"></i> Fecha del Turno</label>
                         <select name="fecha_turno" id="fecha_turno" required>
                             <option value="">Seleccione una fecha</option>
                         </select>
                     </div>
 
                     <div class="item">
-                        <label for="hora_turno"><i class="bi bi-4-circle"></i> Horario del Turno</label>
+                        <label for="hora_turno"><i class="bi bi-5-circle"></i> Horario del Turno</label>
                         <select name="hora_turno" id="hora_turno" required>
                             <option value="">Seleccione un horario</option>
                         </select>
@@ -80,7 +85,8 @@
 
                     <div class="form-navigation">
                         <button type="button" class="prev-btn"><i class="bi bi-chevron-left"></i></button>
-                        <button type="submit" class="submit-btn">Confirmar Turno <i class="bi bi-check-circle"></i></button>
+                        <button type="submit" class="submit-btn">Confirmar Turno <i
+                                class="bi bi-check-circle"></i></button>
                     </div>
                 </div>
             </form>

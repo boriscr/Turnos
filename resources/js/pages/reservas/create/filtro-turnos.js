@@ -1,75 +1,107 @@
 if (window.location.pathname.includes('/disponibles/create')) {
     // Variables globales
     let todosLosTurnos = [];
-    let medicoInicial = document.getElementById('medico_id')?.value;
-    let especialidadInicial = document.getElementById('especialidad_id')?.value;
-    let fechaInicial = document.getElementById('fecha_turno')?.value;
-    let turnoIdInicial = document.getElementById('hora_turno')?.value;
     let previewSettings = { amount: 30, unit: 'dia' }; // Valores por defecto
 
     // Función para obtener fecha actual en formato ISO (YYYY-MM-DD)
     function obtenerFechaActual() {
-        const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
-        return ahora.split(',')[0];
+        try {
+            const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
+            return ahora.split(',')[0];
+        } catch (error) {
+            console.error("Error al obtener fecha actual:", error);
+            return new Date().toISOString().split('T')[0]; // Fallback
+        }
     }
 
     // Función para calcular fecha límite según configuración
     function calcularFechaLimite() {
-        const ahora = new Date();
-        switch (previewSettings.unit) {
-            case 'hora':
-                ahora.setHours(ahora.getHours() + previewSettings.amount);
-                break;
-            case 'mes':
-                ahora.setMonth(ahora.getMonth() + previewSettings.amount);
-                break;
-            case 'dia':
-            default:
-                ahora.setDate(ahora.getDate() + previewSettings.amount);
-                break;
+        try {
+            const ahora = new Date();
+            switch (previewSettings.unit) {
+                case 'hora':
+                    ahora.setHours(ahora.getHours() + previewSettings.amount);
+                    break;
+                case 'mes':
+                    ahora.setMonth(ahora.getMonth() + previewSettings.amount);
+                    break;
+                case 'dia':
+                default:
+                    ahora.setDate(ahora.getDate() + previewSettings.amount);
+                    break;
+            }
+            return ahora.toISOString().split('T')[0];
+        } catch (error) {
+            console.error("Error al calcular fecha límite:", error);
+            // Fallback: 30 días en el futuro
+            const fallback = new Date();
+            fallback.setDate(fallback.getDate() + 30);
+            return fallback.toISOString().split('T')[0];
         }
-        return ahora.toISOString().split('T')[0];
     }
 
     // Función para filtrar turnos según configuración
     function filtrarTurnos(turnos) {
-        const fechaLimite = calcularFechaLimite();
-        const fechaActual = obtenerFechaActual();
-        const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
-        const horaActual = ahora.split(',')[1] ? ahora.split(',')[1].trim() : '00:00';
+        try {
+            const fechaLimite = calcularFechaLimite();
+            const fechaActual = obtenerFechaActual();
+            const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
+            const horaActual = ahora.split(',')[1] ? ahora.split(',')[1].trim() : '00:00';
 
-        return turnos.filter(turno => {
-            // Filtro por fecha límite
-            if (turno.fecha > fechaLimite) return false;
-            
-            // Filtro para turnos del día actual
-            if (turno.fecha === fechaActual) {
-                const turnoDate = new Date(`${turno.fecha}T${turno.hora}:00`);
-                const ahoraDate = new Date(`${fechaActual}T${horaActual}:00`);
-                return turnoDate.getTime() >= ahoraDate.getTime();
+            return turnos.filter(turno => {
+                // Filtro por fecha límite
+                if (turno.fecha > fechaLimite) return false;
+
+                // Filtro para turnos del día actual
+                if (turno.fecha === fechaActual) {
+                    const turnoDate = new Date(`${turno.fecha}T${turno.hora}:00`);
+                    const ahoraDate = new Date(`${fechaActual}T${horaActual}:00`);
+                    return turnoDate.getTime() >= ahoraDate.getTime();
+                }
+
+                return true;
+            });
+        } catch (error) {
+            console.error("Error al filtrar turnos:", error);
+            return []; // Retornar array vacío en caso de error
+        }
+    }
+
+    // Función para limpiar selects dependientes
+    function limpiarSelectsDependientes(selectInicial) {
+        const selects = ['especialidad_id', 'medico_id', 'turno_nombre_id', 'fecha_turno', 'hora_turno'];
+        const indexInicial = selects.indexOf(selectInicial);
+        
+        if (indexInicial === -1) return;
+        
+        // Limpiar todos los selects posteriores al que cambió
+        for (let i = indexInicial + 1; i < selects.length; i++) {
+            const select = document.getElementById(selects[i]);
+            if (select) {
+                select.innerHTML = `<option value="">Seleccione una opción</option>`;
+                select.disabled = true;
             }
-            
-            return true;
-        });
+        }
     }
 
     // Función para cargar médicos basados en especialidad seleccionada
-    async function cargarMedicos(especialidadId, medicoSeleccionado = null) {
+    async function cargarMedicos(especialidadId) {
         const selectMedico = document.getElementById('medico_id');
-        const selectFecha = document.getElementById('fecha_turno');
-        const selectHora = document.getElementById('hora_turno');
-
-        selectMedico.innerHTML = '<option value="">Seleccione un médico</option>';
-        selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
-        selectHora.innerHTML = '<option value="">Seleccione una hora</option>';
-
-        if (!especialidadId) return;
-
-        selectMedico.disabled = true;
-        selectMedico.innerHTML = '<option value="">Cargando médicos...</option>';
+        if (!selectMedico) return;
 
         try {
+            limpiarSelectsDependientes('especialidad_id');
+            selectMedico.disabled = true;
+            selectMedico.innerHTML = '<option value="">Cargando médicos...</option>';
+
+            if (!especialidadId) {
+                selectMedico.innerHTML = '<option value="">Seleccione un médico</option>';
+                return;
+            }
+
             const response = await fetch(`/getMedicosPorEspecialidad/${especialidadId}`);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            
             const data = await response.json();
 
             selectMedico.innerHTML = '<option value="">Seleccione un profesional</option>';
@@ -77,39 +109,69 @@ if (window.location.pathname.includes('/disponibles/create')) {
                 const option = document.createElement('option');
                 option.value = medico.id;
                 option.textContent = `${medico.nombre} ${medico.apellido}`;
-                if (medicoSeleccionado && medico.id == medicoSeleccionado) {
-                    option.selected = true;
-                }
                 selectMedico.appendChild(option);
             });
 
             selectMedico.disabled = false;
-
-            // Si hay un médico seleccionado, cargar sus turnos
-            if (medicoSeleccionado) {
-                await cargarTurnos(medicoSeleccionado, fechaInicial, turnoIdInicial);
-            }
         } catch (error) {
             console.error("Error al cargar lista de médicos:", error);
             selectMedico.innerHTML = '<option value="">Error al cargar</option>';
         }
     }
 
-    // Función para cargar turnos basados en el médico seleccionado
-    async function cargarTurnos(medicoId, fechaSeleccionada = null, turnoIdSeleccionado = null) {
-        const selectFecha = document.getElementById('fecha_turno');
-        const selectHora = document.getElementById('hora_turno');
-
-        selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
-        selectHora.innerHTML = '<option value="">Seleccione un horario</option>';
-
-        if (!medicoId) return;
-
-        selectFecha.disabled = true;
-        selectFecha.innerHTML = '<option value="">Cargando fechas...</option>';
+    // Función para cargar el nombre de los turnos basados en el médico seleccionado
+    async function cargarNombres(medicoId) {
+        const selectTurno = document.getElementById('turno_nombre_id');
+        if (!selectTurno) return;
 
         try {
-            const response = await fetch(`/getTurnosPorEquipo/${medicoId}`);
+            limpiarSelectsDependientes('medico_id');
+            selectTurno.disabled = true;
+            selectTurno.innerHTML = '<option value="">Cargando turnos...</option>';
+
+            if (!medicoId) {
+                selectTurno.innerHTML = '<option value="">Seleccione un médico primero</option>';
+                return;
+            }
+
+            const response = await fetch(`/getTurnosPorNombre/${medicoId}`);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            
+            const data = await response.json();
+
+            selectTurno.innerHTML = '<option value="">Seleccione un turno</option>';
+            data.turnos.forEach(turno => {
+                const option = document.createElement('option');
+                option.value = turno.id;
+                option.textContent = turno.nombre;
+                selectTurno.appendChild(option);
+            });
+
+            selectTurno.disabled = false;
+        } catch (error) {
+            console.error("Error al cargar lista de turnos:", error);
+            selectTurno.innerHTML = '<option value="">Error al cargar</option>';
+        }
+    }
+
+    // Función para cargar turnos basados en el nombre de turno seleccionado
+    async function cargarTurnos(turnoNombreId) {
+        const selectFecha = document.getElementById('fecha_turno');
+        if (!selectFecha) return;
+
+        try {
+            limpiarSelectsDependientes('turno_nombre_id');
+            selectFecha.disabled = true;
+            selectFecha.innerHTML = '<option value="">Cargando fechas...</option>';
+
+            if (!turnoNombreId) {
+                selectFecha.innerHTML = '<option value="">Seleccione un turno primero</option>';
+                return;
+            }
+
+            const response = await fetch(`/getTurnosPorEquipo/${turnoNombreId}`);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            
             const data = await response.json();
 
             // Guardar configuración de previsualización
@@ -122,7 +184,6 @@ if (window.location.pathname.includes('/disponibles/create')) {
 
             if (todosLosTurnos.length === 0) {
                 selectFecha.innerHTML = '<option value="">Sin fechas disponibles</option>';
-                selectFecha.disabled = true;
                 return;
             }
 
@@ -140,91 +201,139 @@ if (window.location.pathname.includes('/disponibles/create')) {
                     month: 'long',
                     year: 'numeric'
                 });
-                if (fechaSeleccionada && fecha === fechaSeleccionada) {
-                    option.selected = true;
-                }
                 selectFecha.appendChild(option);
             });
 
             selectFecha.disabled = false;
-
-            // Si hay una fecha seleccionada, cargar sus horas
-            if (fechaSeleccionada) {
-                await cargarHoras(fechaSeleccionada, turnoIdSeleccionado);
-            }
         } catch (error) {
             console.error("Error al cargar turnos:", error);
             selectFecha.innerHTML = '<option value="">Error al cargar</option>';
         }
     }
 
-    // Resto del código (cargarHoras y event listeners) permanece igual...
-    // [Mantener las funciones cargarHoras y los event listeners del script anterior]
-
-
     // Función para cargar horas basadas en fecha seleccionada
-    async function cargarHoras(fechaSeleccionada, turnoIdSeleccionado = null) {
+    async function cargarHoras(fechaSeleccionada) {
         const selectHora = document.getElementById('hora_turno');
-        selectHora.innerHTML = '<option value="">Seleccione un horario</option>';
+        if (!selectHora) return;
 
-        if (!fechaSeleccionada) return;
+        try {
+            limpiarSelectsDependientes('fecha_turno');
+            selectHora.disabled = true;
+            selectHora.innerHTML = '<option value="">Cargando horarios...</option>';
 
-        // Filtrar los turnos disponibles para esa fecha
-        let turnosDisponibles = todosLosTurnos.filter(turno => turno.fecha === fechaSeleccionada);
+            if (!fechaSeleccionada) {
+                selectHora.innerHTML = '<option value="">Seleccione una fecha primero</option>';
+                return;
+            }
 
-        // Obtener fecha y hora actual en zona horaria de Jujuy
-        const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
-        const fechaActual = ahora.split(',')[0];
-        const horaActual = ahora.split(',')[1] ? ahora.split(',')[1].trim() : '00:00';
+            // Validación de todosLosTurnos
+            if (!Array.isArray(todosLosTurnos)) {
+                throw new Error('La lista de turnos no es válida');
+            }
 
-        if (fechaSeleccionada === fechaActual) {
-            turnosDisponibles = turnosDisponibles.filter(turno => {
-                const turnoDate = new Date(`${fechaSeleccionada}T${turno.hora}:00`);
-                const ahoraDate = new Date(`${fechaActual}T${horaActual}:00`);
-                return turnoDate.getTime() >= ahoraDate.getTime();
-            });
-        }
+            // Filtrar los turnos disponibles para esa fecha
+            let turnosDisponibles = todosLosTurnos.filter(turno => turno.fecha === fechaSeleccionada);
 
-        if (turnosDisponibles.length === 0) {
-            selectHora.innerHTML = '<option value="">Sin horario disponible</option>';
-        } else {
-            turnosDisponibles.forEach(turno => {
-                const option = document.createElement('option');
-                option.value = turno.id;
-                option.textContent = turno.hora;
-                if (turnoIdSeleccionado && turno.id == turnoIdSeleccionado) {
-                    option.selected = true;
-                }
-                selectHora.appendChild(option);
-            });
+            // Obtener fecha y hora actual en zona horaria de Jujuy
+            const fechaActual = obtenerFechaActual();
+            let horaActual = '00:00';
+            try {
+                const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
+                horaActual = ahora.split(',')[1] ? ahora.split(',')[1].trim() : '00:00';
+            } catch (error) {
+                console.error('Error al obtener hora actual:', error);
+            }
+
+            // Filtrar horarios pasados si es el día actual
+            if (fechaSeleccionada === fechaActual) {
+                turnosDisponibles = turnosDisponibles.filter(turno => {
+                    try {
+                        const turnoDate = new Date(`${fechaSeleccionada}T${turno.hora}:00`);
+                        const ahoraDate = new Date(`${fechaActual}T${horaActual}:00`);
+                        return turnoDate.getTime() >= ahoraDate.getTime();
+                    } catch (error) {
+                        console.error('Error al comparar fechas:', error);
+                        return false;
+                    }
+                });
+            }
+
+            // Mostrar resultados
+            if (turnosDisponibles.length === 0) {
+                selectHora.innerHTML = '<option value="">Sin horario disponible</option>';
+            } else {
+                selectHora.innerHTML = '<option value="">Seleccione un horario</option>';
+                turnosDisponibles.forEach(turno => {
+                    const option = document.createElement('option');
+                    option.value = turno.id;
+                    option.textContent = turno.hora;
+                    selectHora.appendChild(option);
+                });
+                selectHora.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error en cargarHoras:', error);
+            selectHora.innerHTML = '<option value="">Error al cargar horarios</option>';
         }
     }
 
     // Event listeners
-    document.addEventListener('DOMContentLoaded', async function () {
-        // Si hay una especialidad seleccionada, cargar los médicos
-        if (especialidadInicial) {
-            await cargarMedicos(especialidadInicial, medicoInicial);
+    document.addEventListener('DOMContentLoaded', function () {
+        try {
+            // Obtener valores iniciales si existen
+            const especialidadInicial = document.getElementById('especialidad_id')?.value;
+            const medicoInicial = document.getElementById('medico_id')?.value;
+            const nombreInicial = document.getElementById('turno_nombre_id')?.value;
+            const fechaInicial = document.getElementById('fecha_turno')?.value;
+            const turnoIdInicial = document.getElementById('hora_turno')?.value;
+
+            // Configurar event listeners
+            document.getElementById('especialidad_id')?.addEventListener('change', function() {
+                cargarMedicos(this.value);
+            });
+
+            document.getElementById('medico_id')?.addEventListener('change', function() {
+                cargarNombres(this.value);
+            });
+
+            document.getElementById('turno_nombre_id')?.addEventListener('change', function() {
+                cargarTurnos(this.value);
+            });
+
+            document.getElementById('fecha_turno')?.addEventListener('change', function() {
+                cargarHoras(this.value);
+            });
+
+            document.getElementById('hora_turno')?.addEventListener('change', function() {
+                document.getElementById('turno_id').value = this.value;
+            });
+
+            // Cargar datos iniciales si existen
+            if (especialidadInicial) {
+                cargarMedicos(especialidadInicial).then(() => {
+                    if (medicoInicial) {
+                        document.getElementById('medico_id').value = medicoInicial;
+                        cargarNombres(medicoInicial).then(() => {
+                            if (nombreInicial) {
+                                document.getElementById('turno_nombre_id').value = nombreInicial;
+                                cargarTurnos(nombreInicial).then(() => {
+                                    if (fechaInicial) {
+                                        document.getElementById('fecha_turno').value = fechaInicial;
+                                        cargarHoras(fechaInicial).then(() => {
+                                            if (turnoIdInicial) {
+                                                document.getElementById('hora_turno').value = turnoIdInicial;
+                                                document.getElementById('turno_id').value = turnoIdInicial;
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        } catch (error) {
+            console.error("Error en inicialización:", error);
         }
-
-        // Event listener para cambio de especialidad
-        document.getElementById('especialidad_id').addEventListener('change', function () {
-            cargarMedicos(this.value);
-        });
-
-        // Event listener para cambio de médico
-        document.getElementById('medico_id').addEventListener('change', function () {
-            cargarTurnos(this.value);
-        });
-
-        // Event listener para cambio de fecha
-        document.getElementById('fecha_turno').addEventListener('change', function () {
-            cargarHoras(this.value);
-        });
-
-        // Event listener para cambio de hora
-        document.getElementById('hora_turno').addEventListener('change', function () {
-            document.getElementById('turno_id').value = this.value;
-        });
     });
 }

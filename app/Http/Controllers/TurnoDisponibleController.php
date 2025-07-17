@@ -95,7 +95,19 @@ class TurnoDisponibleController extends Controller
 
         return response()->json(['medicos' => $medicos]);
     }
+    // 1. Obtener turnos por nombre
+    public function getTurnosPorNombre($medico_id)
+    {
+        if ($medico_id) {
+            $turnos = Turno::where('medico_id', $medico_id)
+                ->where('estado', 1)
+                ->get();
 
+            return response()->json(['turnos' => $turnos]);
+        } else {
+            return response()->json([]);
+        }
+    }
     // 2. Obtener turnos por medico (filtrado por fecha/hora)
     //Filtrado por fecha y hora configurado en settings
     // Devuelve los turnos disponibles para un médico específico, filtrando por fecha y hora
@@ -105,7 +117,7 @@ class TurnoDisponibleController extends Controller
     // y que son futuros, teniendo en cuenta la fecha y hora actuales.
     // El resultado se devuelve en formato JSON, incluyendo los turnos disponibles y la configuración de
     // previsualización utilizada para la consulta.
-    public function getTurnosPorEquipo($medico_id)
+    public function getTurnosPorEquipo($turno_nombre_id)
     {
         $hoy = now()->format('Y-m-d');
         $horaActual = now()->format('H:i:s');
@@ -138,8 +150,7 @@ class TurnoDisponibleController extends Controller
         }
 
         $fechaLimite = $fechaLimite->format('Y-m-d');
-
-        $turnos = TurnoDisponible::where('medico_id', $medico_id)
+        $turnos = TurnoDisponible::where('turno_id', $turno_nombre_id)
             ->where('cupos_disponibles', '>', 0)
             ->whereDate('fecha', '<=', $fechaLimite) // Filtro superior
             ->where(function ($query) use ($hoy, $horaActual) {

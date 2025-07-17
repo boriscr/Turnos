@@ -13,8 +13,7 @@ class UsuarioController extends Controller
 {
     public function index()
     {
-        $usuarios = User::all();
-        return view('usuarios/index', compact('usuarios'));
+        return view('usuarios/index');
     }
 
     public function show($id)
