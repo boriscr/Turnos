@@ -33,7 +33,7 @@ Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
 });
 
 
-Route::group(['middleware' => ['role:admin']], function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     //Turnos disponibles "Reservas"
 
     //Reservas
