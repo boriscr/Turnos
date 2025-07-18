@@ -1,3 +1,4 @@
+import '../js/pages/register/register-validate.js';
 
 import '../js/layouts/navbar.js';
 //pages***********************

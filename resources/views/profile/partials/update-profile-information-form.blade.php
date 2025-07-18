@@ -1,68 +1,3 @@
-    <style>
-        select {
-            width: 100%;
-            border-radius: 5px;
-            padding: 10px;
-        }
-        h1 {
-            color: #4CAF50;
-            text-align: center;
-            text-decoration: underline;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-
-        }
-        .buttonSend{
-            text-align: end;
-        }
-        .message-list-password {
-            color: #4CAF50;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            border: 1px solid #4CAF50;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        option {
-            color: #000;
-        }
-
-        .btn-registro {
-            width: 50%;
-            height: 100%;
-            border-radius: 5px;
-            background-color: #3e8e41;
-            color: white;
-            padding: 10px;
-            text-align: center;
-
-        }
-
-        .btn-registro:hover {
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            select {
-                background-color: transparent;
-                color: #fff !important;
-            }
-
-        }
-
-        @media (prefers-color-scheme: light) {
-            select {
-                background-color: transparent;
-                color: #000 !important;
-            }
-        }
-    </style>
-
 <section>
     <header>
         <h2 class="text-lg font-medium text-white">
@@ -100,8 +35,8 @@
 
             <div>
                 <x-input-label for="dni" :value="__('DNI')" />
-                <x-text-input style="background: transparent; border: 1px solid gray" id="dni" name="dni" type="text" class="mt-1 block w-full" :value="old('dni', $user->dni)"
-                    readonly />
+                <x-text-input style="background: transparent; border: 1px solid gray" id="dni" name="dni"
+                    type="text" class="mt-1 block w-full" :value="old('dni', $user->dni)" readonly />
                 <x-input-error class="mt-2" :messages="$errors->get('dni')" />
             </div>
 
@@ -110,6 +45,7 @@
                 <x-text-input id="birthdate" name="birthdate" type="date" class="mt-1 block w-full"
                     :value="old('birthdate', $user->birthdate)" required autofocus autocomplete="birthdate" />
                 <x-input-error class="mt-2" :messages="$errors->get('birthdate')" />
+                <small id="edad"></small>
             </div>
 
             <div class="mt-4">
@@ -159,7 +95,7 @@
                     <option
                         {{ $user->country ==
                         'República
-                                                                                                                                                Dominicana'
+                                                                                                                                                                        Dominicana'
                             ? 'selected'
                             : '' }}
                         value="República

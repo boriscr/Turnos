@@ -1,67 +1,4 @@
 <x-app-layout>
-    <style>
-        select {
-            width: 100%;
-            border-radius: 5px;
-            padding: 10px;
-        }
-
-        h1 {
-            color: #4CAF50;
-            text-align: center;
-            text-decoration: underline;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-
-        }
-
-        .message-list-password {
-            color: #4CAF50;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            border: 1px solid #4CAF50;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        option {
-            color: #000;
-        }
-
-        .btn-registro {
-            width: 50%;
-            height: 100%;
-            border-radius: 5px;
-            background-color: #3e8e41;
-            color: white;
-            padding: 10px;
-            text-align: center;
-
-        }
-
-        .btn-registro:hover {
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            select {
-                background-color: transparent;
-                color: #fff !important;
-            }
-
-        }
-
-        @media (prefers-color-scheme: light) {
-            select {
-                background-color: transparent;
-                color: #000 !important;
-            }
-        }
-    </style>
     <div class="main">
         <div class="container-form-register">
             <form method="POST" action="{{ route('register') }}" x-data="registerForm()" x-ref="registerForm">
@@ -73,7 +10,7 @@
                         <div class="flex items-center">
                             <div :class="{
                                 'bg-green-500 text-white': step > s,
-                                'bg-pink-500 text-white': step ===
+                                'bg-grey-500 text-white': step ===
                                     s,
                                 'bg-gray-300 text-gray-700': step < s
                             }"
@@ -103,8 +40,8 @@
 
                     <div class="mt-4">
                         <x-input-label for="dni" :value="__('DNI')" />
-                        <x-text-input id="dni" name="dni" type="text" inputmode="numeric"
-                            pattern="[0-9]{7,8}" maxlength="8" autocomplete="off" required class="block mt-1 w-full" />
+                        <x-text-input id="dni" name="dni" type="text" pattern="[a-zA-Z0-9]{7,10}"
+                            maxlength="10" autocomplete="off" required class="block mt-1 w-full" />
                         <x-input-error :messages="$errors->get('dni')" class="mt-2" />
                     </div>
 
@@ -113,6 +50,7 @@
                         <x-text-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate"
                             required />
                         <x-input-error :messages="$errors->get('birthdate')" class="mt-2" />
+                        <small id="edad"></small>
                     </div>
 
                     <div class="mt-4">
@@ -129,15 +67,17 @@
                     </div>
 
                     <div class="mt-6 flex justify-end">
-                        <button type="button" @click="nextStep(1)"
-                            class="border border-white bg-pink-500 text-white px-4 py-2 rounded">Siguiente</button>
+                        <button type="button" @click="nextStep(1)" class="siguiente-btn centrado-total">Siguiente<i
+                                class="bi bi-chevron-right"></i></button>
                     </div>
                     <br>
                     <hr>
                     <br>
-                    <x-secondary-button class="ms-3">
-                        <a href="{{ route('login') }}">{{ __('¿Ya tienes una cuenta?') }}</a>
-                    </x-secondary-button>
+
+                    <div class="flex items-center justify-center mt-4">
+                        <button type="button" class="secundario-btn centrado-total"> <a
+                                href="{{ route('login') }}">{{ __('¿Ya tienes una cuenta?') }}</a></button>
+                    </div>
                 </div>
 
                 <!-- Paso 2 -->
@@ -214,10 +154,10 @@
                     </div>
 
                     <div class="mt-6 flex justify-between">
-                        <button type="button" @click="step--"
-                            class="border border-white bg-gray-400 text-white px-4 py-2 rounded">Atrás</button>
-                        <button type="button" @click="nextStep(2)"
-                            class="border border-white bg-pink-500 text-white px-4 py-2 rounded">Siguiente</button>
+                        <button type="button" @click="step--" class="atras-btn centrado-total btn-danger"><i
+                                class="bi bi-chevron-left"></i>Atrás</button>
+                        <button type="button" @click="nextStep(2)" class="siguiente-btn centrado-total">Siguiente<i
+                                class="bi bi-chevron-right"></i></button>
                     </div>
                 </div>
 
@@ -258,10 +198,10 @@
                         <li>No uses datos personales (fechas, nombres, etc.)</li>
                     </ul>
 
-                    <div class="mt-6 flex justify-between">
-                        <button type="button" @click="step--"
-                            class="border border-white bg-gray-400 text-white px-4 py-2 rounded">Atrás</button>
-                        <button type="button" @click="confirmSubmit" class="btn-registro">Registrar</button>
+                    <div class="boxBtn-register centrado-total">
+                        <button type="button" @click="step--" class="atras-btn centrado-total btn-danger"><i
+                                class="bi bi-chevron-left"></i>Atrás</button>
+                        <button type="button" @click="confirmSubmit" class="submit-btn">Registrar</button>
                     </div>
                 </div>
             </form>
@@ -317,15 +257,14 @@
                         Swal.fire({
                             title: '¿Confirmar registro?',
                             html: `
-                    <p class="text-left">
+                    <p class="text-left" style="color:black">
                         Los datos que estás por registrar serán utilizados para la reserva de turnos. 
-                        <strong>Algunos de estos datos no podrán ser editados posteriormente</strong>, incluyendo tu 
-                        <strong>DNI</strong>, <strong>nombre</strong> y <strong>apellido</strong>, ya que estarán asociados de forma exclusiva a esta cuenta.
+                        <strong>Algunos datos no podrán ser editados posteriormente</strong>, ya que estarán asociados de forma exclusiva a esta cuenta.
                     </p>
-                    <p class="text-left mt-2">
+                    <p class="text-left mt-2" style="color:black">
                         Si los datos son incorrectos, podrías recibir la negación de turnos o no poder gestionarlos correctamente.
                     </p>
-                    <p class="text-left mt-2 font-semibold">
+                    <p class="text-left mt-2 font-semibold" style="color:black">
                         Por favor, revisa cuidadosamente toda la información antes de continuar y asegúrate de que los datos ingresados coincidan exactamente con los que figuran en tu DNI.                    </p>
                     `,
                             icon: 'question',

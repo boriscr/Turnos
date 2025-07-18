@@ -1,3 +1,9 @@
+.centrado-total {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .error {
     color: red;
 }

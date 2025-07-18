@@ -30,6 +30,7 @@
         @error('birthdate')
             <div class="error">{{ $message }}</div>
         @enderror
+        <small id="edad"></small>
     </div>
     <div class="item">
         <label for="genero"><span aria-hidden="true" style="color: red;">*</span> Genero</label>

@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-    $disabledNav = true;
+        $disabledNav = true;
         return view('auth.register', compact('disabledNav'));
     }
 
@@ -33,14 +33,14 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'dni' => ['required', 'digits_between:7,8', 'unique:' . User::class],
+            'dni' => ['required', 'string', 'min:7', 'max:10', 'unique:' . User::class],
             'birthdate' => ['required', 'date'],
             'genero' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,otro,Prefiero no decir'],
             'country' => ['required', 'string', 'max:255'],
             'province' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:15', 'unique:' . User::class],
+            'phone' => ['required', 'string','min:9', 'max:15', 'unique:' . User::class],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => [
                 'required',
@@ -88,7 +88,7 @@ class RegisteredUserController extends Controller
             'title' => 'Registro exitoso',
             'message' => '¡Bienvenido/a! Tu cuenta ha sido creada exitosamente.',
             'icon' => 'success',
-            'timer' => 5000,
+            'timer' => 3000,
         ]);
         return redirect(route('home', absolute: false));
     }

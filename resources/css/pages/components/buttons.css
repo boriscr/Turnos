@@ -29,18 +29,37 @@
 .submit-btn {
     background-color: var(--color_primario_btn);
     color: var(--color_texto_btn);
-    margin: 8px 0;
     border: none;
     cursor: pointer;
     width: 100%;
 }
 
-.submit-btn:hover {
+.submit-btn:hover,
+.atras-btn:hover,
+.siguiente-btn:hover,.secundario-btn:hover {
     opacity: 0.8;
 }
 
 .submit-btn:active {
     background-color: #3e8e41;
+}
+
+/*Vista register*/
+.atras-btn,
+.siguiente-btn {
+    border: 1px solid #fff;
+    height: 50px;
+    padding: 15px;
+    margin: 10px;
+}
+
+.siguiente-btn,
+.secundario-btn {
+    background-color: var(--color_secundario_btn);
+}
+.secundario-btn{
+    height: 40px;
+    padding: 10px;
 }
 
 

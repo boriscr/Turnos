@@ -42,17 +42,14 @@
                             {{ __('Olvidaste tu contraseña?') }}
                         </a>
                     @endif
-                    <x-primary-button class="ms-3">
-                        {{ __('Acceder') }}
-                    </x-primary-button>
+                    <button type="submit" class="submit-btn">Ingresar</button>
                 </div>
             </form>
             <br>
             <hr>
-            <div class="flex items-center justify-end mt-4">
-                <x-secondary-button class="ms-3">
-                    <a href="{{ route('register') }}">{{ __('¿No tienes cuenta? Crea una') }}</a>
-                </x-secondary-button>
+            <div class="flex items-center justify-center mt-4">
+                <button type="button" class="secundario-btn centrado-total"> <a
+                        href="{{ route('register') }}">{{ __('¿No tienes cuenta? Crea una') }}</a></button>
             </div>
         </div>
     </div>

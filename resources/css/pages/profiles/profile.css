@@ -76,3 +76,13 @@ h2 {
     font-size: 60px;
     color: red;
 }
+
+.message-list-password {
+    color: #4CAF50;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #4CAF50;
+    padding: 10px;
+    border-radius: 5px;
+}

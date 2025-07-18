@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('surname');
-            $table->string('dni')->unique();
+            $table->string('dni', 8)->unique();
             $table->date('birthdate');
             $table->string('genero');
             $table->string('country');
