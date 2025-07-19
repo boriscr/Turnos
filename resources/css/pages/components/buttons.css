@@ -36,7 +36,8 @@
 
 .submit-btn:hover,
 .atras-btn:hover,
-.siguiente-btn:hover,.secundario-btn:hover {
+.siguiente-btn:hover,
+.secundario-btn:hover,.btn-primario:hover {
     opacity: 0.8;
 }
 
@@ -57,11 +58,15 @@
 .secundario-btn {
     background-color: var(--color_secundario_btn);
 }
-.secundario-btn{
+
+.secundario-btn {
     height: 40px;
     padding: 10px;
 }
 
+.btn-primario {
+    background-color: var(--color_primario_btn);
+}
 
 /*Botones de acciones de las tablas*/
 /*heder*/

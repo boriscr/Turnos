@@ -7,9 +7,11 @@
             <p>{{ config('app.mensaje_paciente') }}</p>
             @if (auth()->check())
                 @auth
-                    <div class="d-flex justify-content-center mt-4">
-                        <a href="{{ route('profile.edit') }}" class="btn btn-primary me-2">Ir a Mi perfil</a>
-                        <a href="{{ route('logout') }}" class="btn btn-secondary">Cerrar sesión</a>
+                    <div class="centrado-total">
+                        <button type="button" class="btn-primario">
+                            <a class="nav-link" href="{{ route('disponible.create') }}">Reservar Turno</a>
+                        </button>
+
                     </div>
                 @endauth
             @else
