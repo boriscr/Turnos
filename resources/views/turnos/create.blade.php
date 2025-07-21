@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main">
-        <div class="container-form">
+    <div class="main centrado-total">
+        <div class="container-form centrado-total">
             <h3 class="title-form">Crear turno</h3>
 
             <!-- Indicador de pasos -->

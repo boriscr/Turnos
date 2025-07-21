@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main">
-        <div class="container-form">
+    <div class="main centrado-total">
+        <div class="container-form centrado-total">
             <H3 class="title-form">Settings</H3>
             <form action="{{ route('settings.update') }}" method="post">
                 @csrf

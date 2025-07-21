@@ -21,8 +21,6 @@
 }
 
 .section-container {
-    display: flex;
-    justify-content: center;
     box-shadow: 0px 0px 10px rgba(150, 150, 150, 0.5);
     border-radius: 10px;
     flex-wrap: wrap;
@@ -40,10 +38,6 @@
     padding: 10px;
     border-radius: 10px;
 }
-/*
-.card .bi {
-    color: var(--color_texto_titulo);
-}*/
 
 .card H1 {
     text-align: center;

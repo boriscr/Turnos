@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main-table">
-        <div class="container-form">
+    <div class="main-table centrado-total">
+        <div class="container-form centrado-total">
             <h3 class="title-form">Lista de médicos</h3>
             <table>
                 <thead>
@@ -21,7 +21,7 @@
                             <td class="option-movil">{{ $medico->dni }}</td>
                             <td>{{ $medico->especialidad->nombre ?? 'Sin datos' }}</td>
                             <td class="option-movil">{{ $medico->role }}</td>
-                            <td class="acciones">
+                            <td class="acciones centrado-total">
                                 <a href="{{ route('medico.show', $medico->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">Ver</b></a>
                                 <a href="{{ route('medico.edit', $medico->id) }}" class="btn btn-edit"><i

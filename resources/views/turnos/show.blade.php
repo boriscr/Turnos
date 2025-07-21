@@ -2,7 +2,7 @@
     <div class="content-wrapper">
         <H3 class="title-form">Detalles</H3>
 
-        <div class="section-container">
+        <div class="section-container centrado-total">
             <div class="card">
                 <p><b>Nombre:</b> {{ $turno->nombre }}</p>
                 <p><b>Direccion:</b> {{ $turno->direccion }}</p>
@@ -30,13 +30,13 @@
                 </p>
             </div>
         </div>
-        <div class="opciones">
+        <div class="opciones centrado-total">
             <a href="{{ route('turnos.edit', $turno->id) }}" class="btn-edit"><i
                     class="bi bi-pencil-fill">Editar</i></a>
             <form action="{{ route('turnos.destroy', $turno->id) }}" method="POST" class="delete-form">
                 @csrf
                 @method('DELETE')
-                <button type="button" class="btn-delete delete-btn"><i class="bi bi-trash-fill"></i> Eliminar</button>
+                <button type="button" class="btn-delete delete-btn"><i class="bi bi-trash-fill">Eliminar</i></button>
             </form>
         </div>
         <br>

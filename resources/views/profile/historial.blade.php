@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main-table">
-        <div class="container-form">
+    <div class="main-table centrado-total">
+        <div class="container-form centrado-total">
             <h3 class="title-form">Historial</h3>
             <table>
                 <thead>

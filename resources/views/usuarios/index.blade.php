@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main-table">
-        <div class="container-form">
+    <div class="main-table centrado-total">
+        <div class="container-form centrado-total">
             <h3 class="title-form">Usuarios creados</h3>
             <table>
                 <thead>
@@ -24,7 +24,7 @@
                             </td>
                             <td class="option-movil">{{ $usuario->address }}</td>
                             <td>{{ $usuario->estado ? 'Activo' : 'Inactivo' }}</td>
-                            <td class="acciones">
+                            <td class="acciones centrado-total">
                                 <a href="{{ route('usuario.show', $usuario->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">Ver</b></a>
                                 <a href="{{ route('usuario.edit', $usuario->id) }}" class="btn btn-edit"><i

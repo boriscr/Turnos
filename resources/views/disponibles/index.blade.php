@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main-table">
-        <div class="container-form">
+    <div class="main-table centrado-total">
+        <div class="container-form centrado-total">
             <h3 class="title-form">Turnos creados</h3>
             <div class="mb-4">
                 <!-- Formulario de búsqueda y filtros rápidos -->
@@ -148,8 +148,8 @@
             </div>
 
 
-        <div class="main-table">
-            <div class="container-form">
+        <div class="main-table centrado-total">
+            <div class="container-form centrado-total">
                 <h3 class="title-form">Turnos reservados</h3>
                 <table>
                     <thead>
@@ -176,7 +176,7 @@
                                 <td class="option-movil">{{ $turnoDisponible->cupos_disponibles }}</td>
                                 <td class="{{ $turnoDisponible->cupos_reservados ? 'btn-success' : 'btn-danger' }}">
                                     {{ $turnoDisponible->cupos_reservados ? 'Reservado' : 'Sin reserva' }}</td>
-                                <td class="acciones">
+                                <td class="acciones centrado-total">
                                     <a href="{{ route('turnos.show', $turnoDisponible->id) }}"
                                         class="btn btn-view"><i class="bi bi-eye"></i></a>
                                     <a href="{{ route('turnos.edit', $turnoDisponible->id) }}"

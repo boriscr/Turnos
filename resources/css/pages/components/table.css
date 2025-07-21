@@ -1,8 +1,5 @@
 .main-table {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .main-table .container-form {
@@ -33,9 +30,6 @@ th {
 .main-table .container-form .acciones {
     gap: 3px;
     flex-wrap: wrap;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100% !important;
 }
 

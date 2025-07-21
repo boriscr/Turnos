@@ -54,7 +54,7 @@
         </select>
     </div>
     @if (isset($nuevoMedico) != null || isset($crear))
-        <div class="box-new-especialidad">
+        <div class="box-new-especialidad centrado-total">
             <button type="button" id="especialidad-btn">Crear especialidad</button>
         </div>
     @endif

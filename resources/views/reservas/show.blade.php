@@ -2,7 +2,7 @@
     @if (isset($reserva))
         <div class="content-wrapper">
             <h3 class="title-form">Detalles</h3>
-            <div class="section-container">
+            <div class="section-container centrado-total">
                 <div class="card">
                     <H1>Paciente</H1>
                     <p><b> Paciente: </b> {{ $reserva->user->name . ' ' . $reserva->user->surname }}
@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="opciones">
+            <div class="opciones centrado-total">
                 <form action="{{ route('disponible.destroy', $reserva->id) }}" method="POST" style="display:inline;"
                     class="delete-form">
                     @csrf

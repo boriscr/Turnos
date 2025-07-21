@@ -36,19 +36,19 @@
 
 
             <div class="section-container-profile">
-                <div class="card-profile">
+                <div class="card-profile centrado-total">
                     <h1><b>Seccion Informacion</b></h1>
                     <i class="bi bi-person-bounding-box"></i>
                     <a href="{{ route('profile.edit') }}">Ver mis datos</a>
                 </div>
-                <div class="card-profile">
+                <div class="card-profile centrado-total">
                     <h1><b>Seccion Turnos</b></h1>
                     <i class="bi bi-calendar3"></i>
                     <a href="{{ route('profile.edit') }}">Reservar turno</a>
                 </div>
 
                 <!-- Notificaciones importantes -->
-                <div class="card-profile">
+                <div class="card-profile centrado-total">
                     <h1><b>Mi historial</b></h1>
                     <i class="bi bi-journal-text"></i>
                     <a href="{{ route('profile.historial') }}">Ver historial</a>

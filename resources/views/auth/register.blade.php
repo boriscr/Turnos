@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main">
-        <div class="container-form-register">
+    <div class="main centrado-total">
+        <div class="container-form-register centrado-total">
             <form method="POST" action="{{ route('register') }}" x-data="registerForm()" x-ref="registerForm">
                 @csrf
 

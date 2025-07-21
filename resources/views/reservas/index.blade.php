@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main-table">
-        <div class="container-form">
+    <div class="main-table centrado-total">
+        <div class="container-form centrado-total">
             <h3 class="title-form">Turnos reservados</h3>
 
             <!-- Barra de búsqueda y filtros -->
@@ -77,7 +77,7 @@
                                 @endif
                             </td>
 
-                            <td class="acciones">
+                            <td class="acciones centrado-total">
                                 <a href="{{ route('reservas.show', $reserva->id) }}" class="btn btn-view">
                                     <i class="bi bi-eye"></i><b class="accionesMovil">Ver</b>
                                 </a>

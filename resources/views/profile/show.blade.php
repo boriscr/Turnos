@@ -2,7 +2,7 @@
     @if (isset($reserva) && $reserva->turnoDisponible->turno->estado === true)
         <div class="content-wrapper">
             <h3 class="title-form">Detalles</h3>
-            <div class="section-container">
+            <div class="section-container centrado-total">
                 <div class="card">
                     <h1>Mis datos</h1>
                     <p><b> Paciente: </b> {{ Auth::user()->name . ' ' . Auth::user()->surname }}
@@ -40,14 +40,14 @@
     @else
         <div class="content-wrapper">
             <h3 class="title-form">Upss...</h3>
-            <div class="card-error">
+            <div class="card-error centrado-total">
                 <div class="card">
                     <div class="mensaje-error-box">
                         <h1>Turno No Disponible</h1>
                         <p>El turno que intentas acceder no está disponible o ha sido cancelado.</p>
 
                     </div>
-                    <div class="icono-error-box">
+                    <div class="icono-error-box centrado-total">
                         <i class="bi bi-x-circle-fill"></i>
                     </div>
                     <h2>¿Por qué sucede esto?</h2>

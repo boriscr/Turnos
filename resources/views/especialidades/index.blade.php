@@ -1,8 +1,8 @@
 <x-app-layout>
-    <div class="main-table">
-        <div class="container-form">
+    <div class="main-table centrado-total">
+        <div class="container-form centrado-total">
             <h3 class="title-form">Especialidades</h3>
-            <div class="opciones">
+            <div class="opciones centrado-total">
                 <button class="btn-add">
                     <a href="{{ route('especialidad.create') }}">Crear especialidad</a>
                 </button>
@@ -28,7 +28,7 @@
                                         class="bi bi-eye"></i></a></td>
 
                             <td class="option-movil">{{ $especialidades->estado ? 'Activo' : 'Inactivo' }}</td>
-                            <td class="acciones">
+                            <td class="acciones centrado-total">
                                 <a href="{{ route('especialidad.show', $especialidades->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i></a>
                                 <a href="{{ route('especialidad.edit', $especialidades->id) }}" class="btn btn-edit"><i

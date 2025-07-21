@@ -2,7 +2,7 @@
     <div class="content-wrapper">
         <H3 class="title-form">Detalles</H3>
 
-        <div class="section-container">
+        <div class="section-container centrado-total">
             <div class="card">
                 <h1><b>Datos Personales</b></h1>
                 <p><b>Nombre y apellido: </b>{{ $usuario->name . ' ' . $usuario->surname }}</p>
@@ -30,7 +30,7 @@
                 <p><b>Correo electrónico: </b>{{ $usuario->email }}</p>
             </div>
         </div>
-        <div class="opciones">
+        <div class="opciones centrado-total">
             <a href="{{ route('usuario.edit', $usuario->id) }}" class="btn-edit"><i
                     class="bi bi-pencil-fill">Editar</i></a>
             <form action="{{ route('usuario.destroy', $usuario->id) }}" method="POST" class="delete-form">

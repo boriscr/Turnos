@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main">
-        <div class="container-form">
+    <div class="main centrado-total">
+        <div class="container-form centrado-total">
             <h3 class="title-form">Editar datos del medico</h3>
             <x-form.medico :ruta="route('medico.update', $medicos->id)" :nuevoMedico="$medicos->user_id" :especialidades="$especialidades" :especialidad="$medicos->$especialidad_id ?? null" :nombre="$medicos->nombre"
                 :apellido="$medicos->apellido" :dni="$medicos->dni" :matricula="$medicos->matricula" :email="$medicos->email" :telefono="$medicos->telefono"

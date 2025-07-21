@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main">
-        <div class="container-form">
+    <div class="main centrado-total">
+        <div class="container-form centrado-total">
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-white dark:text-gray-200 leading-tight">
                     {{ __('Perfil') }}
