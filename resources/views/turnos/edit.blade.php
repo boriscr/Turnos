@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="form-navigation navegation-next">
-                        <button type="button" class="next-btn">Siguiente</button>
+                        <button type="button" class="next-btn centrado-total">Siguiente</button>
                     </div>
                 </div>
 
@@ -148,8 +148,9 @@
                     </div>
 
                     <div class="form-navigation navegation-next">
-                        <button type="button" class="prev-btn">Anterior</button>
-                        <button type="button" class="next-btn">Siguiente</button>
+                        <button type="button" class="prev-btn"><i class="bi bi-chevron-left"></i>Anterior</button>
+                        <button type="button" class="next-btn centrado-total">Siguiente<i
+                                class="bi bi-chevron-right"></i></button>
                     </div>
                 </div>
 

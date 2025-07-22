@@ -5,7 +5,7 @@
                     <div class="input-group">
                         <input type="text" name="search" class="form-control"
                             placeholder="Buscar por nombre, apellido o DNI..." value="{{ request('search') }}">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-default">
                             <i class="bi bi-search"></i> Buscar
                         </button>
                         @if (request('search'))
@@ -23,15 +23,15 @@
 
                         <div class="btn-group" role="group">
                             <button type="submit" name="fecha" value="anteriores"
-                                class="btn {{ request('fecha') == 'anteriores' ? 'btn-primary' : 'btn-outline-primary' }}">
+                                class="btn {{ request('fecha') == 'anteriores' ? 'btn-default' : 'btn-outline-primary' }}">
                                 Anteriores
                             </button>
                             <button type="submit" name="fecha" value="hoy"
-                                class="btn {{ request('fecha', 'hoy') == 'hoy' ? 'btn-primary' : 'btn-outline-primary' }}">
+                                class="btn {{ request('fecha', 'hoy') == 'hoy' ? 'btn-default' : 'btn-outline-primary' }}">
                                 Hoy
                             </button>
                             <button type="submit" name="fecha" value="futuros"
-                                class="btn {{ request('fecha') == 'futuros' ? 'btn-primary' : 'btn-outline-primary' }}">
+                                class="btn {{ request('fecha') == 'futuros' ? 'btn-default' : 'btn-outline-primary' }}">
                                 Futuros
                             </button>
                         </div>
@@ -47,7 +47,7 @@
                             </div>
                             <div class="col-md-2">
                                 <button type="submit" name="fecha" value="personalizado"
-                                    class="btn btn-primary w-100">
+                                    class="btn btn-default w-100">
                                     <i class="bi bi-filter"></i>
                                 </button>
                             </div>

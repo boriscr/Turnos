@@ -1,10 +1,11 @@
 .search-filters {
-    background: #f8f9fa;
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px var(--color_secundario_btn);;
 }
-
+.input-group{
+    gap: 5px;
+}
 .date-filters {
     margin-top: 15px;
     padding-top: 15px;

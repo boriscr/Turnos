@@ -1,19 +1,24 @@
 /*Calendario*/
-.calendario-box{
+.calendario-box {
     text-align: center;
     margin: 10px auto;
-
 }
+
 .calendar-container {
     margin: 10px auto;
     max-width: 400px;
     font-family: system-ui, -apple-system, sans-serif;
     width: 100%;
-    background: white;
     border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color_texto_titulo);
     padding: 16px;
 }
+
+.calendar-container .bi {
+    color: #3b82f6;
+}
+
 .calendar-header {
     display: flex;
     justify-content: space-between;
@@ -21,10 +26,13 @@
     margin-bottom: 12px;
     padding: 0 8px;
 }
-.calendar-header .nav-btn{
+
+.calendar-header .nav-btn {
     font-size: 30px;
 }
-.weekdays, .days-grid {
+
+.weekdays,
+.days-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 4px;
@@ -32,7 +40,7 @@
 }
 
 .weekdays div {
-    padding: 8px;
+    padding: 4px;
     font-weight: bold;
     font-size: 0.9rem;
 }
@@ -50,7 +58,7 @@
 }
 
 .days-grid button:hover:not(.disabled) {
-    background-color: #3b82f6;
+    border: 1px solid #7f7e7e;
 }
 
 .days-grid button.selected {
@@ -91,12 +99,11 @@
     padding: 8px 16px;
     border-radius: 20px;
     border: 1px solid #ddd;
-    background: white;
     cursor: pointer;
 }
 
 .mode-selector button.active {
-    background: #3b82f6;
+    background: #3b82f6 !important;
     color: white;
     border-color: #3b82f6;
 }
@@ -143,43 +150,14 @@
     transform: translateX(20px);
 }
 
-.submit-btn {
-    width: 100%;
-    padding: 12px;
-    background-color: #3b82f6;
-    /*color: white;*/
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s;
-}
-
-.submit-btn:hover {
-    background-color: #2563eb;
-}
-
-/* Modo oscuro */
-@media (prefers-color-scheme: dark) {
-    .calendar-container {
-        background-color: #fff;
-        color: #000;
-    }
-}
-
-/* Modo claro */
-@media (prefers-color-scheme: light) {
-    .calendar-container {
-        background-color: #fff;
-        color: #000;
-    }
-}
-
-
 
 @media (max-width: 600px) {
-    #weekdays>*{
+    #weekdays>* {
         font-size: 0.7rem;
+    }
+}
+@media (max-width: 360px) {
+    #weekdays>* {
+        font-size: 0.6.5rem;
     }
 }

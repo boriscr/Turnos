@@ -8,7 +8,7 @@
                     <div class="input-group mb-3">
                         <input type="text" name="search" class="form-control"
                             placeholder="Buscar por DNI o nombre..." value="{{ request('search') }}">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-default">
                             <i class="bi bi-search"></i> Buscar
                         </button>
                         @if (request('search'))
@@ -25,15 +25,15 @@
                                 <input type="hidden" name="reserva" id="reservaInput"
                                     value="{{ request('reserva', 'reservados') }}">
                                 <button type="button" data-value="reservados"
-                                    class="btn {{ request('reserva', 'reservados') == 'reservados' ? 'btn-primary' : 'btn-outline-primary' }} reserva-btn">
+                                    class="btn {{ request('reserva', 'reservados') == 'reservados' ? 'btn-default' : 'btn-outline-primary' }} reserva-btn">
                                     Reservados
                                 </button>
                                 <button type="button" data-value="sin_reserva"
-                                    class="btn {{ request('reserva') == 'sin_reserva' ? 'btn-primary' : 'btn-outline-primary' }} reserva-btn">
+                                    class="btn {{ request('reserva') == 'sin_reserva' ? 'btn-default' : 'btn-outline-primary' }} reserva-btn">
                                     Sin reserva
                                 </button>
                                 <button type="button" data-value="todos"
-                                    class="btn {{ request('reserva') == 'todos' ? 'btn-primary' : 'btn-outline-primary' }} reserva-btn">
+                                    class="btn {{ request('reserva') == 'todos' ? 'btn-default' : 'btn-outline-primary' }} reserva-btn">
                                     Todos
                                 </button>
                             </div>
@@ -45,15 +45,15 @@
                                 <input type="hidden" name="fecha" id="fechaInput"
                                     value="{{ request('fecha', 'hoy') }}">
                                 <button type="button" data-value="anteriores"
-                                    class="btn {{ request('fecha') == 'anteriores' ? 'btn-primary' : 'btn-outline-primary' }} fecha-btn">
+                                    class="btn {{ request('fecha') == 'anteriores' ? 'btn-default' : 'btn-outline-primary' }} fecha-btn">
                                     Anteriores
                                 </button>
                                 <button type="button" data-value="hoy"
-                                    class="btn {{ request('fecha', 'hoy') == 'hoy' ? 'btn-primary' : 'btn-outline-primary' }} fecha-btn">
+                                    class="btn {{ request('fecha', 'hoy') == 'hoy' ? 'btn-default' : 'btn-outline-primary' }} fecha-btn">
                                     Hoy
                                 </button>
                                 <button type="button" data-value="futuros"
-                                    class="btn {{ request('fecha') == 'futuros' ? 'btn-primary' : 'btn-outline-primary' }} fecha-btn">
+                                    class="btn {{ request('fecha') == 'futuros' ? 'btn-default' : 'btn-outline-primary' }} fecha-btn">
                                     Mañana
                                 </button>
                             </div>
@@ -75,13 +75,13 @@
                             button.addEventListener('click', function() {
                                 // Remover clase active de todos los botones de reserva
                                 document.querySelectorAll('.reserva-btn').forEach(btn => {
-                                    btn.classList.remove('btn-primary');
+                                    btn.classList.remove('btn-default');
                                     btn.classList.add('btn-outline-primary');
                                 });
 
                                 // Agregar clase active al botón clickeado
                                 this.classList.remove('btn-outline-primary');
-                                this.classList.add('btn-primary');
+                                this.classList.add('btn-default');
 
                                 // Actualizar valor del input hidden
                                 document.getElementById('reservaInput').value = this.dataset.value;
@@ -96,13 +96,13 @@
                             button.addEventListener('click', function() {
                                 // Remover clase active de todos los botones de fecha
                                 document.querySelectorAll('.fecha-btn').forEach(btn => {
-                                    btn.classList.remove('btn-primary');
+                                    btn.classList.remove('btn-default');
                                     btn.classList.add('btn-outline-primary');
                                 });
 
                                 // Agregar clase active al botón clickeado
                                 this.classList.remove('btn-outline-primary');
-                                this.classList.add('btn-primary');
+                                this.classList.add('btn-default');
 
                                 // Actualizar valor del input hidden
                                 document.getElementById('fechaInput').value = this.dataset.value;
@@ -133,7 +133,7 @@
                                 value="{{ request('fecha_fin') }}">
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" name="fecha" value="personalizado" class="btn btn-primary w-100">
+                            <button type="submit" name="fecha" value="personalizado" class="btn btn-default w-100">
                                 <i class="bi bi-filter"></i> Filtrar
                             </button>
                         </div>

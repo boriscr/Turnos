@@ -228,6 +228,9 @@
                         </div>
                     </div>
                 </div>
+                <br>
+                <hr>
+                <br>
                 <button type="submit" class="submit-btn">Actualizar</button>
             </form>
         </div>

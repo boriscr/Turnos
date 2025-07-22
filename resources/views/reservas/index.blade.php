@@ -36,7 +36,7 @@
                             <td>
                                 @if ($reserva->asistencia === null)
                                     <div class="ios-dropdown">
-                                        <button class="btn-asistencia btn-secondary dropdown-toggle"
+                                        <button class="btn-asistencia btn-default dropdown-toggle"
                                             title="Marcar asistencia">
                                             <i class="bi bi-hourglass-split"></i> Pendiente
                                         </button>

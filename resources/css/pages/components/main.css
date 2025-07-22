@@ -21,6 +21,7 @@
 }
 
 .section-container {
+    align-items: start;
     box-shadow: 0px 0px 10px rgba(150, 150, 150, 0.5);
     border-radius: 10px;
     flex-wrap: wrap;

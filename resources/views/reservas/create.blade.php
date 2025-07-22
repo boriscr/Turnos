@@ -36,9 +36,12 @@
                         <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                         <input name="fecha_nacimiento" value="{{ Auth::user()->birthdate }}" readonly>
                     </div>
-
-                    <div class="form-navigation navegation-next">
-                        <button type="button" class="next-btn">Siguiente<i class="bi bi-chevron-right"></i></button>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="navegation-next centrado-total">
+                        <button type="button" class="next-btn centrado-total">Siguiente<i
+                                class="bi bi-chevron-right"></i></button>
                     </div>
                 </div>
 
@@ -82,9 +85,12 @@
                         </select>
                         <input type="hidden" name="turno_id" id="turno_id">
                     </div>
-
+                    <br>
+                    <hr>
+                    <br>
                     <div class="form-navigation">
-                        <button type="button" class="prev-btn"><i class="bi bi-chevron-left"></i></button>
+                        <button type="button" class="prev-btn centrado-total"><i
+                                class="bi bi-chevron-left"></i></button>
                         <button type="submit" class="submit-btn">Confirmar Turno <i
                                 class="bi bi-check-circle"></i></button>
                     </div>

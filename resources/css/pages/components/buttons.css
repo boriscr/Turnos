@@ -31,27 +31,25 @@
     width: 100%;
 }
 
+.submit-btn {
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
 .submit-btn:hover,
-.atras-btn:hover,
-.siguiente-btn:hover,
-.secundario-btn:hover,.primario-btn:hover {
+.secundario-btn:hover,
+.primario-btn:hover {
     opacity: 0.8;
 }
 
 .submit-btn:active {
-    background-color: #3e8e41;
+    background-color: var(--color_primario_btn);
+    color: var(--color_texto_btn);
 }
 
 /*Vista register*/
-.atras-btn,
-.siguiente-btn {
-    border: 1px solid #fff;
-    height: 50px;
-    padding: 15px;
-    margin: 10px;
-}
-
-.siguiente-btn,
 .secundario-btn {
     background-color: var(--color_secundario_btn);
 }
@@ -74,8 +72,9 @@
     gap: 10px;
 }
 
-.opciones>* {
-    width: 70px;
+.opciones>*,
+.opciones .delete-btn {
+    width: 85px;
     height: 50px;
     border-radius: 10px;
     padding: 10px;
@@ -119,7 +118,6 @@
 }
 
 .btn-delete {
-    width: 100%;
     background-color: #dc3545;
 }
 
@@ -147,7 +145,7 @@
     color: white;
 }
 
-.btn-secondary {
+.btn-default {
     background-color: #6c757d;
     color: white;
 }
@@ -156,7 +154,7 @@
     background-color: #218838;
 }
 
-.btn-secondary:hover {
+.btn-default:hover {
     background-color: #5a6268;
 }
 
@@ -173,7 +171,6 @@ button {
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
-    cursor: pointer;
 }
 
 button:disabled {

@@ -83,5 +83,8 @@
             <option value="0" {{ isset($estado) && $estado == 0 ? 'selected' : '' }}>Inactivo</option>
         </select>
     </div>
+    <br>
+    <hr>
+    <br>
     <button type="submit" class="submit-btn">{{ isset($crear) ? 'Registrar' : 'Actualizar' }}</button>
 </form>

@@ -2,7 +2,7 @@
     @if (isset($medico))
         <div class="content-wrapper">
             <h3 class="title-form">Detalles</h3>
-            <div class="section-container centrado-total">
+            <div class="section-container centrado-t">
                 <div class="card">
                     <p><b> Nombre y apellido: </b>{{ $medico->nombre . ' ' . $medico->apellido }}</p>
                     <p><b> Dni: </b>{{ $medico->dni }}</p>

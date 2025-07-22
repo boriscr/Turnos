@@ -17,8 +17,8 @@
             @else
                 <b>Para comenzar, por favor inicia sesión o regístrate si aún no tienes una cuenta.</b>
                 <div class="d-flex justify-content-center mt-4">
-                    <a href="{{ route('login') }}" class="btn btn-primary me-2">Iniciar sesión</a>
-                    <a href="{{ route('register') }}" class="btn btn-secondary">Registrarse</a>
+                    <a href="{{ route('login') }}" class="btn btn-default me-2">Iniciar sesión</a>
+                    <a href="{{ route('register') }}" class="btn btn-default">Registrarse</a>
                 </div>
             @endif
 

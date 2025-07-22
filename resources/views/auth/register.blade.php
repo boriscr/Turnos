@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="mt-6 flex justify-end">
-                        <button type="button" @click="nextStep(1)" class="siguiente-btn centrado-total">Siguiente<i
+                        <button type="button" @click="nextStep(1)" class="next-btn centrado-total">Siguiente<i
                                 class="bi bi-chevron-right"></i></button>
                     </div>
                     <br>
@@ -154,9 +154,9 @@
                     </div>
 
                     <div class="mt-6 flex justify-between">
-                        <button type="button" @click="step--" class="atras-btn centrado-total btn-danger"><i
+                        <button type="button" @click="step--" class="prev-btn centrado-total btn-danger"><i
                                 class="bi bi-chevron-left"></i>Atrás</button>
-                        <button type="button" @click="nextStep(2)" class="siguiente-btn centrado-total">Siguiente<i
+                        <button type="button" @click="nextStep(2)" class="next-btn centrado-total">Siguiente<i
                                 class="bi bi-chevron-right"></i></button>
                     </div>
                 </div>
@@ -198,9 +198,9 @@
                         <li>No uses datos personales (fechas, nombres, etc.)</li>
                     </ul>
 
-                    <div class="boxBtn-register centrado-total">
-                        <button type="button" @click="step--" class="atras-btn centrado-total btn-danger"><i
-                                class="bi bi-chevron-left"></i>Atrás</button>
+                    <div class="boxBtn-register centrado-total" style="gap:10px">
+                        <button type="button" @click="step--" class="prev-btn centrado-total btn-danger"><i
+                                class="bi bi-chevron-left"></i></button>
                         <button type="button" @click="confirmSubmit" class="submit-btn">Registrar</button>
                     </div>
                 </div>
