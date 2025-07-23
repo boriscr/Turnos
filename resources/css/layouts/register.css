@@ -1,0 +1,60 @@
+.main .container-form-register .item {
+    margin-top: 10px;
+}
+
+/* Estilos para la barra de progreso */
+.progress-container {
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+.progress-steps {
+    position: relative;
+    padding: 0 2rem;
+}
+
+.step {
+    z-index: 2;
+    width: 33.33%;
+}
+
+.step-circle {
+    width: 40px;
+    height: 40px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.progress-line {
+    height: 4px;
+    background-color: #e9ecef;
+    z-index: 1;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #0d6efd;
+    transition: width 0.3s ease;
+}
+
+.step-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 576px) {
+    .progress-steps {
+        padding: 0;
+    }
+
+    .step-circle {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+
+    .step-label {
+        font-size: 0.8rem;
+    }
+}

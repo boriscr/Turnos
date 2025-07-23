@@ -1,6 +1,4 @@
-<x-app-layout>
-    <div class="main centrado-total">
-        <div class="container-form-register centrado-total">
+<x-guest-layout>
             <form method="POST" action="{{ route('register') }}" x-data="registerForm()" x-ref="registerForm">
                 @csrf
 
@@ -205,8 +203,7 @@
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
@@ -289,4 +286,4 @@
             }
         }
     </script>
-</x-app-layout>
+</x-guest-layout>
