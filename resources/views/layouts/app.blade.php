@@ -49,7 +49,7 @@
     <div class="min-h-screen">
         <header>
             <!-- Navigation Bar -->
-            @include('layouts.nav')
+            @include('layouts.navigation')
         </header>
         @if (session('success'))
             <script>

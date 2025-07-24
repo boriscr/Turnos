@@ -35,7 +35,7 @@ class RegisteredUserController extends Controller
             'surname' => ['required', 'string', 'max:255'],
             'dni' => ['required', 'string', 'min:7', 'max:10', 'unique:' . User::class],
             'birthdate' => ['required', 'date'],
-            'genero' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,otro,Prefiero no decir'],
+            'genero' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,Otro,Prefiero no decir'],
             'country' => ['required', 'string', 'max:255'],
             'province' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
