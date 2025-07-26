@@ -49,10 +49,10 @@ if (window.location.pathname.includes('/disponibles/create') || window.location.
 
             if (stepIndex === steps.length - 1) {
                 document.querySelector('.next-btn').style.display = 'none';
-                document.querySelector('.submit-btn').style.display = 'block';
+                document.querySelector('.primary-btn').style.display = 'block';
             } else {
                 document.querySelector('.next-btn').style.display = 'block';
-                document.querySelector('.submit-btn').style.display = 'none';
+                document.querySelector('.primary-btn').style.display = 'none';
             }
         }
 

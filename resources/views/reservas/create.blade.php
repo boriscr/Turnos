@@ -91,7 +91,7 @@
                     <div class="form-navigation">
                         <button type="button" class="prev-btn centrado-total"><i
                                 class="bi bi-chevron-left"></i></button>
-                        <button type="submit" class="submit-btn">Confirmar Turno <i
+                        <button type="submit" class="primary-btn">Confirmar Turno <i
                                 class="bi bi-check-circle"></i></button>
                     </div>
                 </div>

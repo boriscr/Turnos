@@ -23,7 +23,7 @@
 
 /*botones submit*/
 
-.submit-btn {
+.primary-btn {
     background-color: var(--color_primario_btn);
     color: var(--color_texto_btn);
     border: none;
@@ -31,30 +31,30 @@
     width: 100%;
 }
 
-.submit-btn {
+.primary-btn {
     padding: 12px;
     border-radius: 8px;
     font-weight: bold;
     transition: background-color 0.3s;
 }
 
-.submit-btn:hover,
-.secundario-btn:hover,
+.primary-btn:hover,
+.secondary-btn:hover,
 .primario-btn:hover {
     opacity: 0.8;
 }
 
-.submit-btn:active {
+.primary-btn:active {
     background-color: var(--color_primario_btn);
     color: var(--color_texto_btn);
 }
 
 /*Vista register*/
-.secundario-btn {
+.secondary-btn {
     background-color: var(--color_secundario_btn);
 }
 
-.secundario-btn {
+.secondary-btn {
     height: 40px;
     padding: 10px;
 }

@@ -86,5 +86,5 @@
     <br>
     <hr>
     <br>
-    <button type="submit" class="submit-btn">{{ isset($crear) ? 'Registrar' : 'Actualizar' }}</button>
+    <button type="submit" class="primary-btn">{{ isset($crear) ? 'Registrar' : 'Actualizar' }}</button>
 </form>

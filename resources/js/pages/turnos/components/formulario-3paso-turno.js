@@ -46,7 +46,7 @@ if (window.location.pathname.includes('/turnos/create') ||window.location.pathna
             // Configurar navegación según el paso
             const allPrevBtns = document.querySelectorAll('.prev-btn');
             const allNextBtns = document.querySelectorAll('.next-btn');
-            const submitBtn = document.querySelector('.submit-btn');
+            const submitBtn = document.querySelector('.primary-btn');
 
             if (stepIndex === 0) {
                 // Primer paso - solo siguiente

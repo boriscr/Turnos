@@ -231,7 +231,7 @@
                 <br>
                 <hr>
                 <br>
-                <button type="submit" class="submit-btn">Actualizar</button>
+                <button type="submit" class="primary-btn">Actualizar</button>
             </form>
         </div>
 </x-app-layout>

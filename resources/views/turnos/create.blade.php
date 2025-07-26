@@ -162,7 +162,7 @@
                     </div>
                     <div class="form-navigation">
                         <button type="button" class="prev-btn"><i class="bi bi-chevron-left"></i></button>
-                        <button type="submit" class="submit-btn">Crear Turno <i
+                        <button type="submit" class="primary-btn">Crear Turno <i
                                 class="bi bi-check-circle"></i></button>
                     </div>
                 </div>

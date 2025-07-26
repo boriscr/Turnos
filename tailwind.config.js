@@ -20,7 +20,7 @@ export default {
                 'texto-light': 'var(--color_texto_light)',
                 'texto-dark': 'var(--color_texto_dark)',
                 'primario-btn': 'var(--color_primario_btn)',
-                'secundario-btn': 'var(--color_secundario_btn)',
+                'secondary-btn': 'var(--color_secundario_btn)',
                 'fondo-dark': 'var(--fondo_aplicacion_dark)',
                 'fondo-light': 'var(--fondo_aplicacion_light)',
                 'navbar-dark': 'var( --fondo_navbar_dark)',

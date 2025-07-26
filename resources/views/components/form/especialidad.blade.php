@@ -36,7 +36,7 @@
     <br>
     <hr>
     <br>
-    <button type="submit" class="submit-btn">Registrar</button>
+    <button type="submit" class="primary-btn">Registrar</button>
     @if (isset($crear))
         <button type="button" id="close-btn" style="background: red; color: #fff;">Cancelar</button>
     @endif

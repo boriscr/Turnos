@@ -12,11 +12,12 @@
                 <!-- Navigation Links -->
                 <!-- Menú principal -->
                 <x-nav-link-active href="{{ route('home') }}" route="home">
-                    <i class="bi bi-house"></i><span>{{ __('home') }}</span>
+                    <i class="bi bi-house"></i><span>{{ __('navbar.home') }}</span>
                 </x-nav-link-active>
 
                 <x-nav-link-active href="{{ route('disponible.create') }}" route="disponible.create">
-                    <i class="bi bi-calendar-plus"></i><span>{{ __('Book Appointment') }}</span>{{-- Reservar Turno --}}
+                    <i
+                        class="bi bi-calendar-plus"></i><span>{{ __('navbar.book_appointment') }}</span>{{-- Reservar Turno --}}
                 </x-nav-link-active>
 
                 <!-- Settings Dropdown -->
@@ -27,7 +28,7 @@
                                 <button
                                     class="menu-btn inline-flex items-center leading-4 font-medium rounded-md focus:outline-none transition ease-in-out duration-150">
                                     <div><i class="bi bi-clipboard-pulse"></i>
-                                        <span>{{ __('Administration') }}</span>{{-- Administracion --}}
+                                        <span>{{ __('navbar.administration') }}</span>{{-- Administracion --}}
                                     </div>
 
                                     <div class="ms-1">
@@ -45,43 +46,44 @@
                                 <div class="dropdown-section">
 
                                     <!-- Sección Usuarios -->
-                                    <div class="subtitulo">{{ __('Manage Users') }}</div>{{-- Gestionar Usuarios --}}
+                                    <div class="subtitulo">{{ __('navbar.manage_users') }}</div>{{-- Gestionar Usuarios --}}
                                     <x-dropdown-link :href="route('usuario.index')">
-                                        <i class="bi bi-eye"></i> <span> {{ __('View Users') }}</span>
+                                        <i class="bi bi-eye"></i> <span> {{ __('navbar.view_users') }}</span>
                                         {{-- Ver usuarios --}}
                                     </x-dropdown-link>
 
                                     <!-- Sección Medicos -->
-                                    <div class="subtitulo">{{ __('Manage Doctors') }}</div>{{-- Gestionar Medicos --}}
+                                    <div class="subtitulo">{{ __('navbar.manage_doctors') }}</div>{{-- Gestionar Medicos --}}
                                     <x-dropdown-link :href="route('medico.index')">
-                                        <i class="bi bi-eye"></i><span> {{ __('View Doctors') }}</span>
+                                        <i class="bi bi-eye"></i><span> {{ __('navbar.view_doctors') }}</span>
                                         {{-- Ver medicos --}}
                                     </x-dropdown-link>
                                     <x-dropdown-link :href="route('medico.create')">
                                         <i class="bi bi-person-fill-add"></i> <span>
-                                            {{ __('Add Doctor') }}</span>{{-- Agregar medicos --}}
+                                            {{ __('navbar.add_doctor') }}</span>{{-- Agregar medicos --}}
                                     </x-dropdown-link>
                                     <x-dropdown-link :href="route('especialidad.index')">
                                         <i class="bi bi-heart-pulse-fill"></i> <span>
-                                            {{ __('Specialties') }}</span>{{-- Especialidades --}}
+                                            {{ __('navbar.specialties') }}</span>{{-- Especialidades --}}
                                     </x-dropdown-link>
 
                                     <!-- Sección Turnos -->
-                                    <div class="subtitulo"> {{ __('Manage Appointments') }}</div>{{-- Gestionar Turnos --}}
+                                    <div class="subtitulo"> {{ __('navbar.manage_appointments') }}</div>
+                                    {{-- Gestionar Turnos --}}
                                     <x-dropdown-link :href="route('turnos.index')">
                                         <i class="bi bi-eye"></i> <span>
-                                            {{ __('View Appointments') }}</span>{{-- Ver Turnos --}}
+                                            {{ __('navbar.view_appointments') }}</span>{{-- Ver Turnos --}}
                                     </x-dropdown-link>
                                     <x-dropdown-link :href="route('turnos.create')">
                                         <i class="bi bi-clock"></i> <span>
-                                            {{ __('Create Appointment') }}</span>{{-- Crear Turnos --}}
+                                            {{ __('navbar.create_appointment') }}</span>{{-- Crear Turnos --}}
                                     </x-dropdown-link>
 
                                     <!-- Sección Reservas -->
-                                    <div class="subtitulo"> {{ __('Manage Booking') }}</div>{{-- Gestionar Reservas --}}
+                                    <div class="subtitulo"> {{ __('navbar.manage_booking') }}</div>{{-- Gestionar Reservas --}}
                                     <x-dropdown-link :href="route('reservas.index')">
                                         <i class="bi bi-eye"></i> <span>
-                                            {{ __('View Booking') }}</span>{{-- Ver reservas --}}
+                                            {{ __('navbar.view_booking') }}</span>{{-- Ver reservas --}}
                                     </x-dropdown-link>
                                 </div>
                             </x-slot>
@@ -90,7 +92,7 @@
 
                     <!-- Settings Dropdown -->
                     <x-nav-link-active href="{{ route('settings.edit') }}" route="settings.edit">
-                        <i class="bi bi-gear-fill"></i><span>{{ __('Settings') }}</span>
+                        <i class="bi bi-gear-fill"></i><span>{{ __('navbar.settings') }}</span>
                     </x-nav-link-active>
                 @endrole
             </div>
@@ -168,10 +170,11 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                <i class="bi bi-house"></i><span>{{ __('home') }}</span>
+                <i class="bi bi-house"></i><span>{{ __('navbar.home') }}</span>
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('disponible.create')" :active="request()->routeIs('disponible.create')">
-                <i class="bi bi-calendar-plus"></i><span>{{ __('Book Appointment') }}</span>{{-- Reservar Turno --}}
+                <i
+                    class="bi bi-calendar-plus"></i><span>{{ __('navbar.book_appointment') }}</span>{{-- Reservar Turno --}}
             </x-responsive-nav-link>
 
             @role('admin')
@@ -180,7 +183,7 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <i class="bi bi-clipboard-pulse"></i>
-                                <span>{{ __('Administration') }}</span>{{-- Administracion --}}
+                                <span>{{ __('navbar.administration') }}</span>{{-- Administracion --}}
 
                             </div>
                             <svg class="h-4 w-4 transform transition-transform" :class="{ 'rotate-180': adminOpen }"
@@ -194,50 +197,50 @@
                         <!-- Versión móvil del dropdown -->
                         <div class="menu pt-2 pb-2 space-y-1">
                             <!-- Sección Usuarios -->
-                            <div class="subtitulo">{{ __('Manage Users') }}</div>{{-- Gestionar Usuarios --}}
+                            <div class="subtitulo">{{ __('navbar.manage_users') }}</div>{{-- Gestionar Usuarios --}}
                             <x-responsive-nav-link :href="route('usuario.index')">
-                                <i class="bi bi-eye"></i> <span> {{ __('View Users') }}</span>
+                                <i class="bi bi-eye"></i> <span> {{ __('navbar.view_users') }}</span>
                                 {{-- Ver usuarios --}}
                             </x-responsive-nav-link>
 
                             <!-- Sección Medico -->
-                            <div class="subtitulo">{{ __('Manage Doctors') }}</div>{{-- Gestionar Medicos --}}
+                            <div class="subtitulo">{{ __('navbar.manage_doctors') }}</div>{{-- Gestionar Medicos --}}
                             <x-responsive-nav-link :href="route('medico.index')">
-                                <i class="bi bi-eye"></i><span> {{ __('View Doctors') }}</span>
+                                <i class="bi bi-eye"></i><span> {{ __('navbar.view_doctors') }}</span>
                                 {{-- Ver medicos --}}
                             </x-responsive-nav-link>
                             <x-responsive-nav-link :href="route('medico.create')">
                                 <i class="bi bi-person-fill-add"></i> <span>
-                                    {{ __('Add Doctor') }}</span>{{-- Agregar medicos --}}
+                                    {{ __('navbar.add_doctor') }}</span>{{-- Agregar medicos --}}
                             </x-responsive-nav-link>
 
                             <x-responsive-nav-link :href="route('especialidad.index')">
                                 <i class="bi bi-heart-pulse-fill"></i> <span>
-                                    {{ __('Specialties') }}</span>{{-- Especialidades --}}
+                                    {{ __('navbar.specialties') }}</span>{{-- Especialidades --}}
                             </x-responsive-nav-link>
 
                             <!-- Sección Turnos -->
-                            <div class="subtitulo"> {{ __('Manage Appointments') }}</div>{{-- Gestionar Turnos --}}
+                            <div class="subtitulo"> {{ __('navbar.manage_appointments') }}</div>{{-- Gestionar Turnos --}}
                             <x-responsive-nav-link :href="route('turnos.index')">
                                 <i class="bi bi-eye"></i> <span>
-                                    {{ __('View Appointments') }}</span>{{-- Ver Turnos --}}
+                                    {{ __('navbar.view_appointments') }}</span>{{-- Ver Turnos --}}
                             </x-responsive-nav-link>
                             <x-responsive-nav-link :href="route('turnos.create')">
                                 <i class="bi bi-clock"></i> <span>
-                                    {{ __('Create Appointment') }}</span>{{-- Crear Turnos --}}
+                                    {{ __('navbar.create_appointment') }}</span>{{-- Crear Turnos --}}
                             </x-responsive-nav-link>
 
                             <!-- Sección Reservas -->
-                            <div class="subtitulo"> {{ __('Manage Booking') }}</div>{{-- Gestionar Reservas --}}
+                            <div class="subtitulo"> {{ __('navbar.manage_booking') }}</div>{{-- Gestionar Reservas --}}
                             <x-responsive-nav-link :href="route('reservas.index')">
                                 <i class="bi bi-eye"></i> <span>
-                                    {{ __('View Booking') }}</span>{{-- Ver reservas --}}
+                                    {{ __('navbar.view_booking') }}</span>{{-- Ver reservas --}}
                             </x-responsive-nav-link>
                         </div>
 
                     </div>
                     <x-responsive-nav-link :href="route('settings.edit')">
-                        <i class="bi bi-gear-fill"></i><span>{{ __('Settings') }}</span>
+                        <i class="bi bi-gear-fill"></i><span>{{ __('navbar.settings') }}</span>
                     </x-responsive-nav-link>
                 @endrole
 

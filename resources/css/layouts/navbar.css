@@ -11,17 +11,6 @@
     gap: 20px;
 }
 
-/*Enlaces a*/
-.link-nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.link-nav:hover {
-    opacity: 0.8;
-}
-
 /*Enlaces de nav activos-inactivos*/
 .items-nav-inactive {
     position: relative;
@@ -186,7 +175,7 @@
 }
 
 
-@media screen and (max-width: 690px) {
+@media screen and (max-width: 702px) {
     .main-nav {
         padding-bottom: 2rem;
     }
