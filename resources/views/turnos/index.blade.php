@@ -24,7 +24,7 @@
                             <td class="option-movil">{{ $turno->especialidad->nombre }}</td>
                             <td>{{ $turno->medico->nombre . ' ' . $turno->medico->apellido }}</td>
                             <td class="option-movil">{{ $turno->turno }}</td>
-                            <td>{{ $turno->estado ? 'Activo' : 'Inactivo' }}</td>
+                            <td>{{ $turno->isActive ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones centrado-total">
                                 <a href="{{ route('turnos.show', $turno->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">Ver</b></a>

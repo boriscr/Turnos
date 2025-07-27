@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 break;
 
-            case 'dni':
+            case 'idNumber':
                 if (!value) {
                     showError(field, 'El DNI es obligatorio');
                 } else if (!/^\d{7,8}$/.test(value)) {
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
                 break;
-            case 'genero':
+            case 'gender':
                 if (!value) {
                     showError(field, 'Por favor selecciona un género');
                 } else if (!['Masculino', 'Femenino', 'No binario', 'Otro', 'Prefiero no decir'].includes(value)) {
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Validar DNI mientras se escribe (solo números)
-    const dniInput = document.getElementById('dni');
+    const dniInput = document.getElementById('idNumber');
     if (dniInput) {
         dniInput.addEventListener('input', function () {
             // Permitir letras y números

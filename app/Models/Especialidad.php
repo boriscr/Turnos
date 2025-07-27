@@ -11,7 +11,7 @@ class Especialidad extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'estado',
+        'isActive',
     ];
 
     public function medicos()

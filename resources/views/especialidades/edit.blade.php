@@ -7,7 +7,7 @@
                 :edit="true"
                 :nombre="$especialidad->nombre"
                 :descripcion="$especialidad->descripcion"
-                :estado="$especialidad->estado"
+                :isActive="$especialidad->isActive"
             />
 
         </div>

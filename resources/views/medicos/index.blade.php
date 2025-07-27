@@ -18,7 +18,7 @@
                         <tr>
                             <td>{{ $medico->id }}</td>
                             <td>{{ $medico->nombre . ' ' . $medico->apellido }}</td>
-                            <td class="option-movil">{{ $medico->dni }}</td>
+                            <td class="option-movil">{{ $medico->idNumber }}</td>
                             <td>{{ $medico->especialidad->nombre ?? 'Sin datos' }}</td>
                             <td class="option-movil">{{ $medico->role }}</td>
                             <td class="acciones centrado-total">

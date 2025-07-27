@@ -37,11 +37,11 @@
             </div>
 
             <div class="mt-4">
-                {{-- id_number --}}
-                <x-input-label for="dni" :value="__('contact.dni')" />
-                <x-text-input id="dni" name="dni" type="text" pattern="[a-zA-Z0-9]{7,10}" maxlength="10"
+                {{-- idNumber --}}
+                <x-input-label for="idNumber" :value="__('contact.idNumber')" />
+                <x-text-input id="idNumber" name="idNumber" type="text" pattern="[a-zA-Z0-9]{7,8}" maxlength="10"
                     autocomplete="off" required class="block mt-1 w-full" />
-                <x-input-error :messages="$errors->get('dni')" class="mt-2" />
+                <x-input-error :messages="$errors->get('idNumber')" class="mt-2" />
             </div>
 
             <div class="mt-4">
@@ -52,8 +52,8 @@
             </div>
 
             <div class="mt-4">
-                <x-input-label for="genero" :value="__('contact.gender')" />
-                <select name="genero" id="genero" class="w-full rounded p-2" required>
+                <x-input-label for="gender" :value="__('contact.gender')" />
+                <select name="gender" id="gender" class="w-full rounded p-2" required>
                     <option value="">Selecciona...</option>
                     <option value="Femenino">Femenino</option>
                     <option value="Masculino">Masculino</option>
@@ -61,7 +61,7 @@
                     <option value="Otro">Otro</option>
                     <option value="Prefiero no decir">Prefiero no decir</option>
                 </select>
-                <x-input-error :messages="$errors->get('genero')" class="mt-2" />
+                <x-input-error :messages="$errors->get('gender')" class="mt-2" />
             </div>
 
             <div class="mt-6 flex justify-end">

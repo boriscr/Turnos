@@ -13,12 +13,12 @@ class Medico extends Model
         'user_id',
         'nombre',
         'apellido',
-        'dni',
+        'idNumber',
         'email',
         'telefono',
         'especialidad_id',
         'matricula',
-        'estado',
+        'isActive',
         'role',
     ];
 

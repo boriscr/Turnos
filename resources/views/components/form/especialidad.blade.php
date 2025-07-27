@@ -27,10 +27,10 @@
 
     <div class="item">
         <label for="descripcion-esp"><span aria-hidden="true" style="color: red;">*</span> Estado</label>
-        <select name="estado" id="estado" required>
+        <select name="isActive" id="isActive" required>
             <option value="1"{{ isset($edit) ? '' : 'selected' }}
-                {{ isset($estado) && $estado == 1 ? 'selected' : '' }}>Activo</option>
-            <option value="0" {{ isset($estado) && $estado == 0 ? 'selected' : '' }}>Inactivo</option>
+                {{ isset($isActive) && $isActive == 1 ? 'selected' : '' }}>Activo</option>
+            <option value="0" {{ isset($isActive) && $isActive == 0 ? 'selected' : '' }}>Inactivo</option>
         </select>
     </div>
     <br>

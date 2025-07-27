@@ -18,9 +18,9 @@
         @enderror
     </div>
     <div class="item">
-        <label for="dni"><span aria-hidden="true" style="color: red;">*</span> Dni</label>
-        <input type="text" name="dni" id="dni" required value="{{ $dni }}">
-        @error('dni')
+        <label for="idNumber"><span aria-hidden="true" style="color: red;">*</span> Dni</label>
+        <input type="text" name="idNumber" id="idNumber" required value="{{ $idNumber }}">
+        @error('idNumber')
             <div class="error">{{ $message }}</div>
         @enderror
     </div>
@@ -33,19 +33,19 @@
         <small id="edad"></small>
     </div>
     <div class="item">
-        <label for="genero"><span aria-hidden="true" style="color: red;">*</span> Genero</label>
-        <select name="genero" id="genero" class="w-full rounded p-2" required>
-            <option value="Femenino" {{ isset($edit) && $genero == 'Femenino' ? 'Selected' : '' }}>Femenino</option>
-            <option value="Masculino" {{ isset($edit) && $genero == 'Masculino' ? 'Selected' : '' }}>Masculino</option>
-            <option value="No binario" {{ isset($edit) && $genero == 'No binario' ? 'Selected' : '' }}>No binario
+        <label for="gender"><span aria-hidden="true" style="color: red;">*</span> Genero</label>
+        <select name="gender" id="gender" class="w-full rounded p-2" required>
+            <option value="Femenino" {{ isset($edit) && $gender == 'Femenino' ? 'Selected' : '' }}>Femenino</option>
+            <option value="Masculino" {{ isset($edit) && $gender == 'Masculino' ? 'Selected' : '' }}>Masculino</option>
+            <option value="No binario" {{ isset($edit) && $gender == 'No binario' ? 'Selected' : '' }}>No binario
             </option>
-            <option value="Otro" {{ isset($edit) && $genero == 'Otro' ? 'Selected' : '' }}>Otro</option>
-            <option value="Prefiero no decir" {{ isset($edit) && $genero == 'Prefiero no decir' ? 'Selected' : '' }}>
+            <option value="Otro" {{ isset($edit) && $gender == 'Otro' ? 'Selected' : '' }}>Otro</option>
+            <option value="Prefiero no decir" {{ isset($edit) && $gender == 'Prefiero no decir' ? 'Selected' : '' }}>
                 Prefiero
                 no decir
             </option>
         </select>
-        @error('genero')
+        @error('gender')
             <div class="error">{{ $message }}</div>
         @enderror
     </div>
@@ -92,12 +92,12 @@
         @enderror
     </div>
     <div class="item">
-        <label for="estado"><span aria-hidden="true" style="color: red;">*</span> Estado</label>
-        <select name="estado" id="estado">
-            <option value="1" {{ isset($edit) && $estado == 1 ? 'selected' : '' }}>Activo</option>
-            <option value="0" {{ isset($edit) && $estado == 0 ? 'selected' : '' }}>Inactivo</option>
+        <label for="isActive"><span aria-hidden="true" style="color: red;">*</span> Estado</label>
+        <select name="isActive" id="isActive">
+            <option value="1" {{ isset($edit) && $isActive == 1 ? 'selected' : '' }}>Activo</option>
+            <option value="0" {{ isset($edit) && $isActive == 0 ? 'selected' : '' }}>Inactivo</option>
         </select>
-        @error('estado')
+        @error('isActive')
             <div class="error">{{ $message }}</div>
         @enderror
     </div>

@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Administrador',
             'surname' => 'Sistema',
-            'dni' => '12345678',
+            'idNumber' => '12345678',
             'birthdate' => '1990-01-01',
-            'genero' => 'Otro',
+            'gender' => 'Otro',
             'country' => 'Argentina',
             'province' => 'Buenos Aires',
             'city' => 'La Plata',

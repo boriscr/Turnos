@@ -33,9 +33,9 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'dni' => ['required', 'string', 'min:7', 'max:10', 'unique:' . User::class],
+            'idNumber' => ['required', 'string', 'min:7', 'max:8', 'unique:' . User::class],
             'birthdate' => ['required', 'date'],
-            'genero' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,Otro,Prefiero no decir'],
+            'gender' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,Otro,Prefiero no decir'],
             'country' => ['required', 'string', 'max:255'],
             'province' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
@@ -68,9 +68,9 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => trim($request->name),
             'surname' => trim($request->surname),
-            'dni' => trim($request->dni),
+            'idNumber' => trim($request->idNumber),
             'birthdate' => $request->birthdate,
-            'genero' => $request->genero,
+            'gender' => $request->gender,
             'country' => $request->country,
             'province' => trim($request->province),
             'city' => trim($request->city),

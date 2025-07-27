@@ -8,8 +8,8 @@
                     <p><b> Paciente: </b> {{ $reserva->user->name . ' ' . $reserva->user->surname }}
                         <a href="{{ route('usuario.show', $reserva->user->id) }}"><i class="bi bi-eye"></i></a>
                     </p>
-                    <p><b> DNI: </b>{{ $reserva->user->dni }}</p>
-                    <p><b> Activo: </b>{{ $reserva->user->estado ? 'Si' : 'No' }}</p>
+                    <p><b> DNI: </b>{{ $reserva->user->idNumber }}</p>
+                    <p><b> Activo: </b>{{ $reserva->user->isActive ? 'Si' : 'No' }}</p>
                     <p><b> Hora del turno:
                         </b>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</p>
                     <p><b> Fecha del turno:
@@ -28,8 +28,8 @@
                         <a href="{{ route('medico.create', $reserva->turnoDisponible->medico->id) }}"><i
                                 class="bi bi-eye"></i></a>
                     </p>
-                    <p><b> DNI: </b>{{ $reserva->turnoDisponible->medico->dni }}</p>
-                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->estado ? 'Si' : 'No' }}</p>
+                    <p><b> DNI: </b>{{ $reserva->turnoDisponible->medico->idNumber }}</p>
+                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->isActive ? 'Si' : 'No' }}</p>
                     <p><b>Perfil de usuario:</b>
                         @if ($reserva->turnoDisponible->medico->user_id)
                             <a href="{{ route('usuario.show', $reserva->turnoDisponible->medico->user_id) }}">

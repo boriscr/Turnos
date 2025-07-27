@@ -32,9 +32,9 @@ class ProfileController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'dni' => ['required', 'integer', 'digits_between:7,8'],
+            'idNumber' => ['required', 'integer', 'digits_between:7,8'],
             'birthdate' => ['required', 'date'],
-            'genero' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,otro,Prefiero no decir'],
+            'gender' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,otro,Prefiero no decir'],
             'country' => ['required', 'string', 'max:255'],
             'province' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
@@ -84,12 +84,12 @@ public function historial()
     {
         $user = $request->user();
 
-        // Actualizar campos editables (excluyendo dni)
+        // Actualizar campos editables (excluyendo idNumber)
         $user->fill($request->only([
             'name',
             'surname',
             'birthdate',
-            'genero',
+            'gender',
             'country',
             'province',
             'city',

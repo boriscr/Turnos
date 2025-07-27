@@ -27,7 +27,7 @@ class EspecialidadUpdateRequest extends FormRequest
         return [
             'nombre' => 'required|string|max:255|unique:especialidades,nombre,' . $especialidad_id,
             'descripcion' => 'required|string|max:255',
-            'estado' => 'required|boolean',
+            'isActive' => 'required|boolean',
         ];
     }
     protected function prepareForValidation(): void

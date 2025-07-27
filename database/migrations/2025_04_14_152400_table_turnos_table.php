@@ -23,7 +23,7 @@ return new class extends Migration
             $table->time('hora_fin');
             $table->json('horarios_disponibles')->nullable();
             $table->json('fechas_disponibles');
-            $table->boolean('estado')->default(true);
+            $table->boolean('isActive')->default(true);
             // Modificado: sin onDelete('cascade') para usuarios
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('user_id_update')->nullable()->constrained('users')->onDelete('set null');

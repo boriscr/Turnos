@@ -161,15 +161,15 @@
                         <input type="hidden" name="selected_dates" x-ref="selectedDatesInput">
                     </div>
                     <div class="item">
-                        <label for="estado">Estado</label>
-                        <select name="estado" id="estado" required>
-                            <option {{ isset($edit) ? ($turno->estado == true ? 'selected' : '') : '' }}
+                        <label for="isActive">Estado</label>
+                        <select name="isActive" id="isActive" required>
+                            <option {{ isset($edit) ? ($turno->isActive == true ? 'selected' : '') : '' }}
                                 value="1">
                                 Activo</option>
-                            <option {{ isset($edit) ? ($turno->estado == false ? 'selected' : '') : '' }}
+                            <option {{ isset($edit) ? ($turno->isActive == false ? 'selected' : '') : '' }}
                                 value="0">
                                 Inactivo</option>
-                            @error('estado')
+                            @error('isActive')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </select>

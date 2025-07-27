@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('surname');
-            $table->string('dni', 8)->unique();
+            $table->string('idNumber', 8)->unique();
             $table->date('birthdate');
-            $table->string('genero');
+            $table->string('gender');
             $table->string('country');
             $table->string('province');
             $table->string('city');
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->boolean('estado')->default(true);
+            $table->boolean('isActive')->default(true);
             $table->integer('faults')->nullable()->default(0);
             $table->string('password');
             $table->rememberToken();

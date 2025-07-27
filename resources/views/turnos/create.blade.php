@@ -38,7 +38,7 @@
                             <label for="especialidad_id">Especialidad</label>
                             <select name="especialidad_id" id="especialidad_id" required>
                                 @foreach ($especialidades as $especialidad)
-                                    @if ($especialidad->estado == 1)
+                                    @if ($especialidad->isActive == 1)
                                         <option value="{{ $especialidad->id }}">{{ $especialidad->nombre }}</option>
                                     @endif
                                 @endforeach
@@ -151,12 +151,12 @@
                         <input type="hidden" name="selected_dates" x-ref="selectedDatesInput">
                     </div>
                     <div class="item">
-                        <label for="estado">Estado</label>
-                        <select name="estado" id="estado" required>
+                        <label for="isActive">Estado</label>
+                        <select name="isActive" id="isActive" required>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                         </select>
-                        @error('estado')
+                        @error('isActive')
                             <div class="error">{{ $message }}</div>
                         @enderror
                     </div>

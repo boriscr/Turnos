@@ -25,7 +25,7 @@ class EspecialidadStoreRequest extends FormRequest
         return [
             'nombre' => 'required|string|max:255|unique:especialidades,nombre',
             'descripcion' => 'required|string|max:255',
-            'estado' => 'required|boolean',
+            'isActive' => 'required|boolean',
         ];
     }
     // Limpia los espacios antes de validar

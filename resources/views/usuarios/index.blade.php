@@ -19,11 +19,11 @@
                         <tr>
                             <td>{{ $usuario->id }}</td>
                             <td>{{ $usuario->name . ' ' . $usuario->surname }}</td>
-                            <td class="option-movil">{{ $usuario->dni }}</td>
+                            <td class="option-movil">{{ $usuario->idNumber }}</td>
                             <td class="option-movil"> {{ $usuario->getRoleNames()->first() }}</p>
                             </td>
                             <td class="option-movil">{{ $usuario->address }}</td>
-                            <td>{{ $usuario->estado ? 'Activo' : 'Inactivo' }}</td>
+                            <td>{{ $usuario->isActive ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones centrado-total">
                                 <a href="{{ route('usuario.show', $usuario->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">Ver</b></a>

@@ -16,13 +16,13 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('nombre');
             $table->string('apellido');
-            $table->integer('dni');
+            $table->integer('idNumber');
             $table->string('email');
             $table->string('telefono');
             $table->foreignId('especialidad_id')->nullable()->constrained('especialidades')->onDelete('cascade');
             $table->string('matricula')->nullable();
             $table->string('role');
-            $table->boolean('estado')->default(true); // Valor por defecto true
+            $table->boolean('isActive')->default(true); // Valor por defecto true
             $table->timestamps();
         });
     }

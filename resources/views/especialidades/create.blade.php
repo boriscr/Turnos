@@ -7,7 +7,7 @@
                 :ruta="route('especialidad.store')"
                 :nombre="old('nombre')"
                 :descripcion="old('descripcion')"
-                :estado="old('estado')"
+                :isActive="old('isActive')"
             />
 
         </div>

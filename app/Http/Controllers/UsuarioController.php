@@ -39,16 +39,16 @@ class UsuarioController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'dni' => ['required', 'string', 'min:7', 'max:10', Rule::unique('users', 'dni')->ignore($id)],
+            'idNumber' => ['required', 'string', 'min:7', 'max:10', Rule::unique('users', 'idNumber')->ignore($id)],
             'birthdate' => ['required', 'date'],
-            'genero' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,otro,Prefiero no decir'],
+            'gender' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,Otro,Prefiero no decir'],
             'country' => ['required', 'string', 'max:255'],
             'province' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'min:9', 'max:15', 'unique:' . User::class . ',phone,' . $id],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class . ',email,' . $id],
-            'estado' => ['required', 'boolean'],
+            'isActive' => ['required', 'boolean'],
             'role' => ['required', 'string', 'in:admin,medico,user'],
         ]);
 
@@ -71,10 +71,10 @@ class UsuarioController extends Controller
                     'user_id' => $user->id,
                     'nombre' => $user->name,
                     'apellido' => $user->surname,
-                    'dni' => $user->dni,
+                    'idNumber' => $user->idNumber,
                     'email' => $user->email,
                     'telefono' => $user->phone,
-                    'estado' => $user->estado,
+                    'isActive' => $user->isActive,
                     'role' => 'medico',
                 ]);
 

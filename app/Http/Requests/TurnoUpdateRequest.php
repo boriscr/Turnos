@@ -30,7 +30,7 @@ class TurnoUpdateRequest extends FormRequest
             'hora_inicio' => 'required',
             'hora_fin' => 'required',
             'selected_dates' => 'required',
-            'estado' => 'required|boolean',
+            'isActive' => 'required|boolean',
         ];
     }
 }

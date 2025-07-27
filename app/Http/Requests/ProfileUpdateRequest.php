@@ -19,7 +19,7 @@ public function rules(): array
         'name' => ['required', 'string', 'max:255'],
         'surname' => ['required', 'string', 'max:255'],
         'birthdate' => ['required', 'date', 'before:-18 years'],
-        'genero' => ['required', 'in:Femenino,Masculino,No binario,Otro,Prefiero no decir'],
+        'gender' => ['required', 'in:Femenino,Masculino,No binario,Otro,Prefiero no decir'],
         'country' => ['required', 'string', 'max:100'],
         'province' => ['required', 'string', 'max:100'],
         'city' => ['required', 'string', 'max:100'],
@@ -30,8 +30,8 @@ public function rules(): array
     ];
 
     // Solo validar DNI si está presente en el request (no debería estarlo normalmente)
-    if ($this->has('dni')) {
-        $rules['dni'] = ['numeric', Rule::unique('users')->ignore($this->user()->id)];
+    if ($this->has('idNumber')) {
+        $rules['idNumber'] = ['numeric', Rule::unique('users')->ignore($this->user()->id)];
     }
 
     return $rules;

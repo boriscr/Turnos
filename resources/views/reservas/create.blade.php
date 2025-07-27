@@ -27,8 +27,8 @@
                         <label for="telefono">Teléfono</label>
                         <input name="telefono" value="{{ Auth::user()->phone }}" readonly>
 
-                        <label for="dni">DNI</label>
-                        <input name="dni" value="{{ Auth::user()->dni }}" readonly>
+                        <label for="idNumber">DNI</label>
+                        <input name="idNumber" value="{{ Auth::user()->idNumber }}" readonly>
 
                         <label for="direccion">Dirección</label>
                         <input name="direccion" value="{{ Auth::user()->address }}" readonly>
@@ -52,7 +52,7 @@
                         <select name="especialidad_id" id="especialidad_id" required>
                             <option value="">Seleccione una especialidad</option>
                             @foreach ($especialidades as $especialidad)
-                                @if ($especialidad->estado == 1)
+                                @if ($especialidad->isActive == 1)
                                     <option value="{{ $especialidad->id }}">{{ $especialidad->nombre }}</option>
                                 @endif
                             @endforeach

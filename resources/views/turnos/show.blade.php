@@ -19,7 +19,7 @@
             </div>
             <div class="card">
                 <p><b>Fechas disponibles:</b> @json($turno->fechas_disponibles)</p>
-                <p><b>Estado:</b> {{ $turno->estado ? 'Activo' : 'Inactivo' }}</p>
+                <p><b>Estado:</b> {{ $turno->isActive ? 'Activo' : 'Inactivo' }}</p>
                 <p><b>Creado por:</b> {{ $turno->user->name . ' ' . $turno->user->surname }} <a href=""><i
                             class="bi bi-eye"></i></a></p>
                 <p><b>Ultima actualizacion:</b> {{ $turno->user->name . ' ' . $turno->user->surname }} <a

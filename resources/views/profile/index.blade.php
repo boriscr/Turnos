@@ -1,9 +1,9 @@
 <x-app-layout>
     <div class="content-wrapper">
         <H3 class="title-form">
-            @if (Auth::user()->genero == 'Masculino')
+            @if (Auth::user()->gender == 'Masculino')
                 Bienvenido, {{ Auth::user()->name }}
-            @elseif(Auth::user()->genero == 'Femenino')
+            @elseif(Auth::user()->gender == 'Femenino')
                 Bienvenida, {{ Auth::user()->name }}
             @else
                 Hola, {{ Auth::user()->name }}

@@ -5,7 +5,7 @@
             <div class="section-container centrado-t">
                 <div class="card">
                     <p><b> Nombre y apellido: </b>{{ $medico->nombre . ' ' . $medico->apellido }}</p>
-                    <p><b> Dni: </b>{{ $medico->dni }}</p>
+                    <p><b> Dni: </b>{{ $medico->idNumber }}</p>
                     <p><b>Perfil:</b>
                         @if ($medico->user_id)
                             <a href="{{ route('usuario.show', $medico->user_id) }}">
@@ -20,7 +20,7 @@
                     <p><b> Email: </b>{{ $medico->email }}</p>
                     <p><b> Celular: </b>{{ $medico->telefono }}</p>
                     <p><b> Rol: </b>{{ $medico->role }}</p>
-                    <p><b> Estado: </b>{{ $medico->estado ? 'Activo' : 'Inactivo' }}</p>
+                    <p><b> Estado: </b>{{ $medico->isActive ? 'Activo' : 'Inactivo' }}</p>
                     <p><b> Fecha de creación: </b>{{ $medico->created_at }}</p>
                     <p><b> Fecha de última actualizacion: </b>{{ $medico->updated_at }}</p>
                 </div>

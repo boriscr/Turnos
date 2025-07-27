@@ -18,9 +18,9 @@
         @enderror
     </div>
     <div class="item">
-        <label for="dni"><span aria-hidden="true" style="color: red;">*</span> Dni</label>
-        <input type="text" name="dni" id="dni" inputmode="numeric" required value="{{ $dni }}">
-        @error('dni')
+        <label for="idNumber"><span aria-hidden="true" style="color: red;">*</span> Dni</label>
+        <input type="text" name="idNumber" id="idNumber" inputmode="numeric" required value="{{ $idNumber }}">
+        @error('idNumber')
             <div class="error">{{ $message }}</div>
         @enderror
     </div>
@@ -77,10 +77,10 @@
 
     <div class="item">
         <label for="descripcion-esp"><span aria-hidden="true" style="color: red;">*</span> Estado</label>
-        <select class="{{isset($estado) && $estado == 0? 'btn-danger':'btn-success'}}" name="estado" id="estado" required>
+        <select class="{{isset($isActive) && $isActive == 0? 'btn-danger':'btn-success'}}" name="isActive" id="isActive" required>
             <option value="1"{{ isset($edit) ? '' : 'selected' }}
-                {{ isset($estado) && $estado == 1 ? 'selected' : '' }}>Activo</option>
-            <option value="0" {{ isset($estado) && $estado == 0 ? 'selected' : '' }}>Inactivo</option>
+                {{ isset($isActive) && $isActive == 1 ? 'selected' : '' }}>Activo</option>
+            <option value="0" {{ isset($is_Ative) && $isActive == 0 ? 'selected' : '' }}>Inactivo</option>
         </select>
     </div>
     <br>

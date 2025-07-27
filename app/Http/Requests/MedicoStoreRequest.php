@@ -26,13 +26,13 @@ class MedicoStoreRequest extends FormRequest
         return [
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'dni' => 'required|digits_between:7,8|unique:medicos,dni',
+            'idNumber' => 'required|digits_between:7,8|unique:medicos,idNumber',
             'email' => 'required|email|unique:' . Medico::TABLE . ',email',
             'telefono' => 'required|string|max:255',
             'especialidad_id' => 'required|exists:especialidades,id',
             'matricula' => 'required|string|max:255',
             'role' => 'required|string|max:255',
-            'estado' => 'sometimes|boolean',
+            'isActive' => 'sometimes|boolean',
         ];
     }
 }

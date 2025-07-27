@@ -7,7 +7,7 @@
                     <p><b>Nombre: </b>{{ $especialidad->nombre }}</p>
                     <p><b>Descripcion:</b> {{ $especialidad->descripcion ?? 'Sin datos' }}</p>
                     <p><b>Encargados:</b> {{ 'datos' }}</p>
-                    <p><b>Estado:</b> {{ $especialidad->estado ? 'Activo' : 'Inactivo' }}</p>
+                    <p><b>Estado:</b> {{ $especialidad->isActive ? 'Activo' : 'Inactivo' }}</p>
                     <p><b>Fecha de creación:</b> {{ $especialidad->created_at }}</p>
                     <p><b>Fecha de última actualizacion:</b> {{ $especialidad->updated_at }}</p>
                 </div>

@@ -5,7 +5,7 @@ return [
     'name' => 'Nombre/s',
     'surname' => 'Apellido/s',
     'email' => 'Correo electrónico',
-    'dni' => 'D.N.I',
+    'idNumber' => 'D.N.I',
     'birthdate' => 'Fecha de nacimiento',
     'gender' => 'Género',
     'country' => 'País',

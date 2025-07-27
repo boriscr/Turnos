@@ -21,13 +21,13 @@ class Turno extends Model
         'cantidad_turnos',
         'user_id',
         'horarios_disponibles',
-        'estado'
+        'isActive'
     ];
     
     protected $casts = [
         'fechas_disponibles' => 'array',
         'horarios_disponibles' => 'array',
-        'estado' => 'boolean',
+        'isActive' => 'boolean',
         'hora_inicio' => 'datetime:H:i',
         'hora_fin' => 'datetime:H:i',
     ];

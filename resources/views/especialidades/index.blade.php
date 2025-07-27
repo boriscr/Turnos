@@ -27,7 +27,7 @@
                             <td> <a href="{{ route('lista.medicos', $especialidades->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i></a></td>
 
-                            <td class="option-movil">{{ $especialidades->estado ? 'Activo' : 'Inactivo' }}</td>
+                            <td class="option-movil">{{ $especialidades->isActive ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones centrado-total">
                                 <a href="{{ route('especialidad.show', $especialidades->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i></a>

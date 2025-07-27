@@ -3,8 +3,8 @@
         <div class="container-form centrado-total">
             <h3 class="title-form">Agregar nuevo medico</h3>
             <x-form.medico :ruta="route('medico.store')" :crear="true" :especialidades="$especialidades" :nombre="old('nombre')" :apellido="old('apellido')"
-                :dni="old('dni')" :matricula="old('matricula')" :email="old('email')" :telefono="old('telefono')" :role="old('role')"
-                :estado="old('estado')" :especialidad="old('especialidad')" />
+                :idNumber="old('idNumber')" :matricula="old('matricula')" :email="old('email')" :telefono="old('telefono')" :role="old('role')"
+                :isActive="old('isActive')" :especialidad="old('especialidad')" />
 
             {{-- Formulario para crear una nueva especialidad --}}
             <div class="form-especialidad" id="especialidad-form">

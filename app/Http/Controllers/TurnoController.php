@@ -52,7 +52,7 @@ class TurnoController extends Controller
             'user_id' => Auth::id(),
             'user_id_update' => Auth::id(),
             'fechas_disponibles' => $fechas,
-            'estado' => $request->estado,
+            'isActive' => $request->isActive,
         ]);
 
         // Crear los turnos disponibles para cada fecha
@@ -135,7 +135,7 @@ class TurnoController extends Controller
         $query = TurnoDisponible::with(['turno', 'reservas.user'])
             ->when($search, function ($query) use ($search) {
                 $query->whereHas('reservas.user', function ($userQuery) use ($search) {
-                    $userQuery->where('dni', 'like', "%$search%")
+                    $userQuery->where('idNumber', 'like', "%$search%")
                         ->orWhere('name', 'like', "%$search%")
                         ->orWhere('surname', 'like', "%$search%");
                 });
@@ -187,7 +187,7 @@ class TurnoController extends Controller
     public function edit($id)
     {
         $turno = Turno::with(['especialidad', 'medico', 'disponibilidades'])->findOrFail($id);
-        $especialidades = Especialidad::where('estado', 1)->get();
+        $especialidades = Especialidad::where('isActive', 1)->get();
 
         // Procesar horarios_disponibles para la vista
         $horarios_disponibles = $turno->horarios_disponibles;
@@ -249,7 +249,7 @@ class TurnoController extends Controller
         $turno->horarios_disponibles = $request->horarios_disponibles;
         $turno->user_id_update = Auth::id();
         $turno->fechas_disponibles = $fechas;
-        $turno->estado = $request->estado ?? $turno->estado;
+        $turno->isActive = $request->isActive ?? $turno->isActive;
 
         $turno->save();
 
@@ -300,7 +300,7 @@ class TurnoController extends Controller
     {
         try {
             $medicos = Medico::where('especialidad_id', $id)
-                ->where('estado', 1)
+                ->where('isActive', 1)
                 ->get();
 
             return response()->json($medicos);

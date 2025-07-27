@@ -26,12 +26,12 @@ class ReservaController extends Controller
                     $q->whereHas('user', function ($userQuery) use ($search) {
                         $userQuery->where('name', 'like', "%$search%")
                             ->orWhere('surname', 'like', "%$search%")
-                            ->orWhere('dni', 'like', "%$search%");
+                            ->orWhere('idNumber', 'like', "%$search%");
                     })
                         ->orWhereHas('turnoDisponible.medico', function ($equipoQuery) use ($search) {
                             $equipoQuery->where('nombre', 'like', "%$search%")
                                 ->orWhere('apellido', 'like', "%$search%")
-                                ->orWhere('dni', 'like', "%$search%");
+                                ->orWhere('idNumber', 'like', "%$search%");
                         });
                 });
             })
@@ -118,8 +118,8 @@ class ReservaController extends Controller
             DB::transaction(function () use ($reserva) {
                 $reserva->asistencia = false;
                 $reserva->save();
-                $estado = Turno::where('id', $reserva->turnoDisponible->turno_id)->value('estado');
-                if ($reserva->user && $estado == true) {
+                $isActive = Turno::where('id', $reserva->turnoDisponible->turno_id)->value('isActive');
+                if ($reserva->user && $isActive == true) {
                     $reserva->user->increment('faults');
                 }
             });

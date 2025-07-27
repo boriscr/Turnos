@@ -3,8 +3,8 @@
         <div class="container-form centrado-total">
             <h3 class="title-form">Editar datos del medico</h3>
             <x-form.medico :ruta="route('medico.update', $medicos->id)" :nuevoMedico="$medicos->user_id" :especialidades="$especialidades" :especialidad="$medicos->$especialidad_id ?? null" :nombre="$medicos->nombre"
-                :apellido="$medicos->apellido" :dni="$medicos->dni" :matricula="$medicos->matricula" :email="$medicos->email" :telefono="$medicos->telefono"
-                :role="$medicos->role" :estado="$medicos->estado" :especialidad="$medicos->especialidad_id" />
+                :apellido="$medicos->apellido" :idNumber="$medicos->idNumber" :matricula="$medicos->matricula" :email="$medicos->email" :telefono="$medicos->telefono"
+                :role="$medicos->role" :isActive="$medicos->isActive" :especialidad="$medicos->especialidad_id" />
 
             {{-- Formulario para crear una nueva especialidad --}}
             @if ($medicos->user_id != null)

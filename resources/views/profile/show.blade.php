@@ -1,5 +1,5 @@
 <x-app-layout>
-    @if (isset($reserva) && $reserva->turnoDisponible->turno->estado === true)
+    @if (isset($reserva) && $reserva->turnoDisponible->turno->isActive === true)
         <div class="content-wrapper">
             <h3 class="title-form">Detalles</h3>
             <div class="section-container centrado-total">
@@ -7,8 +7,8 @@
                     <h1>Mis datos</h1>
                     <p><b> Paciente: </b> {{ Auth::user()->name . ' ' . Auth::user()->surname }}
                     </p>
-                    <p><b> DNI: </b>{{ Auth::user()->dni }}</p>
-                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->estado ? 'Si' : 'No' }}</p>
+                    <p><b> DNI: </b>{{ Auth::user()->idNumber }}</p>
+                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->isActive ? 'Si' : 'No' }}</p>
 
                 </div>
                 <div class="card">
@@ -31,8 +31,8 @@
                     <p><b> Doctor/a:
                         </b>{{ $reserva->turnoDisponible->medico->nombre . ' ' . $reserva->turnoDisponible->medico->apellido }}
                     </p>
-                    <p><b> DNI: </b>{{ $reserva->turnoDisponible->medico->dni }}</p>
-                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->estado ? 'Si' : 'No' }}</p>
+                    <p><b> DNI: </b>{{ $reserva->turnoDisponible->medico->idNumber }}</p>
+                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->isActive ? 'Si' : 'No' }}</p>
                     <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->medico->especialidad->nombre }}</p>
                 </div>
             </div>

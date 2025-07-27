@@ -34,10 +34,10 @@
             </div>
 
             <div>
-                <x-input-label for="dni" :value="__('DNI')" />
-                <x-text-input style="background: transparent; border: 1px solid gray" id="dni" name="dni"
-                    type="text" class="mt-1 block w-full" :value="old('dni', $user->dni)" readonly />
-                <x-input-error class="mt-2" :messages="$errors->get('dni')" />
+                <x-input-label for="idNumber" :value="__('DNI')" />
+                <x-text-input style="background: transparent; border: 1px solid gray" id="idNumber" name="idNumber"
+                    type="text" class="mt-1 block w-full" :value="old('idNumber', $user->idNumber)" readonly />
+                <x-input-error class="mt-2" :messages="$errors->get('idNumber')" />
             </div>
 
             <div>
@@ -49,19 +49,19 @@
             </div>
 
             <div class="mt-4">
-                <x-input-label for="genero" :value="__('Género')" />
-                <select name="genero" id="genero" class="w-full rounded p-2" required>
+                <x-input-label for="gender" :value="__('Género')" />
+                <select name="gender" id="gender" class="w-full rounded p-2" required>
                     <option value="">Selecciona...</option>
-                    <option {{ $user->genero == 'Femenino' ? 'selected' : '' }} value="Femenino">Femenino</option>
-                    <option {{ $user->genero == 'Masculino' ? 'selected' : '' }} value="Masculino">Masculino</option>
-                    <option {{ $user->genero == 'No binario' ? 'selected' : '' }} value="No binario">No binario</option>
-                    <option {{ $user->genero == 'Otro' ? 'selected' : '' }} value="Otro">Otro</option>
-                    <option {{ $user->genero == 'Prefiero no decir' ? 'selected' : '' }} value="Prefiero no decir">
+                    <option {{ $user->gender == 'Femenino' ? 'selected' : '' }} value="Femenino">Femenino</option>
+                    <option {{ $user->gender == 'Masculino' ? 'selected' : '' }} value="Masculino">Masculino</option>
+                    <option {{ $user->gender == 'No binario' ? 'selected' : '' }} value="No binario">No binario</option>
+                    <option {{ $user->gender == 'Otro' ? 'selected' : '' }} value="Otro">Otro</option>
+                    <option {{ $user->gender == 'Prefiero no decir' ? 'selected' : '' }} value="Prefiero no decir">
                         Prefiero
                         no
                         decir</option>
                 </select>
-                <x-input-error :messages="$errors->get('genero')" class="mt-2" />
+                <x-input-error :messages="$errors->get('gender')" class="mt-2" />
             </div>
         </div>
         <!-- Paso 2 -->

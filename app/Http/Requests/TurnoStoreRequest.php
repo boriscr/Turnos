@@ -30,7 +30,7 @@ class TurnoStoreRequest extends FormRequest
             'hora_inicio' => 'required',
             'hora_fin' => 'required',
             'selected_dates' => 'required|json', // Aseguramos que sea un JSON válido
-            'estado' => 'required|boolean',
+            'isActive' => 'required|boolean',
         ];
     }
 }
