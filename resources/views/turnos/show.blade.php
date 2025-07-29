@@ -2,12 +2,12 @@
     <div class="content-wrapper">
         <H3 class="title-form">Detalles</H3>
 
-        <div class="section-container centrado-total">
+        <div class="section-container full-center">
             <div class="card">
-                <p><b>Nombre:</b> {{ $turno->nombre }}</p>
+                <p><b>Nombre:</b> {{ $turno->name }}</p>
                 <p><b>Direccion:</b> {{ $turno->direccion }}</p>
-                <p><b>Especialidad:</b> {{ $turno->especialidad->nombre }}</p>
-                <p><b>Encargado/a:</b> {{ $turno->medico->nombre . ' ' . $turno->medico->apellido }} <a
+                <p><b>Especialidad:</b> {{ $turno->specialty->name }}</p>
+                <p><b>Encargado/a:</b> {{ $turno->medico->name . ' ' . $turno->medico->surname }} <a
                         href="{{ route('medico.create', $turno->medico->id) }}"><i class="bi bi-eye"></i></a></p>
                 <p><b>Turno:</b> {{ $turno->turno }}</p>
                 <p><b>Cantidad de turnos:</b> {{ $turno->cantidad_turnos }} </p>
@@ -19,7 +19,7 @@
             </div>
             <div class="card">
                 <p><b>Fechas disponibles:</b> @json($turno->fechas_disponibles)</p>
-                <p><b>Estado:</b> {{ $turno->isActive ? 'Activo' : 'Inactivo' }}</p>
+                <p><b>Estado:</b> {{ $turno->status ? 'Activo' : 'Inactivo' }}</p>
                 <p><b>Creado por:</b> {{ $turno->user->name . ' ' . $turno->user->surname }} <a href=""><i
                             class="bi bi-eye"></i></a></p>
                 <p><b>Ultima actualizacion:</b> {{ $turno->user->name . ' ' . $turno->user->surname }} <a
@@ -30,7 +30,7 @@
                 </p>
             </div>
         </div>
-        <div class="opciones centrado-total">
+        <div class="opciones full-center">
             <a href="{{ route('turnos.edit', $turno->id) }}" class="btn-edit"><i
                     class="bi bi-pencil-fill">Editar</i></a>
             <form action="{{ route('turnos.destroy', $turno->id) }}" method="POST" class="delete-form">

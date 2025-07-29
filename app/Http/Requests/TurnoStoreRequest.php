@@ -22,15 +22,15 @@ class TurnoStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'direccion' => 'required|string',
-            'especialidad_id' => 'required|exists:especialidades,id',
+            'specialty_id' => 'required|exists:specialties,id',
             'medico_id' => 'required|exists:medicos,id',
             'cantidad' => 'required|integer|min:1',
             'hora_inicio' => 'required',
             'hora_fin' => 'required',
             'selected_dates' => 'required|json', // Aseguramos que sea un JSON válido
-            'isActive' => 'required|boolean',
+            'status' => 'required|boolean',
         ];
     }
 }

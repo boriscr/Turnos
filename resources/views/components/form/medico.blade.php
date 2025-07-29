@@ -3,88 +3,76 @@
     @if (!isset($crear))
         @method('PUT')
     @endif
+    <x-form.text-input type="text" name="name" label="{{ __('contact.name') }}"
+        placeholder="{{ __('placeholder.name') }}" minlength="3" maxlength="40" value="{{ $name }}"
+        :required="true" />
+    <x-form.text-input type="text" name="surname" label="{{ __('contact.surname') }}"
+        placeholder="{{ __('placeholder.surname') }}" minlength="3" maxlength="15" value="{{ $surname }}"
+        :required="true" />
+    <x-form.text-input type="text" name="idNumber" label="{{ __('contact.idNumber') }}"
+        placeholder="{{ __('placeholder.id_number') }}" minlength="7" maxlength="8" value="{{ $idNumber }}"
+        :required="true" />
+    <x-form.text-input type="email" name="email" label="{{ __('contact.email') }}"
+        placeholder="{{ __('placeholder.email') }}" minlength="3" maxlength="60" value="{{ $email }}"
+        :required="true" />
+
+    <x-form.text-input type="tel" name="phone" label="{{ __('contact.phone') }}"
+        placeholder="{{ __('placeholder.phone') }}" minlength="5" maxlength="15" value="{{ $phone }}"
+        :required="true" />
+
     <div class="item">
-        <label for="nombre"><span aria-hidden="true" style="color: red;">*</span> Nombre</label>
-        <input type="text" name="nombre" id="nombre" required value="{{ $nombre }}">
-        @error('nombre')
-            <div class="error">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="item">
-        <label for="apellido"><span aria-hidden="true" style="color: red;">*</span> Apellido</label>
-        <input type="text" name="apellido" id="apellido" required value="{{ $apellido }}">
-        @error('apellido')
-            <div class="error">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="item">
-        <label for="idNumber"><span aria-hidden="true" style="color: red;">*</span> Dni</label>
-        <input type="text" name="idNumber" id="idNumber" inputmode="numeric" required value="{{ $idNumber }}">
-        @error('idNumber')
-            <div class="error">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="item">
-        <label for="email"><span aria-hidden="true" style="color: red;">*</span> Email</label>
-        <input type="email" name="email" id="email" required value="{{ $email }}">
-        @error('email')
-            <div class="error">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="item">
-        <label for="telefono"><span aria-hidden="true" style="color: red;">*</span> Telefono</label>
-        <input type="tel" name="telefono" id="telefono" required value="{{ $telefono }}">
-        @error('telefono')
-            <div class="error">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="item">
-        <label for="especialidad_id"><span aria-hidden="true" style="color: red;">*</span> Especialidad</label>
-        <select name="especialidad_id" id="especialidad_id" required>
-            <option value="">Seleccionar</option>
-            @if (isset($especialidades) && !empty($especialidades))
-                @foreach ($especialidades as $especialidades)
-                    <option value="{{ $especialidades->id }}"
-                        {{ $especialidades->id == $especialidad ? 'selected' : '' }}>{{ $especialidades->nombre }}
+        <x-input-label for="specialty_id" :value="__('specialty.title')" :required="true" />
+        <select name="specialty_id" id="specialty_id" value="{{ $specialty }}" required>
+            <option value="">{{ __('medical.select_default') }}</option>
+            @if (isset($specialties) && !empty($specialties))
+                @foreach ($specialties as $item)
+                    <option value="{{ $item->id }}" {{ $item->id == $specialty ? 'selected' : '' }}>
+                        {{ $item->name }}
                     </option>
                 @endforeach
-            @else
-                <option value="">No hay especialidades disponibles</option>
             @endif
         </select>
     </div>
     @if (isset($nuevoMedico) != null || isset($crear))
-        <div class="box-new-especialidad centrado-total">
-            <button type="button" id="especialidad-btn">Crear especialidad</button>
+        <div class="new-specialty-box full-center">
+            <x-secondary-button id="specialty-btn">
+                {{ __('specialty.btn_name') }}
+            </x-secondary-button>
         </div>
     @endif
-    <div class="item">
-        <label for="matricula"><span aria-hidden="true" style="color: red;">*</span> Matricula</label>
-        <input type="text" name="matricula" id="matricula" required value="{{ $matricula }}">
-        @error('matricula')
-            <div class="error">{{ $message }}</div>
-        @enderror
-    </div>
+    <x-form.text-input type="text" name="licenseNumber" label="{{ __('medical.license_number') }}"
+        placeholder="{{ __('placeholder.license_number') }}" minlength="3" maxlength="60"
+        value="{{ $licenseNumber }}" :required="true" />
 
     <div class="item">
-        <label for="role"><span aria-hidden="true" style="color: red;">*</span> Rol</label>
-        <select name="role" id="role" required value="{{ $role }}">
-            <option value="">Seleccionar</option>
-            <option value="admin" {{ $role == 'admin' ? 'selected' : '' }}>Admin</option>
-            <option value="medico" {{ $role == 'medico' ? 'selected' : '' }}>Medico</option>
+        <x-input-label for="role" :value="__('medical.role')" :required="true" />
+        <select name="role" id="role" value="{{ $role }}"required>
+            <option value="">{{ __('medical.select_default') }}</option>
+            <option value="admin" {{ $role == 'admin' ? 'selected' : '' }}>{{ __('medical.admin') }}</option>
+            <option value="doctor" {{ $role == 'doctor' ? 'selected' : '' }}>{{ __('medical.doctor') }}</option>
         </select>
+        <x-input-error :messages="$errors->get('role')" class="mt-2" />
     </div>
 
     <div class="item">
-        <label for="descripcion-esp"><span aria-hidden="true" style="color: red;">*</span> Estado</label>
-        <select class="{{isset($isActive) && $isActive == 0? 'btn-danger':'btn-success'}}" name="isActive" id="isActive" required>
+        <x-input-label for="status" :value="__('medical.status')" :required="true" />
+        <select class="{{ isset($status) && $status == 0 ? 'btn-danger' : 'btn-success' }}" name="status"
+            id="status" required>
             <option value="1"{{ isset($edit) ? '' : 'selected' }}
-                {{ isset($isActive) && $isActive == 1 ? 'selected' : '' }}>Activo</option>
-            <option value="0" {{ isset($is_Ative) && $isActive == 0 ? 'selected' : '' }}>Inactivo</option>
+                {{ isset($status) && $status == 1 ? 'selected' : '' }}>{{ __('medical.active') }}</option>
+            <option value="0" {{ isset($status) && $status == 0 ? 'selected' : '' }}>
+                {{ __('medical.inactive') }}</option>
         </select>
+        <x-input-error :messages="$errors->get('status')" class="mt-2" />
     </div>
     <br>
     <hr>
     <br>
-    <button type="submit" class="primary-btn">{{ isset($crear) ? 'Registrar' : 'Actualizar' }}</button>
+    <x-primary-button>
+        @if (isset($crear))
+            {{ __('medical.register') }}
+        @else
+            {{ __('medical.update') }}
+        @endif
+    </x-primary-button>
 </form>

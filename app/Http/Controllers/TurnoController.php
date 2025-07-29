@@ -22,8 +22,8 @@ class TurnoController extends Controller
     }
     public function create()
     {
-        $especialidades = Especialidad::all();
-        return view('turnos/create', compact('especialidades'));
+        $specialties = Especialidad::all();
+        return view('turnos/create', compact('specialties'));
 
     }
     public function store(TurnoStoreRequest $request)
@@ -40,9 +40,9 @@ class TurnoController extends Controller
 
         // Crear el turno principal
         $turno = Turno::create([
-            'nombre' => trim($request->nombre),
+            'name' => trim($request->name),
             'direccion' => trim($request->direccion),
-            'especialidad_id' => $request->especialidad_id,
+            'specialty_id' => $request->specialty_id,
             'medico_id' => $request->medico_id,
             'turno' => $request->turno, // Asignar el turno si se proporciona
             'cantidad_turnos' => trim($request->cantidad),
@@ -52,7 +52,7 @@ class TurnoController extends Controller
             'user_id' => Auth::id(),
             'user_id_update' => Auth::id(),
             'fechas_disponibles' => $fechas,
-            'isActive' => $request->isActive,
+            'status' => $request->status,
         ]);
 
         // Crear los turnos disponibles para cada fecha
@@ -186,8 +186,8 @@ class TurnoController extends Controller
     //Editar Turno
     public function edit($id)
     {
-        $turno = Turno::with(['especialidad', 'medico', 'disponibilidades'])->findOrFail($id);
-        $especialidades = Especialidad::where('isActive', 1)->get();
+        $turno = Turno::with(['specialty', 'medico', 'disponibilidades'])->findOrFail($id);
+        $specialties = Especialidad::where('status', 1)->get();
 
         // Procesar horarios_disponibles para la vista
         $horarios_disponibles = $turno->horarios_disponibles;
@@ -200,11 +200,11 @@ class TurnoController extends Controller
 
         return view('turnos.edit', [
             'turno' => $turno,
-            'especialidades' => $especialidades,
-            'especialidad_id' => $turno->especialidad_id,
+            'specialties' => $specialties,
+            'specialty_id' => $turno->specialty_id,
             'medico_id' => $turno->medico_id,
-            'medico_nombre' => $turno->medico->nombre ?? 'Medico no disponible',
-            'nombre' => $turno->nombre,
+            'medico_nombre' => $turno->medico->name ?? 'Medico no disponible',
+            'name' => $turno->name,
             'direccion' => $turno->direccion,
             'cantidad' => $turno->cantidad_turnos,
             'inicio' => $turno->hora_inicio ? Carbon::parse($turno->hora_inicio)->format('H:i') : null,
@@ -238,9 +238,9 @@ class TurnoController extends Controller
         $turno = Turno::findOrFail($id);
 
         // Actualizar el turno principal
-        $turno->nombre = trim($request->nombre);
+        $turno->name = trim($request->name);
         $turno->direccion = trim($request->direccion);
-        $turno->especialidad_id = $request->especialidad_id;
+        $turno->specialty_id = $request->specialty_id;
         $turno->medico_id = $request->medico_id;
         $turno->turno = $request->turno;
         $turno->cantidad_turnos = trim($request->cantidad);
@@ -249,7 +249,7 @@ class TurnoController extends Controller
         $turno->horarios_disponibles = $request->horarios_disponibles;
         $turno->user_id_update = Auth::id();
         $turno->fechas_disponibles = $fechas;
-        $turno->isActive = $request->isActive ?? $turno->isActive;
+        $turno->status = $request->status ?? $turno->status;
 
         $turno->save();
 
@@ -299,13 +299,13 @@ class TurnoController extends Controller
     public function getPorEspecialidad($id)
     {
         try {
-            $medicos = Medico::where('especialidad_id', $id)
-                ->where('isActive', 1)
+            $medicos = Medico::where('specialty_id', $id)
+                ->where('status', 1)
                 ->get();
 
             return response()->json($medicos);
         } catch (\Exception $e) {
-            Log::error('Error al obtener médicos por especialidad', ['especialidad_id' => $id, 'error' => $e->getMessage()]);
+            Log::error('Error al obtener médicos por specialty', ['specialty_id' => $id, 'error' => $e->getMessage()]);
             return response()->json([], 500);
         }
     }

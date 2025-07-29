@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main centrado-total">
-        <div class="container-form centrado-total">
+    <div class="main full-center">
+        <div class="container-form full-center">
             <h3 class="title-form">Editar turno</h3>
 
             <!-- Indicador de pasos -->
@@ -19,9 +19,9 @@
                 <div class="form-step active" data-step="1">
                     <div class="form-grid">
                         <div class="item">
-                            <label for="nombre">Nombre del Turno</label>
-                            <input type="text" name="nombre" id="nombre" value="{{ $nombre }}" required>
-                            @error('nombre')
+                            <label for="name">Nombre del Turno</label>
+                            <input type="text" name="name" id="name" value="{{ $name }}" required>
+                            @error('name')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
@@ -34,16 +34,16 @@
                         </div>
 
                         <div class="item">
-                            <label for="especialidad_id">Especialidad</label>
-                            <select name="especialidad_id" id="especialidad_id" required>
-                                @foreach ($especialidades as $especialidad)
-                                    <option value="{{ $especialidad->id }}"
-                                        {{ $especialidad_id == $especialidad->id ? 'selected' : '' }}>
-                                        {{ $especialidad->nombre }}
+                            <label for="specialty_id">Especialidad</label>
+                            <select name="specialty_id" id="specialty_id" required>
+                                @foreach ($specialties as $specialty)
+                                    <option value="{{ $specialty->id }}"
+                                        {{ $specialty_id == $specialty->id ? 'selected' : '' }}>
+                                        {{ $specialty->name }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('especialidad_id')
+                            @error('specialty_id')
                                 <div class="error">{{ $message }}</div>
                             @enderror
 
@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="form-navigation navegation-next">
-                        <button type="button" class="next-btn centrado-total">Siguiente</button>
+                        <button type="button" class="next-btn full-center">Siguiente</button>
                     </div>
                 </div>
 
@@ -149,7 +149,7 @@
 
                     <div class="form-navigation navegation-next">
                         <button type="button" class="prev-btn"><i class="bi bi-chevron-left"></i>Anterior</button>
-                        <button type="button" class="next-btn centrado-total">Siguiente<i
+                        <button type="button" class="next-btn full-center">Siguiente<i
                                 class="bi bi-chevron-right"></i></button>
                     </div>
                 </div>
@@ -161,15 +161,15 @@
                         <input type="hidden" name="selected_dates" x-ref="selectedDatesInput">
                     </div>
                     <div class="item">
-                        <label for="isActive">Estado</label>
-                        <select name="isActive" id="isActive" required>
-                            <option {{ isset($edit) ? ($turno->isActive == true ? 'selected' : '') : '' }}
+                        <label for="status">Estado</label>
+                        <select name="status" id="status" required>
+                            <option {{ isset($edit) ? ($turno->status == true ? 'selected' : '') : '' }}
                                 value="1">
                                 Activo</option>
-                            <option {{ isset($edit) ? ($turno->isActive == false ? 'selected' : '') : '' }}
+                            <option {{ isset($edit) ? ($turno->status == false ? 'selected' : '') : '' }}
                                 value="0">
                                 Inactivo</option>
-                            @error('isActive')
+                            @error('status')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </select>

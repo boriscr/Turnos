@@ -22,20 +22,19 @@ class EspecialidadUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $especialidad_id = $this->route('id'); // Asegúrate de que el nombre del parámetro en la ruta coincida
+        $specialty_id = $this->route('id'); // Asegúrate de que el name del parámetro en la ruta coincida
 
         return [
-            'nombre' => 'required|string|max:255|unique:especialidades,nombre,' . $especialidad_id,
-            'descripcion' => 'required|string|max:255',
-            'isActive' => 'required|boolean',
+            'name' => 'required|string|min:5|max:30|unique:specialties,name,' . $specialty_id,
+            'description' => 'required|string|min:5|max:500',
+            'status' => 'required|boolean',
         ];
     }
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'nombre' => trim($this->nombre),
-            'descripcion' => trim($this->descripcion),
-            // otros campos...
+            'name' => trim($this->name),
+            'description' => trim($this->description),
         ]);
     }
 }

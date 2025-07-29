@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create(Medico::TABLE, function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->string('nombre');
-            $table->string('apellido');
-            $table->integer('idNumber');
+            $table->string('name');
+            $table->string('surname');
+            $table->string('idNumber');
             $table->string('email');
-            $table->string('telefono');
-            $table->foreignId('especialidad_id')->nullable()->constrained('especialidades')->onDelete('cascade');
-            $table->string('matricula')->nullable();
+            $table->string('phone');
+            $table->foreignId('specialty_id')->nullable()->constrained('specialties')->onDelete('cascade');
+            $table->string('licenseNumber')->nullable();
             $table->string('role');
-            $table->boolean('isActive')->default(true); // Valor por defecto true
+            $table->boolean('status')->default(true); // Valor por defecto true
             $table->timestamps();
         });
     }

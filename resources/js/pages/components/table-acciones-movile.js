@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
           var editarLink = row.querySelector('.acciones a:nth-child(2)').outerHTML;
         }
 
-        // Obtener el nombre del paciente
+        // Obtener el name del paciente
         const pacienteNombre = row.querySelector(elemento).textContent;
         // Obtener el enlace de ver detalles
         const verLink = row.querySelector('.acciones a').outerHTML;
@@ -87,8 +87,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       // Mostrar/ocultar el box actual y alternar clase active en el botón
-      const isActive = box.classList.toggle('active');
-      this.classList.toggle('active', isActive);
+      const status = box.classList.toggle('active');
+      this.classList.toggle('active', status);
     });
   });
 

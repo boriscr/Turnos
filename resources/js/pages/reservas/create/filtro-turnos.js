@@ -69,7 +69,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
 
     // Función para limpiar selects dependientes
     function limpiarSelectsDependientes(selectInicial) {
-        const selects = ['especialidad_id', 'medico_id', 'turno_nombre_id', 'fecha_turno', 'hora_turno'];
+        const selects = ['specialty_id', 'medico_id', 'turno_nombre_id', 'fecha_turno', 'hora_turno'];
         const indexInicial = selects.indexOf(selectInicial);
         
         if (indexInicial === -1) return;
@@ -84,13 +84,13 @@ if (window.location.pathname.includes('/disponibles/create')) {
         }
     }
 
-    // Función para cargar médicos basados en especialidad seleccionada
+    // Función para cargar médicos basados en specialty seleccionada
     async function cargarMedicos(especialidadId) {
         const selectMedico = document.getElementById('medico_id');
         if (!selectMedico) return;
 
         try {
-            limpiarSelectsDependientes('especialidad_id');
+            limpiarSelectsDependientes('specialty_id');
             selectMedico.disabled = true;
             selectMedico.innerHTML = '<option value="">Cargando médicos...</option>';
 
@@ -108,7 +108,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
             data.medicos.forEach(medico => {
                 const option = document.createElement('option');
                 option.value = medico.id;
-                option.textContent = `${medico.nombre} ${medico.apellido}`;
+                option.textContent = `${medico.name} ${medico.surname}`;
                 selectMedico.appendChild(option);
             });
 
@@ -119,7 +119,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
         }
     }
 
-    // Función para cargar el nombre de los turnos basados en el médico seleccionado
+    // Función para cargar el name de los turnos basados en el médico seleccionado
     async function cargarNombres(medicoId) {
         const selectTurno = document.getElementById('turno_nombre_id');
         if (!selectTurno) return;
@@ -143,7 +143,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
             data.turnos.forEach(turno => {
                 const option = document.createElement('option');
                 option.value = turno.id;
-                option.textContent = turno.nombre;
+                option.textContent = turno.name;
                 selectTurno.appendChild(option);
             });
 
@@ -154,7 +154,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
         }
     }
 
-    // Función para cargar turnos basados en el nombre de turno seleccionado
+    // Función para cargar turnos basados en el name de turno seleccionado
     async function cargarTurnos(turnoNombreId) {
         const selectFecha = document.getElementById('fecha_turno');
         if (!selectFecha) return;
@@ -281,14 +281,14 @@ if (window.location.pathname.includes('/disponibles/create')) {
     document.addEventListener('DOMContentLoaded', function () {
         try {
             // Obtener valores iniciales si existen
-            const especialidadInicial = document.getElementById('especialidad_id')?.value;
+            const especialidadInicial = document.getElementById('specialty_id')?.value;
             const medicoInicial = document.getElementById('medico_id')?.value;
             const nombreInicial = document.getElementById('turno_nombre_id')?.value;
             const fechaInicial = document.getElementById('fecha_turno')?.value;
             const turnoIdInicial = document.getElementById('hora_turno')?.value;
 
             // Configurar event listeners
-            document.getElementById('especialidad_id')?.addEventListener('change', function() {
+            document.getElementById('specialty_id')?.addEventListener('change', function() {
                 cargarMedicos(this.value);
             });
 

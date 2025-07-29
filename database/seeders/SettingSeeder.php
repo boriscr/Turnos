@@ -15,7 +15,7 @@ class SettingSeeder extends Seeder
         $settings = [
             // Configuración General de la App
             'app' => [
-                'nombre' => [
+                'name' => [
                     'value' => 'Turnos.com',
                     'type' => 'string',
                     'desc' => 'Nombre público de la aplicación'

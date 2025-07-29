@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main centrado-total">
-        <div class="container-form centrado-total">
+    <div class="main full-center">
+        <div class="container-form full-center">
             <H3 class="title-form">Settings</H3>
             <form action="{{ route('settings.update') }}" method="post">
                 @csrf
@@ -8,10 +8,10 @@
                 <div class="form-grid">
                     <h3>Contenido personalizado</h3>
                     <div class="item">
-                        <label for="nombre">Nombre de la Aplicación</label>
-                        <input type="text" name="app[nombre]" id="nombre" value="{{ $settings['app.nombre'] }}"
+                        <label for="name">Nombre de la Aplicación</label>
+                        <input type="text" name="app[name]" id="name" value="{{ $settings['app.name'] }}"
                             required>
-                        @error('app.nombre')
+                        @error('app.name')
                             <div class="error">{{ $message }}</div>
                         @enderror
                     </div>

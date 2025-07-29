@@ -46,8 +46,8 @@ class SettingsServiceProvider extends ServiceProvider
         config($designSettings);
         // Cargar configuraciones importantes
         config([
-            'app.name' => setting('app.nombre', config('app.name')),
-            'app.description' => setting('app.descripcion'),
+            'app.name' => setting('app.name', config('app.name')),
+            'app.description' => setting('app.description'),
             'app.mensaje_paciente' => setting('app.mensaje_paciente'),
 
         ]);

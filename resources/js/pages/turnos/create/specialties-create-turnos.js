@@ -1,9 +1,9 @@
-//Automatizacion de la carg Medicos por especialidad
-// Este script se encarga de cargar los medico disponibles en función de la especialidad seleccionada
-if (window.location.pathname.includes('/turnos/create')|| window.location.pathname.includes('/turnos/edit')) {
+//Automatizacion de la carg Medicos por specialty
+// Este script se encarga de cargar los medico disponibles en función de la specialty seleccionada
+if (window.location.pathname.includes('/turnos/create') || window.location.pathname.includes('/turnos/edit')) {
 
     function cargarMedicosPorEspecialidad(especialidadId) {
-        fetch(`/medicos-por-especialidad/${especialidadId}`)
+        fetch(`/medicos-por-specialty/${especialidadId}`)
             .then(response => response.json())
             .then(data => {
                 let medicoSelect = document.getElementById("medico_id");
@@ -15,7 +15,7 @@ if (window.location.pathname.includes('/turnos/create')|| window.location.pathna
                     data.forEach(medico => {
                         let option = document.createElement("option");
                         option.value = medico.id;
-                        option.text = medico.nombre + ' ' + medico.apellido;
+                        option.text = medico.name + ' ' + medico.surname;
                         medicoSelect.appendChild(option);
                     });
                 }
@@ -25,14 +25,14 @@ if (window.location.pathname.includes('/turnos/create')|| window.location.pathna
             });
     }
 
-    // Cuando cambia la especialidad
-    document.getElementById("especialidad_id").addEventListener("change", function () {
+    // Cuando cambia la specialty
+    document.getElementById("specialty_id").addEventListener("change", function () {
         cargarMedicosPorEspecialidad(this.value);
     });
 
-    // Al cargar la página, cargar los medico para la especialidad seleccionada por defecto
+    // Al cargar la página, cargar los medico para la specialty seleccionada por defecto
     window.addEventListener("load", function () {
-        let especialidadId = document.getElementById("especialidad_id").value;
+        let especialidadId = document.getElementById("specialty_id").value;
         cargarMedicosPorEspecialidad(especialidadId);
     });
 }

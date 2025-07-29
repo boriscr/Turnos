@@ -12,12 +12,12 @@ class EspecialidadController extends Controller
 {
     public function index()
     {
-        $especialidades = Especialidad::all();
-        return view('especialidades/index', compact('especialidades'));
+        $specialties = Especialidad::all();
+        return view('specialties/index', compact('specialties'));
     }
     public function create()
     {
-        return view('especialidades/create');
+        return view('specialties/create');
     }
     public function store(EspecialidadStoreRequest $request)
     {
@@ -26,40 +26,40 @@ class EspecialidadController extends Controller
 
             session()->flash('success', [
                 'title' => 'Creado!',
-                'text' => 'Nueva especialidad creada con éxito.',
+                'text' => 'Nueva specialty creada con éxito.',
                 'icon' => 'success',
             ]);
         } catch (Exception $e) {
-            return back()->withErrors('Error al crear la especialidad: ' . $e->getMessage());
+            return back()->withErrors('Error al crear la specialty: ' . $e->getMessage());
         }
 
-        return redirect()->route('especialidad.index');
+        return redirect()->route('specialty.index');
     }
 
     public function show($id)
     {
         try {
-            $especialidad = Especialidad::findOrFail($id);
-            return view('especialidades/show', compact('especialidad'));
+            $specialty = Especialidad::findOrFail($id);
+            return view('specialties/show', compact('specialty'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('especialidad.index')->withErrors('Especialidad no encontrada.');
+            return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
         }
     }
     public function edit($id)
     {
         try {
-            $especialidad = Especialidad::findOrFail($id);
-            return view('especialidades/edit', compact('especialidad'));
+            $specialty = Especialidad::findOrFail($id);
+            return view('specialties/edit', compact('specialty'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('especialidad.index')->withErrors('Especialidad no encontrada.');
+            return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
         }
     }
 
     public function update(EspecialidadUpdateRequest $request, $id)
     {
         try {
-            $especialidad = Especialidad::findOrFail($id);
-            $especialidad->update($request->validated());
+            $specialty = Especialidad::findOrFail($id);
+            $specialty->update($request->validated());
 
             session()->flash('success', [
                 'title' => 'Actualizado!',
@@ -67,32 +67,32 @@ class EspecialidadController extends Controller
                 'icon' => 'success',
             ]);
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('especialidad.index')->withErrors('Especialidad no encontrada.');
+            return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
         } catch (Exception $e) {
-            return back()->withErrors('Error al actualizar la especialidad: ' . $e->getMessage());
+            return back()->withErrors('Error al actualizar la specialty: ' . $e->getMessage());
         }
 
-        return redirect()->route('especialidad.index');
+        return redirect()->route('specialty.index');
     }
 
 
     public function destroy($id)
     {
         try {
-            $especialidad = Especialidad::findOrFail($id);
+            $specialty = Especialidad::findOrFail($id);
 
             // Evitar eliminar si tiene medicos asociados
-            if ($especialidad->medicos()->exists()) {
+            if ($specialty->medicos()->exists()) {
                 session()->flash('error', [
                     'title' => 'Error!',
-                    'text' => 'No se puede eliminar una especialidad con médicos asociados.',
+                    'text' => 'No se puede eliminar una specialty con médicos asociados.',
                     'icon' => 'error',
                 ]);
                 return redirect()->back();
             }
-            // Eliminar la especialidad
+            // Eliminar la specialty
 
-            $especialidad->delete();
+            $specialty->delete();
 
             session()->flash('success', [
                 'title' => 'Eliminado!',
@@ -100,11 +100,11 @@ class EspecialidadController extends Controller
                 'icon' => 'success',
             ]);
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('especialidad.index')->withErrors('Especialidad no encontrada.');
+            return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
         } catch (Exception $e) {
-            return back()->withErrors('Error al eliminar la especialidad: ' . $e->getMessage());
+            return back()->withErrors('Error al eliminar la specialty: ' . $e->getMessage());
         }
 
-        return redirect()->route('especialidad.index');
+        return redirect()->route('specialty.index');
     }
 }

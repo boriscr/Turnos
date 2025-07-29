@@ -10,9 +10,9 @@ class Turno extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre',
+        'name',
         'direccion',
-        'especialidad_id',
+        'specialty_id',
         'medico_id',
         'turno',
         'hora_inicio',
@@ -21,18 +21,18 @@ class Turno extends Model
         'cantidad_turnos',
         'user_id',
         'horarios_disponibles',
-        'isActive'
+        'status'
     ];
     
     protected $casts = [
         'fechas_disponibles' => 'array',
         'horarios_disponibles' => 'array',
-        'isActive' => 'boolean',
+        'status' => 'boolean',
         'hora_inicio' => 'datetime:H:i',
         'hora_fin' => 'datetime:H:i',
     ];
 
-    public function especialidad()
+    public function specialty()
     {
         return $this->belongsTo(Especialidad::class);
     }

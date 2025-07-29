@@ -2,14 +2,14 @@
     @if (isset($reserva))
         <div class="content-wrapper">
             <h3 class="title-form">Detalles</h3>
-            <div class="section-container centrado-total">
+            <div class="section-container full-center">
                 <div class="card">
                     <H1>Paciente</H1>
                     <p><b> Paciente: </b> {{ $reserva->user->name . ' ' . $reserva->user->surname }}
                         <a href="{{ route('usuario.show', $reserva->user->id) }}"><i class="bi bi-eye"></i></a>
                     </p>
                     <p><b> DNI: </b>{{ $reserva->user->idNumber }}</p>
-                    <p><b> Activo: </b>{{ $reserva->user->isActive ? 'Si' : 'No' }}</p>
+                    <p><b> Activo: </b>{{ $reserva->user->status ? 'Si' : 'No' }}</p>
                     <p><b> Hora del turno:
                         </b>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</p>
                     <p><b> Fecha del turno:
@@ -24,12 +24,12 @@
                 <div class="card">
                     <H1>Doctor/a</H1>
                     <p><b> Doctor/a:
-                        </b>{{ $reserva->turnoDisponible->medico->nombre . ' ' . $reserva->turnoDisponible->medico->apellido }}
+                        </b>{{ $reserva->turnoDisponible->medico->name . ' ' . $reserva->turnoDisponible->medico->surname }}
                         <a href="{{ route('medico.create', $reserva->turnoDisponible->medico->id) }}"><i
                                 class="bi bi-eye"></i></a>
                     </p>
                     <p><b> DNI: </b>{{ $reserva->turnoDisponible->medico->idNumber }}</p>
-                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->isActive ? 'Si' : 'No' }}</p>
+                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->status ? 'Si' : 'No' }}</p>
                     <p><b>Perfil de usuario:</b>
                         @if ($reserva->turnoDisponible->medico->user_id)
                             <a href="{{ route('usuario.show', $reserva->turnoDisponible->medico->user_id) }}">
@@ -45,13 +45,13 @@
                         </a>
                     </p>
 
-                    <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->medico->especialidad->nombre }}</p>
+                    <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->medico->specialty->name }}</p>
                     <p><b> Fecha de creación: </b>{{ $reserva->created_at }}</p>
                     <p><b> Fecha de última actualizacion: </b>{{ $reserva->updated_at }}</p>
                 </div>
             </div>
 
-            <div class="opciones centrado-total">
+            <div class="opciones full-center">
                 <form action="{{ route('disponible.destroy', $reserva->id) }}" method="POST" style="display:inline;"
                     class="delete-form">
                     @csrf

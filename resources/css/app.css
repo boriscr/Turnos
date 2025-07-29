@@ -17,7 +17,7 @@
 @import 'pages/reservas/search.css';
 @import 'pages/reservas/actualizacion-de-asistencia-btn.css';
 
-@import 'pages/especialidades/form-especialidad.css';
+@import 'pages/specialties/form-specialty.css';
 
 @tailwind base;
 @tailwind components;

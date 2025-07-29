@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Especialidad;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Medico;
 
@@ -24,15 +23,27 @@ class MedicoStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'idNumber' => 'required|digits_between:7,8|unique:medicos,idNumber',
-            'email' => 'required|email|unique:' . Medico::TABLE . ',email',
-            'telefono' => 'required|string|max:255',
-            'especialidad_id' => 'required|exists:especialidades,id',
-            'matricula' => 'required|string|max:255',
-            'role' => 'required|string|max:255',
-            'isActive' => 'sometimes|boolean',
+            'name' => 'required|string|min:3|max:40',
+            'surname' => 'required|string|min:3|max:15',
+            'idNumber' => 'required|string|min:7|max:8|unique:' . Medico::TABLE . ',idNumber',
+            'email' => 'required|email|min:3|max:60|unique:' . Medico::TABLE . ',email',
+            'phone' => 'required|string|min:5|max:15',
+            'specialty_id' => 'required|exists:specialties,id',
+            'licenseNumber' => 'required|string|min:3|max:60',
+            'role' => 'required|string|in:admin,doctor',
+            'status' => 'sometimes|boolean',
         ];
+    }
+    // Limpia los espacios antes de validar
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'name' => trim($this->name),
+            'surname' => trim($this->surname),
+            'idNumber' => trim($this->idNumber),
+            'email' => trim($this->email),
+            'phone' => trim($this->phone),
+            'licenseNumber' => trim($this->licenseNumber),
+        ]);
     }
 }

@@ -1,19 +1,19 @@
 <x-app-layout>
-    @if (isset($reserva) && $reserva->turnoDisponible->turno->isActive === true)
+    @if (isset($reserva) && $reserva->turnoDisponible->turno->status === true)
         <div class="content-wrapper">
             <h3 class="title-form">Detalles</h3>
-            <div class="section-container centrado-total">
+            <div class="section-container full-center">
                 <div class="card">
                     <h1>Mis datos</h1>
                     <p><b> Paciente: </b> {{ Auth::user()->name . ' ' . Auth::user()->surname }}
                     </p>
                     <p><b> DNI: </b>{{ Auth::user()->idNumber }}</p>
-                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->isActive ? 'Si' : 'No' }}</p>
+                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->status ? 'Si' : 'No' }}</p>
 
                 </div>
                 <div class="card">
                     <h1>Turno</h1>
-                    <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->medico->especialidad->nombre }}</p>
+                    <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->medico->specialty->name }}</p>
                     <p><b> Hora del turno:
                         </b>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</p>
                     <p><b> Fecha del turno:
@@ -29,25 +29,25 @@
                 <div class="card">
                     <h1>Doctor/a</h1>
                     <p><b> Doctor/a:
-                        </b>{{ $reserva->turnoDisponible->medico->nombre . ' ' . $reserva->turnoDisponible->medico->apellido }}
+                        </b>{{ $reserva->turnoDisponible->medico->name . ' ' . $reserva->turnoDisponible->medico->surname }}
                     </p>
                     <p><b> DNI: </b>{{ $reserva->turnoDisponible->medico->idNumber }}</p>
-                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->isActive ? 'Si' : 'No' }}</p>
-                    <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->medico->especialidad->nombre }}</p>
+                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->medico->status ? 'Si' : 'No' }}</p>
+                    <p><b> Especialidad: </b>{{ $reserva->turnoDisponible->medico->specialty->name }}</p>
                 </div>
             </div>
         </div>
     @else
         <div class="content-wrapper">
             <h3 class="title-form">Upss...</h3>
-            <div class="card-error centrado-total">
+            <div class="card-error full-center">
                 <div class="card">
                     <div class="mensaje-error-box">
                         <h1>Turno No Disponible</h1>
                         <p>El turno que intentas acceder no está disponible o ha sido cancelado.</p>
 
                     </div>
-                    <div class="icono-error-box centrado-total">
+                    <div class="icono-error-box full-center">
                         <i class="bi bi-x-circle-fill"></i>
                     </div>
                     <h2>¿Por qué sucede esto?</h2>

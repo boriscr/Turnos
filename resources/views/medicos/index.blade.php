@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main-table centrado-total">
-        <div class="container-form centrado-total">
+    <div class="main-table full-center">
+        <div class="container-form full-center">
             <h3 class="title-form">Lista de médicos</h3>
             <table>
                 <thead>
@@ -17,11 +17,11 @@
                     @foreach ($medicos as $medico)
                         <tr>
                             <td>{{ $medico->id }}</td>
-                            <td>{{ $medico->nombre . ' ' . $medico->apellido }}</td>
+                            <td>{{ $medico->name . ' ' . $medico->surname }}</td>
                             <td class="option-movil">{{ $medico->idNumber }}</td>
-                            <td>{{ $medico->especialidad->nombre ?? 'Sin datos' }}</td>
+                            <td>{{ $medico->specialty->name ?? 'Sin datos' }}</td>
                             <td class="option-movil">{{ $medico->role }}</td>
-                            <td class="acciones centrado-total">
+                            <td class="acciones full-center">
                                 <a href="{{ route('medico.show', $medico->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">Ver</b></a>
                                 <a href="{{ route('medico.edit', $medico->id) }}" class="btn btn-edit"><i

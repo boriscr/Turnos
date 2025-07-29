@@ -22,7 +22,7 @@ class SettingUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'app.nombre' => 'required|string|max:255',
+            'app.name' => 'required|string|max:255',
             'app.mensaje_bienvenida' => 'required|string|max:255',
             'app.pie_pagina' => 'required|string|max:255',
             'app.nombre_institucion' => 'required|string|max:255',

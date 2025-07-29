@@ -92,12 +92,12 @@
         @enderror
     </div>
     <div class="item">
-        <label for="isActive"><span aria-hidden="true" style="color: red;">*</span> Estado</label>
-        <select name="isActive" id="isActive">
-            <option value="1" {{ isset($edit) && $isActive == 1 ? 'selected' : '' }}>Activo</option>
-            <option value="0" {{ isset($edit) && $isActive == 0 ? 'selected' : '' }}>Inactivo</option>
+        <label for="status"><span aria-hidden="true" style="color: red;">*</span> Estado</label>
+        <select name="status" id="status">
+            <option value="1" {{ isset($edit) && $status == 1 ? 'selected' : '' }}>Activo</option>
+            <option value="0" {{ isset($edit) && $status == 0 ? 'selected' : '' }}>Inactivo</option>
         </select>
-        @error('isActive')
+        @error('status')
             <div class="error">{{ $message }}</div>
         @enderror
     </div>

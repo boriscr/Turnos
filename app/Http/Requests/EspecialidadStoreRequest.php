@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Especialidad;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EspecialidadStoreRequest extends FormRequest
@@ -23,18 +22,17 @@ class EspecialidadStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:255|unique:especialidades,nombre',
-            'descripcion' => 'required|string|max:255',
-            'isActive' => 'required|boolean',
+            'name' => 'required|string|min:5|max:30|unique:specialties,name',
+            'description' => 'required|string|min:5|max:500',
+            'status' => 'required|boolean',
         ];
     }
     // Limpia los espacios antes de validar
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'nombre' => trim($this->nombre),
-            'descripcion' => trim($this->descripcion),
-            // otros campos...
+            'name' => trim($this->name),
+            'description' => trim($this->description),
         ]);
     }
 }

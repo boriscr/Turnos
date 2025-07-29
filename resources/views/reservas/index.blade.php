@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main-table centrado-total">
-        <div class="container-form centrado-total">
+    <div class="main-table full-center">
+        <div class="container-form full-center">
             <h3 class="title-form">Turnos reservados</h3>
 
             <!-- Barra de búsqueda y filtros -->
@@ -26,7 +26,7 @@
                             <td class="option-movil">
                                 {{ Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</td>
                             <td><a
-                                    href="{{ route('medico.create', $reserva->turnoDisponible->medico->id) }}">{{ $reserva->turnoDisponible->medico->nombre . ' ' . $reserva->turnoDisponible->medico->apellido }}</a>
+                                    href="{{ route('medico.create', $reserva->turnoDisponible->medico->id) }}">{{ $reserva->turnoDisponible->medico->name . ' ' . $reserva->turnoDisponible->medico->surname }}</a>
                             </td>
                             <td><a
                                     href="{{ route('usuario.show', $reserva->user->id) }}">{{ $reserva->user->name . ' ' . $reserva->user->surname }}</a>
@@ -77,7 +77,7 @@
                                 @endif
                             </td>
 
-                            <td class="acciones centrado-total">
+                            <td class="acciones full-center">
                                 <a href="{{ route('reservas.show', $reserva->id) }}" class="btn btn-view">
                                     <i class="bi bi-eye"></i><b class="accionesMovil">Ver</b>
                                 </a>

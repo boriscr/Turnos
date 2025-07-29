@@ -15,7 +15,7 @@ Route::view('/', 'home')->name('home');
 Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     //Solicitud de Turnos
     Route::get('/disponibles/create', [TurnoDisponibleController::class, 'create'])->name('disponible.create');
-    Route::get('/getMedicosPorEspecialidad/{especialidad_id}', [TurnoDisponibleController::class, 'getMedicosPorEspecialidad']);
+    Route::get('/getMedicosPorEspecialidad/{specialty_id}', [TurnoDisponibleController::class, 'getMedicosPorEspecialidad']);
     Route::get('/getTurnosPorNombre/{medico_id}', [TurnoDisponibleController::class, 'getTurnosPorNombre']);
 
     Route::get('/getTurnosPorEquipo/{turno_nombre_id}', [TurnoDisponibleController::class, 'getTurnosPorEquipo']);
@@ -63,15 +63,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/medicos/{id}/edit', [MedicoController::class, 'edit'])->name('medico.edit');
     Route::put('/medicos/{id}', [MedicoController::class, 'update'])->name('medico.update');
     Route::delete('/medicos/{id}/destroy', [MedicoController::class, 'destroy'])->name('medico.destroy');
-    //Control de especialidades
-    Route::get('/especialidad', [EspecialidadController::class, 'index'])->name('especialidad.index');
-    Route::get('/especialidad/create', [EspecialidadController::class, 'create'])->name('especialidad.create');
-    Route::post('/especialidad', [EspecialidadController::class, 'store'])->name('especialidad.store');
-    Route::get('/especialidad/{id}/show', [EspecialidadController::class, 'show'])->name('especialidad.show');
-    Route::get('/especialidad/{id}/edit', [EspecialidadController::class, 'edit'])->name('especialidad.edit');
-    Route::put('/especialidad/{id}', [EspecialidadController::class, 'update'])->name('especialidad.update');
-    Route::delete('/especialidad/{id}', [EspecialidadController::class, 'destroy'])->name('especialidad.destroy');
-    Route::get('/especialidad/{id}/medicos', [EspecialidadController::class, 'listaEquipo'])->name('lista.medicos');
+    //Control de specialties
+    Route::get('/specialty', [EspecialidadController::class, 'index'])->name('specialty.index');
+    Route::get('/specialty/create', [EspecialidadController::class, 'create'])->name('specialty.create');
+    Route::post('/specialty', [EspecialidadController::class, 'store'])->name('specialty.store');
+    Route::get('/specialty/{id}/show', [EspecialidadController::class, 'show'])->name('specialty.show');
+    Route::get('/specialty/{id}/edit', [EspecialidadController::class, 'edit'])->name('specialty.edit');
+    Route::put('/specialty/{id}', [EspecialidadController::class, 'update'])->name('specialty.update');
+    Route::delete('/specialty/{id}', [EspecialidadController::class, 'destroy'])->name('specialty.destroy');
+    Route::get('/specialty/{id}/medicos', [EspecialidadController::class, 'listaEquipo'])->name('lista.medicos');
 
     //Turnos
     Route::get('/turnos', [TurnoController::class, 'index'])->name('turnos.index');
@@ -81,7 +81,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/turnos/edit/{id}', [TurnoController::class, 'edit'])->name('turnos.edit');
     Route::patch('/turnos/{id}', [TurnoController::class, 'update'])->name('turnos.update');
     Route::delete('/turnos/{id}', [TurnoController::class, 'destroy'])->name('turnos.destroy');
-    Route::get('/medicos-por-especialidad/{id}', [TurnoController::class, 'getPorEspecialidad']); //En controlador Medicos
+    Route::get('/medicos-por-specialty/{id}', [TurnoController::class, 'getPorEspecialidad']); //En controlador Medicos
 
     //disponibles
     Route::get('/disponible/{equipoId?}', [TurnoController::class, 'search'])->name('disponible.index');

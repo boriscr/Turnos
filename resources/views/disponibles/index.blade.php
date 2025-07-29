@@ -1,13 +1,13 @@
 <x-app-layout>
-    <div class="main-table centrado-total">
-        <div class="container-form centrado-total">
+    <div class="main-table full-center">
+        <div class="container-form full-center">
             <h3 class="title-form">Turnos creados</h3>
             <div class="mb-4">
                 <!-- Formulario de búsqueda y filtros rápidos -->
                 <form action="{{ route('disponible.index') }}" method="GET" class="mb-4" id="filterForm">
                     <div class="input-group mb-3">
                         <input type="text" name="search" class="form-control"
-                            placeholder="Buscar por DNI o nombre..." value="{{ request('search') }}">
+                            placeholder="Buscar por DNI o name..." value="{{ request('search') }}">
                         <button type="submit" class="btn btn-default">
                             <i class="bi bi-search"></i> Buscar
                         </button>
@@ -148,8 +148,8 @@
             </div>
 
 
-        <div class="main-table centrado-total">
-            <div class="container-form centrado-total">
+        <div class="main-table full-center">
+            <div class="container-form full-center">
                 <h3 class="title-form">Turnos reservados</h3>
                 <table>
                     <thead>
@@ -168,15 +168,15 @@
                         @foreach ($turnoDisponibles as $turnoDisponible)
                             <tr>
                                 <td>{{ $turnoDisponible->id }}</td>
-                                <td class="option-movil">{{ $turnoDisponible->turno->nombre }}</td>
-                                <td class="option-movil">{{ $turnoDisponible->turno->descripcion }}</td>
+                                <td class="option-movil">{{ $turnoDisponible->turno->name }}</td>
+                                <td class="option-movil">{{ $turnoDisponible->turno->description }}</td>
                                 <td class="option-movil">
                                     {{ \Carbon\Carbon::parse($turnoDisponible->fecha)->format('d-m-Y') }}</td>
                                 <td> {{ \Carbon\Carbon::parse($turnoDisponible->hora)->format('H:i') }}</td>
                                 <td class="option-movil">{{ $turnoDisponible->cupos_disponibles }}</td>
                                 <td class="{{ $turnoDisponible->cupos_reservados ? 'btn-success' : 'btn-danger' }}">
                                     {{ $turnoDisponible->cupos_reservados ? 'Reservado' : 'Sin reserva' }}</td>
-                                <td class="acciones centrado-total">
+                                <td class="acciones full-center">
                                     <a href="{{ route('turnos.show', $turnoDisponible->id) }}"
                                         class="btn btn-view"><i class="bi bi-eye"></i></a>
                                     <a href="{{ route('turnos.edit', $turnoDisponible->id) }}"

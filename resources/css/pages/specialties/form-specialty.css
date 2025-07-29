@@ -1,5 +1,5 @@
-/*Form especialidades crear form crear medico*/
-.main .container-form #especialidad-form {
+/*Form specialties crear form crear medico*/
+.main .container-form #specialty-form {
     display: none;
     width: 500px;
     border-radius: 15px;
@@ -10,14 +10,14 @@
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
-    #especialidad-form {
+    #specialty-form {
         background-color: var(--fondo_aplicacion_dark);
     }
 }
 
 /* Modo claro */
 @media (prefers-color-scheme: light) {
-    #especialidad-form {
+    #specialty-form {
         background: var(--fondo_aplicacion_light);
     }
 }
@@ -25,7 +25,7 @@
 
 @media (max-width: 600px) {
 
-    #especialidad-form {
+    #specialty-form {
         width: 90% !important;
         padding: 10px;
     }

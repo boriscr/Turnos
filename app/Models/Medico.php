@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Medico extends Model
 {
-        // Definimos constante para nombre de tabla
+        // Definimos constante para name de tabla
     public const TABLE = 'medicos';
     protected $table = 'medicos';
     protected $fillable = [
         'user_id',
-        'nombre',
-        'apellido',
+        'name',
+        'surname',
         'idNumber',
         'email',
-        'telefono',
-        'especialidad_id',
-        'matricula',
-        'isActive',
+        'phone',
+        'specialty_id',
+        'licenseNumber',
+        'status',
         'role',
     ];
 
@@ -31,7 +31,7 @@ class Medico extends Model
     {
         return $this->hasMany(TurnoDisponible::class);
     }
-    public function especialidad()
+    public function specialty()
     {
         return $this->belongsTo(Especialidad::class);
     }

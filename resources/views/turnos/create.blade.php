@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main centrado-total">
-        <div class="container-form centrado-total">
+    <div class="main full-center">
+        <div class="container-form full-center">
             <h3 class="title-form">Crear turno</h3>
 
             <!-- Indicador de pasos -->
@@ -18,9 +18,9 @@
                 <div class="form-step active" data-step="1">
                     <div class="form-grid">
                         <div class="item">
-                            <label for="nombre">Nombre del Turno</label>
-                            <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" required>
-                            @error('nombre')
+                            <label for="name">Nombre del Turno</label>
+                            <input type="text" name="name" id="name" value="{{ old('name') }}" required>
+                            @error('name')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
@@ -35,15 +35,15 @@
                         </div>
 
                         <div class="item">
-                            <label for="especialidad_id">Especialidad</label>
-                            <select name="especialidad_id" id="especialidad_id" required>
-                                @foreach ($especialidades as $especialidad)
-                                    @if ($especialidad->isActive == 1)
-                                        <option value="{{ $especialidad->id }}">{{ $especialidad->nombre }}</option>
+                            <label for="specialty_id">Especialidad</label>
+                            <select name="specialty_id" id="specialty_id" required>
+                                @foreach ($specialties as $specialty)
+                                    @if ($specialty->status == 1)
+                                        <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
                                     @endif
                                 @endforeach
                             </select>
-                            @error('especialidad_id')
+                            @error('specialty_id')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="form-navigation navegation-next">
-                        <button type="button" class="next-btn centrado-total">Siguiente<i
+                        <button type="button" class="next-btn full-center">Siguiente<i
                                 class="bi bi-chevron-right"></i></button>
                     </div>
                 </div>
@@ -137,9 +137,9 @@
                     </div>
 
                     <div class="form-navigation navegation-next">
-                        <button type="button" class="prev-btn centrado-total"><i
+                        <button type="button" class="prev-btn full-center"><i
                                 class="bi bi-chevron-left"></i>Anterior</button>
-                        <button type="button" class="next-btn centrado-total">Siguiente<i
+                        <button type="button" class="next-btn full-center">Siguiente<i
                                 class="bi bi-chevron-right"></i></button>
                     </div>
                 </div>
@@ -151,12 +151,12 @@
                         <input type="hidden" name="selected_dates" x-ref="selectedDatesInput">
                     </div>
                     <div class="item">
-                        <label for="isActive">Estado</label>
-                        <select name="isActive" id="isActive" required>
+                        <label for="status">Estado</label>
+                        <select name="status" id="status" required>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                         </select>
-                        @error('isActive')
+                        @error('status')
                             <div class="error">{{ $message }}</div>
                         @enderror
                     </div>

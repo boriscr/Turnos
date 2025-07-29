@@ -65,7 +65,7 @@
             </div>
 
             <div class="mt-6 flex justify-end">
-                <button type="button" @click="nextStep(1)" class="next-btn centrado-total">{{ __('button.next') }}<i
+                <button type="button" @click="nextStep(1)" class="next-btn full-center">{{ __('button.next') }}<i
                         class="bi bi-chevron-right"></i></button>
             </div>
             <br>
@@ -151,9 +151,9 @@
             </div>
 
             <div class="mt-6 flex justify-between">
-                <button type="button" @click="step--" class="prev-btn centrado-total btn-danger"><i
+                <button type="button" @click="step--" class="prev-btn full-center btn-danger"><i
                         class="bi bi-chevron-left"></i>{{ __('button.back') }}</button>
-                <button type="button" @click="nextStep(2)" class="next-btn centrado-total">{{ __('button.next') }}<i
+                <button type="button" @click="nextStep(2)" class="next-btn full-center">{{ __('button.next') }}<i
                         class="bi bi-chevron-right"></i></button>
             </div>
         </div>
@@ -192,8 +192,8 @@
                 <li>{{ __('security.no_personal_data') }}</li>
             </ul>
 
-            <div class="boxBtn-register centrado-total" style="gap:10px">
-                <button type="button" @click="step--" class="prev-btn centrado-total btn-danger"><i
+            <div class="boxBtn-register full-center" style="gap:10px">
+                <button type="button" @click="step--" class="prev-btn full-center btn-danger"><i
                         class="bi bi-chevron-left"></i></button>
                 <button type="button" @click="confirmSubmit" class="primary-btn"> {{ __('Register') }}</button>
             </div>

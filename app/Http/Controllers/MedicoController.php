@@ -19,8 +19,8 @@ class MedicoController extends Controller
 
     public function create()
     {
-        $especialidades = Especialidad::all();
-        return view('medicos.create', compact('especialidades'));
+        $specialties = Especialidad::all();
+        return view('medicos.create', compact('specialties'));
     }
 
     public function store(MedicoStoreRequest $request)
@@ -71,8 +71,8 @@ class MedicoController extends Controller
     {
         try {
             $medicos = Medico::findOrFail($id);
-            $especialidades = Especialidad::all();
-            return view('medicos.edit', compact('medicos', 'especialidades'));
+            $specialties = Especialidad::all();
+            return view('medicos.edit', compact('medicos', 'specialties'));
         } catch (ModelNotFoundException $e) {
             Log::error('Médico no encontrado', ['id' => $id]);
 

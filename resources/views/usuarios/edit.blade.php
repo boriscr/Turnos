@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main centrado-total">
-        <div class="container-form centrado-total">
+    <div class="main full-center">
+        <div class="container-form full-center">
             <h3 class="title-form">Editar usuario</h3>
             <x-form.usuario
             :edit="true"
@@ -16,7 +16,7 @@
             :province="$usuario->province"
             :city="$usuario->city"
             :address="$usuario->address"
-            :isActive="$usuario->isActive"
+            :status="$usuario->status"
             :role="$usuario->role"
             />
         </div>

@@ -2,7 +2,7 @@ import '../js/pages/register/register-validate.js';
 
 
 //pages***********************
-import '../js/pages/medicos/especialidad.js';
+import '../js/pages/medicos/specialty.js';
 import '../js/pages/profiles/anular-btn.js';
 
 import '../js/pages/reservas/index/validar-fechas.js';
@@ -13,7 +13,7 @@ import '../js/pages/turnos/components/checkboxs.js';
 import '../js/pages/turnos/components/formulario-3paso-turno.js';
 
 import '../js/pages/turnos/create/calendario.js';
-import '../js/pages/turnos/create/especialidades-create-turnos.js';
+import '../js/pages/turnos/create/specialties-create-turnos.js';
 import '../js/pages/turnos/create/horarios.js';
 import '../js/pages/turnos/edit/calendario-edit.js';
 import '../js/pages/turnos/edit/horarios-edit.js';

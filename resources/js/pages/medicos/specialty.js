@@ -1,7 +1,7 @@
 if (window.location.pathname.includes('/medicos/create') || window.location.pathname.includes('/medicos/edit')) {
 
-        let especialidadBtn = document.getElementById("especialidad-btn");
-        let especialidadForm = document.getElementById("especialidad-form");
+        let especialidadBtn = document.getElementById("specialty-btn");
+        let especialidadForm = document.getElementById("specialty-form");
         let closeBtn = document.getElementById("close-btn");
 
         especialidadBtn.addEventListener("click", function () {

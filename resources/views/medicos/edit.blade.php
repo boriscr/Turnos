@@ -1,15 +1,15 @@
 <x-app-layout>
-    <div class="main centrado-total">
-        <div class="container-form centrado-total">
-            <h3 class="title-form">Editar datos del medico</h3>
-            <x-form.medico :ruta="route('medico.update', $medicos->id)" :nuevoMedico="$medicos->user_id" :especialidades="$especialidades" :especialidad="$medicos->$especialidad_id ?? null" :nombre="$medicos->nombre"
-                :apellido="$medicos->apellido" :idNumber="$medicos->idNumber" :matricula="$medicos->matricula" :email="$medicos->email" :telefono="$medicos->telefono"
-                :role="$medicos->role" :isActive="$medicos->isActive" :especialidad="$medicos->especialidad_id" />
+    <div class="main full-center">
+        <div class="container-form full-center">
+            <h3 class="title-form">{{__('medical.section_title_edit')}}</h3>
+            <x-form.medico :ruta="route('medico.update', $medicos->id)" :nuevoMedico="$medicos->user_id" :specialties="$specialties" :specialty="$medicos->$specialty_id ?? null" :name="$medicos->name"
+                :surname="$medicos->surname" :idNumber="$medicos->idNumber" :licenseNumber="$medicos->licenseNumber" :email="$medicos->email" :phone="$medicos->phone"
+                :role="$medicos->role" :status="$medicos->status" :specialty="$medicos->specialty_id" />
 
-            {{-- Formulario para crear una nueva especialidad --}}
+            {{-- Formulario para crear una nueva specialty --}}
             @if ($medicos->user_id != null)
-                <div class="form-especialidad" id="especialidad-form">
-                    <x-form.especialidad :ruta="route('especialidad.store')" :crear="false" :nombre="old('nombre')" :descripcion="old('descripcion')" />
+                <div class="form-specialty" id="specialty-form">
+                    <x-form.specialty :ruta="route('specialty.store')" :crear="false" :name="old('name')" :description="old('description')" />
                 </div>
             @endif
         </div>

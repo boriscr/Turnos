@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main-table centrado-total">
-        <div class="container-form centrado-total">
+    <div class="main-table full-center">
+        <div class="container-form full-center">
             <h3 class="title-form">Usuarios creados</h3>
             <table>
                 <thead>
@@ -23,8 +23,8 @@
                             <td class="option-movil"> {{ $usuario->getRoleNames()->first() }}</p>
                             </td>
                             <td class="option-movil">{{ $usuario->address }}</td>
-                            <td>{{ $usuario->isActive ? 'Activo' : 'Inactivo' }}</td>
-                            <td class="acciones centrado-total">
+                            <td>{{ $usuario->status ? 'Activo' : 'Inactivo' }}</td>
+                            <td class="acciones full-center">
                                 <a href="{{ route('usuario.show', $usuario->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">Ver</b></a>
                                 <a href="{{ route('usuario.edit', $usuario->id) }}" class="btn btn-edit"><i

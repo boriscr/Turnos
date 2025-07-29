@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main-table centrado-total">
-        <div class="container-form centrado-total">
+    <div class="main-table full-center">
+        <div class="container-form full-center">
             <h3 class="title-form">Turnos creados</h3>
             <table>
                 <thead>
@@ -19,13 +19,13 @@
                     @foreach ($turnos as $turno)
                         <tr>
                             <td>{{ $turno->id }}</td>
-                            <td>{{ $turno->nombre }}</td>
+                            <td>{{ $turno->name }}</td>
                             <td class="option-movil">{{ $turno->direccion }}</td>
-                            <td class="option-movil">{{ $turno->especialidad->nombre }}</td>
-                            <td>{{ $turno->medico->nombre . ' ' . $turno->medico->apellido }}</td>
+                            <td class="option-movil">{{ $turno->specialty->name }}</td>
+                            <td>{{ $turno->medico->name . ' ' . $turno->medico->surname }}</td>
                             <td class="option-movil">{{ $turno->turno }}</td>
-                            <td>{{ $turno->isActive ? 'Activo' : 'Inactivo' }}</td>
-                            <td class="acciones centrado-total">
+                            <td>{{ $turno->status ? 'Activo' : 'Inactivo' }}</td>
+                            <td class="acciones full-center">
                                 <a href="{{ route('turnos.show', $turno->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">Ver</b></a>
                                 <a href="{{ route('turnos.edit', $turno->id) }}" class="btn btn-edit"><i

@@ -1,14 +1,14 @@
 <x-app-layout>
-    <div class="main centrado-total">
-        <div class="container-form centrado-total">
-            <h3 class="title-form">Agregar nuevo medico</h3>
-            <x-form.medico :ruta="route('medico.store')" :crear="true" :especialidades="$especialidades" :nombre="old('nombre')" :apellido="old('apellido')"
-                :idNumber="old('idNumber')" :matricula="old('matricula')" :email="old('email')" :telefono="old('telefono')" :role="old('role')"
-                :isActive="old('isActive')" :especialidad="old('especialidad')" />
+    <div class="main full-center">
+        <div class="container-form full-center">
+            <h3 class="title-form">{{__('medical.section_title_add')}}</h3>
+            <x-form.medico :ruta="route('medico.store')" :crear="true" :specialties="$specialties" :name="old('name')" :surname="old('surname')"
+                :idNumber="old('idNumber')" :licenseNumber="old('licenseNumber')" :email="old('email')" :phone="old('phone')" :role="old('role')"
+                :status="old('status')" :specialty="old('specialty')" />
 
-            {{-- Formulario para crear una nueva especialidad --}}
-            <div class="form-especialidad" id="especialidad-form">
-                <x-form.especialidad :ruta="route('especialidad.store')" :crear="true" :nombre="old('nombre')" :descripcion="old('descripcion')" />
+            {{-- Formulario para crear una nueva specialty --}}
+            <div class="form-specialty" id="specialty-form">
+                <x-form.specialty :ruta="route('specialty.store')" :crear="true" :name="old('name')" :description="old('description')" />
             </div>
         </div>
 </x-app-layout>

@@ -55,14 +55,14 @@
 </head>
 
 <body>
-    <div class="main centrado-total">
+    <div class="main full-center">
         <div>
             <a href="/">
                 <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
             </a>
         </div>
 
-        <div class="container-form-register centrado-total">
+        <div class="container-form-register full-center">
             {{ $slot }}
         </div>
     </div>

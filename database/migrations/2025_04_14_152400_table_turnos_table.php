@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('turnos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->string('name');
             $table->string('direccion');
-            $table->foreignId('especialidad_id')->constrained('especialidades')->onDelete('cascade'); // OK
+            $table->foreignId('specialty_id')->constrained('specialties')->onDelete('cascade'); // OK
             $table->foreignId('medico_id')->constrained(Medico::TABLE)->onDelete('cascade'); // OK
             $table->string('turno')->nullable();
             $table->integer('cantidad_turnos');
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->time('hora_fin');
             $table->json('horarios_disponibles')->nullable();
             $table->json('fechas_disponibles');
-            $table->boolean('isActive')->default(true);
+            $table->boolean('status')->default(true);
             // Modificado: sin onDelete('cascade') para usuarios
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('user_id_update')->nullable()->constrained('users')->onDelete('set null');

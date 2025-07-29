@@ -48,7 +48,7 @@ class UsuarioController extends Controller
             'address' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'min:9', 'max:15', 'unique:' . User::class . ',phone,' . $id],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class . ',email,' . $id],
-            'isActive' => ['required', 'boolean'],
+            'status' => ['required', 'boolean'],
             'role' => ['required', 'string', 'in:admin,medico,user'],
         ]);
 
@@ -69,12 +69,12 @@ class UsuarioController extends Controller
             if ($user->hasRole('medico') && !$user->medico) {
                 $medico = Medico::create([
                     'user_id' => $user->id,
-                    'nombre' => $user->name,
-                    'apellido' => $user->surname,
+                    'name' => $user->name,
+                    'surname' => $user->surname,
                     'idNumber' => $user->idNumber,
                     'email' => $user->email,
-                    'telefono' => $user->phone,
-                    'isActive' => $user->isActive,
+                    'phone' => $user->phone,
+                    'status' => $user->status,
                     'role' => 'medico',
                 ]);
 

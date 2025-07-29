@@ -4,7 +4,7 @@
                 <form action="{{ route('reservas.index') }}" method="GET" class="mb-3">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control"
-                            placeholder="Buscar por nombre, apellido o DNI..." value="{{ request('search') }}">
+                            placeholder="Buscar por name, surname o DNI..." value="{{ request('search') }}">
                         <button type="submit" class="btn btn-default">
                             <i class="bi bi-search"></i> Buscar
                         </button>

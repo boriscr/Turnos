@@ -1,10 +1,10 @@
 <x-app-layout>
-    <div class="main-table centrado-total">
-        <div class="container-form centrado-total">
+    <div class="main-table full-center">
+        <div class="container-form full-center">
             <h3 class="title-form">Especialidades</h3>
-            <div class="opciones centrado-total">
+            <div class="opciones full-center">
                 <button class="btn-add">
-                    <a href="{{ route('especialidad.create') }}">Crear especialidad</a>
+                    <a href="{{ route('specialty.create') }}">Crear specialty</a>
                 </button>
             </div>
             <table>
@@ -19,22 +19,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($especialidades as $especialidades)
+                    @foreach ($specialties as $specialties)
                         <tr>
-                            <td>{{ $especialidades->id }}</td>
-                            <td>{{ $especialidades->nombre }}</td>
-                            <td>{{ $especialidades->descripcion ?? 'Sin datos' }}</td>
-                            <td> <a href="{{ route('lista.medicos', $especialidades->id) }}" class="btn btn-view"><i
+                            <td>{{ $specialties->id }}</td>
+                            <td>{{ $specialties->name }}</td>
+                            <td>{{ $specialties->description ?? 'Sin datos' }}</td>
+                            <td> <a href="{{ route('lista.medicos', $specialties->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i></a></td>
 
-                            <td class="option-movil">{{ $especialidades->isActive ? 'Activo' : 'Inactivo' }}</td>
-                            <td class="acciones centrado-total">
-                                <a href="{{ route('especialidad.show', $especialidades->id) }}" class="btn btn-view"><i
+                            <td class="option-movil">{{ $specialties->status ? 'Activo' : 'Inactivo' }}</td>
+                            <td class="acciones full-center">
+                                <a href="{{ route('specialty.show', $specialties->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i></a>
-                                <a href="{{ route('especialidad.edit', $especialidades->id) }}" class="btn btn-edit"><i
+                                <a href="{{ route('specialty.edit', $specialties->id) }}" class="btn btn-edit"><i
                                         class="bi bi-pencil-fill"></i></a>
 
-                                <form action="{{ route('especialidad.destroy', $especialidades->id) }}" method="POST"
+                                <form action="{{ route('specialty.destroy', $specialties->id) }}" method="POST"
                                     class="delete-form" style="display:inline;">
                                     @csrf
                                     @method('DELETE')

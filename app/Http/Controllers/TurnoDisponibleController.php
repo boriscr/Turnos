@@ -33,20 +33,20 @@ class TurnoDisponibleController extends Controller
                 $query->whereNull('asistencia');
             })
             ->count();
-        if ($user->isActive == 1 && $user->faults <= $turnos_faltas_maximas &&  $turnos_activos < $turnos_limite_diario && $turnos_limite_diario > 0) {
+        if ($user->status == 1 && $user->faults <= $turnos_faltas_maximas &&  $turnos_activos < $turnos_limite_diario && $turnos_limite_diario > 0) {
             $turnoDisponible = TurnoDisponible::all();
-            $turno = Turno::where('isActive', 1)->get();
-            $especialidades = Especialidad::where('isActive', 1)->get();
-            return view('reservas/create', compact('turnoDisponible', 'turno', 'especialidades'));
+            $turno = Turno::where('status', 1)->get();
+            $specialties = Especialidad::where('status', 1)->get();
+            return view('reservas/create', compact('turnoDisponible', 'turno', 'specialties'));
         } else {
-            if ($user->faults > $turnos_faltas_maximas && $user->isActive == 0 && $turnos_activos >= $turnos_limite_diario) {
+            if ($user->faults > $turnos_faltas_maximas && $user->status == 0 && $turnos_activos >= $turnos_limite_diario) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => '1. Has alcanzado el límite de faltas permitidas.<br>2. Su cuenta está inactiva.<br> Contacta al administrador.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
-            } elseif ($user->isActive == 0) {
+            } elseif ($user->status == 0) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => 'Su cuenta está inactiva.<br> Contacta al administrador.',
@@ -86,21 +86,21 @@ class TurnoDisponibleController extends Controller
     }
 
 
-    // 1. Obtener medicos por especialidad
-    public function getMedicosPorEspecialidad($especialidad_id)
+    // 1. Obtener medicos por specialty
+    public function getMedicosPorEspecialidad($specialty_id)
     {
-        $medicos = Medico::where('especialidad_id', $especialidad_id)
-            ->where('isActive', 1)
+        $medicos = Medico::where('specialty_id', $specialty_id)
+            ->where('status', 1)
             ->get();
 
         return response()->json(['medicos' => $medicos]);
     }
-    // 1. Obtener turnos por nombre
+    // 1. Obtener turnos por name
     public function getTurnosPorNombre($medico_id)
     {
         if ($medico_id) {
             $turnos = Turno::where('medico_id', $medico_id)
-                ->where('isActive', 1)
+                ->where('status', 1)
                 ->get();
 
             return response()->json(['turnos' => $turnos]);
@@ -195,7 +195,7 @@ class TurnoDisponibleController extends Controller
         $turnos_faltas_maximas = $settings['turnos.faltas_maximas'];
         $turnos_limite_diario = $settings['turnos.limite_diario'];
 
-        if ($turno && $user->faults <= $turnos_faltas_maximas && $user->isActive == 1 && $turnos_activos < $turnos_limite_diario) {
+        if ($turno && $user->faults <= $turnos_faltas_maximas && $user->status == 1 && $turnos_activos < $turnos_limite_diario) {
             // Verificar si hay cupos disponibles
             if ($turno->cupos_disponibles <= 0) {
                 session()->flash('error', [
@@ -242,14 +242,14 @@ class TurnoDisponibleController extends Controller
                 return redirect()->route('profile.historial');
             }
         } else {
-            if ($user->isActive == 1 && $user->faults <= $turnos_faltas_maximas &&  $turnos_activos >= $turnos_limite_diario && $turnos_limite_diario > 0) {
+            if ($user->status == 1 && $user->faults <= $turnos_faltas_maximas &&  $turnos_activos >= $turnos_limite_diario && $turnos_limite_diario > 0) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => '1. Has alcanzado el límite de faltas permitidas.<br>2. Su cuenta está inactiva.<br>3. Has alcanzado el límite de turnos activos permitidos.<br> Contacta al administrador.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
-            } elseif ($user->isActive == 0) {
+            } elseif ($user->status == 0) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => 'Su cuenta está inactiva.<br> Contacta al administrador.',

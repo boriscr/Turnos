@@ -25,18 +25,30 @@ class MedicoUpdateRequest extends FormRequest
 
     {
         // Obtener el ID del medico desde la ruta (ej: /medicos/{equip
-        $medico_id = $this->route('id'); // Asegúrate de que el nombre del parámetro en la ruta coincida
+        $medico_id = $this->route('id'); // Asegúrate de que el name del parámetro en la ruta coincida
 
         return [
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'idNumber' => 'required|digits_between:7,8|unique:medicos,idNumber,' . $medico_id,
-            'email' => 'required|email|unique:' . Medico::TABLE . ',email,' . $medico_id,
-            'telefono' => 'required|string|max:255',
-            'especialidad_id' => 'required|exists:especialidades,id',
-            'matricula' => 'required|string|max:255',
-            'role' => 'required|string|max:255',
-            'isActive' => 'sometimes|boolean',
+            'name' => 'required|string|min:3|max:40',
+            'surname' => 'required|string|min:3|max:15',
+            'idNumber' => 'required|string|min:7|max:8|unique:' . Medico::TABLE . ',idNumber,' . $medico_id,
+            'email' => 'required|email||min:3|max:60|unique:' . Medico::TABLE . ',email,' . $medico_id,
+            'phone' => 'required|string|min:5|max:15',
+            'specialty_id' => 'required|exists:specialties,id',
+            'licenseNumber' => 'required|string|min:3|max:60',
+            'role' => 'required|string|in:admin,doctor',
+            'status' => 'sometimes|boolean',
         ];
+    }
+    // Limpia los espacios antes de validar
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'name' => trim($this->name),
+            'surname' => trim($this->surname),
+            'idNumber' => trim($this->idNumber),
+            'email' => trim($this->email),
+            'phone' => trim($this->phone),
+            'licenseNumber' => trim($this->licenseNumber),
+        ]);
     }
 }

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="main centrado-total">
+    <div class="main full-center">
         <div class="box-presentacion">
             <h1>Turnos Online</h1>
             <h2>Bienvenido a la plataforma de gestión de turnos online</h2>
@@ -7,7 +7,7 @@
             <p>{{ config('app.mensaje_paciente') }}</p>
             @if (auth()->check())
                 @auth
-                    <div class="centrado-total">
+                    <div class="full-center">
                         <button type="button" class="primario-btn">
                             <a class="nav-link" href="{{ route('disponible.create') }}">Reservar Turno</a>
                         </button>

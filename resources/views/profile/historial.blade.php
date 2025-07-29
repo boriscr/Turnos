@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="main-table centrado-total">
-        <div class="container-form centrado-total">
+    <div class="main-table full-center">
+        <div class="container-form full-center">
             <h3 class="title-form">Historial</h3>
             <table>
                 <thead>
@@ -23,16 +23,16 @@
                         ?>
                         <tr>
                             <td>{{ $id }}</td>
-                            <td>{{ $reserva->turnoDisponible->medico->especialidad->nombre }}</td>
+                            <td>{{ $reserva->turnoDisponible->medico->specialty->name }}</td>
                             <td class="fecha-td">
                                 {{ \Carbon\Carbon::parse($reserva->turnoDisponible->fecha)->format('d/m/Y') }}</td>
                             <td>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</td>
                             <td
-                                class="{{ $reserva->turnoDisponible->turno->isActive === true ? ($reserva->asistencia === null ? 'btn-default' : ($reserva->asistencia == true ? 'btn-success' : 'btn-danger')) : 'btn-danger' }}">
+                                class="{{ $reserva->turnoDisponible->turno->status === true ? ($reserva->asistencia === null ? 'btn-default' : ($reserva->asistencia == true ? 'btn-success' : 'btn-danger')) : 'btn-danger' }}">
                                 <i
                                     class="bi {{ $reserva->asistencia === null ? 'bi-hourglass-split' : ($reserva->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill') }}">
                                 </i>
-                                {{ $reserva->turnoDisponible->turno->isActive === true ? ($reserva->asistencia === null ? 'Pendiente' : ($reserva->asistencia ? 'Asistió' : 'No asistió')) : 'Turno Inactivo' }}
+                                {{ $reserva->turnoDisponible->turno->status === true ? ($reserva->asistencia === null ? 'Pendiente' : ($reserva->asistencia ? 'Asistió' : 'No asistió')) : 'Turno Inactivo' }}
                             </td>
                             <td>
                                 <a href="{{ route('profile.show', $reserva->id) }}" class="btn btn-view">

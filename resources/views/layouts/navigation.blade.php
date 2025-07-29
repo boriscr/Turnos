@@ -62,7 +62,7 @@
                                         <i class="bi bi-person-fill-add"></i> <span>
                                             {{ __('navbar.add_doctor') }}</span>{{-- Agregar medicos --}}
                                     </x-dropdown-link>
-                                    <x-dropdown-link :href="route('especialidad.index')">
+                                    <x-dropdown-link :href="route('specialty.index')">
                                         <i class="bi bi-heart-pulse-fill"></i> <span>
                                             {{ __('navbar.specialties') }}</span>{{-- Especialidades --}}
                                     </x-dropdown-link>
@@ -214,7 +214,7 @@
                                     {{ __('navbar.add_doctor') }}</span>{{-- Agregar medicos --}}
                             </x-responsive-nav-link>
 
-                            <x-responsive-nav-link :href="route('especialidad.index')">
+                            <x-responsive-nav-link :href="route('specialty.index')">
                                 <i class="bi bi-heart-pulse-fill"></i> <span>
                                     {{ __('navbar.specialties') }}</span>{{-- Especialidades --}}
                             </x-responsive-nav-link>
