@@ -16,7 +16,7 @@
         :value="$description" />
 
     <div class="item">
-        <x-input-label for="status" :value="__('medical.role')" :required="true" />
+        <x-input-label for="status" :value="__('medical.status')" :required="true" />
         <select name="status" id="status" required>
             <option value="1"{{ isset($edit) ? '' : 'selected' }}
                 {{ isset($status) && $status == 1 ? 'selected' : '' }}>{{ __('medical.active') }}</option>
@@ -32,8 +32,8 @@
         {{ __('medical.register') }}
     </x-primary-button>
     @if (isset($crear))
-        <x-primary-button id="close-btn" style="background: red; color: #fff;">
+        <x-secondary-button id="close-btn" style="background: red; color: #fff;">
             {{ __('medical.cancel') }}
-        </x-primary-button>
+        </x-secondary-button>
     @endif
 </form>

@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\UsuarioController;
-use App\Http\Controllers\EspecialidadController;
+use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\TurnoDisponibleController;
 use App\Http\Controllers\ReservaController;
@@ -64,14 +64,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/medicos/{id}', [MedicoController::class, 'update'])->name('medico.update');
     Route::delete('/medicos/{id}/destroy', [MedicoController::class, 'destroy'])->name('medico.destroy');
     //Control de specialties
-    Route::get('/specialty', [EspecialidadController::class, 'index'])->name('specialty.index');
-    Route::get('/specialty/create', [EspecialidadController::class, 'create'])->name('specialty.create');
-    Route::post('/specialty', [EspecialidadController::class, 'store'])->name('specialty.store');
-    Route::get('/specialty/{id}/show', [EspecialidadController::class, 'show'])->name('specialty.show');
-    Route::get('/specialty/{id}/edit', [EspecialidadController::class, 'edit'])->name('specialty.edit');
-    Route::put('/specialty/{id}', [EspecialidadController::class, 'update'])->name('specialty.update');
-    Route::delete('/specialty/{id}', [EspecialidadController::class, 'destroy'])->name('specialty.destroy');
-    Route::get('/specialty/{id}/medicos', [EspecialidadController::class, 'listaEquipo'])->name('lista.medicos');
+    Route::get('/specialty', [SpecialtyController::class, 'index'])->name('specialty.index');
+    Route::get('/specialty/create', [SpecialtyController::class, 'create'])->name('specialty.create');
+    Route::post('/specialty', [SpecialtyController::class, 'store'])->name('specialty.store');
+    Route::get('/specialty/{id}/show', [SpecialtyController::class, 'show'])->name('specialty.show');
+    Route::get('/specialty/{id}/edit', [SpecialtyController::class, 'edit'])->name('specialty.edit');
+    Route::put('/specialty/{id}', [SpecialtyController::class, 'update'])->name('specialty.update');
+    Route::delete('/specialty/{id}', [SpecialtyController::class, 'destroy'])->name('specialty.destroy');
+    Route::get('/specialty/{id}/medicos', [SpecialtyController::class, 'listaEquipo'])->name('lista.medicos');
 
     //Turnos
     Route::get('/turnos', [TurnoController::class, 'index'])->name('turnos.index');
