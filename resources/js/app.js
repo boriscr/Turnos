@@ -2,7 +2,7 @@ import '../js/pages/register/register-validate.js';
 
 
 //pages***********************
-import '../js/pages/medicos/specialty.js';
+import '../js/pages/doctors/specialty.js';
 import '../js/pages/profiles/anular-btn.js';
 
 import '../js/pages/reservas/index/validar-fechas.js';

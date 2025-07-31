@@ -15,23 +15,19 @@
         placeholder="{{ __('specialty.description_placeholder') }}" minlength="5" maxlength="500" required
         :value="$description" />
 
-    <div class="item">
-        <x-input-label for="status" :value="__('medical.status')" :required="true" />
-        <select name="status" id="status" required>
-            <option value="1"{{ isset($edit) ? '' : 'selected' }}
-                {{ isset($status) && $status == 1 ? 'selected' : '' }}>{{ __('medical.active') }}</option>
-            <option value="0" {{ isset($status) && $status == 0 ? 'selected' : '' }}>{{ __('medical.inactive') }}
-            </option>
-        </select>
-        <x-input-error :messages="$errors->get('status')" class="mt-2" />
-    </div>
+    <x-form.select name="status" :label="__('medical.status')" :required="true">
+        <option value="1"{{ isset($edit) ? '' : 'selected' }}
+            {{ isset($status) && $status == 1 ? 'selected' : '' }}>{{ __('medical.active') }}</option>
+        <option value="0" {{ isset($status) && $status == 0 ? 'selected' : '' }}>{{ __('medical.inactive') }}
+        </option>
+    </x-form.select>
     <br>
     <hr>
     <br>
     <x-primary-button>
         {{ __('medical.register') }}
     </x-primary-button>
-    @if (isset($crear))
+    @if (isset($crear) || isset($nuevoMedico))
         <x-secondary-button id="close-btn" style="background: red; color: #fff;">
             {{ __('medical.cancel') }}
         </x-secondary-button>

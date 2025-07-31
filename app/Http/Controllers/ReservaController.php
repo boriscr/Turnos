@@ -20,7 +20,7 @@ class ReservaController extends Controller
 
         $hoy = now()->format('Y-m-d');
 
-        $reservas = Reserva::with(['user', 'turnoDisponible.medico'])
+        $reservas = Reserva::with(['user', 'turnoDisponible.doctor'])
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->whereHas('user', function ($userQuery) use ($search) {
@@ -28,7 +28,7 @@ class ReservaController extends Controller
                             ->orWhere('surname', 'like', "%$search%")
                             ->orWhere('idNumber', 'like', "%$search%");
                     })
-                        ->orWhereHas('turnoDisponible.medico', function ($equipoQuery) use ($search) {
+                        ->orWhereHas('turnoDisponible.doctor', function ($equipoQuery) use ($search) {
                             $equipoQuery->where('name', 'like', "%$search%")
                                 ->orWhere('surname', 'like', "%$search%")
                                 ->orWhere('idNumber', 'like', "%$search%");
@@ -147,7 +147,7 @@ class ReservaController extends Controller
 
     public function show($id)
     {
-        $reserva = Reserva::with(['user', 'turnoDisponible.medico'])->findOrFail($id);
+        $reserva = Reserva::with(['user', 'turnoDisponible.doctor'])->findOrFail($id);
         return view('reservas.show', compact('reserva'));
     }
 }

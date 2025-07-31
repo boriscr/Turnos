@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Medico;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 use App\Models\TurnoDisponible;
 use App\Models\Turno;
-use App\Models\Especialidad;
+use App\Models\Specialty;
 use App\Models\Reserva;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +36,7 @@ class TurnoDisponibleController extends Controller
         if ($user->status == 1 && $user->faults <= $turnos_faltas_maximas &&  $turnos_activos < $turnos_limite_diario && $turnos_limite_diario > 0) {
             $turnoDisponible = TurnoDisponible::all();
             $turno = Turno::where('status', 1)->get();
-            $specialties = Especialidad::where('status', 1)->get();
+            $specialties = Specialty::where('status', 1)->get();
             return view('reservas/create', compact('turnoDisponible', 'turno', 'specialties'));
         } else {
             if ($user->faults > $turnos_faltas_maximas && $user->status == 0 && $turnos_activos >= $turnos_limite_diario) {
@@ -86,20 +86,20 @@ class TurnoDisponibleController extends Controller
     }
 
 
-    // 1. Obtener medicos por specialty
-    public function getMedicosPorEspecialidad($specialty_id)
+    // 1. Obtener doctors por specialty
+    public function getDoctorsBySpecialty($specialty_id)
     {
-        $medicos = Medico::where('specialty_id', $specialty_id)
+        $doctors = Doctor::where('specialty_id', $specialty_id)
             ->where('status', 1)
             ->get();
 
-        return response()->json(['medicos' => $medicos]);
+        return response()->json(['doctors' => $doctors]);
     }
     // 1. Obtener turnos por name
-    public function getTurnosPorNombre($medico_id)
+    public function getTurnosPorNombre($doctor_id)
     {
-        if ($medico_id) {
-            $turnos = Turno::where('medico_id', $medico_id)
+        if ($doctor_id) {
+            $turnos = Turno::where('doctor_id', $doctor_id)
                 ->where('status', 1)
                 ->get();
 
@@ -108,7 +108,7 @@ class TurnoDisponibleController extends Controller
             return response()->json([]);
         }
     }
-    // 2. Obtener turnos por medico (filtrado por fecha/hora)
+    // 2. Obtener turnos por doctor (filtrado por fecha/hora)
     //Filtrado por fecha y hora configurado en settings
     // Devuelve los turnos disponibles para un médico específico, filtrando por fecha y hora
     // y aplicando la configuración de previsualización de turnos.
@@ -184,13 +184,13 @@ class TurnoDisponibleController extends Controller
     {
         $turno = TurnoDisponible::find($request->turno_id);
         $user = Auth::user();
-        //Contar cuantos turnos se ha reservado el usuario
+        //Contar cuantos turnos se ha reservado el user
         $turnos_activos = Reserva::where('user_id', $user->id)
             ->whereHas('turnoDisponible', function ($query) {
                 $query->whereNull('asistencia');
             })
             ->count();
-        // Verificar si el usuario tiene permisos para reservar turnos
+        // Verificar si el user tiene permisos para reservar turnos
         $settings = Setting::where('group', 'turnos')->pluck('value', 'key');
         $turnos_faltas_maximas = $settings['turnos.faltas_maximas'];
         $turnos_limite_diario = $settings['turnos.limite_diario'];
@@ -222,11 +222,11 @@ class TurnoDisponibleController extends Controller
                 $turno->cupos_disponibles -= 1;
                 $turno->cupos_reservados += 1;
                 $turno->save();
-                //guardar los datos del usuario que reserva el turno
+                //guardar los datos del user que reserva el turno
                 $reserva = new Reserva();
                 if (Auth::check()) {
                     // Asigna los valores correctamente
-                    $reserva->user_id = auth::id(); // ID del usuario autenticado
+                    $reserva->user_id = auth::id(); // ID del user autenticado
                     $reserva->turno_disponible_id = $turno->id;
                     $reserva->save();
                 } else {
@@ -383,7 +383,7 @@ class TurnoDisponibleController extends Controller
 
                 DB::commit();
 
-                if ($user->hasRole('medico') || $user->hasRole('admin')) {
+                if ($user->hasRole('doctor') || $user->hasRole('admin')) {
                     session()->flash('success', [
                         'title' => 'Reserva eliminada',
                         'text' => 'La reserva ha sido cancelada y los cupos se han actualizado correctamente.',

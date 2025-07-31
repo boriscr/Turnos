@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Especialidad;
+use App\Models\Specialty;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SpecialtyUpdateRequest extends FormRequest

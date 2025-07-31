@@ -50,7 +50,7 @@
                     <h3>Usuarios</h3>
                     <div class="item">
                         <label for="faltas">Faltas</label>
-                        <small>Cantidad de faltas que un usuario puede tener antes de ser bloqueado.</small>
+                        <small>Cantidad de faltas que un user puede tener antes de ser bloqueado.</small>
                         <input type="number" name="turnos[faltas_maximas]" id="faltas"
                             value="{{ $settings['turnos.faltas_maximas'] }}" required>
                         @error('turnos.faltas_maximas')
@@ -59,7 +59,7 @@
                     </div>
                     <div class="item">
                         <label for="faltas">Limites de turnos</label>
-                        <small>Cantidad de turnos que un usuario puede reservar en un día.</small>
+                        <small>Cantidad de turnos que un user puede reservar en un día.</small>
                         <input type="number" name="turnos[limite_diario]" id="limites"
                             value="{{ $settings['turnos.limite_diario'] }}" required>
                         @error('turnos.limite_diario')
@@ -77,7 +77,7 @@
                     </div>
                     <div class="item">
                         <label for="antelacion_reserva">Anticipación para reservar</label>
-                        <small>¿Desde cuántas horas/días antes los usuarios pueden ver los turnos?(por ejemplo:
+                        <small>¿Desde cuántas horas/días antes los users pueden ver los turnos?(por ejemplo:
                             24)</small>
                         <input type="number" name="turnos[antelacion_reserva]" id="preview_window_amount"
                             value="{{ $settings['turnos.antelacion_reserva'] }}" min="1" required>
@@ -89,7 +89,7 @@
                     <div class="box-style">
                         <label for="unidad_antelacion">Elegí la unidad de tiempo: Horas, Días, o Meses</label>
                         <small>
-                            *Ejemplo: si configuras “3 días”, el usuario podrá ver los turnos hasta 3 días antes
+                            *Ejemplo: si configuras “3 días”, el user podrá ver los turnos hasta 3 días antes
                             de
                             que ocurran.
                         </small>

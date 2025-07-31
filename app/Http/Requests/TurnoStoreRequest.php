@@ -25,7 +25,7 @@ class TurnoStoreRequest extends FormRequest
             'name' => 'required|string|max:255',
             'direccion' => 'required|string',
             'specialty_id' => 'required|exists:specialties,id',
-            'medico_id' => 'required|exists:medicos,id',
+            'doctor_id' => 'required|exists:doctors,id',
             'cantidad' => 'required|integer|min:1',
             'hora_inicio' => 'required',
             'hora_fin' => 'required',

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Medico;
+use App\Models\Doctor;
 return new class extends Migration
 {
     /**
@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('direccion');
             $table->foreignId('specialty_id')->constrained('specialties')->onDelete('cascade'); // OK
-            $table->foreignId('medico_id')->constrained(Medico::TABLE)->onDelete('cascade'); // OK
+            $table->foreignId('doctor_id')->constrained(Doctor::TABLE)->onDelete('cascade'); // OK
             $table->string('turno')->nullable();
             $table->integer('cantidad_turnos');
             $table->time('hora_inicio');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->json('horarios_disponibles')->nullable();
             $table->json('fechas_disponibles');
             $table->boolean('status')->default(true);
-            // Modificado: sin onDelete('cascade') para usuarios
+            // Modificado: sin onDelete('cascade') para users
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('user_id_update')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();

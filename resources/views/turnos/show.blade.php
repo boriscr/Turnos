@@ -6,9 +6,9 @@
             <div class="card">
                 <p><b>Nombre:</b> {{ $turno->name }}</p>
                 <p><b>Direccion:</b> {{ $turno->direccion }}</p>
-                <p><b>Especialidad:</b> {{ $turno->specialty->name }}</p>
-                <p><b>Encargado/a:</b> {{ $turno->medico->name . ' ' . $turno->medico->surname }} <a
-                        href="{{ route('medico.create', $turno->medico->id) }}"><i class="bi bi-eye"></i></a></p>
+                <p><b>Specialty:</b> {{ $turno->specialty->name }}</p>
+                <p><b>Encargado/a:</b> {{ $turno->doctor->name . ' ' . $turno->doctor->surname }} <a
+                        href="{{ route('doctor.create', $turno->doctor->id) }}"><i class="bi bi-eye"></i></a></p>
                 <p><b>Turno:</b> {{ $turno->turno }}</p>
                 <p><b>Cantidad de turnos:</b> {{ $turno->cantidad_turnos }} </p>
                 <p><b>Hora de inicio:</b> {{ \Carbon\Carbon::parse($turno->hora_inicio)->format('H:i') }}</p>
@@ -40,5 +40,5 @@
             </form>
         </div>
         <br>
-        <a href="{{ route('disponible.index', $turno->medico_id) }}">Ver turnos disponibles</a>
+        <a href="{{ route('disponible.index', $turno->doctor_id) }}">Ver turnos disponibles</a>
 </x-app-layout>

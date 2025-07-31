@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Reserva;
-
 class ProfileController extends Controller
 {
     public function index()
@@ -24,26 +23,6 @@ class ProfileController extends Controller
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
-    }
-
-    public function updateAdmin(Request $request)
-    {
-        // Validate and update the user's profile here
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
-            'idNumber' => ['required', 'integer', 'digits_between:7,8'],
-            'birthdate' => ['required', 'date'],
-            'gender' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,otro,Prefiero no decir'],
-            'country' => ['required', 'string', 'max:255'],
-            'province' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:15'],
-            // Add other fields as necessary
-        ]);
-
-        return redirect()->route('profile.index')->with('success', 'Perfil actualizado correctamente.');
     }
 
 public function historial()
@@ -65,7 +44,7 @@ public function historial()
 
     public function show($id)
     {
-        $reserva = Reserva::findOrfail($id); // Obtiene el usuario autenticado
+        $reserva = Reserva::findOrfail($id); // Obtiene el user autenticado
         if (!$reserva) {
             return redirect()->route('profile.historial')->with('error', 'Reserva no encontrada.');
         }

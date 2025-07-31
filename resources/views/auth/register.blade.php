@@ -39,7 +39,7 @@
             <div class="mt-4">
                 {{-- idNumber --}}
                 <x-input-label for="idNumber" :value="__('contact.idNumber')" />
-                <x-text-input id="idNumber" name="idNumber" type="text" pattern="[a-zA-Z0-9]{7,8}" maxlength="10"
+                <x-text-input id="idNumber" name="idNumber" type="text" pattern="[a-zA-Z0-9]{7,8}" minlength="7" maxlength="8"
                     autocomplete="off" required class="block mt-1 w-full" />
                 <x-input-error :messages="$errors->get('idNumber')" class="mt-2" />
             </div>

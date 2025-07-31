@@ -47,24 +47,24 @@
 
                                     <!-- Sección Usuarios -->
                                     <div class="subtitulo">{{ __('navbar.manage_users') }}</div>{{-- Gestionar Usuarios --}}
-                                    <x-dropdown-link :href="route('usuario.index')">
+                                    <x-dropdown-link :href="route('user.index')">
                                         <i class="bi bi-eye"></i> <span> {{ __('navbar.view_users') }}</span>
-                                        {{-- Ver usuarios --}}
+                                        {{-- Ver users --}}
                                     </x-dropdown-link>
 
-                                    <!-- Sección Medicos -->
-                                    <div class="subtitulo">{{ __('navbar.manage_doctors') }}</div>{{-- Gestionar Medicos --}}
-                                    <x-dropdown-link :href="route('medico.index')">
+                                    <!-- Sección Doctors -->
+                                    <div class="subtitulo">{{ __('navbar.manage_doctors') }}</div>{{-- Gestionar Doctors --}}
+                                    <x-dropdown-link :href="route('doctor.index')">
                                         <i class="bi bi-eye"></i><span> {{ __('navbar.view_doctors') }}</span>
-                                        {{-- Ver medicos --}}
+                                        {{-- Ver doctors --}}
                                     </x-dropdown-link>
-                                    <x-dropdown-link :href="route('medico.create')">
+                                    <x-dropdown-link :href="route('doctor.create')">
                                         <i class="bi bi-person-fill-add"></i> <span>
-                                            {{ __('navbar.add_doctor') }}</span>{{-- Agregar medicos --}}
+                                            {{ __('navbar.add_doctor') }}</span>{{-- Agregar doctors --}}
                                     </x-dropdown-link>
                                     <x-dropdown-link :href="route('specialty.index')">
                                         <i class="bi bi-heart-pulse-fill"></i> <span>
-                                            {{ __('navbar.specialties') }}</span>{{-- Especialidades --}}
+                                            {{ __('navbar.specialties') }}</span>{{-- Specialties --}}
                                     </x-dropdown-link>
 
                                     <!-- Sección Turnos -->
@@ -198,25 +198,25 @@
                         <div class="menu pt-2 pb-2 space-y-1">
                             <!-- Sección Usuarios -->
                             <div class="subtitulo">{{ __('navbar.manage_users') }}</div>{{-- Gestionar Usuarios --}}
-                            <x-responsive-nav-link :href="route('usuario.index')">
+                            <x-responsive-nav-link :href="route('user.index')">
                                 <i class="bi bi-eye"></i> <span> {{ __('navbar.view_users') }}</span>
-                                {{-- Ver usuarios --}}
+                                {{-- Ver users --}}
                             </x-responsive-nav-link>
 
-                            <!-- Sección Medico -->
-                            <div class="subtitulo">{{ __('navbar.manage_doctors') }}</div>{{-- Gestionar Medicos --}}
-                            <x-responsive-nav-link :href="route('medico.index')">
+                            <!-- Sección Doctor -->
+                            <div class="subtitulo">{{ __('navbar.manage_doctors') }}</div>{{-- Gestionar Doctors --}}
+                            <x-responsive-nav-link :href="route('doctor.index')">
                                 <i class="bi bi-eye"></i><span> {{ __('navbar.view_doctors') }}</span>
-                                {{-- Ver medicos --}}
+                                {{-- Ver doctors --}}
                             </x-responsive-nav-link>
-                            <x-responsive-nav-link :href="route('medico.create')">
+                            <x-responsive-nav-link :href="route('doctor.create')">
                                 <i class="bi bi-person-fill-add"></i> <span>
-                                    {{ __('navbar.add_doctor') }}</span>{{-- Agregar medicos --}}
+                                    {{ __('navbar.add_doctor') }}</span>{{-- Agregar doctors --}}
                             </x-responsive-nav-link>
 
                             <x-responsive-nav-link :href="route('specialty.index')">
                                 <i class="bi bi-heart-pulse-fill"></i> <span>
-                                    {{ __('navbar.specialties') }}</span>{{-- Especialidades --}}
+                                    {{ __('navbar.specialties') }}</span>{{-- Specialties --}}
                             </x-responsive-nav-link>
 
                             <!-- Sección Turnos -->

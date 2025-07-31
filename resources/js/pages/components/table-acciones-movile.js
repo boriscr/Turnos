@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
           var editarLink = row.querySelector('.acciones a:nth-child(2)').outerHTML;
         } else if (window.location.pathname.includes('/reservas')) {
           var elemento = 'td:nth-child(5) a'
-        } else if (window.location.pathname.includes('/usuario')) {
+        } else if (window.location.pathname.includes('/user')) {
           var elemento = 'td:nth-child(2)'
           var editarLink = row.querySelector('.acciones a:nth-child(2)').outerHTML;
-        } else if (window.location.pathname.includes('/medicos')) {
+        } else if (window.location.pathname.includes('/doctors')) {
           var elemento = 'td:nth-child(2)'
           var editarLink = row.querySelector('.acciones a:nth-child(2)').outerHTML;
         }

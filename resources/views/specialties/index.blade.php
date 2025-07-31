@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Especialidades</h3>
+            <h3 class="title-form">Specialties</h3>
             <div class="opciones full-center">
                 <button class="btn-add">
                     <a href="{{ route('specialty.create') }}">Crear specialty</a>
@@ -13,7 +13,7 @@
                         <th>Id</th>
                         <th>Nombre</th>
                         <th>Descripcion</th>
-                        <th>Medico</th>
+                        <th>Doctor</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -24,7 +24,7 @@
                             <td>{{ $specialties->id }}</td>
                             <td>{{ $specialties->name }}</td>
                             <td>{{ $specialties->description ?? 'Sin datos' }}</td>
-                            <td> <a href="{{ route('lista.medicos', $specialties->id) }}" class="btn btn-view"><i
+                            <td> <a href="{{ route('lista.doctors', $specialties->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i></a></td>
 
                             <td class="option-movil">{{ $specialties->status ? 'Activo' : 'Inactivo' }}</td>

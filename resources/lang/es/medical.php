@@ -9,6 +9,7 @@ return [
     'role' => 'Rol',
     'admin' => 'Admin',
     'doctor' => 'Doctor',
+    'user' => 'Usuario',
     'status' => 'Estado',
     'active' => 'Activo',
     'inactive' => 'Inactivo',

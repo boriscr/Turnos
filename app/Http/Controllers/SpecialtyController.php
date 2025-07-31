@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Especialidad;
+use App\Models\Specialty;
 use App\Http\Requests\SpecialtyStoreRequest;
 use App\Http\Requests\SpecialtyUpdateRequest;
 use Exception;
@@ -12,7 +12,7 @@ class SpecialtyController extends Controller
 {
     public function index()
     {
-        $specialties = Especialidad::all();
+        $specialties = Specialty::all();
         return view('specialties/index', compact('specialties'));
     }
     public function create()
@@ -22,7 +22,7 @@ class SpecialtyController extends Controller
     public function store(SpecialtyStoreRequest $request)
     {
         try {
-            Especialidad::create($request->validated());
+            Specialty::create($request->validated());
 
             session()->flash('success', [
                 'title' => 'Creado!',
@@ -39,35 +39,35 @@ class SpecialtyController extends Controller
     public function show($id)
     {
         try {
-            $specialty = Especialidad::findOrFail($id);
+            $specialty = Specialty::findOrFail($id);
             return view('specialties/show', compact('specialty'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
+            return redirect()->route('specialty.index')->withErrors('Specialty no encontrada.');
         }
     }
     public function edit($id)
     {
         try {
-            $specialty = Especialidad::findOrFail($id);
+            $specialty = Specialty::findOrFail($id);
             return view('specialties/edit', compact('specialty'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
+            return redirect()->route('specialty.index')->withErrors('Specialty no encontrada.');
         }
     }
 
     public function update(SpecialtyUpdateRequest $request, $id)
     {
         try {
-            $specialty = Especialidad::findOrFail($id);
+            $specialty = Specialty::findOrFail($id);
             $specialty->update($request->validated());
 
             session()->flash('success', [
                 'title' => 'Actualizado!',
-                'text' => 'Especialidad actualizada con éxito.',
+                'text' => 'Specialty actualizada con éxito.',
                 'icon' => 'success',
             ]);
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
+            return redirect()->route('specialty.index')->withErrors('Specialty no encontrada.');
         } catch (Exception $e) {
             return back()->withErrors('Error al actualizar la specialty: ' . $e->getMessage());
         }
@@ -79,10 +79,10 @@ class SpecialtyController extends Controller
     public function destroy($id)
     {
         try {
-            $specialty = Especialidad::findOrFail($id);
+            $specialty = Specialty::findOrFail($id);
 
-            // Evitar eliminar si tiene medicos asociados
-            if ($specialty->medicos()->exists()) {
+            // Evitar eliminar si tiene doctors asociados
+            if ($specialty->doctors()->exists()) {
                 session()->flash('error', [
                     'title' => 'Error!',
                     'text' => 'No se puede eliminar una specialty con médicos asociados.',
@@ -96,11 +96,11 @@ class SpecialtyController extends Controller
 
             session()->flash('success', [
                 'title' => 'Eliminado!',
-                'text' => 'Especialidad eliminada con éxito.',
+                'text' => 'Specialty eliminada con éxito.',
                 'icon' => 'success',
             ]);
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
+            return redirect()->route('specialty.index')->withErrors('Specialty no encontrada.');
         } catch (Exception $e) {
             return back()->withErrors('Error al eliminar la specialty: ' . $e->getMessage());
         }

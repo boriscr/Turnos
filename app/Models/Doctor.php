@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Medico extends Model
+class Doctor extends Model
 {
-        // Definimos constante para name de tabla
-    public const TABLE = 'medicos';
-    protected $table = 'medicos';
+    // Definimos constante para name de tabla
+    public const TABLE = 'doctors';
+    protected $table = 'doctors';
     protected $fillable = [
         'user_id',
         'name',
@@ -33,7 +33,7 @@ class Medico extends Model
     }
     public function specialty()
     {
-        return $this->belongsTo(Especialidad::class);
+        return $this->belongsTo(Specialty::class);
     }
 
     public function reservas()

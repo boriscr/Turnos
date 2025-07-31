@@ -8,7 +8,7 @@
                         <th>Id</th>
                         <th>Nombre</th>
                         <th class="option-movil">Direccion</th>
-                        <th class="option-movil">Especialidad</th>
+                        <th class="option-movil">Specialty</th>
                         <th>Encargado</th>
                         <th class="option-movil">Turno</th>
                         <th>Estado</th>
@@ -22,7 +22,7 @@
                             <td>{{ $turno->name }}</td>
                             <td class="option-movil">{{ $turno->direccion }}</td>
                             <td class="option-movil">{{ $turno->specialty->name }}</td>
-                            <td>{{ $turno->medico->name . ' ' . $turno->medico->surname }}</td>
+                            <td>{{ $turno->doctor->name . ' ' . $turno->doctor->surname }}</td>
                             <td class="option-movil">{{ $turno->turno }}</td>
                             <td>{{ $turno->status ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones full-center">

@@ -34,7 +34,7 @@
                         </div>
 
                         <div class="item">
-                            <label for="specialty_id">Especialidad</label>
+                            <label for="specialty_id">Specialty</label>
                             <select name="specialty_id" id="specialty_id" required>
                                 @foreach ($specialties as $specialty)
                                     <option value="{{ $specialty->id }}"
@@ -50,17 +50,17 @@
                         </div>
 
                         <div class="item">
-                            <label for="medico_id">Medico</label>
-                            <select name="medico_id" id="medico_id" required>
-                                @if ($medico_id)
-                                    <option value="{{ $medico_id }}" selected>
+                            <label for="doctor_id">Doctor</label>
+                            <select name="doctor_id" id="doctor_id" required>
+                                @if ($doctor_id)
+                                    <option value="{{ $doctor_id }}" selected>
                                         {{ $medico_nombre }}
                                     </option>
                                 @else
-                                    <option value="">Seleccione un medico</option>
+                                    <option value="">Seleccione un doctor</option>
                                 @endif
                             </select>
-                            @error('medico_id')
+                            @error('doctor_id')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>

@@ -10,7 +10,7 @@
             @endif
             </H1>
 
-            <!-- Para nuevos usuarios -->
+            <!-- Para nuevos users -->
             @if (Auth::user()->is_new_user)
                 <div class="welcome-guide">
                     <h2>¡Bienvenido a nuestro sistema de turnos online!</h2>

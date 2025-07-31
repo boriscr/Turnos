@@ -2,31 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Medico;
-use App\Models\Especialidad;
+use App\Models\Doctor;
+use App\Models\Specialty;
 use Illuminate\Support\Facades\Log;
-use App\Http\Requests\MedicoStoreRequest;
-use App\Http\Requests\MedicoUpdateRequest;
+use App\Http\Requests\DoctorStoreRequest;
+use App\Http\Requests\DoctorUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class MedicoController extends Controller
+class DoctorController extends Controller
 {
     public function index()
     {
-        $medicos = Medico::all();
-        return view('medicos.index', compact('medicos'));
+        $doctors = Doctor::all();
+        return view('doctors.index', compact('doctors'));
     }
 
     public function create()
     {
-        $specialties = Especialidad::all();
-        return view('medicos.create', compact('specialties'));
+        $specialties = Specialty::all();
+        return view('doctors.create', compact('specialties'));
     }
 
-    public function store(MedicoStoreRequest $request)
+    public function store(DoctorStoreRequest $request)
     {
         try {
-            Medico::create($request->validated());
+            Doctor::create($request->validated());
 
             session()->flash('success', [
                 'title' => 'Creado!',
@@ -43,15 +43,15 @@ class MedicoController extends Controller
             ]);
         }
 
-        return redirect()->route('medico.index');
+        return redirect()->route('doctor.index');
     }
 
     //ok
     public function show($id)
     {
         try {
-            $medico = Medico::findOrFail($id);
-            return view('medicos.show', compact('medico'));
+            $doctor = Doctor::findOrFail($id);
+            return view('doctors.show', compact('doctor'));
         } catch (ModelNotFoundException $e) {
             Log::error('Médico no encontrado', ['id' => $id]);
 
@@ -70,9 +70,9 @@ class MedicoController extends Controller
     public function edit($id)
     {
         try {
-            $medicos = Medico::findOrFail($id);
-            $specialties = Especialidad::all();
-            return view('medicos.edit', compact('medicos', 'specialties'));
+            $doctors = Doctor::findOrFail($id);
+            $specialties = Specialty::all();
+            return view('doctors.edit', compact('doctors', 'specialties'));
         } catch (ModelNotFoundException $e) {
             Log::error('Médico no encontrado', ['id' => $id]);
 
@@ -88,11 +88,11 @@ class MedicoController extends Controller
         }
     }
 
-    public function update(MedicoUpdateRequest $request, $id)
+    public function update(DoctorUpdateRequest $request, $id)
     {
         try {
-            $medico = Medico::findOrFail($id);
-            $medico->update($request->validated());
+            $doctor = Doctor::findOrFail($id);
+            $doctor->update($request->validated());
 
             session()->flash('success', [
                 'title' => 'Actualizado!',
@@ -100,7 +100,7 @@ class MedicoController extends Controller
                 'icon'  => 'success',
             ]);
         } catch (ModelNotFoundException $e) {
-            Log::error('Medico no encontrado', ['id' => $id]);
+            Log::error('Doctor no encontrado', ['id' => $id]);
 
             session()->flash('error', [
                 'title' => 'Error!',
@@ -117,21 +117,21 @@ class MedicoController extends Controller
             ]);
         }
 
-        return redirect()->route('medico.index');
+        return redirect()->route('doctor.index');
     }
 
     public function destroy($id)
     {
         try {
-            $medico = Medico::findOrFail($id);
-            $medico->delete();
+            $doctor = Doctor::findOrFail($id);
+            $doctor->delete();
             session()->flash('success', [
                 'title' => 'Eliminado!',
                 'text'  => 'Médico eliminado con éxito.',
                 'icon'  => 'success',
             ]);
             Log::info('Médico eliminado', ['id' => $id]);
-            return redirect()->route('medico.index');
+            return redirect()->route('doctor.index');
         } catch (ModelNotFoundException $e) {
             Log::error('Médico no encontrado', ['id' => $id]);
             session()->flash('error', [
@@ -139,15 +139,15 @@ class MedicoController extends Controller
                 'text'  => 'Médico no encontrado.',
                 'icon'  => 'error',
             ]);
-            return redirect()->route('medico.index');
+            return redirect()->route('doctor.index');
         } catch (\Exception $e) {
-            Log::error('Error al eliminar medico', ['id' => $id, 'error' => $e->getMessage()]);
+            Log::error('Error al eliminar doctor', ['id' => $id, 'error' => $e->getMessage()]);
             session()->flash('error', [
                 'title' => 'Error!',
                 'text'  => 'Ocurrió un error al eliminar el médico.',
                 'icon'  => 'error',
             ]);
-            return redirect()->route('medico.index');
+            return redirect()->route('doctor.index');
         }
     }
 }

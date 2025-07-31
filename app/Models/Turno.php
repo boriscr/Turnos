@@ -13,7 +13,7 @@ class Turno extends Model
         'name',
         'direccion',
         'specialty_id',
-        'medico_id',
+        'doctor_id',
         'turno',
         'hora_inicio',
         'hora_fin',
@@ -23,7 +23,7 @@ class Turno extends Model
         'horarios_disponibles',
         'status'
     ];
-    
+
     protected $casts = [
         'fechas_disponibles' => 'array',
         'horarios_disponibles' => 'array',
@@ -34,13 +34,14 @@ class Turno extends Model
 
     public function specialty()
     {
-        return $this->belongsTo(Especialidad::class);
+        return $this->belongsTo(Specialty::class);
     }
 
-    public function medico()
+    public function doctor()
     {
-        return $this->belongsTo(Medico::class);
+        return $this->belongsTo(Doctor::class, 'doctor_id');
     }
+
 
     public function disponibilidades()
     {

@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
+use App\Http\Requests\RegisteredStoreRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+
     /**
      * Display the registration view.
      */
@@ -28,68 +35,38 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(RegisteredStoreRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
-            'idNumber' => ['required', 'string', 'min:7', 'max:8', 'unique:' . User::class],
-            'birthdate' => ['required', 'date'],
-            'gender' => ['required', 'string', 'max:255', 'in:Masculino,Femenino,No binario,Otro,Prefiero no decir'],
-            'country' => ['required', 'string', 'max:255'],
-            'province' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string','min:9', 'max:15', 'unique:' . User::class],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
-            'password' => [
-                'required',
-                'confirmed',
-                Rules\Password::defaults()
-                    ->min(12)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised(),
-            ],
-            'messages' => [
-                'password.required' => 'La contraseña es obligatoria',
-                'password.confirmed' => 'Las contraseñas no coinciden',
-                'password.min' => 'La contraseña debe tener al menos :min caracteres',
-                'password.letters' => 'La contraseña debe contener letras',
-                'password.mixed' => 'La contraseña debe contener mayúsculas y minúsculas',
-                'password.numbers' => 'La contraseña debe contener números',
-                'password.symbols' => 'La contraseña debe contener símbolos',
-                'password.uncompromised' => 'Esta contraseña ha aparecido en filtraciones de datos',
-            ]
+        // Los datos ya vienen validados y limpios desde el FormRequest
+        $user = User::create([
+            'name' => $request->validated()['name'],
+            'surname' => $request->validated()['surname'],
+            'idNumber' => $request->validated()['idNumber'],
+            'birthdate' => $request->validated()['birthdate'],
+            'gender' => $request->validated()['gender'],
+            'country' => $request->validated()['country'],
+            'province' => $request->validated()['province'],
+            'city' => $request->validated()['city'],
+            'address' => $request->validated()['address'],
+            'phone' => $request->validated()['phone'],
+            'email' => $request->validated()['email'],
+            'password' => Hash::make($request->validated()['password']),
         ]);
 
-        $user = User::create([
-            'name' => trim($request->name),
-            'surname' => trim($request->surname),
-            'idNumber' => trim($request->idNumber),
-            'birthdate' => $request->birthdate,
-            'gender' => $request->gender,
-            'country' => $request->country,
-            'province' => trim($request->province),
-            'city' => trim($request->city),
-            'address' => trim($request->address),
-            'phone' => trim($request->phone),
-            'email' => trim($request->email),
-            'password' => Hash::make($request->password),
-        ]);
-        $user->assignRole('user'); // Asignar el rol de usuario por defecto
+        // Asignar el rol de user por defecto
+        $user->assignRole('user');
 
         event(new Registered($user));
 
         Auth::login($user);
+
         session()->flash('success', [
             'title' => 'Registro exitoso',
             'message' => '¡Bienvenido/a! Tu cuenta ha sido creada exitosamente.',
             'icon' => 'success',
             'timer' => 3000,
         ]);
+
         return redirect(route('home', absolute: false));
     }
 }

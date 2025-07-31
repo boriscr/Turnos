@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="item">
-                            <label for="specialty_id">Especialidad</label>
+                            <label for="specialty_id">Specialty</label>
                             <select name="specialty_id" id="specialty_id" required>
                                 @foreach ($specialties as $specialty)
                                     @if ($specialty->status == 1)
@@ -49,11 +49,11 @@
                         </div>
 
                         <div class="item">
-                            <label for="medico_id">Médico</label>
-                            <select name="medico_id" id="medico_id" required>
+                            <label for="doctor_id">Médico</label>
+                            <select name="doctor_id" id="doctor_id" required>
                                 <option value="">Seleccione un médico</option>
                             </select>
-                            @error('medico_id')
+                            @error('doctor_id')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>

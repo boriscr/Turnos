@@ -69,7 +69,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
 
     // Función para limpiar selects dependientes
     function limpiarSelectsDependientes(selectInicial) {
-        const selects = ['specialty_id', 'medico_id', 'turno_nombre_id', 'fecha_turno', 'hora_turno'];
+        const selects = ['specialty_id', 'doctor_id', 'turno_nombre_id', 'fecha_turno', 'hora_turno'];
         const indexInicial = selects.indexOf(selectInicial);
         
         if (indexInicial === -1) return;
@@ -86,7 +86,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
 
     // Función para cargar médicos basados en specialty seleccionada
     async function cargarMedicos(especialidadId) {
-        const selectMedico = document.getElementById('medico_id');
+        const selectMedico = document.getElementById('doctor_id');
         if (!selectMedico) return;
 
         try {
@@ -99,16 +99,16 @@ if (window.location.pathname.includes('/disponibles/create')) {
                 return;
             }
 
-            const response = await fetch(`/getMedicosPorEspecialidad/${especialidadId}`);
+            const response = await fetch(`/getDoctorsBySpecialty/${especialidadId}`);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             
             const data = await response.json();
 
             selectMedico.innerHTML = '<option value="">Seleccione un profesional</option>';
-            data.medicos.forEach(medico => {
+            data.doctors.forEach(doctor => {
                 const option = document.createElement('option');
-                option.value = medico.id;
-                option.textContent = `${medico.name} ${medico.surname}`;
+                option.value = doctor.id;
+                option.textContent = `${doctor.name} ${doctor.surname}`;
                 selectMedico.appendChild(option);
             });
 
@@ -125,7 +125,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
         if (!selectTurno) return;
 
         try {
-            limpiarSelectsDependientes('medico_id');
+            limpiarSelectsDependientes('doctor_id');
             selectTurno.disabled = true;
             selectTurno.innerHTML = '<option value="">Cargando turnos...</option>';
 
@@ -282,7 +282,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
         try {
             // Obtener valores iniciales si existen
             const especialidadInicial = document.getElementById('specialty_id')?.value;
-            const medicoInicial = document.getElementById('medico_id')?.value;
+            const medicoInicial = document.getElementById('doctor_id')?.value;
             const nombreInicial = document.getElementById('turno_nombre_id')?.value;
             const fechaInicial = document.getElementById('fecha_turno')?.value;
             const turnoIdInicial = document.getElementById('hora_turno')?.value;
@@ -292,7 +292,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
                 cargarMedicos(this.value);
             });
 
-            document.getElementById('medico_id')?.addEventListener('change', function() {
+            document.getElementById('doctor_id')?.addEventListener('change', function() {
                 cargarNombres(this.value);
             });
 
@@ -312,7 +312,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
             if (especialidadInicial) {
                 cargarMedicos(especialidadInicial).then(() => {
                     if (medicoInicial) {
-                        document.getElementById('medico_id').value = medicoInicial;
+                        document.getElementById('doctor_id').value = medicoInicial;
                         cargarNombres(medicoInicial).then(() => {
                             if (nombreInicial) {
                                 document.getElementById('turno_nombre_id').value = nombreInicial;

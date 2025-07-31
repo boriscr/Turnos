@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Especialidad extends Model
+class Specialty extends Model
 {
  protected $table = 'specialties';
 
@@ -14,8 +14,8 @@ class Especialidad extends Model
         'status',
     ];
 
-    public function medicos()
+    public function doctors()
     {
-        return $this->hasMany(Medico::class, 'specialty_id');
+        return $this->hasMany(Doctor::class, 'specialty_id');
     }
 }

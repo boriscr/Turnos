@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('key')->primary(); // Clave única en lugar de ID
             $table->text('value');
             $table->string('type')->default('string'); // Tipo de dato: string, integer, boolean, json
-            $table->string('group')->default('general'); // Agrupación: app, turnos, usuarios, etc.
+            $table->string('group')->default('general'); // Agrupación: app, turnos, users, etc.
             $table->timestamps();
         });
     }

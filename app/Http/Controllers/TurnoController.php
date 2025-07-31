@@ -7,8 +7,8 @@ use App\Http\Requests\TurnoUpdateRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Turno;
-use App\Models\Especialidad;
-use App\Models\Medico;
+use App\Models\Specialty;
+use App\Models\Doctor;
 use App\Models\TurnoDisponible;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +22,7 @@ class TurnoController extends Controller
     }
     public function create()
     {
-        $specialties = Especialidad::all();
+        $specialties = Specialty::all();
         return view('turnos/create', compact('specialties'));
 
     }
@@ -43,7 +43,7 @@ class TurnoController extends Controller
             'name' => trim($request->name),
             'direccion' => trim($request->direccion),
             'specialty_id' => $request->specialty_id,
-            'medico_id' => $request->medico_id,
+            'doctor_id' => $request->doctor_id,
             'turno' => $request->turno, // Asignar el turno si se proporciona
             'cantidad_turnos' => trim($request->cantidad),
             'hora_inicio' => $request->hora_inicio,
@@ -67,7 +67,7 @@ class TurnoController extends Controller
                 foreach ($horarios as $hora) {
                     TurnoDisponible::create([
                         'turno_id' => $turno->id,
-                        'medico_id' => $request->medico_id,
+                        'doctor_id' => $request->doctor_id,
                         'fecha' => $fecha,
                         'hora' => $hora,
                         'cupos_disponibles' => 1, // 1 cupo por horario individual
@@ -77,7 +77,7 @@ class TurnoController extends Controller
                 // Caso SIN horarios (por día)
                 TurnoDisponible::create([
                     'turno_id' => $turno->id,
-                    'medico_id' => $request->medico_id,
+                    'doctor_id' => $request->doctor_id,
                     'fecha' => $fecha,
                     'hora' => $request->hora_inicio, // sin hora específica
                     'cupos_disponibles' => $request->cantidad, // cupo total por fecha
@@ -96,8 +96,8 @@ class TurnoController extends Controller
     {
         // Obtener el turno específico
         $turno = Turno::findOrFail($id);
-        // Obtener el turno disponible relacionado con el medico de ese turno
-        $turnoDisponibles = TurnoDisponible::where('medico_id', $turno->medico_id)
+        // Obtener el turno disponible relacionado con el doctor de ese turno
+        $turnoDisponibles = TurnoDisponible::where('doctor_id', $turno->doctor_id)
             ->orderByDesc('fecha')
             ->orderByDesc('hora')
             ->paginate(10);
@@ -186,8 +186,8 @@ class TurnoController extends Controller
     //Editar Turno
     public function edit($id)
     {
-        $turno = Turno::with(['specialty', 'medico', 'disponibilidades'])->findOrFail($id);
-        $specialties = Especialidad::where('status', 1)->get();
+        $turno = Turno::with(['specialty', 'doctor', 'disponibilidades'])->findOrFail($id);
+        $specialties = Specialty::where('status', 1)->get();
 
         // Procesar horarios_disponibles para la vista
         $horarios_disponibles = $turno->horarios_disponibles;
@@ -202,8 +202,8 @@ class TurnoController extends Controller
             'turno' => $turno,
             'specialties' => $specialties,
             'specialty_id' => $turno->specialty_id,
-            'medico_id' => $turno->medico_id,
-            'medico_nombre' => $turno->medico->name ?? 'Medico no disponible',
+            'doctor_id' => $turno->doctor_id,
+            'medico_nombre' => $turno->doctor->name ?? 'Doctor no disponible',
             'name' => $turno->name,
             'direccion' => $turno->direccion,
             'cantidad' => $turno->cantidad_turnos,
@@ -241,7 +241,7 @@ class TurnoController extends Controller
         $turno->name = trim($request->name);
         $turno->direccion = trim($request->direccion);
         $turno->specialty_id = $request->specialty_id;
-        $turno->medico_id = $request->medico_id;
+        $turno->doctor_id = $request->doctor_id;
         $turno->turno = $request->turno;
         $turno->cantidad_turnos = trim($request->cantidad);
         $turno->hora_inicio = $request->hora_inicio;
@@ -262,13 +262,13 @@ class TurnoController extends Controller
 
                 foreach ($horarios as $hora) {
                     TurnoDisponible::updateOrCreate(
-                        ['turno_id' => $turno->id, 'medico_id' => $request->medico_id, 'fecha' => $fecha, 'hora' => $hora],
+                        ['turno_id' => $turno->id, 'doctor_id' => $request->doctor_id, 'fecha' => $fecha, 'hora' => $hora],
                         ['cupos_disponibles' => 1]
                     );
                 }
             } else {
                 TurnoDisponible::updateOrCreate(
-                    ['turno_id' => $turno->id, 'medico_id' => $request->medico_id, 'fecha' => $fecha, 'hora' => $request->hora_inicio],
+                    ['turno_id' => $turno->id, 'doctor_id' => $request->doctor_id, 'fecha' => $fecha, 'hora' => $request->hora_inicio],
                     ['cupos_disponibles' => $request->cantidad]
                 );
             }
@@ -299,11 +299,11 @@ class TurnoController extends Controller
     public function getPorEspecialidad($id)
     {
         try {
-            $medicos = Medico::where('specialty_id', $id)
+            $doctors = Doctor::where('specialty_id', $id)
                 ->where('status', 1)
                 ->get();
 
-            return response()->json($medicos);
+            return response()->json($doctors);
         } catch (\Exception $e) {
             Log::error('Error al obtener médicos por specialty', ['specialty_id' => $id, 'error' => $e->getMessage()]);
             return response()->json([], 500);

@@ -40,11 +40,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Turno::class);
     } 
-// Relación 1:1 con Medico (un usuario PUEDE ser un profesional)
-public function medico()
+// Relación 1:1 con Doctor (un user PUEDE ser un profesional)
+public function doctor()
 {
-    return $this->hasOne(Medico::class, 'user_id'); 
-    // 'user_id' es la FK en la tabla medicos
+    return $this->hasOne(Doctor::class, 'user_id'); 
+    // 'user_id' es la FK en la tabla doctors
 }
 
     /**

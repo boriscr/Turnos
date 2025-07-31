@@ -48,7 +48,7 @@
                 <!-- Paso 2 - Selección de Turno -->
                 <div class="form-step" data-step="2">
                     <div class="item">
-                        <label for="specialty_id"><i class="bi bi-1-circle"></i> Especialidad</label>
+                        <label for="specialty_id"><i class="bi bi-1-circle"></i> Specialty</label>
                         <select name="specialty_id" id="specialty_id" required>
                             <option value="">Seleccione una specialty</option>
                             @foreach ($specialties as $specialty)
@@ -60,8 +60,8 @@
                     </div>
 
                     <div class="item">
-                        <label for="medico_id"><i class="bi bi-2-circle"></i> Médico/a</label>
-                        <select name="medico_id" id="medico_id" required>
+                        <label for="doctor_id"><i class="bi bi-2-circle"></i> Médico/a</label>
+                        <select name="doctor_id" id="doctor_id" required>
                             <option value="">Seleccione un médico</option>
                         </select>
                     </div>

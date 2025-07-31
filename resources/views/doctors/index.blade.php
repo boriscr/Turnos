@@ -8,26 +8,26 @@
                         <th>Id</th>
                         <th>Nombre y Apellido</th>
                         <th class="option-movil">Dni</th>
-                        <th>Especialidad</th>
+                        <th>Specialty</th>
                         <th class="option-movil">Rol</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($medicos as $medico)
+                    @foreach ($doctors as $doctor)
                         <tr>
-                            <td>{{ $medico->id }}</td>
-                            <td>{{ $medico->name . ' ' . $medico->surname }}</td>
-                            <td class="option-movil">{{ $medico->idNumber }}</td>
-                            <td>{{ $medico->specialty->name ?? 'Sin datos' }}</td>
-                            <td class="option-movil">{{ $medico->role }}</td>
+                            <td>{{ $doctor->id }}</td>
+                            <td>{{ $doctor->name . ' ' . $doctor->surname }}</td>
+                            <td class="option-movil">{{ $doctor->idNumber }}</td>
+                            <td>{{ $doctor->specialty->name ?? 'Sin datos' }}</td>
+                            <td class="option-movil">{{ $doctor->role }}</td>
                             <td class="acciones full-center">
-                                <a href="{{ route('medico.show', $medico->id) }}" class="btn btn-view"><i
+                                <a href="{{ route('doctor.show', $doctor->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">Ver</b></a>
-                                <a href="{{ route('medico.edit', $medico->id) }}" class="btn btn-edit"><i
+                                <a href="{{ route('doctor.edit', $doctor->id) }}" class="btn btn-edit"><i
                                         class="bi bi-pencil-fill"></i><b class="accionesMovil">Editar</b></a>
 
-                                <form class="delete-form" action="{{ route('medico.destroy', $medico->id) }}"
+                                <form class="delete-form" action="{{ route('doctor.destroy', $doctor->id) }}"
                                     method="POST">
                                     @csrf
                                     @method('DELETE')

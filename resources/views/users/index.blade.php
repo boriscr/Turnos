@@ -15,21 +15,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($usuarios as $usuario)
+                    @foreach ($users as $user)
                         <tr>
-                            <td>{{ $usuario->id }}</td>
-                            <td>{{ $usuario->name . ' ' . $usuario->surname }}</td>
-                            <td class="option-movil">{{ $usuario->idNumber }}</td>
-                            <td class="option-movil"> {{ $usuario->getRoleNames()->first() }}</p>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->name . ' ' . $user->surname }}</td>
+                            <td class="option-movil">{{ $user->idNumber }}</td>
+                            <td class="option-movil"> {{ $user->getRoleNames()->first() }}</p>
                             </td>
-                            <td class="option-movil">{{ $usuario->address }}</td>
-                            <td>{{ $usuario->status ? 'Activo' : 'Inactivo' }}</td>
+                            <td class="option-movil">{{ $user->address }}</td>
+                            <td>{{ $user->status ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones full-center">
-                                <a href="{{ route('usuario.show', $usuario->id) }}" class="btn btn-view"><i
+                                <a href="{{ route('user.show', $user->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">Ver</b></a>
-                                <a href="{{ route('usuario.edit', $usuario->id) }}" class="btn btn-edit"><i
+                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-edit"><i
                                         class="bi bi-pencil-fill"></i><b class="accionesMovil">Editar</b></a>
-                                <form action="{{ route('usuario.destroy', $usuario->id) }}" method="POST"
+                                <form action="{{ route('user.destroy', $user->id) }}" method="POST"
                                     style="display:inline;" class="delete-form">
                                     @csrf
                                     @method('DELETE')

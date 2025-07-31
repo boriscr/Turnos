@@ -26,10 +26,10 @@
                             <td class="option-movil">
                                 {{ Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</td>
                             <td><a
-                                    href="{{ route('medico.create', $reserva->turnoDisponible->medico->id) }}">{{ $reserva->turnoDisponible->medico->name . ' ' . $reserva->turnoDisponible->medico->surname }}</a>
+                                    href="{{ route('doctor.create', $reserva->turnoDisponible->doctor->id) }}">{{ $reserva->turnoDisponible->doctor->name . ' ' . $reserva->turnoDisponible->doctor->surname }}</a>
                             </td>
                             <td><a
-                                    href="{{ route('usuario.show', $reserva->user->id) }}">{{ $reserva->user->name . ' ' . $reserva->user->surname }}</a>
+                                    href="{{ route('user.show', $reserva->user->id) }}">{{ $reserva->user->name . ' ' . $reserva->user->surname }}</a>
                             </td>
 
 
