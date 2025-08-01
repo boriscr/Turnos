@@ -15,7 +15,7 @@
                     <i class="bi bi-house"></i><span>{{ __('navbar.home') }}</span>
                 </x-nav-link-active>
 
-                <x-nav-link-active href="{{ route('disponible.create') }}" route="disponible.create">
+                <x-nav-link-active href="{{ route('availableAppointments.create') }}" route="availableAppointments.create">
                     <i
                         class="bi bi-calendar-plus"></i><span>{{ __('navbar.book_appointment') }}</span>{{-- Reservar Turno --}}
                 </x-nav-link-active>
@@ -172,7 +172,7 @@
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 <i class="bi bi-house"></i><span>{{ __('navbar.home') }}</span>
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('disponible.create')" :active="request()->routeIs('disponible.create')">
+            <x-responsive-nav-link :href="route('availableAppointments.create')" :active="request()->routeIs('availableAppointments.create')">
                 <i
                     class="bi bi-calendar-plus"></i><span>{{ __('navbar.book_appointment') }}</span>{{-- Reservar Turno --}}
             </x-responsive-nav-link>

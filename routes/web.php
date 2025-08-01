@@ -6,7 +6,7 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\TurnoController;
-use App\Http\Controllers\TurnoDisponibleController;
+use App\Http\Controllers\AvailableAppointmentsController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -15,13 +15,13 @@ Route::view('/', 'home')->name('home');
 
 Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     //Solicitud de Turnos
-    Route::get('/disponibles/create', [TurnoDisponibleController::class, 'create'])->name('disponible.create');
-    Route::get('/getDoctorsBySpecialty/{specialty_id}', [TurnoDisponibleController::class, 'getDoctorsBySpecialty']);
-    Route::get('/getTurnosPorNombre/{doctor_id}', [TurnoDisponibleController::class, 'getTurnosPorNombre']);
+    Route::get('/availableAppointments/create', [AvailableAppointmentsController::class, 'create'])->name('availableAppointments.create');
+    Route::get('/getDoctorsBySpecialty/{specialty_id}', [AvailableAppointmentsController::class, 'getDoctorsBySpecialty']);
+    Route::get('/getAvailableAppointmentsByName/{doctor_id}', [AvailableAppointmentsController::class, 'getAvailableAppointmentsByName']);
 
-    Route::get('/getTurnosPorEquipo/{turno_nombre_id}', [TurnoDisponibleController::class, 'getTurnosPorEquipo']);
-    Route::post('/reservarTurno', [TurnoDisponibleController::class, 'reservarTurno'])->name('reservarTurno');
-    Route::delete('/disponibles/{id}', [TurnoDisponibleController::class, 'destroy'])->name('disponible.destroy');
+    Route::get('/getAvailableAppointmentsByDoctor/{turno_nombre_id}', [AvailableAppointmentsController::class, 'getAvailableAppointmentsByDoctor']);
+    Route::post('/bookAvailableAppointment', [AvailableAppointmentsController::class, 'bookAvailableAppointment'])->name('bookAvailableAppointment');
+    Route::delete('/availableAppointments/{id}', [AvailableAppointmentsController::class, 'destroy'])->name('availableAppointments.destroy');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');

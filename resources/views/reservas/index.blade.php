@@ -81,7 +81,7 @@
                                 <a href="{{ route('reservas.show', $reserva->id) }}" class="btn btn-view">
                                     <i class="bi bi-eye"></i><b class="accionesMovil">Ver</b>
                                 </a>
-                                <form action="{{ route('disponible.destroy', $reserva->id) }}" method="POST"
+                                <form action="{{ route('availableAppointments.destroy', $reserva->id) }}" method="POST"
                                     style="display:inline;" class="delete-form">
                                     @csrf
                                     @method('DELETE')

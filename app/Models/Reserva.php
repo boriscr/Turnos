@@ -17,7 +17,7 @@ class Reserva extends Model
 
     public function turnoDisponible()
     {
-        return $this->belongsTo(TurnoDisponible::class);
+        return $this->belongsTo(AvailableAppointment::class);
     }
 
     public function user()

@@ -52,7 +52,7 @@
             </div>
 
             <div class="opciones full-center">
-                <form action="{{ route('disponible.destroy', $reserva->id) }}" method="POST" style="display:inline;"
+                <form action="{{ route('availableAppointments.destroy', $reserva->id) }}" method="POST" style="display:inline;"
                     class="delete-form">
                     @csrf
                     @method('DELETE')

@@ -1,4 +1,4 @@
-if (window.location.pathname.includes('/disponibles/create')) {
+if (window.location.pathname.includes('/availableAppointments/create')) {
     // Variables globales
     let todosLosTurnos = [];
     let previewSettings = { amount: 30, unit: 'dia' }; // Valores por defecto
@@ -134,7 +134,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
                 return;
             }
 
-            const response = await fetch(`/getTurnosPorNombre/${medicoId}`);
+            const response = await fetch(`/getAvailableAppointmentsByName/${medicoId}`);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             
             const data = await response.json();
@@ -169,7 +169,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
                 return;
             }
 
-            const response = await fetch(`/getTurnosPorEquipo/${turnoNombreId}`);
+            const response = await fetch(`/getAvailableAppointmentsByDoctor/${turnoNombreId}`);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             
             const data = await response.json();
@@ -232,7 +232,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
             }
 
             // Filtrar los turnos disponibles para esa fecha
-            let turnosDisponibles = todosLosTurnos.filter(turno => turno.fecha === fechaSeleccionada);
+            let availableAppointments = todosLosTurnos.filter(turno => turno.fecha === fechaSeleccionada);
 
             // Obtener fecha y hora actual en zona horaria de Jujuy
             const fechaActual = obtenerFechaActual();
@@ -246,7 +246,7 @@ if (window.location.pathname.includes('/disponibles/create')) {
 
             // Filtrar horarios pasados si es el día actual
             if (fechaSeleccionada === fechaActual) {
-                turnosDisponibles = turnosDisponibles.filter(turno => {
+                availableAppointments = availableAppointments.filter(turno => {
                     try {
                         const turnoDate = new Date(`${fechaSeleccionada}T${turno.hora}:00`);
                         const ahoraDate = new Date(`${fechaActual}T${horaActual}:00`);
@@ -259,11 +259,11 @@ if (window.location.pathname.includes('/disponibles/create')) {
             }
 
             // Mostrar resultados
-            if (turnosDisponibles.length === 0) {
+            if (availableAppointments.length === 0) {
                 selectHora.innerHTML = '<option value="">Sin horario disponible</option>';
             } else {
                 selectHora.innerHTML = '<option value="">Seleccione un horario</option>';
-                turnosDisponibles.forEach(turno => {
+                availableAppointments.forEach(turno => {
                     const option = document.createElement('option');
                     option.value = turno.id;
                     option.textContent = turno.hora;

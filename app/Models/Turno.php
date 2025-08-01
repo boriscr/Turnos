@@ -45,7 +45,7 @@ class Turno extends Model
 
     public function disponibilidades()
     {
-        return $this->hasMany(TurnoDisponible::class);
+        return $this->hasMany(AvailableAppointment::class);
     }
     // metodo obtener id del user que creo el turno
     public function user()

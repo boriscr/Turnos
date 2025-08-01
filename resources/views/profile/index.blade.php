@@ -23,7 +23,7 @@
                         <div class="step">
                             <i class="icon-calendar"></i>
                             <p>Solicite su primer turno médico</p>
-                            <a href="{{ route('appointments.create') }}" class="btn-step-action">Sacar turno</a>
+                            <a href="{{ route('availableAppointments.create') }}" class="btn-step-action">Sacar turno</a>
                         </div>
                         <div class="step">
                             <i class="icon-bell"></i>

@@ -48,7 +48,7 @@
                                 @endphp
 
                                 @if ($fechaHoraReserva->gt($now))
-                                    <form action="{{ route('disponible.destroy', $reserva->id) }}" method="POST"
+                                    <form action="{{ route('availableAppointments.destroy', $reserva->id) }}" method="POST"
                                         style="display:inline;" class="delete-form">
                                         @csrf
                                         @method('DELETE')

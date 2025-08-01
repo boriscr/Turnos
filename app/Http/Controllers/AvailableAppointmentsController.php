@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Doctor;
 use Illuminate\Http\Request;
-use App\Models\TurnoDisponible;
+use App\Models\AvailableAppointment;
 use App\Models\Turno;
 use App\Models\Specialty;
 use App\Models\Reserva;
@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Setting;
 use Carbon\Carbon;
 
-
-class TurnoDisponibleController extends Controller
+class AvailableAppointmentsController extends Controller
 {
 
     public function create()
@@ -34,7 +33,7 @@ class TurnoDisponibleController extends Controller
             })
             ->count();
         if ($user->status == 1 && $user->faults <= $turnos_faltas_maximas &&  $turnos_activos < $turnos_limite_diario && $turnos_limite_diario > 0) {
-            $turnoDisponible = TurnoDisponible::all();
+            $turnoDisponible = AvailableAppointment::all();
             $turno = Turno::where('status', 1)->get();
             $specialties = Specialty::where('status', 1)->get();
             return view('reservas/create', compact('turnoDisponible', 'turno', 'specialties'));
@@ -96,7 +95,7 @@ class TurnoDisponibleController extends Controller
         return response()->json(['doctors' => $doctors]);
     }
     // 1. Obtener turnos por name
-    public function getTurnosPorNombre($doctor_id)
+    public function getAvailableAppointmentsByName($doctor_id)
     {
         if ($doctor_id) {
             $turnos = Turno::where('doctor_id', $doctor_id)
@@ -117,7 +116,7 @@ class TurnoDisponibleController extends Controller
     // y que son futuros, teniendo en cuenta la fecha y hora actuales.
     // El resultado se devuelve en formato JSON, incluyendo los turnos disponibles y la configuración de
     // previsualización utilizada para la consulta.
-    public function getTurnosPorEquipo($turno_nombre_id)
+    public function getAvailableAppointmentsByDoctor($turno_nombre_id)
     {
         $hoy = now()->format('Y-m-d');
         $horaActual = now()->format('H:i:s');
@@ -150,7 +149,7 @@ class TurnoDisponibleController extends Controller
         }
 
         $fechaLimite = $fechaLimite->format('Y-m-d');
-        $turnos = TurnoDisponible::where('turno_id', $turno_nombre_id)
+        $turnos = AvailableAppointment::where('turno_id', $turno_nombre_id)
             ->where('cupos_disponibles', '>', 0)
             ->whereDate('fecha', '<=', $fechaLimite) // Filtro superior
             ->where(function ($query) use ($hoy, $horaActual) {
@@ -180,9 +179,9 @@ class TurnoDisponibleController extends Controller
         ]);
     }
 
-    function reservarTurno(Request $request)
+    function bookAvailableAppointment(Request $request)
     {
-        $turno = TurnoDisponible::find($request->turno_id);
+        $turno = AvailableAppointment::find($request->turno_id);
         $user = Auth::user();
         //Contar cuantos turnos se ha reservado el user
         $turnos_activos = Reserva::where('user_id', $user->id)
@@ -292,20 +291,15 @@ class TurnoDisponibleController extends Controller
     public function destroy($id)
     {
         try {
-            /** @var \App\Models\Reserva $reserva */
             $reserva = Reserva::findOrFail($id);
-
-            /** @var \App\Models\User $user */
             $user = Auth::user();
-
-            /** @var \App\Models\TurnoDisponible $turnoDisponible */
-            $turnoDisponible = TurnoDisponible::find($reserva->turno_disponible_id);
+            $turnoDisponible = AvailableAppointment::find($reserva->turno_disponible_id);
 
             if (!$turnoDisponible) {
                 throw new \Exception('Turno asociado no encontrado');
             }
 
-            // Verificación de si el turno ya pasó (aplica para todos los roles)
+            // Verificación de si el turno ya pasó
             $fechaHoraTurno = Carbon::parse($turnoDisponible->fecha->format('Y-m-d') . ' ' . $turnoDisponible->hora->format('H:i:s'));
 
             if ($fechaHoraTurno->isPast()) {
@@ -314,62 +308,30 @@ class TurnoDisponibleController extends Controller
                     'text' => 'No puedes cancelar un turno que ya ha pasado.',
                     'icon' => 'error'
                 ]);
+                /** @var \App\Models\User $user */
                 return $user->hasRole('user') ? redirect()->route('profile.historial') : redirect()->route('reservas.index');
             }
-
-            // Verificación de roles con type hints
+            // Verificación de límite de cancelación para pacientes
+            /** @var \App\Models\User $user */
             if ($user->hasRole('user')) {
                 $settings = Setting::where('group', 'turnos')->pluck('value', 'key');
-                $turnos_horas_cancelacion = $settings['turnos.horas_cancelacion'];
+                $horasLimiteCancelacion = $settings['turnos.horas_cancelacion'] ?? 24;
 
-                $horasLimiteCancelacion = $turnos_horas_cancelacion ?? 24;
-                try {
-                    // Opción 1: Si ya es un objeto DateTime/Carbon
-                    if ($turnoDisponible->hora instanceof \DateTimeInterface) {
-                        $horaTurno = Carbon::instance($turnoDisponible->hora);
-                    }
-                    // Opción 2: Si es un string en formato 'H:i:s'
-                    elseif (is_string($turnoDisponible->hora) && preg_match('/^\d{2}:\d{2}:\d{2}$/', $turnoDisponible->hora)) {
-                        $horaTurno = Carbon::createFromFormat('H:i:s', $turnoDisponible->hora);
-                    }
-                    // Opción 3: Si es un string en formato 'H:i'
-                    elseif (is_string($turnoDisponible->hora) && preg_match('/^\d{2}:\d{2}$/', $turnoDisponible->hora)) {
-                        $horaTurno = Carbon::createFromFormat('H:i', $turnoDisponible->hora);
-                    }
-                    // Opción 4: Si es un timestamp o formato no reconocido
-                    else {
-                        $horaTurno = Carbon::parse($turnoDisponible->hora);
-                    }
+                $horasRestantes = now()->diffInHours($fechaHoraTurno, false);
 
-                    // Calcular diferencia de horas
-                    $horasRestantes = now()->diffInHours($fechaHoraTurno, false);
-
-                    if ($horasRestantes < $horasLimiteCancelacion) {
-                        session()->flash('error', [
-                            'title' => 'Error!',
-                            'text' => "No puedes cancelar el turno. Debes cancelar con al menos {$horasLimiteCancelacion} horas de anticipación.",
-                            'icon' => 'error'
-                        ]);
-                        return redirect()->route('profile.historial');
-                    }
-                } catch (\Exception $e) {
-                    Log::error('Error al procesar hora del turno', [
-                        'hora_turno' => $turnoDisponible->hora,
-                        'error' => $e->getMessage()
-                    ]);
-
+                if ($horasRestantes < $horasLimiteCancelacion) {
                     session()->flash('error', [
                         'title' => 'Error!',
-                        'text' => 'Ocurrió un error al procesar el horario del turno.',
+                        'text' => "No puedes cancelar el turno. Debes cancelar con al menos {$horasLimiteCancelacion} horas de anticipación.",
                         'icon' => 'error'
                     ]);
                     return redirect()->route('profile.historial');
                 }
             }
 
-            // Resto de la lógica de cancelación...
-            $turnoDisponible->cupos_disponibles += 1;
-            $turnoDisponible->cupos_reservados -= 1;
+            // Lógica de cancelación y actualización de cupos
+            $turnoDisponible->cupos_disponibles++;
+            $turnoDisponible->cupos_reservados = max(0, $turnoDisponible->cupos_reservados - 1);
 
             if ($turnoDisponible->cupos_reservados < 0) {
                 $turnoDisponible->cupos_reservados = 0;
@@ -380,9 +342,7 @@ class TurnoDisponibleController extends Controller
             try {
                 $turnoDisponible->save();
                 $reserva->delete();
-
                 DB::commit();
-
                 if ($user->hasRole('doctor') || $user->hasRole('admin')) {
                     session()->flash('success', [
                         'title' => 'Reserva eliminada',

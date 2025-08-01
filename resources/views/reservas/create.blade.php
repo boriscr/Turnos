@@ -9,7 +9,7 @@
                 <div class="step" data-step="2"><i class="bi bi-clock-history"></i> Selección de Turno</div>
             </div>
 
-            <form action="{{ route('reservarTurno') }}" method="post" id="multiStepForm">
+            <form action="{{ route('bookAvailableAppointment') }}" method="post" id="multiStepForm">
                 @csrf
 
                 <!-- Paso 1 - Datos Personales -->

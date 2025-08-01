@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use App\Models\Turno;
 use App\Models\Specialty;
 use App\Models\Doctor;
-use App\Models\TurnoDisponible;
+use App\Models\AvailableAppointment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -65,7 +65,7 @@ class TurnoController extends Controller
                 $horarios = json_decode($request->horarios_disponibles, true);
 
                 foreach ($horarios as $hora) {
-                    TurnoDisponible::create([
+                    AvailableAppointment::create([
                         'turno_id' => $turno->id,
                         'doctor_id' => $request->doctor_id,
                         'fecha' => $fecha,
@@ -75,7 +75,7 @@ class TurnoController extends Controller
                 }
             } else {
                 // Caso SIN horarios (por día)
-                TurnoDisponible::create([
+                AvailableAppointment::create([
                     'turno_id' => $turno->id,
                     'doctor_id' => $request->doctor_id,
                     'fecha' => $fecha,
@@ -97,7 +97,7 @@ class TurnoController extends Controller
         // Obtener el turno específico
         $turno = Turno::findOrFail($id);
         // Obtener el turno disponible relacionado con el doctor de ese turno
-        $turnoDisponibles = TurnoDisponible::where('doctor_id', $turno->doctor_id)
+        $turnoDisponibles = AvailableAppointment::where('doctor_id', $turno->doctor_id)
             ->orderByDesc('fecha')
             ->orderByDesc('hora')
             ->paginate(10);
@@ -108,7 +108,7 @@ class TurnoController extends Controller
     {
         // Si se presionó "Mostrar Todo", ignoramos todos los filtros
         if ($request->has('mostrar_todo')) {
-            $turnoDisponibles = TurnoDisponible::with(['turno', 'reservas.user'])
+            $turnoDisponibles = AvailableAppointment::with(['turno', 'reservas.user'])
                 ->orderByDesc('fecha')
                 ->orderByDesc('hora')
                 ->paginate(10);
@@ -132,7 +132,7 @@ class TurnoController extends Controller
         $hoy = now()->format('Y-m-d');
         $manana = now()->addDay()->format('Y-m-d'); // Nueva variable para mañana
 
-        $query = TurnoDisponible::with(['turno', 'reservas.user'])
+        $query = AvailableAppointment::with(['turno', 'reservas.user'])
             ->when($search, function ($query) use ($search) {
                 $query->whereHas('reservas.user', function ($userQuery) use ($search) {
                     $userQuery->where('idNumber', 'like', "%$search%")
@@ -261,13 +261,13 @@ class TurnoController extends Controller
                 $horarios = json_decode($request->horarios_disponibles, true);
 
                 foreach ($horarios as $hora) {
-                    TurnoDisponible::updateOrCreate(
+                    AvailableAppointment::updateOrCreate(
                         ['turno_id' => $turno->id, 'doctor_id' => $request->doctor_id, 'fecha' => $fecha, 'hora' => $hora],
                         ['cupos_disponibles' => 1]
                     );
                 }
             } else {
-                TurnoDisponible::updateOrCreate(
+                AvailableAppointment::updateOrCreate(
                     ['turno_id' => $turno->id, 'doctor_id' => $request->doctor_id, 'fecha' => $fecha, 'hora' => $request->hora_inicio],
                     ['cupos_disponibles' => $request->cantidad]
                 );

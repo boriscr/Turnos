@@ -1,5 +1,5 @@
 //Automatizacion de la carg Doctors por specialty
-// Este script se encarga de cargar los doctor disponibles en función de la specialty seleccionada
+// Este script se encarga de cargar los doctor appointmentsAvailableDestroy en función de la specialty seleccionada
 if (window.location.pathname.includes('/turnos/create') || window.location.pathname.includes('/turnos/edit')) {
 
     function cargarMedicosPorEspecialidad(especialidadId) {
