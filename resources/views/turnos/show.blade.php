@@ -40,5 +40,5 @@
             </form>
         </div>
         <br>
-        <a href="{{ route('disponible.index', $turno->doctor_id) }}">Ver turnos disponibles</a>
+        <a href="{{ route('availableAppointments.index', $turno->doctor_id) }}">Ver turnos disponibles</a>
 </x-app-layout>

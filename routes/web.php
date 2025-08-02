@@ -82,7 +82,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/doctors-por-specialty/{id}', [TurnoController::class, 'getPorEspecialidad']); //En controlador Doctors
 
     //Turnos disponibles creados
-    Route::get('/disponible/{equipoId?}', [AvailableAppointmentsController::class, 'index'])->name('disponible.index');
+    Route::get('/availableAppointments/{doctor_id?}', [AvailableAppointmentsController::class, 'index'])->name('availableAppointments.index');
     //Setting
     Route::get('/settings/edit', [SettingController::class, 'edit'])->name('settings.edit');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');

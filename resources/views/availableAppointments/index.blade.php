@@ -4,7 +4,7 @@
             <h3 class="title-form">Turnos creados</h3>
             <div class="mb-4">
                 <!-- Formulario de búsqueda y filtros rápidos -->
-                <form action="{{ route('disponible.index') }}" method="GET" class="mb-4" id="filterForm">
+                <form action="{{ route('availableAppointments.index') }}" method="GET" class="mb-4" id="filterForm">
                     <div class="input-group mb-3">
                         <input type="text" name="search" class="form-control"
                             placeholder="Buscar por DNI o name..." value="{{ request('search') }}">
@@ -12,7 +12,7 @@
                             <i class="bi bi-search"></i> Buscar
                         </button>
                         @if (request('search'))
-                            <a href="{{ route('disponible.index') }}" class="btn btn-outline-secondary">
+                            <a href="{{ route('availableAppointments.index') }}" class="btn btn-outline-secondary">
                                 <i class="bi bi-x-circle"></i> Limpiar
                             </a>
                         @endif
@@ -62,7 +62,7 @@
 
                     <!-- Botón para mostrar todo sin filtros -->
                     <div class="text-center">
-                        <a href="{{ route('disponible.index') }}?mostrar_todo=1" class="btn btn-success">
+                        <a href="{{ route('availableAppointments.index') }}?mostrar_todo=1" class="btn btn-success">
                             <i class="bi bi-list-ul"></i> Mostrar Todo (sin filtros)
                         </a>
                     </div>
@@ -115,7 +115,7 @@
                 </script>
 
                 <!-- Formulario de rango de fechas personalizado -->
-                <form action="{{ route('disponible.index') }}" method="GET" class="mb-4 border p-3 rounded">
+                <form action="{{ route('availableAppointments.index') }}" method="GET" class="mb-4 border p-3 rounded">
                     <h5 class="mb-3">Filtrar por rango de fechas</h5>
 
                     <div class="row align-items-end">
@@ -138,7 +138,7 @@
                             </button>
                         </div>
                         <div class="col-md-2">
-                            <a href="{{ route('disponible.index') }}" class="btn btn-outline-secondary w-100">
+                            <a href="{{ route('availableAppointments.index') }}" class="btn btn-outline-secondary w-100">
                                 <i class="bi bi-x-circle"></i> Limpiar
                             </a>
                         </div>

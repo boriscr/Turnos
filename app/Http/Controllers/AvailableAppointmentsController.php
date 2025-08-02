@@ -16,7 +16,7 @@ class AvailableAppointmentsController extends Controller
                 ->orderByDesc('time')
                 ->paginate(10);
 
-            return view('disponibles.index', [
+            return view('availableAppointments.index', [
                 'turnoDisponibles' => $turnoDisponibles,
                 'reservaFiltro' => 'todos',
                 'fechaFiltro' => 'todos',
