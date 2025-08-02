@@ -11,15 +11,15 @@ class AvailableAppointment extends Model
     protected $fillable = [
         'doctor_id',
         'turno_id',
-        'fecha',
-        'hora',
-        'cupos_disponibles',
-        'cupos_reservados',
+        'date',
+        'time',
+        'available_spots',
+        'reserved_spots',
     ];
 
     protected $casts = [
-        'fecha' => 'date',
-        'hora' => 'datetime:H:i',
+        'date' => 'date',
+        'time' => 'datetime:H:i',
         'disponible' => 'boolean'
     ];
 
@@ -27,9 +27,9 @@ class AvailableAppointment extends Model
     {
         return $this->belongsTo(Turno::class);
     }
-    public function reservas()
+    public function reservations()
     {
-        return $this->hasMany(Reserva::class);
+        return $this->hasMany(Reservation::class);
     }
     public function doctor()
     {
@@ -38,6 +38,6 @@ class AvailableAppointment extends Model
 
     public function getCuposRestantesAttribute()
     {
-        return $this->cupos_disponibles - $this->cupos_reservados;
+        return $this->available_spots - $this->reserved_spots;
     }
 }

@@ -14,8 +14,8 @@
 @import 'pages/home/home.css';
 @import 'pages/profiles/profile.css';
 @import 'pages/turnos/calendario.css';
-@import 'pages/reservas/search.css';
-@import 'pages/reservas/actualizacion-de-asistencia-btn.css';
+@import 'pages/reservations/search.css';
+@import 'pages/reservations/actualizacion-de-asistencia-btn.css';
 
 @import 'pages/specialties/form-specialty.css';
 

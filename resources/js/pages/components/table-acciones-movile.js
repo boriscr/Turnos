@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (window.location.pathname.includes('/turnos')) {
           var elemento = 'td:nth-child(2)'
           var editarLink = row.querySelector('.acciones a:nth-child(2)').outerHTML;
-        } else if (window.location.pathname.includes('/reservas')) {
+        } else if (window.location.pathname.includes('/reservations')) {
           var elemento = 'td:nth-child(5) a'
         } else if (window.location.pathname.includes('/user')) {
           var elemento = 'td:nth-child(2)'

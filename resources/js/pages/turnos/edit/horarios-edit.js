@@ -40,11 +40,11 @@ if (window.location.pathname.includes('/turnos/edit')) {
 
                 for (let i = 0; i < cantidad.value; i++) {
                     const minutosActuales = minutosTotalesInicio + i * tiempoPorTurno;
-                    const hora = Math.floor(minutosActuales / 60);
+                    const time = Math.floor(minutosActuales / 60);
                     const minutos = Math.floor(minutosActuales % 60);
 
                     // Formatear la salida
-                    const horaFormateada = hora.toString().padStart(2, "0");
+                    const horaFormateada = time.toString().padStart(2, "0");
                     const minutosFormateados = minutos.toString().padStart(2, "0");
 
                     horarios.push(`${horaFormateada}:${minutosFormateados}`);
@@ -63,7 +63,7 @@ if (window.location.pathname.includes('/turnos/edit')) {
                 if (cantidad.value >= 1 && hora_inicio.value && hora_fin.value) {
                     generarHorarios();
                 } else {
-                    alert("Complete cantidad, hora inicio y fin primero");
+                    alert("Complete cantidad, time inicio y fin primero");
                     this.checked = false;
                 }
             } else {

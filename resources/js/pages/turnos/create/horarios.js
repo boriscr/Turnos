@@ -35,11 +35,11 @@ if (window.location.pathname.includes('/turnos/create') ||window.location.pathna
 
             for (let i = 0; i < cantidad.value; i++) {
                 let minutosActuales = minutosTotalesInicio + i * tiempoPorTurno;
-                let hora = Math.floor(minutosActuales / 60);
+                let time = Math.floor(minutosActuales / 60);
                 let minutos = Math.floor(minutosActuales % 60);
 
                 // Formatear la salida
-                let horaFormateada = hora.toString().padStart(2, "0");
+                let horaFormateada = time.toString().padStart(2, "0");
                 let minutosFormateados = minutos.toString().padStart(2, "0");
 
                 horarios.push(`${horaFormateada}:${minutosFormateados}`);

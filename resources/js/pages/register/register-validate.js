@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             case 'birthdate':
                 if (!value) {
-                    showError(field, 'La fecha de nacimiento es obligatoria');
+                    showError(field, 'La date de nacimiento es obligatoria');
                 } else {
                     const birthDate = new Date(value);
                     const today = new Date();

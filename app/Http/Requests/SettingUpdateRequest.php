@@ -31,7 +31,7 @@ class SettingUpdateRequest extends FormRequest
             'turnos.limite_diario' => 'required|integer|min:1',
             'turnos.horas_cancelacion' => 'required|integer|min:0',
             'turnos.antelacion_reserva' => 'required|integer|min:1',
-            'turnos.unidad_antelacion' => 'required|in:hora,dia,mes',
+            'turnos.unidad_antelacion' => 'required|in:time,dia,mes',
             'asistencias.intervalo_verificacion' => 'required|integer|min:1',
             //color de fonde de la aplicacion
             'design.fondo_aplicacion_dark' => 'required|string|max:10',

@@ -4,12 +4,12 @@
             <h3 class="title-form">Turnos reservados</h3>
 
             <!-- Barra de búsqueda y filtros -->
-            @include('layouts.filtro-reservas')
+            @include('layouts.reservation-filter')
 
             <table>
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>Id1</th>
                         <th>Fecha del turno</th>
                         <th class="option-movil">Hora</th>
                         <th>Profesional</th>
@@ -19,29 +19,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($reservas as $reserva)
+                    @forelse ($reservations as $reservation)
                         <tr>
-                            <td>{{ $reserva->id }}</td>
-                            <td>{{ Carbon\Carbon::parse($reserva->turnoDisponible->fecha)->format('d/m/Y') }}</td>
+                            <td>{{ $reservation->id }}</td>
+                            <td>{{ Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</td>
                             <td class="option-movil">
-                                {{ Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</td>
+                                {{ Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</td>
                             <td><a
-                                    href="{{ route('doctor.create', $reserva->turnoDisponible->doctor->id) }}">{{ $reserva->turnoDisponible->doctor->name . ' ' . $reserva->turnoDisponible->doctor->surname }}</a>
+                                    href="{{ route('doctor.create', $reservation->availableAppointment->doctor->id) }}">{{ $reservation->availableAppointment->doctor->name . ' ' . $reservation->availableAppointment->doctor->surname }}</a>
                             </td>
                             <td><a
-                                    href="{{ route('user.show', $reserva->user->id) }}">{{ $reserva->user->name . ' ' . $reserva->user->surname }}</a>
+                                    href="{{ route('user.show', $reservation->user->id) }}">{{ $reservation->user->name . ' ' . $reservation->user->surname }}</a>
                             </td>
 
 
                             <td>
-                                @if ($reserva->asistencia === null)
+                                @if ($reservation->asistencia === null)
                                     <div class="ios-dropdown">
                                         <button class="btn-asistencia btn-default dropdown-toggle"
                                             title="Marcar asistencia">
                                             <i class="bi bi-hourglass-split"></i> Pendiente
                                         </button>
                                         <div class="ios-dropdown-menu">
-                                            <form action="{{ route('reservas.asistencia', $reserva->id) }}"
+                                            <form action="{{ route('reservations.asistencia', $reservation->id) }}"
                                                 method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('PATCH')
@@ -50,7 +50,7 @@
                                                     <i class="bi bi-check-circle-fill"></i> Asistió
                                                 </button>
                                             </form>
-                                            <form action="{{ route('reservas.asistencia', $reserva->id) }}"
+                                            <form action="{{ route('reservations.asistencia', $reservation->id) }}"
                                                 method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('PATCH')
@@ -62,26 +62,26 @@
                                         </div>
                                     </div>
                                 @else
-                                    <form action="{{ route('reservas.asistencia', $reserva->id) }}" method="POST"
+                                    <form action="{{ route('reservations.asistencia', $reservation->id) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit"
-                                            class="btn-asistencia {{ $reserva->asistencia ? 'btn-success' : 'btn-danger' }}"
-                                            title="{{ $reserva->asistencia ? 'Cambiar a No asistió' : 'Cambiar a Asistió' }}">
+                                            class="btn-asistencia {{ $reservation->asistencia ? 'btn-success' : 'btn-danger' }}"
+                                            title="{{ $reservation->asistencia ? 'Cambiar a No asistió' : 'Cambiar a Asistió' }}">
                                             <i
-                                                class="bi {{ $reserva->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill' }}"></i>
-                                            {{ $reserva->asistencia ? 'Asistió' : 'No asistió' }}
+                                                class="bi {{ $reservation->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill' }}"></i>
+                                            {{ $reservation->asistencia ? 'Asistió' : 'No asistió' }}
                                         </button>
                                     </form>
                                 @endif
                             </td>
 
                             <td class="acciones full-center">
-                                <a href="{{ route('reservas.show', $reserva->id) }}" class="btn btn-view">
+                                <a href="{{ route('reservations.show', $reservation->id) }}" class="btn btn-view">
                                     <i class="bi bi-eye"></i><b class="accionesMovil">Ver</b>
                                 </a>
-                                <form action="{{ route('availableAppointments.destroy', $reserva->id) }}" method="POST"
+                                <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST"
                                     style="display:inline;" class="delete-form">
                                     @csrf
                                     @method('DELETE')
@@ -99,16 +99,16 @@
 
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center">No se encontraron reservas</td>
+                            <td colspan="7" class="text-center">No se encontraron reservations</td>
                         </tr>
                     @endforelse
 
                 </tbody>
             </table>
             <!-- Paginación -->
-            @if ($reservas->hasPages())
+            @if ($reservations->hasPages())
                 <div class="mt-4">
-                    {{ $reservas->appends(request()->query())->links() }}
+                    {{ $reservations->appends(request()->query())->links() }}
                 </div>
             @endif
         </div>

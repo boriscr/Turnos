@@ -56,7 +56,7 @@ class RegisteredStoreRequest extends FormRequest
             'surname.required' => 'El apellido es obligatorio',
             'idNumber.required' => 'El número de documento es obligatorio',
             'idNumber.unique' => 'Este número de documento ya está registrado',
-            'birthdate.required' => 'La fecha de nacimiento es obligatoria',
+            'birthdate.required' => 'La date de nacimiento es obligatoria',
             'birthdate.before' => 'Debes ser mayor de 18 años',
             'email.unique' => 'Este email ya está registrado',
             'phone.unique' => 'Este teléfono ya está registrado',

@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\ReservationController;
 
 class VerificarAsistencias extends Command
 {
@@ -12,7 +12,7 @@ class VerificarAsistencias extends Command
 
     public function handle()
     {
-        app(ReservaController::class)->verificarAsistenciasAutomaticamente();
+        app(ReservationController::class)->verificarAsistenciasAutomaticamente();
         $this->info('Asistencias verificadas correctamente.');
     }
 }

@@ -95,9 +95,9 @@
                         </small>
                         <div class="item-style">
                             <div class="item">
-                                <input type="radio" name="turnos[unidad_antelacion]" value="hora" id="horas"
-                                    {{ $settings['turnos.unidad_antelacion'] == 'hora' ? 'checked' : '' }}>
-                                <label for="hora">Horas</label>
+                                <input type="radio" name="turnos[unidad_antelacion]" value="time" id="horas"
+                                    {{ $settings['turnos.unidad_antelacion'] == 'time' ? 'checked' : '' }}>
+                                <label for="time">Horas</label>
                             </div>
                             <div class="item">
                                 <input type="radio" name="turnos[unidad_antelacion]" value="dia" id="dias"
@@ -117,7 +117,7 @@
 
                     <div class="item">
                         <label for="intervalo_verificacion">Frecuancia de verificacion Asistencias</label>
-                        <small>Cada x hora se verifican las asistencias automáticamente. Marcando si Asistío o No
+                        <small>Cada x time se verifican las asistencias automáticamente. Marcando si Asistío o No
                             asistio</small>
                         <input type="number" name="asistencias[intervalo_verificacion]"
                             id="hora_verificacion_asistencias"

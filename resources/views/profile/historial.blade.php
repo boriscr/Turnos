@@ -17,38 +17,38 @@
                     <?php
                     $id = $totalReservas + 1;
                     ?>
-                    @foreach ($reservas as $reserva)
+                    @foreach ($reservations as $reservation)
                         <?php
                         $id--;
                         ?>
                         <tr>
                             <td>{{ $id }}</td>
-                            <td>{{ $reserva->turnoDisponible->doctor->specialty->name }}</td>
-                            <td class="fecha-td">
-                                {{ \Carbon\Carbon::parse($reserva->turnoDisponible->fecha)->format('d/m/Y') }}</td>
-                            <td>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</td>
+                            <td>{{ $reservation->availableAppointment->doctor->specialty->name }}</td>
+                            <td class="date-td">
+                                {{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</td>
                             <td
-                                class="{{ $reserva->turnoDisponible->turno->status === true ? ($reserva->asistencia === null ? 'btn-default' : ($reserva->asistencia == true ? 'btn-success' : 'btn-danger')) : 'btn-danger' }}">
+                                class="{{ $reservation->availableAppointment->turno->status === true ? ($reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia == true ? 'btn-success' : 'btn-danger')) : 'btn-danger' }}">
                                 <i
-                                    class="bi {{ $reserva->asistencia === null ? 'bi-hourglass-split' : ($reserva->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill') }}">
+                                    class="bi {{ $reservation->asistencia === null ? 'bi-hourglass-split' : ($reservation->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill') }}">
                                 </i>
-                                {{ $reserva->turnoDisponible->turno->status === true ? ($reserva->asistencia === null ? 'Pendiente' : ($reserva->asistencia ? 'Asistió' : 'No asistió')) : 'Turno Inactivo' }}
+                                {{ $reservation->availableAppointment->turno->status === true ? ($reservation->asistencia === null ? 'Pendiente' : ($reservation->asistencia ? 'Asistió' : 'No asistió')) : 'Turno Inactivo' }}
                             </td>
                             <td>
-                                <a href="{{ route('profile.show', $reserva->id) }}" class="btn btn-view">
+                                <a href="{{ route('profile.show', $reservation->id) }}" class="btn btn-view">
                                     <i class="bi bi-eye"></i>
                                 </a>
                                 @php
-                                    // Correcto: Combinar solo la fecha (de turnoDisponible->fecha) con la hora (de turnoDisponible->hora)
+                                    // Correcto: Combinar solo la date (de availableAppointment->date) con la time (de availableAppointment->time)
                                     $fechaHoraReserva = \Carbon\Carbon::parse(
-                                        $reserva->turnoDisponible->fecha->format('Y-m-d') .
+                                        $reservation->availableAppointment->date->format('Y-m-d') .
                                             ' ' .
-                                            $reserva->turnoDisponible->hora->format('H:i:s'),
+                                            $reservation->availableAppointment->time->format('H:i:s'),
                                     );
                                 @endphp
 
                                 @if ($fechaHoraReserva->gt($now))
-                                    <form action="{{ route('availableAppointments.destroy', $reserva->id) }}" method="POST"
+                                    <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST"
                                         style="display:inline;" class="delete-form">
                                         @csrf
                                         @method('DELETE')
@@ -62,7 +62,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $reservas->links() }}
+            {{ $reservations->links() }}
 
         </div>
     </div>

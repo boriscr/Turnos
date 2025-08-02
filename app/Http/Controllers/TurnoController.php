@@ -35,7 +35,7 @@ class TurnoController extends Controller
             Log::info('Fechas recibidas:', ['fechas' => $request->selected_dates]);
             Log::info('Decodificadas:', ['decoded' => json_decode($request->selected_dates, true)]);
 
-            return back()->with('error', 'Debe seleccionar al menos una fecha');
+            return back()->with('error', 'Debe seleccionar al menos una date');
         }
 
         // Crear el turno principal
@@ -55,22 +55,22 @@ class TurnoController extends Controller
             'status' => $request->status,
         ]);
 
-        // Crear los turnos disponibles para cada fecha
+        // Crear los turnos disponibles para cada date
 
-        // Crear disponibilidad por fecha y horario
-        foreach ($fechas as $fecha) {
+        // Crear disponibilidad por date y horario
+        foreach ($fechas as $date) {
 
             if ($request->horarios_disponibles) {
                 // Caso CON horarios (vienen en JSON)
                 $horarios = json_decode($request->horarios_disponibles, true);
 
-                foreach ($horarios as $hora) {
+                foreach ($horarios as $time) {
                     AvailableAppointment::create([
                         'turno_id' => $turno->id,
                         'doctor_id' => $request->doctor_id,
-                        'fecha' => $fecha,
-                        'hora' => $hora,
-                        'cupos_disponibles' => 1, // 1 cupo por horario individual
+                        'date' => $date,
+                        'time' => $time,
+                        'available_spots' => 1, // 1 cupo por horario individual
                     ]);
                 }
             } else {
@@ -78,9 +78,9 @@ class TurnoController extends Controller
                 AvailableAppointment::create([
                     'turno_id' => $turno->id,
                     'doctor_id' => $request->doctor_id,
-                    'fecha' => $fecha,
-                    'hora' => $request->hora_inicio, // sin hora específica
-                    'cupos_disponibles' => $request->cantidad, // cupo total por fecha
+                    'date' => $date,
+                    'time' => $request->hora_inicio, // sin time específica
+                    'available_spots' => $request->cantidad, // cupo total por date
                 ]);
             }
         }
@@ -98,90 +98,13 @@ class TurnoController extends Controller
         $turno = Turno::findOrFail($id);
         // Obtener el turno disponible relacionado con el doctor de ese turno
         $turnoDisponibles = AvailableAppointment::where('doctor_id', $turno->doctor_id)
-            ->orderByDesc('fecha')
-            ->orderByDesc('hora')
+            ->orderByDesc('date')
+            ->orderByDesc('time')
             ->paginate(10);
 
         return view('turnos.show', compact('turno', 'turnoDisponibles'));
     }
-    public function search(Request $request)
-    {
-        // Si se presionó "Mostrar Todo", ignoramos todos los filtros
-        if ($request->has('mostrar_todo')) {
-            $turnoDisponibles = AvailableAppointment::with(['turno', 'reservas.user'])
-                ->orderByDesc('fecha')
-                ->orderByDesc('hora')
-                ->paginate(10);
 
-            return view('disponibles.index', [
-                'turnoDisponibles' => $turnoDisponibles,
-                'reservaFiltro' => 'todos',
-                'fechaFiltro' => 'todos',
-                'search' => null,
-                'fechaInicio' => null,
-                'fechaFin' => null
-            ]);
-        }
-
-        // Procesamiento normal de filtros
-        $search = $request->input('search');
-        $reservaFiltro = $request->input('reserva', 'reservados');
-        $fechaFiltro = $request->input('fecha', 'hoy');
-        $fechaInicio = $request->input('fecha_inicio');
-        $fechaFin = $request->input('fecha_fin');
-        $hoy = now()->format('Y-m-d');
-        $manana = now()->addDay()->format('Y-m-d'); // Nueva variable para mañana
-
-        $query = AvailableAppointment::with(['turno', 'reservas.user'])
-            ->when($search, function ($query) use ($search) {
-                $query->whereHas('reservas.user', function ($userQuery) use ($search) {
-                    $userQuery->where('idNumber', 'like', "%$search%")
-                        ->orWhere('name', 'like', "%$search%")
-                        ->orWhere('surname', 'like', "%$search%");
-                });
-            })
-            ->when($reservaFiltro !== 'todos', function ($query) use ($reservaFiltro) {
-                switch ($reservaFiltro) {
-                    case 'reservados':
-                        $query->where('cupos_reservados', '>=', 1);
-                        break;
-                    case 'sin_reserva':
-                        $query->where('cupos_reservados', 0);
-                        break;
-                }
-            });
-
-        // Manejo de fechas
-        if ($fechaFiltro === 'personalizado') {
-            if ($fechaInicio && $fechaFin) {
-                $query->whereBetween('fecha', [$fechaInicio, $fechaFin]);
-            } elseif ($fechaInicio) {
-                $query->whereDate('fecha', '>=', $fechaInicio);
-            } elseif ($fechaFin) {
-                $query->whereDate('fecha', '<=', $fechaFin);
-            }
-        } elseif ($fechaFiltro !== 'todos') {
-            switch ($fechaFiltro) {
-                case 'hoy':
-                    $query->whereDate('fecha', $hoy);
-                    break;
-                case 'anteriores':
-                    $query->whereDate('fecha', '<', $hoy);
-                    break;
-                case 'futuros':
-                    // Cambiado para mostrar solo mañana
-                    $query->whereDate('fecha', $manana);
-                    break;
-            }
-        }
-
-        $turnoDisponibles = $query
-            ->orderByDesc('fecha')
-            ->orderByDesc('hora')
-            ->paginate(10);
-
-        return view('disponibles.index', compact('turnoDisponibles', 'reservaFiltro', 'fechaFiltro', 'search', 'fechaInicio', 'fechaFin'));
-    }
 
     //Editar Turno
     public function edit($id)
@@ -224,13 +147,13 @@ class TurnoController extends Controller
 
         if (empty($fechas)) {
 
-            return back()->with('error', 'Debe seleccionar al menos una fecha')->withInput();
+            return back()->with('error', 'Debe seleccionar al menos una date')->withInput();
         }
 
         // Validación específica para horarios
         if ($request->turno === 'horario2') {
             if (empty($request->horarios_disponibles) || !json_decode($request->horarios_disponibles)) {
-                return back()->withErrors(['horarios_disponibles' => 'Para turnos por hora, debe seleccionar al menos un horario'])->withInput();
+                return back()->withErrors(['horarios_disponibles' => 'Para turnos por time, debe seleccionar al menos un horario'])->withInput();
             }
         }
 
@@ -256,20 +179,20 @@ class TurnoController extends Controller
         // Eliminar disponibilidades existentes
 
         // Crear nuevas disponibilidades según la configuración
-        foreach ($fechas as $fecha) {
+        foreach ($fechas as $date) {
             if ($request->horarios_disponibles && json_decode($request->horarios_disponibles)) {
                 $horarios = json_decode($request->horarios_disponibles, true);
 
-                foreach ($horarios as $hora) {
+                foreach ($horarios as $time) {
                     AvailableAppointment::updateOrCreate(
-                        ['turno_id' => $turno->id, 'doctor_id' => $request->doctor_id, 'fecha' => $fecha, 'hora' => $hora],
-                        ['cupos_disponibles' => 1]
+                        ['turno_id' => $turno->id, 'doctor_id' => $request->doctor_id, 'date' => $date, 'time' => $time],
+                        ['available_spots' => 1]
                     );
                 }
             } else {
                 AvailableAppointment::updateOrCreate(
-                    ['turno_id' => $turno->id, 'doctor_id' => $request->doctor_id, 'fecha' => $fecha, 'hora' => $request->hora_inicio],
-                    ['cupos_disponibles' => $request->cantidad]
+                    ['turno_id' => $turno->id, 'doctor_id' => $request->doctor_id, 'date' => $date, 'time' => $request->hora_inicio],
+                    ['available_spots' => $request->cantidad]
                 );
             }
         }

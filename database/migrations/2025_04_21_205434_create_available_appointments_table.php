@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('turno_id')->constrained()->onDelete('cascade');
             $table->foreignId('doctor_id')->constrained(Doctor::TABLE)->onDelete('cascade');
-            $table->date('fecha');
-            $table->time('hora')->nullable(); // Si no se asignan horarios específicos, queda null
-            $table->integer('cupos_disponibles')->default(1);
-            $table->integer('cupos_reservados')->default(0);
+            $table->date('date');
+            $table->time('time')->nullable(); // Si no se asignan horarios específicos, queda null
+            $table->integer('available_spots')->default(1);
+            $table->integer('reserved_spots')->default(0);
             
-            $table->unique(['turno_id', 'fecha', 'hora']);
-            $table->index(['fecha', 'hora']);
+            $table->unique(['turno_id', 'date', 'time']);
+            $table->index(['date', 'time']);
             $table->timestamps();
         });
         

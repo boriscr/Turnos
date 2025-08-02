@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 title: '¿Confirmar registro?',
                 html: `
                     <p class="text-left">
-                        Los datos que estás por registrar serán utilizados para la reserva de turnos. 
+                        Los datos que estás por registrar serán utilizados para la reservation de turnos. 
                         <strong>Algunos datos no podrán ser editados posteriormente</strong>, ya que estarán asociados de forma exclusiva a esta cuenta.
                     </p>
                     <p class="text-left mt-2">

@@ -5,9 +5,9 @@ import '../js/pages/register/register-validate.js';
 import '../js/pages/doctors/specialty.js';
 import '../js/pages/profiles/anular-btn.js';
 
-import '../js/pages/reservas/index/validar-fechas.js';
-import '../js/pages/reservas/create/filtro-turnos.js';
-import '../js/pages/reservas/create/formulario-3paso-reserva.js';
+import '../js/pages/reservations/index/validar-fechas.js';
+import '../js/pages/reservations/create/filtro-turnos.js';
+import '../js/pages/reservations/create/formulario-3paso-reservation.js';
 
 import '../js/pages/turnos/components/checkboxs.js';
 import '../js/pages/turnos/components/formulario-3paso-turno.js';

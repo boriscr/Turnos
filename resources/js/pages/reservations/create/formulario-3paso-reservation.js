@@ -1,5 +1,5 @@
 // Este script maneja la lógica del formulario multipaso para la gestión de turnos
-if (window.location.pathname.includes('/availableAppointments/create') || window.location.pathname.includes('/availableAppointments/edit') || window.location.pathname.includes('/turnos/edit')) {
+if (window.location.pathname.includes('/reservations/create') || window.location.pathname.includes('/availableAppointments/edit') || window.location.pathname.includes('/turnos/edit')) {
 
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('multiStepForm');

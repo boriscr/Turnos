@@ -79,7 +79,7 @@ class ProfileUpdateRequest extends FormRequest
             'name.min' => 'El nombre debe tener al menos :min caracteres',
             'surname.required' => 'El apellido es obligatorio',
             'surname.min' => 'El apellido debe tener al menos :min caracteres',
-            'birthdate.required' => 'La fecha de nacimiento es obligatoria',
+            'birthdate.required' => 'La date de nacimiento es obligatoria',
             'birthdate.before' => 'Debes ser mayor de 18 años',
             'gender.required' => 'El género es obligatorio',
             'country.required' => 'El país es obligatorio',

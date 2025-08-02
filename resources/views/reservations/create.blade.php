@@ -9,7 +9,7 @@
                 <div class="step" data-step="2"><i class="bi bi-clock-history"></i> Selección de Turno</div>
             </div>
 
-            <form action="{{ route('bookAvailableAppointment') }}" method="post" id="multiStepForm">
+            <form action="{{ route('confirmReservation') }}" method="post" id="multiStepForm">
                 @csrf
 
                 <!-- Paso 1 - Datos Personales -->
@@ -74,7 +74,7 @@
                     <div class="item">
                         <label for="fecha_turno"><i class="bi bi-4-circle"></i> Fecha del Turno</label>
                         <select name="fecha_turno" id="fecha_turno" required>
-                            <option value="">Seleccione una fecha</option>
+                            <option value="">Seleccione una date</option>
                         </select>
                     </div>
 

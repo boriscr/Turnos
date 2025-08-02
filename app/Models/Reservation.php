@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Reserva extends Model
+class Reservation extends Model
 {
     protected $fillable = [
-        'turno_disponible_id',
+        'available_appointment_id',
         'user_id',
         'asistencia',
     ];
@@ -15,7 +15,7 @@ class Reserva extends Model
         'asistencia' => 'boolean',
     ];
 
-    public function turnoDisponible()
+    public function availableAppointment()
     {
         return $this->belongsTo(AvailableAppointment::class);
     }

@@ -12,7 +12,7 @@ return [
     'manage_appointments' => 'Gestionar Turnos',
     'view_appointments' => 'Ver Turnos',
     'create_appointment' => 'Crear Turno',
-    'manage_booking' => 'Gestionar Reservas',
-    'view_booking' => 'Ver Reservas',
+    'manage_booking' => 'Gestionar Reservations',
+    'view_booking' => 'Ver Reservations',
     'settings' => 'Configuración',
 ];

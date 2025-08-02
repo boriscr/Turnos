@@ -71,7 +71,7 @@ class UserUpdateRequest extends FormRequest
             'idNumber.required' => 'El número de documento es obligatorio',
             'idNumber.unique' => 'Este número de documento ya está registrado',
             'idNumber.min' => 'El documento debe tener al menos :min caracteres',
-            'birthdate.required' => 'La fecha de nacimiento es obligatoria',
+            'birthdate.required' => 'La date de nacimiento es obligatoria',
             'birthdate.before' => 'El usuario debe ser mayor de 18 años',
             'gender.required' => 'El género es obligatorio',
             'gender.in' => 'El género seleccionado no es válido',

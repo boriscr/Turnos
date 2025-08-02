@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use App\Models\Reserva;
+use App\Models\Reservation;
 class ProfileController extends Controller
 {
     public function index()
@@ -28,15 +28,15 @@ class ProfileController extends Controller
 public function historial()
 {
     if (Auth::check()) {
-        $totalReservas = Reserva::where('user_id', Auth::user()->id)->count();
-        $reservas = Reserva::where('user_id', Auth::user()->id)
-                      ->with('turnoDisponible') // Asegúrate de cargar la relación
+        $totalReservas = Reservation::where('user_id', Auth::user()->id)->count();
+        $reservations = Reservation::where('user_id', Auth::user()->id)
+                      ->with('availableAppointment') // Asegúrate de cargar la relación
                       ->orderBy('id', 'desc')
                       ->paginate(10);
         
-        $now = now(); // Fecha y hora actual
+        $now = now(); // Fecha y time actual
         
-        return view('profile.historial', compact('reservas', 'totalReservas', 'now'));
+        return view('profile.historial', compact('reservations', 'totalReservas', 'now'));
     } else {
         return redirect()->route('login'); // Mejor redirigir que mostrar un mensaje
     }
@@ -44,14 +44,14 @@ public function historial()
 
     public function show($id)
     {
-        $reserva = Reserva::findOrfail($id); // Obtiene el user autenticado
-        if (!$reserva) {
-            return redirect()->route('profile.historial')->with('error', 'Reserva no encontrada.');
+        $reservation = Reservation::findOrfail($id); // Obtiene el user autenticado
+        if (!$reservation) {
+            return redirect()->route('profile.historial')->with('error', 'Reservation no encontrada.');
         }
-        if ($reserva->user_id !== Auth::id()) {
-            return redirect()->route('profile.historial')->with('error', 'No tienes permiso para ver esta reserva.');
+        if ($reservation->user_id !== Auth::id()) {
+            return redirect()->route('profile.historial')->with('error', 'No tienes permiso para ver esta reservation.');
         }
-        return view('profile.show', compact('reserva'));
+        return view('profile.show', compact('reservation'));
     }
 
 

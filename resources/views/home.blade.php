@@ -9,7 +9,7 @@
                 @auth
                     <div class="full-center">
                         <button type="button" class="primario-btn">
-                            <a class="nav-link" href="{{ route('availableAppointments.create') }}">Reservar Turno</a>
+                            <a class="nav-link" href="{{ route('reservations.create') }}">Reservar Turno</a>
                         </button>
 
                     </div>

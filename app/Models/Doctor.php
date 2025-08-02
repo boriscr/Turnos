@@ -36,8 +36,8 @@ class Doctor extends Model
         return $this->belongsTo(Specialty::class);
     }
 
-    public function reservas()
+    public function reservations()
     {
-        return $this->hasMany(Reserva::class);
+        return $this->hasMany(Reservation::class);
     }
 }

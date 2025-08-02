@@ -1,25 +1,25 @@
-if (window.location.pathname.includes('/availableAppointments/create')) {
+if (window.location.pathname.includes('/reservations/create')) {
     // Variables globales
     let todosLosTurnos = [];
     let previewSettings = { amount: 30, unit: 'dia' }; // Valores por defecto
 
-    // Función para obtener fecha actual en formato ISO (YYYY-MM-DD)
+    // Función para obtener date actual en formato ISO (YYYY-MM-DD)
     function obtenerFechaActual() {
         try {
             const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
             return ahora.split(',')[0];
         } catch (error) {
-            console.error("Error al obtener fecha actual:", error);
+            console.error("Error al obtener date actual:", error);
             return new Date().toISOString().split('T')[0]; // Fallback
         }
     }
 
-    // Función para calcular fecha límite según configuración
+    // Función para calcular date límite según configuración
     function calcularFechaLimite() {
         try {
             const ahora = new Date();
             switch (previewSettings.unit) {
-                case 'hora':
+                case 'time':
                     ahora.setHours(ahora.getHours() + previewSettings.amount);
                     break;
                 case 'mes':
@@ -32,7 +32,7 @@ if (window.location.pathname.includes('/availableAppointments/create')) {
             }
             return ahora.toISOString().split('T')[0];
         } catch (error) {
-            console.error("Error al calcular fecha límite:", error);
+            console.error("Error al calcular date límite:", error);
             // Fallback: 30 días en el futuro
             const fallback = new Date();
             fallback.setDate(fallback.getDate() + 30);
@@ -49,12 +49,12 @@ if (window.location.pathname.includes('/availableAppointments/create')) {
             const horaActual = ahora.split(',')[1] ? ahora.split(',')[1].trim() : '00:00';
 
             return turnos.filter(turno => {
-                // Filtro por fecha límite
-                if (turno.fecha > fechaLimite) return false;
+                // Filtro por date límite
+                if (turno.date > fechaLimite) return false;
 
                 // Filtro para turnos del día actual
-                if (turno.fecha === fechaActual) {
-                    const turnoDate = new Date(`${turno.fecha}T${turno.hora}:00`);
+                if (turno.date === fechaActual) {
+                    const turnoDate = new Date(`${turno.date}T${turno.time}:00`);
                     const ahoraDate = new Date(`${fechaActual}T${horaActual}:00`);
                     return turnoDate.getTime() >= ahoraDate.getTime();
                 }
@@ -134,7 +134,7 @@ if (window.location.pathname.includes('/availableAppointments/create')) {
                 return;
             }
 
-            const response = await fetch(`/getAvailableAppointmentsByName/${medicoId}`);
+            const response = await fetch(`/getAvailableReservationByName/${medicoId}`);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             
             const data = await response.json();
@@ -169,7 +169,7 @@ if (window.location.pathname.includes('/availableAppointments/create')) {
                 return;
             }
 
-            const response = await fetch(`/getAvailableAppointmentsByDoctor/${turnoNombreId}`);
+            const response = await fetch(`/getAvailableReservationByDoctor/${turnoNombreId}`);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             
             const data = await response.json();
@@ -188,13 +188,13 @@ if (window.location.pathname.includes('/availableAppointments/create')) {
             }
 
             // Obtener fechas únicas de los turnos
-            const fechasUnicas = [...new Set(todosLosTurnos.map(t => t.fecha))];
+            const fechasUnicas = [...new Set(todosLosTurnos.map(t => t.date))];
 
-            selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
-            fechasUnicas.forEach(fecha => {
-                const fechaObj = new Date(fecha);
+            selectFecha.innerHTML = '<option value="">Seleccione una date</option>';
+            fechasUnicas.forEach(date => {
+                const fechaObj = new Date(date);
                 const option = document.createElement('option');
-                option.value = fecha;
+                option.value = date;
                 option.textContent = fechaObj.toLocaleDateString('es-ES', {
                     weekday: 'long',
                     day: '2-digit',
@@ -211,7 +211,7 @@ if (window.location.pathname.includes('/availableAppointments/create')) {
         }
     }
 
-    // Función para cargar horas basadas en fecha seleccionada
+    // Función para cargar horas basadas en date seleccionada
     async function cargarHoras(fechaSeleccionada) {
         const selectHora = document.getElementById('hora_turno');
         if (!selectHora) return;
@@ -222,7 +222,7 @@ if (window.location.pathname.includes('/availableAppointments/create')) {
             selectHora.innerHTML = '<option value="">Cargando horarios...</option>';
 
             if (!fechaSeleccionada) {
-                selectHora.innerHTML = '<option value="">Seleccione una fecha primero</option>';
+                selectHora.innerHTML = '<option value="">Seleccione una date primero</option>';
                 return;
             }
 
@@ -231,24 +231,24 @@ if (window.location.pathname.includes('/availableAppointments/create')) {
                 throw new Error('La lista de turnos no es válida');
             }
 
-            // Filtrar los turnos disponibles para esa fecha
-            let availableAppointments = todosLosTurnos.filter(turno => turno.fecha === fechaSeleccionada);
+            // Filtrar los turnos disponibles para esa date
+            let availableAppointments = todosLosTurnos.filter(turno => turno.date === fechaSeleccionada);
 
-            // Obtener fecha y hora actual en zona horaria de Jujuy
+            // Obtener date y time actual en zona horaria de Jujuy
             const fechaActual = obtenerFechaActual();
             let horaActual = '00:00';
             try {
                 const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
                 horaActual = ahora.split(',')[1] ? ahora.split(',')[1].trim() : '00:00';
             } catch (error) {
-                console.error('Error al obtener hora actual:', error);
+                console.error('Error al obtener time actual:', error);
             }
 
             // Filtrar horarios pasados si es el día actual
             if (fechaSeleccionada === fechaActual) {
                 availableAppointments = availableAppointments.filter(turno => {
                     try {
-                        const turnoDate = new Date(`${fechaSeleccionada}T${turno.hora}:00`);
+                        const turnoDate = new Date(`${fechaSeleccionada}T${turno.time}:00`);
                         const ahoraDate = new Date(`${fechaActual}T${horaActual}:00`);
                         return turnoDate.getTime() >= ahoraDate.getTime();
                     } catch (error) {
@@ -266,7 +266,7 @@ if (window.location.pathname.includes('/availableAppointments/create')) {
                 availableAppointments.forEach(turno => {
                     const option = document.createElement('option');
                     option.value = turno.id;
-                    option.textContent = turno.hora;
+                    option.textContent = turno.time;
                     selectHora.appendChild(option);
                 });
                 selectHora.disabled = false;

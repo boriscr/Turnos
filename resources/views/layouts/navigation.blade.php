@@ -15,7 +15,7 @@
                     <i class="bi bi-house"></i><span>{{ __('navbar.home') }}</span>
                 </x-nav-link-active>
 
-                <x-nav-link-active href="{{ route('availableAppointments.create') }}" route="availableAppointments.create">
+                <x-nav-link-active href="{{ route('reservations.create') }}" route="reservations.create">
                     <i
                         class="bi bi-calendar-plus"></i><span>{{ __('navbar.book_appointment') }}</span>{{-- Reservar Turno --}}
                 </x-nav-link-active>
@@ -79,11 +79,11 @@
                                             {{ __('navbar.create_appointment') }}</span>{{-- Crear Turnos --}}
                                     </x-dropdown-link>
 
-                                    <!-- Sección Reservas -->
-                                    <div class="subtitulo"> {{ __('navbar.manage_booking') }}</div>{{-- Gestionar Reservas --}}
-                                    <x-dropdown-link :href="route('reservas.index')">
+                                    <!-- Sección Reservations -->
+                                    <div class="subtitulo"> {{ __('navbar.manage_booking') }}</div>{{-- Gestionar Reservations --}}
+                                    <x-dropdown-link :href="route('reservations.index')">
                                         <i class="bi bi-eye"></i> <span>
-                                            {{ __('navbar.view_booking') }}</span>{{-- Ver reservas --}}
+                                            {{ __('navbar.view_booking') }}</span>{{-- Ver reservations --}}
                                     </x-dropdown-link>
                                 </div>
                             </x-slot>
@@ -172,7 +172,7 @@
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 <i class="bi bi-house"></i><span>{{ __('navbar.home') }}</span>
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('availableAppointments.create')" :active="request()->routeIs('availableAppointments.create')">
+            <x-responsive-nav-link :href="route('reservations.create')" :active="request()->routeIs('reservations.create')">
                 <i
                     class="bi bi-calendar-plus"></i><span>{{ __('navbar.book_appointment') }}</span>{{-- Reservar Turno --}}
             </x-responsive-nav-link>
@@ -230,11 +230,11 @@
                                     {{ __('navbar.create_appointment') }}</span>{{-- Crear Turnos --}}
                             </x-responsive-nav-link>
 
-                            <!-- Sección Reservas -->
-                            <div class="subtitulo"> {{ __('navbar.manage_booking') }}</div>{{-- Gestionar Reservas --}}
-                            <x-responsive-nav-link :href="route('reservas.index')">
+                            <!-- Sección Reservations -->
+                            <div class="subtitulo"> {{ __('navbar.manage_booking') }}</div>{{-- Gestionar Reservations --}}
+                            <x-responsive-nav-link :href="route('reservations.index')">
                                 <i class="bi bi-eye"></i> <span>
-                                    {{ __('navbar.view_booking') }}</span>{{-- Ver reservas --}}
+                                    {{ __('navbar.view_booking') }}</span>{{-- Ver reservations --}}
                             </x-responsive-nav-link>
                         </div>
 

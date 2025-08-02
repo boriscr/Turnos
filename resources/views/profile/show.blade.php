@@ -1,5 +1,5 @@
 <x-app-layout>
-    @if (isset($reserva) && $reserva->turnoDisponible->turno->status === true)
+    @if (isset($reservation) && $reservation->availableAppointment->turno->status === true)
         <div class="content-wrapper">
             <h3 class="title-form">Detalles</h3>
             <div class="section-container full-center">
@@ -8,32 +8,32 @@
                     <p><b> Paciente: </b> {{ Auth::user()->name . ' ' . Auth::user()->surname }}
                     </p>
                     <p><b> DNI: </b>{{ Auth::user()->idNumber }}</p>
-                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->doctor->status ? 'Si' : 'No' }}</p>
+                    <p><b> Activo: </b>{{ $reservation->availableAppointment->doctor->status ? 'Si' : 'No' }}</p>
 
                 </div>
                 <div class="card">
                     <h1>Turno</h1>
-                    <p><b> Specialty: </b>{{ $reserva->turnoDisponible->doctor->specialty->name }}</p>
+                    <p><b> Specialty: </b>{{ $reservation->availableAppointment->doctor->specialty->name }}</p>
                     <p><b> Hora del turno:
-                        </b>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->hora)->format('H:i') }}</p>
+                        </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</p>
                     <p><b> Fecha del turno:
-                        </b>{{ \Carbon\Carbon::parse($reserva->turnoDisponible->fecha)->format('d/m/Y') }}</p>
-                    <p><b> Direccion: </b>{{ $reserva->turnoDisponible->direccion }}</p>
+                        </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</p>
+                    <p><b> Direccion: </b>{{ $reservation->availableAppointment->direccion }}</p>
 
                     <p><b> Asistencia:
-                        </b>{{ $reserva->asistencia == null ? 'Pendiente' : ($reserva->asistencia == true ? 'Asistio' : 'No asistio') }}
+                        </b>{{ $reservation->asistencia == null ? 'Pendiente' : ($reservation->asistencia == true ? 'Asistio' : 'No asistio') }}
                     </p>
-                    <p><b> Fecha de creación: </b>{{ $reserva->created_at }}</p>
-                    <p><b> Fecha de última actualizacion: </b>{{ $reserva->updated_at }}</p>
+                    <p><b> Fecha de creación: </b>{{ $reservation->created_at }}</p>
+                    <p><b> Fecha de última actualizacion: </b>{{ $reservation->updated_at }}</p>
                 </div>
                 <div class="card">
                     <h1>Doctor/a</h1>
                     <p><b> Doctor/a:
-                        </b>{{ $reserva->turnoDisponible->doctor->name . ' ' . $reserva->turnoDisponible->doctor->surname }}
+                        </b>{{ $reservation->availableAppointment->doctor->name . ' ' . $reservation->availableAppointment->doctor->surname }}
                     </p>
-                    <p><b> DNI: </b>{{ $reserva->turnoDisponible->doctor->idNumber }}</p>
-                    <p><b> Activo: </b>{{ $reserva->turnoDisponible->doctor->status ? 'Si' : 'No' }}</p>
-                    <p><b> Specialty: </b>{{ $reserva->turnoDisponible->doctor->specialty->name }}</p>
+                    <p><b> DNI: </b>{{ $reservation->availableAppointment->doctor->idNumber }}</p>
+                    <p><b> Activo: </b>{{ $reservation->availableAppointment->doctor->status ? 'Si' : 'No' }}</p>
+                    <p><b> Specialty: </b>{{ $reservation->availableAppointment->doctor->specialty->name }}</p>
                 </div>
             </div>
         </div>

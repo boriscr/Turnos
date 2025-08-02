@@ -70,7 +70,7 @@ class SettingSeeder extends Seeder
                     'desc' => 'Horas de anticipación para reservar'
                 ],
                 'unidad_antelacion' => [
-                    'value' => 'hora',
+                    'value' => 'time',
                     'type' => 'string',
                     'desc' => 'Unidad de tiempo para antelación (horas/días)'
                 ]
