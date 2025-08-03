@@ -1,7 +1,7 @@
 <?php
 return [
     'home' => 'Inicio',
-    'book_appointment' => 'Reservar Turno',
+    'book_appointment' => 'Reservar Appointment',
     'administration' => 'Administración',
     'manage_users' => 'Gestionar Usuarios',
     'view_users' => 'Ver Usuarios',
@@ -11,7 +11,7 @@ return [
     'specialties' => 'Especialidades',
     'manage_appointments' => 'Gestionar Turnos',
     'view_appointments' => 'Ver Turnos',
-    'create_appointment' => 'Crear Turno',
+    'create_appointment' => 'Crear Appointment',
     'manage_booking' => 'Gestionar Reservations',
     'view_booking' => 'Ver Reservations',
     'settings' => 'Configuración',

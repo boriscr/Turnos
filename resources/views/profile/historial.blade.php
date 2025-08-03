@@ -28,11 +28,11 @@
                                 {{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</td>
                             <td>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</td>
                             <td
-                                class="{{ $reservation->availableAppointment->turno->status === true ? ($reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia == true ? 'btn-success' : 'btn-danger')) : 'btn-danger' }}">
+                                class="{{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia == true ? 'btn-success' : 'btn-danger')) : 'btn-danger' }}">
                                 <i
                                     class="bi {{ $reservation->asistencia === null ? 'bi-hourglass-split' : ($reservation->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill') }}">
                                 </i>
-                                {{ $reservation->availableAppointment->turno->status === true ? ($reservation->asistencia === null ? 'Pendiente' : ($reservation->asistencia ? 'Asistió' : 'No asistió')) : 'Turno Inactivo' }}
+                                {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? 'Pendiente' : ($reservation->asistencia ? 'Asistió' : 'No asistió')) : 'Appointment Inactivo' }}
                             </td>
                             <td>
                                 <a href="{{ route('profile.show', $reservation->id) }}" class="btn btn-view">

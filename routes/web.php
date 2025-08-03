@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SpecialtyController;
-use App\Http\Controllers\TurnoController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AvailableAppointmentsController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SettingController;
@@ -14,7 +14,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 Route::view('/', 'home')->name('home');
 
 Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
-    //Solicitud de Turnos
+    //Solicitud de Appointments
     Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
     Route::get('/getDoctorsBySpecialty/{specialty_id}', [ReservationController::class, 'getDoctorsBySpecialty']);
     Route::get('/getAvailableReservationByName/{doctor_id}', [ReservationController::class, 'getAvailableReservationByName']);
@@ -36,7 +36,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     //Edit users
     Route::patch('/registered/edit', [RegisteredUserController::class, 'edit'])->name('registered.edit');
     Route::patch('/registered/update', [RegisteredUserController::class, 'update'])->name('registered.update');
-    //Turnos disponibles "Reservations"
+    //Appointments disponibles "Reservations"
 
     //Reservations
     Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
@@ -71,17 +71,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/specialty/{id}', [SpecialtyController::class, 'destroy'])->name('specialty.destroy');
     Route::get('/specialty/doctors/{id}', [SpecialtyController::class, 'listaEquipo'])->name('lista.doctors');
 
-    //Turnos
-    Route::get('/turnos', [TurnoController::class, 'index'])->name('turnos.index');
-    Route::get('/turnos/create', [TurnoController::class, 'create'])->name('turnos.create');
-    Route::post('/turnos', [TurnoController::class, 'store'])->name('turnos.store');
-    Route::get('/turnos/show/{id}', [TurnoController::class, 'show'])->name('turnos.show');
-    Route::get('/turnos/edit/{id}', [TurnoController::class, 'edit'])->name('turnos.edit');
-    Route::patch('/turnos/{id}', [TurnoController::class, 'update'])->name('turnos.update');
-    Route::delete('/turnos/{id}', [TurnoController::class, 'destroy'])->name('turnos.destroy');
-    Route::get('/doctors-por-specialty/{id}', [TurnoController::class, 'getPorEspecialidad']); //En controlador Doctors
+    //Appointments
+    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
+    Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
+    Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::get('/appointments/show/{id}', [AppointmentController::class, 'show'])->name('appointments.show');
+    Route::get('/appointments/edit/{id}', [AppointmentController::class, 'edit'])->name('appointments.edit');
+    Route::patch('/appointments/{id}', [AppointmentController::class, 'update'])->name('appointments.update');
+    Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+    Route::get('/doctors-por-specialty/{id}', [AppointmentController::class, 'getPorEspecialidad']); //En controlador Doctors
 
-    //Turnos disponibles creados
+    //Appointments disponibles creados
     Route::get('/availableAppointments/{doctor_id?}', [AvailableAppointmentsController::class, 'index'])->name('availableAppointments.index');
     //Setting
     Route::get('/settings/edit', [SettingController::class, 'edit'])->name('settings.edit');

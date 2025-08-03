@@ -10,7 +10,7 @@ class AvailableAppointment extends Model
 
     protected $fillable = [
         'doctor_id',
-        'turno_id',
+        'appointment_id',
         'date',
         'time',
         'available_spots',
@@ -23,9 +23,9 @@ class AvailableAppointment extends Model
         'disponible' => 'boolean'
     ];
 
-    public function turno()
+    public function appointment()
     {
-        return $this->belongsTo(Turno::class);
+        return $this->belongsTo(Appointment::class);
     }
     public function reservations()
     {

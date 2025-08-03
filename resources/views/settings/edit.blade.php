@@ -40,8 +40,8 @@
                         @enderror
                     </div>
                     <div class="item">
-                        <label for="mensaje_paciente">Mensaje al solicitar un turno.</label>
-                        <small>Se mostrará al paciente cuando solicite un turno.</small>
+                        <label for="mensaje_paciente">Mensaje al solicitar un appointment.</label>
+                        <small>Se mostrará al paciente cuando solicite un appointment.</small>
                         <textarea name="app[mensaje_paciente]" id="mensaje_paciente" cols="30" rows="3" required>{{ $settings['app.mensaje_paciente'] }}</textarea>
                         @error('app.mensaje_paciente')
                             <div class="error">{{ $message }}</div>
@@ -51,37 +51,37 @@
                     <div class="item">
                         <label for="faltas">Faltas</label>
                         <small>Cantidad de faltas que un user puede tener antes de ser bloqueado.</small>
-                        <input type="number" name="turnos[faltas_maximas]" id="faltas"
-                            value="{{ $settings['turnos.faltas_maximas'] }}" required>
-                        @error('turnos.faltas_maximas')
+                        <input type="number" name="appointments[faltas_maximas]" id="faltas"
+                            value="{{ $settings['appointments.faltas_maximas'] }}" required>
+                        @error('appointments.faltas_maximas')
                             <div class="error">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="item">
-                        <label for="faltas">Limites de turnos</label>
-                        <small>Cantidad de turnos que un user puede reservar en un día.</small>
-                        <input type="number" name="turnos[limite_diario]" id="limites"
-                            value="{{ $settings['turnos.limite_diario'] }}" required>
-                        @error('turnos.limite_diario')
+                        <label for="faltas">Limites de appointments</label>
+                        <small>Cantidad de appointments que un user puede reservar en un día.</small>
+                        <input type="number" name="appointments[limite_diario]" id="limites"
+                            value="{{ $settings['appointments.limite_diario'] }}" required>
+                        @error('appointments.limite_diario')
                             <div class="error">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="item">
-                        <label for="horas_cancelacion">Cancelacion de turnos.</label>
-                        <small>Tiempo mínimo para cancelar un turno (en horas).</small>
-                        <input type="number" name="turnos[horas_cancelacion]" id="horas_cancelacion"
-                            value="{{ $settings['turnos.horas_cancelacion'] }}" required>
-                        @error('turnos.horas_cancelacion')
+                        <label for="horas_cancelacion">Cancelacion de appointments.</label>
+                        <small>Tiempo mínimo para cancelar un appointment (en horas).</small>
+                        <input type="number" name="appointments[horas_cancelacion]" id="horas_cancelacion"
+                            value="{{ $settings['appointments.horas_cancelacion'] }}" required>
+                        @error('appointments.horas_cancelacion')
                             <div class="error">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="item">
                         <label for="antelacion_reserva">Anticipación para reservar</label>
-                        <small>¿Desde cuántas horas/días antes los users pueden ver los turnos?(por ejemplo:
+                        <small>¿Desde cuántas horas/días antes los users pueden ver los appointments?(por ejemplo:
                             24)</small>
-                        <input type="number" name="turnos[antelacion_reserva]" id="preview_window_amount"
-                            value="{{ $settings['turnos.antelacion_reserva'] }}" min="1" required>
-                        @error('turnos.antelacion_reserva')
+                        <input type="number" name="appointments[antelacion_reserva]" id="preview_window_amount"
+                            value="{{ $settings['appointments.antelacion_reserva'] }}" min="1" required>
+                        @error('appointments.antelacion_reserva')
                             <div class="error">{{ $message }}</div>
                         @enderror
                     </div>
@@ -89,28 +89,28 @@
                     <div class="box-style">
                         <label for="unidad_antelacion">Elegí la unidad de tiempo: Horas, Días, o Meses</label>
                         <small>
-                            *Ejemplo: si configuras “3 días”, el user podrá ver los turnos hasta 3 días antes
+                            *Ejemplo: si configuras “3 días”, el user podrá ver los appointments hasta 3 días antes
                             de
                             que ocurran.
                         </small>
                         <div class="item-style">
                             <div class="item">
-                                <input type="radio" name="turnos[unidad_antelacion]" value="time" id="horas"
-                                    {{ $settings['turnos.unidad_antelacion'] == 'time' ? 'checked' : '' }}>
+                                <input type="radio" name="appointments[unidad_antelacion]" value="time" id="horas"
+                                    {{ $settings['appointments.unidad_antelacion'] == 'time' ? 'checked' : '' }}>
                                 <label for="time">Horas</label>
                             </div>
                             <div class="item">
-                                <input type="radio" name="turnos[unidad_antelacion]" value="dia" id="dias"
-                                    {{ $settings['turnos.unidad_antelacion'] == 'dia' ? 'checked' : '' }}>
+                                <input type="radio" name="appointments[unidad_antelacion]" value="dia" id="dias"
+                                    {{ $settings['appointments.unidad_antelacion'] == 'dia' ? 'checked' : '' }}>
                                 <label for="dia">Días</label>
                             </div>
                             <div class="item">
-                                <input type="radio" name="turnos[unidad_antelacion]" value="mes" id="mes"
-                                    {{ $settings['turnos.unidad_antelacion'] == 'mes' ? 'checked' : '' }}>
+                                <input type="radio" name="appointments[unidad_antelacion]" value="mes" id="mes"
+                                    {{ $settings['appointments.unidad_antelacion'] == 'mes' ? 'checked' : '' }}>
                                 <label for="mes">Meses</label>
                             </div>
                         </div>
-                        @error('turnos.unidad_antelacion')
+                        @error('appointments.unidad_antelacion')
                             <div class="error">{{ $message }}</div>
                         @enderror
                     </div>

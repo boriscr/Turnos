@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="main full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Solicitar un nuevo turno</h3>
+            <h3 class="title-form">Solicitar un nuevo appointment</h3>
 
             <!-- Indicador de pasos -->
             <div class="step-indicator">
                 <div class="step active" data-step="1"><i class="bi bi-person-circle"></i> Datos Personales</div>
-                <div class="step" data-step="2"><i class="bi bi-clock-history"></i> Selección de Turno</div>
+                <div class="step" data-step="2"><i class="bi bi-clock-history"></i> Selección de Appointment</div>
             </div>
 
             <form action="{{ route('confirmReservation') }}" method="post" id="multiStepForm">
@@ -30,8 +30,8 @@
                         <label for="idNumber">DNI</label>
                         <input name="idNumber" value="{{ Auth::user()->idNumber }}" readonly>
 
-                        <label for="direccion">Dirección</label>
-                        <input name="direccion" value="{{ Auth::user()->address }}" readonly>
+                        <label for="address">Dirección</label>
+                        <input name="address" value="{{ Auth::user()->address }}" readonly>
 
                         <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                         <input name="fecha_nacimiento" value="{{ Auth::user()->birthdate }}" readonly>
@@ -45,7 +45,7 @@
                     </div>
                 </div>
 
-                <!-- Paso 2 - Selección de Turno -->
+                <!-- Paso 2 - Selección de Appointment -->
                 <div class="form-step" data-step="2">
                     <div class="item">
                         <label for="specialty_id"><i class="bi bi-1-circle"></i> Specialty</label>
@@ -66,24 +66,24 @@
                         </select>
                     </div>
                     <div class="item">
-                        <label for="turno_nombre_id"><i class="bi bi-3-circle"></i> Turno</label>
+                        <label for="turno_nombre_id"><i class="bi bi-3-circle"></i> Appointment</label>
                         <select name="turno_nombre_id" id="turno_nombre_id" required>
-                            <option value="">Seleccione un turno</option>
+                            <option value="">Seleccione un appointment</option>
                         </select>
                     </div>
                     <div class="item">
-                        <label for="fecha_turno"><i class="bi bi-4-circle"></i> Fecha del Turno</label>
+                        <label for="fecha_turno"><i class="bi bi-4-circle"></i> Fecha del Appointment</label>
                         <select name="fecha_turno" id="fecha_turno" required>
                             <option value="">Seleccione una date</option>
                         </select>
                     </div>
 
                     <div class="item">
-                        <label for="hora_turno"><i class="bi bi-5-circle"></i> Horario del Turno</label>
+                        <label for="hora_turno"><i class="bi bi-5-circle"></i> Horario del Appointment</label>
                         <select name="hora_turno" id="hora_turno" required>
                             <option value="">Seleccione un horario</option>
                         </select>
-                        <input type="hidden" name="turno_id" id="turno_id">
+                        <input type="hidden" name="appointment_id" id="appointment_id">
                     </div>
                     <br>
                     <hr>
@@ -91,7 +91,7 @@
                     <div class="form-navigation">
                         <button type="button" class="prev-btn full-center"><i
                                 class="bi bi-chevron-left"></i></button>
-                        <button type="submit" class="primary-btn">Confirmar Turno <i
+                        <button type="submit" class="primary-btn">Confirmar Appointment <i
                                 class="bi bi-check-circle"></i></button>
                     </div>
                 </div>

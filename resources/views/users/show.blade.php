@@ -14,7 +14,7 @@
                 <p><b>Fecha de creación: </b>{{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y H:i') }}</p>
                 <p><b>Ultima actualización:</b> {{ \Carbon\Carbon::parse($user->updated_at)->format('d/m/Y H:i') }}
                 <p><b>Estado: </b>{{ $user->status ? 'Activo' : 'Inactivo' }}</p>
-                <p><b>Turnos perdidos: </b>{{ $user->faults === null ? 'Ninguno' : $user->faults }}</p>
+                <p><b>Appointments perdidos: </b>{{ $user->faults === null ? 'Ninguno' : $user->faults }}</p>
 
             </div>
             <div class="card">

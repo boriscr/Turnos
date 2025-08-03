@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('available_appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('turno_id')->constrained()->onDelete('cascade');
+            $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
             $table->foreignId('doctor_id')->constrained(Doctor::TABLE)->onDelete('cascade');
             $table->date('date');
             $table->time('time')->nullable(); // Si no se asignan horarios específicos, queda null
             $table->integer('available_spots')->default(1);
             $table->integer('reserved_spots')->default(0);
             
-            $table->unique(['turno_id', 'date', 'time']);
+            $table->unique(['appointment_id', 'date', 'time']);
             $table->index(['date', 'time']);
             $table->timestamps();
         });

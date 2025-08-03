@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Turnos creados</h3>
+            <h3 class="title-form">Appointments creados</h3>
             <div class="mb-4">
                 <!-- Formulario de búsqueda y filtros rápidos -->
                 <form action="{{ route('availableAppointments.index') }}" method="GET" class="mb-4" id="filterForm">
@@ -150,12 +150,12 @@
 
         <div class="main-table full-center">
             <div class="container-form full-center">
-                <h3 class="title-form">Turnos reservados</h3>
+                <h3 class="title-form">Appointments reservados</h3>
                 <table>
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th class="option-movil">Nombre del turno</th>
+                            <th class="option-movil">Nombre del appointment</th>
                             <th class="option-movil">Fecha</th>
                             <th>Hora</th>
                             <th class="option-movil">Disponible</th>
@@ -167,7 +167,7 @@
                         @foreach ($turnoDisponibles as $availableAppointment)
                             <tr>
                                 <td>{{ $availableAppointment->id }}</td>
-                                <td class="option-movil">{{ $availableAppointment->turno->name }}</td>
+                                <td class="option-movil">{{ $availableAppointment->appointment->name }}</td>
                                 <td class="option-movil">
                                     {{ \Carbon\Carbon::parse($availableAppointment->date)->format('d-m-Y') }}</td>
                                 <td> {{ \Carbon\Carbon::parse($availableAppointment->time)->format('H:i') }}</td>
@@ -175,11 +175,11 @@
                                 <td class="{{ $availableAppointment->reserved_spots ? 'btn-success' : 'btn-danger' }}">
                                     {{ $availableAppointment->reserved_spots ? 'Reservado' : 'Sin reservation' }}</td>
                                 <td class="acciones full-center">
-                                    <a href="{{ route('turnos.show', $availableAppointment->id) }}"
+                                    <a href="{{ route('appointments.show', $availableAppointment->id) }}"
                                         class="btn btn-view"><i class="bi bi-eye"></i></a>
-                                    <a href="{{ route('turnos.edit', $availableAppointment->id) }}"
+                                    <a href="{{ route('appointments.edit', $availableAppointment->id) }}"
                                         class="btn btn-edit"><i class="bi bi-pencil-fill"></i></a>
-                                    <form action="{{ route('turnos.destroy', $availableAppointment->id) }}" method="POST"
+                                    <form action="{{ route('appointments.destroy', $availableAppointment->id) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
                                         @method('DELETE')

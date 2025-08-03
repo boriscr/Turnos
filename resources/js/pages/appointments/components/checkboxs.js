@@ -1,8 +1,8 @@
 //Checkboxs para appointments -crear nuevo appointment seccion horarios y appointments
 if (window.location.pathname.includes('/appointments/create') || window.location.pathname.includes('/appointments/edit/')) {
-
+//sin uso?
     document.addEventListener('DOMContentLoaded', function () {
-        // Grupo 1: Turnos (mañana, tarde, noche, no aplica)
+        // Grupo 1: Appointments (mañana, tarde, noche, no aplica)
         const turnoManana = document.getElementById('manana');
         const turnoTarde = document.getElementById('tarde');
         const turnoNoche = document.getElementById('noche');

@@ -95,7 +95,7 @@ option {
     text-align: center;
 }
 
-/*opciones tipos de turnos mañana-tardenoche*/
+/*opciones tipos de appointments mañana-tardenoche*/
 .box-style {
     display: flex;
     justify-content: space-between;

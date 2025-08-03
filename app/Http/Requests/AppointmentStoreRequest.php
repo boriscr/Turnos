@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TurnoStoreRequest extends FormRequest
+class AppointmentStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,12 @@ class TurnoStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'direccion' => 'required|string',
+            'address' => 'required|string',
             'specialty_id' => 'required|exists:specialties,id',
             'doctor_id' => 'required|exists:doctors,id',
             'cantidad' => 'required|integer|min:1',
-            'hora_inicio' => 'required',
-            'hora_fin' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
             'selected_dates' => 'required|json', // Aseguramos que sea un JSON válido
             'status' => 'required|boolean',
         ];

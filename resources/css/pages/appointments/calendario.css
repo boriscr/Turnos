@@ -1,0 +1,163 @@
+/*Calendario*/
+.calendario-box {
+    text-align: center;
+    margin: 10px auto;
+}
+
+.calendar-container {
+    margin: 10px auto;
+    max-width: 400px;
+    font-family: system-ui, -apple-system, sans-serif;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color_texto_titulo);
+    padding: 16px;
+}
+
+.calendar-container .bi {
+    color: #3b82f6;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 0 8px;
+}
+
+.calendar-header .nav-btn {
+    font-size: 30px;
+}
+
+.weekdays,
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+}
+
+.weekdays div {
+    padding: 4px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.days-grid button {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.days-grid button:hover:not(.disabled) {
+    border: 1px solid #7f7e7e;
+}
+
+.days-grid button.selected {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.days-grid button.range:not(.selected) {
+    background-color: transparent;
+}
+
+.days-grid button.today {
+    border: 2px solid #3b82f6;
+}
+
+.days-grid button.disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.days-grid button.weekend:not(.selected) {
+    color: #888;
+}
+
+/* Ocultar celdas vacías */
+.days-grid button:empty {
+    visibility: hidden;
+}
+
+.mode-selector {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.mode-selector button {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.mode-selector button.active {
+    background: #3b82f6 !important;
+    color: white;
+    border-color: #3b82f6;
+}
+
+.toggle-weekends {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.toggle-weekends label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-switch {
+    width: 44px;
+    height: 24px;
+    border-radius: 999px;
+    background: #ccc;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.toggle-switch.enabled {
+    background: #2563eb;
+}
+
+.toggle-thumb {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    top: 4px;
+    left: 4px;
+    transition: transform 0.3s;
+}
+
+.toggle-thumb.on {
+    transform: translateX(20px);
+}
+
+
+@media (max-width: 600px) {
+    #weekdays>* {
+        font-size: 0.7rem;
+    }
+}
+@media (max-width: 360px) {
+    #weekdays>* {
+        font-size: 0.6.5rem;
+    }
+}

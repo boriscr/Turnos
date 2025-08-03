@@ -35,9 +35,9 @@ class User extends Authenticatable
         'faults',
     ];
 
-    public function turno()
+    public function appointment()
     {
-        return $this->hasMany(Turno::class);
+        return $this->hasMany(Appointment::class);
     } 
 // Relación 1:1 con Doctor (un user PUEDE ser un profesional)
 public function doctor()

@@ -1,15 +1,15 @@
 <x-app-layout>
     <div class="main full-center">
         <div class="box-presentacion">
-            <h1>Turnos Online</h1>
-            <h2>Bienvenido a la plataforma de gestión de turnos online</h2>
+            <h1>Appointments Online</h1>
+            <h2>Bienvenido a la plataforma de gestión de appointments online</h2>
             <p>{{ config('app.mensaje_bienvenida') }}</p>
             <p>{{ config('app.mensaje_paciente') }}</p>
             @if (auth()->check())
                 @auth
                     <div class="full-center">
                         <button type="button" class="primario-btn">
-                            <a class="nav-link" href="{{ route('reservations.create') }}">Reservar Turno</a>
+                            <a class="nav-link" href="{{ route('reservations.create') }}">Reservar Appointment</a>
                         </button>
 
                     </div>

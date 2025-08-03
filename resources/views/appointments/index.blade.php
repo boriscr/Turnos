@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Turnos creados</h3>
+            <h3 class="title-form">Appointments creados</h3>
             <table>
                 <thead>
                     <tr>
@@ -10,28 +10,28 @@
                         <th class="option-movil">Direccion</th>
                         <th class="option-movil">Specialty</th>
                         <th>Encargado</th>
-                        <th class="option-movil">Turno</th>
+                        <th class="option-movil">Appointment</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($turnos as $turno)
+                    @foreach ($appointments as $appointment)
                         <tr>
-                            <td>{{ $turno->id }}</td>
-                            <td>{{ $turno->name }}</td>
-                            <td class="option-movil">{{ $turno->direccion }}</td>
-                            <td class="option-movil">{{ $turno->specialty->name }}</td>
-                            <td>{{ $turno->doctor->name . ' ' . $turno->doctor->surname }}</td>
-                            <td class="option-movil">{{ $turno->turno }}</td>
-                            <td>{{ $turno->status ? 'Activo' : 'Inactivo' }}</td>
+                            <td>{{ $appointment->id }}</td>
+                            <td>{{ $appointment->name }}</td>
+                            <td class="option-movil">{{ $appointment->address }}</td>
+                            <td class="option-movil">{{ $appointment->specialty->name }}</td>
+                            <td>{{ $appointment->doctor->name . ' ' . $appointment->doctor->surname }}</td>
+                            <td class="option-movil">{{ $appointment->appointment }}</td>
+                            <td>{{ $appointment->status ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones full-center">
-                                <a href="{{ route('turnos.show', $turno->id) }}" class="btn btn-view"><i
+                                <a href="{{ route('appointments.show', $appointment->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">Ver</b></a>
-                                <a href="{{ route('turnos.edit', $turno->id) }}" class="btn btn-edit"><i
+                                <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn btn-edit"><i
                                         class="bi bi-pencil-fill"></i><b class="accionesMovil">Editar</b></a>
 
-                                <form action="{{ route('turnos.destroy', $turno->id) }}" method="POST"
+                                <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST"
                                     class="delete-form" style="display:inline;">
                                     @csrf
                                     @method('DELETE')

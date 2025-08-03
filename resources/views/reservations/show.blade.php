@@ -10,11 +10,11 @@
                     </p>
                     <p><b> DNI: </b>{{ $reservation->user->idNumber }}</p>
                     <p><b> Activo: </b>{{ $reservation->user->status ? 'Si' : 'No' }}</p>
-                    <p><b> Hora del turno:
+                    <p><b> Hora del appointment:
                         </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</p>
-                    <p><b> Fecha del turno:
+                    <p><b> Fecha del appointment:
                         </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</p>
-                    <p><b> Cantidad de turno/s reservado/s: </b>{{ $reservation->availableAppointment->reserved_spots }}
+                    <p><b> Cantidad de appointment/s reservado/s: </b>{{ $reservation->availableAppointment->reserved_spots }}
                     </p>
                     <p><b> Asistencia:
                         </b>{{ $reservation->asistencia == null ? 'Pendiente' : ($reservation->asistencia == true ? 'Asistio' : 'No asistio') }}

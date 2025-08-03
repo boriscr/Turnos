@@ -62,11 +62,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 title: '¿Confirmar registro?',
                 html: `
                     <p class="text-left">
-                        Los datos que estás por registrar serán utilizados para la reservation de turnos. 
+                        Los datos que estás por registrar serán utilizados para la reservation de appointments. 
                         <strong>Algunos datos no podrán ser editados posteriormente</strong>, ya que estarán asociados de forma exclusiva a esta cuenta.
                     </p>
                     <p class="text-left mt-2">
-                        Si los datos son incorrectos, podrías recibir la negación de turnos o no poder gestionarlos correctamente.
+                        Si los datos son incorrectos, podrías recibir la negación de appointments o no poder gestionarlos correctamente.
                     </p>
                     <p class="text-left mt-2 font-semibold">
                         Por favor, revisa cuidadosamente toda la información antes de continuar.

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Editar turno</h3>
+            <h3 class="title-form">Editar appointment</h3>
 
             <!-- Indicador de pasos -->
             <div class="step-indicator">
@@ -11,7 +11,7 @@
             </div>
             <form x-data="iosCalendar()" x-init="init({{ json_encode($fechas) }})" id="multiStepForm"
                 @submit.prevent="updateSelectedDatesInput(); $el.submit()" method="POST"
-                action="{{ route('turnos.update', $turno->id) }}">
+                action="{{ route('appointments.update', $appointment->id) }}">
                 @csrf
                 @method('PATCH')
 
@@ -19,16 +19,16 @@
                 <div class="form-step active" data-step="1">
                     <div class="form-grid">
                         <div class="item">
-                            <label for="name">Nombre del Turno</label>
+                            <label for="name">Nombre del Appointment</label>
                             <input type="text" name="name" id="name" value="{{ $name }}" required>
                             @error('name')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="item">
-                            <label for="direccion">Dirección</label>
-                            <textarea name="direccion" id="direccion" rows="2" required>{{ $direccion }}</textarea>
-                            @error('direccion')
+                            <label for="address">Dirección</label>
+                            <textarea name="address" id="address" rows="2" required>{{ $address }}</textarea>
+                            @error('address')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
@@ -71,26 +71,26 @@
                     </div>
                 </div>
 
-                <!-- Paso 2 - Horarios y Turnos -->
+                <!-- Paso 2 - Horarios y Appointments -->
                 <div class="form-step" data-step="2">
                     <div class="form-grid">
                         <div class="box-style">
-                            <h3>Asignar turno</h3>
+                            <h3>Asignar appointment</h3>
                             <div class="item-style">
                                 <div class="item">
-                                    <input type="radio" name="turno" value="mañana" id="manana"
+                                    <input type="radio" name="appointment" value="mañana" id="manana"
                                         {{ $turnoTipo == 'mañana' ? 'checked' : '' }}>
-                                    <label for="manana">Turno Mañana</label>
+                                    <label for="manana">Appointment Mañana</label>
                                 </div>
                                 <div class="item">
-                                    <input type="radio" name="turno" value="tarde" id="tarde"
+                                    <input type="radio" name="appointment" value="tarde" id="tarde"
                                         {{ $turnoTipo == 'tarde' ? 'checked' : '' }}>
-                                    <label for="tarde">Turno Tarde</label>
+                                    <label for="tarde">Appointment Tarde</label>
                                 </div>
                                 <div class="item">
-                                    <input type="radio" name="turno" value="noche" id="noche"
+                                    <input type="radio" name="appointment" value="noche" id="noche"
                                         {{ $turnoTipo == 'noche' ? 'checked' : '' }}>
-                                    <label for="noche">Turno Noche</label>
+                                    <label for="noche">Appointment Noche</label>
                                 </div>
                             </div>
                         </div>
@@ -105,18 +105,18 @@
                         </div>
 
                         <div class="item">
-                            <label for="hora_inicio">Hora de Inicio</label>
-                            <input type="time" name="hora_inicio" id="hora_inicio" value="{{ $inicio }}"
+                            <label for="start_time">Hora de Inicio</label>
+                            <input type="time" name="start_time" id="start_time" value="{{ $inicio }}"
                                 required>
-                            @error('hora_inicio')
+                            @error('start_time')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="item">
-                            <label for="hora_fin">Hora de Fin</label>
-                            <input type="time" name="hora_fin" id="hora_fin" value="{{ $fin }}" required>
-                            @error('hora_fin')
+                            <label for="end_time">Hora de Fin</label>
+                            <input type="time" name="end_time" id="end_time" value="{{ $fin }}" required>
+                            @error('end_time')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
@@ -124,18 +124,18 @@
                         <div class="box-style">
                             <br>
                             <h3>Distribución de horarios</h3>
-                            <input type="hidden" name="horarios_disponibles" id="horarios_disponibles"
-                                value="{{ $horarios_disponibles }}">
+                            <input type="hidden" name="available_time_slots" id="available_time_slots"
+                                value="{{ $available_time_slots }}">
                             <div class="item-style">
                                 <div class="item">
                                     <input type="radio" name="horario1" id="horario1"
-                                        {{ $horarios_disponibles == null ? 'checked' : '' }}>
-                                    <label for="horario1">Asignar turnos sin horarios</label>
+                                        {{ $available_time_slots == null ? 'checked' : '' }}>
+                                    <label for="horario1">Asignar appointments sin horarios</label>
                                 </div>
                                 <div class="item">
                                     <input type="radio" name="horario2" id="horario2"
-                                        {{ $horarios_disponibles == !null ? 'checked' : '' }}>
-                                    <label for="horario2">Asignar turnos con división horaria</label>
+                                        {{ $available_time_slots == !null ? 'checked' : '' }}>
+                                    <label for="horario2">Asignar appointments con división horaria</label>
                                 </div>
                             </div>
                             <div id="horario-box">
@@ -163,10 +163,10 @@
                     <div class="item">
                         <label for="status">Estado</label>
                         <select name="status" id="status" required>
-                            <option {{ isset($edit) ? ($turno->status == true ? 'selected' : '') : '' }}
+                            <option {{ isset($edit) ? ($appointment->status == true ? 'selected' : '') : '' }}
                                 value="1">
                                 Activo</option>
-                            <option {{ isset($edit) ? ($turno->status == false ? 'selected' : '') : '' }}
+                            <option {{ isset($edit) ? ($appointment->status == false ? 'selected' : '') : '' }}
                                 value="0">
                                 Inactivo</option>
                             @error('status')
@@ -176,7 +176,7 @@
                     </div>
                     <div class="form-navigation">
                         <button type="button" class="prev-btn"><i class="bi bi-chevron-left"></i></button>
-                        <button type="submit" class="primary-btn">Actualizar Turno <i
+                        <button type="submit" class="primary-btn">Actualizar Appointment <i
                                 class="bi bi-check-circle"></i></button>
                     </div>
                 </div>

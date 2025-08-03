@@ -1,5 +1,5 @@
 <x-app-layout>
-    @if (isset($reservation) && $reservation->availableAppointment->turno->status === true)
+    @if (isset($reservation) && $reservation->availableAppointment->appointment->status === true)
         <div class="content-wrapper">
             <h3 class="title-form">Detalles</h3>
             <div class="section-container full-center">
@@ -12,13 +12,13 @@
 
                 </div>
                 <div class="card">
-                    <h1>Turno</h1>
+                    <h1>Appointment</h1>
                     <p><b> Specialty: </b>{{ $reservation->availableAppointment->doctor->specialty->name }}</p>
-                    <p><b> Hora del turno:
+                    <p><b> Hora del appointment:
                         </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</p>
-                    <p><b> Fecha del turno:
+                    <p><b> Fecha del appointment:
                         </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</p>
-                    <p><b> Direccion: </b>{{ $reservation->availableAppointment->direccion }}</p>
+                    <p><b> Direccion: </b>{{ $reservation->availableAppointment->address }}</p>
 
                     <p><b> Asistencia:
                         </b>{{ $reservation->asistencia == null ? 'Pendiente' : ($reservation->asistencia == true ? 'Asistio' : 'No asistio') }}
@@ -43,20 +43,20 @@
             <div class="card-error full-center">
                 <div class="card">
                     <div class="mensaje-error-box">
-                        <h1>Turno No Disponible</h1>
-                        <p>El turno que intentas acceder no está disponible o ha sido cancelado.</p>
+                        <h1>Appointment No Disponible</h1>
+                        <p>El appointment que intentas acceder no está disponible o ha sido cancelado.</p>
 
                     </div>
                     <div class="icono-error-box full-center">
                         <i class="bi bi-x-circle-fill"></i>
                     </div>
                     <h2>¿Por qué sucede esto?</h2>
-                    <p>Este turno ha sido marcado como inactivo por un administrador. Esto significa que puede ser
+                    <p>Este appointment ha sido marcado como inactivo por un administrador. Esto significa que puede ser
                         reprogramado o definitivamente cancelado.</p>
 
                     <h2>¿Qué puedes hacer?</h2>
                     <ul>
-                        <li><i class="bi-caret-right-fill"></i>Verifica la información en tu historial de turnos mas
+                        <li><i class="bi-caret-right-fill"></i>Verifica la información en tu historial de appointments mas
                             tarde.</li>
                         <li><i class="bi-caret-right-fill"></i>Si crees que esto es un error, puedes contactar al
                             soporte.</li>

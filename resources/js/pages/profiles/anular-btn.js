@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const form = this.closest('.delete-form');
 
             Swal.fire({
-                title: '¿Estás seguro de anular este turno?',
+                title: '¿Estás seguro de anular este appointment?',
                 text: "¡No podrás revertir esta acción!",
                 icon: 'warning',
                 showCancelButton: true,

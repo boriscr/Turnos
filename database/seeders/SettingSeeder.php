@@ -21,7 +21,7 @@ class SettingSeeder extends Seeder
                     'desc' => 'Nombre público de la aplicación'
                 ],
                 'mensaje_bienvenida' => [
-                    'value' => 'Bienvenido al sistema de turnos médicos en línea',
+                    'value' => 'Bienvenido al sistema de appointments médicos en línea',
                     'type' => 'string',
                     'desc' => 'Mensaje mostrado en la página de inicio'
                 ],
@@ -36,9 +36,9 @@ class SettingSeeder extends Seeder
                     'desc' => 'Nombre de la institución de salud'
                 ],
                 'mensaje_paciente' => [
-                    'value' => 'Por favor, presentese 15 minutos antes de su turno. Si no puede asistir, cancele su turno con antelación. Traer DNI. Gracias.',
+                    'value' => 'Por favor, presentese 15 minutos antes de su appointment. Si no puede asistir, cancele su appointment con antelación. Traer DNI. Gracias.',
                     'type' => 'string',
-                    'desc' => 'Mensaje para los pacientes al solicitar un turno'
+                    'desc' => 'Mensaje para los pacientes al solicitar un appointment'
                 ],
                 'logo_url' => [
                     'value' => '/images/logo.png',
@@ -48,7 +48,7 @@ class SettingSeeder extends Seeder
             ],
 
             // Configuración de Turnos
-            'turnos' => [
+            'appointments' => [
                 'faltas_maximas' => [
                     'value' => 3,
                     'type' => 'integer',
@@ -57,12 +57,12 @@ class SettingSeeder extends Seeder
                 'limite_diario' => [
                     'value' => 2,
                     'type' => 'integer',
-                    'desc' => 'Máximo de turnos por paciente por día'
+                    'desc' => 'Máximo de appointments por paciente por día'
                 ],
                 'horas_cancelacion' => [
                     'value' => 24,
                     'type' => 'integer',
-                    'desc' => 'Horas mínimas para cancelar un turno'
+                    'desc' => 'Horas mínimas para cancelar un appointment'
                 ],
                 'antelacion_reserva' => [
                     'value' => 24,

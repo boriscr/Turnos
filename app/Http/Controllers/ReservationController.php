@@ -7,7 +7,7 @@ use App\Models\Reservation;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Setting;
-use App\Models\Turno;
+use App\Models\Appointment;
 use App\Models\Specialty;
 use App\Models\Doctor;
 use Illuminate\Support\Facades\Auth;
@@ -96,7 +96,7 @@ class ReservationController extends Controller
     // php artisan schedule:work
     public function verificarAsistenciasAutomaticamente()
     {
-        $settings = Setting::where('group', 'turnos')->pluck('value', 'key');
+        $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
         $hora_asistencia = (int) ($settings['asistencias.intervalo_verificacion'] ?? 1); // Valor por defecto
         $now = Carbon::now();
         $fourHoursAgo = $now->copy()->subHours($hora_asistencia);
@@ -118,7 +118,7 @@ class ReservationController extends Controller
             DB::transaction(function () use ($reservation) {
                 $reservation->asistencia = false;
                 $reservation->save();
-                $status = Turno::where('id', $reservation->availableAppointment->turno_id)->value('status');
+                $status = Appointment::where('id', $reservation->availableAppointment->appointment_id)->value('status');
                 if ($reservation->user && $status == true) {
                     $reservation->user->increment('faults');
                 }
@@ -154,12 +154,12 @@ class ReservationController extends Controller
     //Crear la reserva por el paciente
     public function create()
     {
-        $settings = Setting::where('group', 'turnos')->pluck('value', 'key');
-        $turnos_antelacion_reserva = $settings['turnos.antelacion_reserva'];
-        $turnos_faltas_maximas = $settings['turnos.faltas_maximas'];
-        $turnos_horas_cancelacion = $settings['turnos.horas_cancelacion'];
-        $turnos_limite_diario = $settings['turnos.limite_diario'];
-        $turnos_unidad_antelacion = $settings['turnos.unidad_antelacion'];
+        $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
+        $turnos_antelacion_reserva = $settings['appointments.antelacion_reserva'];
+        $turnos_faltas_maximas = $settings['appointments.faltas_maximas'];
+        $turnos_horas_cancelacion = $settings['appointments.horas_cancelacion'];
+        $turnos_limite_diario = $settings['appointments.limite_diario'];
+        $turnos_unidad_antelacion = $settings['appointments.unidad_antelacion'];
         $user = Auth::user();
         $turnos_activos = Reservation::where('user_id', $user->id)
             ->whereHas('availableAppointment', function ($query) {
@@ -168,9 +168,9 @@ class ReservationController extends Controller
             ->count();
         if ($user->status == 1 && $user->faults <= $turnos_faltas_maximas &&  $turnos_activos < $turnos_limite_diario && $turnos_limite_diario > 0) {
             $availableAppointment = AvailableAppointment::all();
-            $turno = Turno::where('status', 1)->get();
+            $appointment = Appointment::where('status', 1)->get();
             $specialties = Specialty::where('status', 1)->get();
-            return view('reservations/create', compact('availableAppointment', 'turno', 'specialties'));
+            return view('reservations/create', compact('availableAppointment', 'appointment', 'specialties'));
         } else {
             if ($user->faults > $turnos_faltas_maximas && $user->status == 0 && $turnos_activos >= $turnos_limite_diario) {
                 session()->flash('error', [
@@ -189,21 +189,21 @@ class ReservationController extends Controller
             } elseif ($user->faults > $turnos_faltas_maximas) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes reservar turnos.',
+                    'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes reservar appointments.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
             } elseif ($turnos_activos >= $turnos_limite_diario) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => 'Has alcanzado el límite de turnos activos permitidos.<br> Asiste a los turnos solicitados antes de solicitar uno nuevo.<br> No puedes reservar más turnos.',
+                    'html' => 'Has alcanzado el límite de appointments activos permitidos.<br> Asiste a los appointments solicitados antes de solicitar uno nuevo.<br> No puedes reservar más appointments.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
             } elseif ($turnos_limite_diario <= 0) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => 'No puedes reservar turnos en este momento. El límite de turnos activos ha sido deshabilitado.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
+                    'html' => 'No puedes reservar appointments en este momento. El límite de appointments activos ha sido deshabilitado.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
@@ -227,28 +227,28 @@ class ReservationController extends Controller
         return response()->json(['doctors' => $doctors]);
     }
 
-    // 2. Obtener turnos por name
+    // 2. Obtener appointments por name
     public function getAvailableReservationByName($doctor_id)
     {
         if ($doctor_id) {
-            $turnos = Turno::where('doctor_id', $doctor_id)
+            $appointments = Appointment::where('doctor_id', $doctor_id)
                 ->where('status', 1)
                 ->get();
 
-            return response()->json(['turnos' => $turnos]);
+            return response()->json(['appointments' => $appointments]);
         } else {
             return response()->json([]);
         }
     }
 
-    // 3. Obtener turnos por doctor (filtrado por date/time)
+    // 3. Obtener appointments por doctor (filtrado por date/time)
     //Filtrado por date y time configurado en settings
-    // Devuelve los turnos disponibles para un médico específico, filtrando por date y time
-    // y aplicando la configuración de previsualización de turnos.
+    // Devuelve los appointments disponibles para un médico específico, filtrando por date y time
+    // y aplicando la configuración de previsualización de appointments.
     // La previsualización se basa en la configuración de la ventana de tiempo definida en la base de datos.
-    // La función también maneja la lógica de filtrado para mostrar solo los turnos que están disponibles
+    // La función también maneja la lógica de filtrado para mostrar solo los appointments que están disponibles
     // y que son futuros, teniendo en cuenta la date y time actuales.
-    // El resultado se devuelve en formato JSON, incluyendo los turnos disponibles y la configuración de
+    // El resultado se devuelve en formato JSON, incluyendo los appointments disponibles y la configuración de
     // previsualización utilizada para la consulta.
     public function getAvailableReservationByDoctor($turno_nombre_id)
     {
@@ -256,10 +256,10 @@ class ReservationController extends Controller
         $horaActual = now()->format('H:i:s');
 
         // Obtener configuración de previsualización
-        $settings = Setting::where('group', 'turnos')->pluck('value', 'key');
+        $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
 
-        $previewAmount = (int) ($settings['turnos.antelacion_reserva'] ?? 30); // Valor por defecto
-        $previewUnit = $settings['turnos.unidad_antelacion'] ?? 'dia'; // Valor por defecto
+        $previewAmount = (int) ($settings['appointments.antelacion_reserva'] ?? 30); // Valor por defecto
+        $previewUnit = $settings['appointments.unidad_antelacion'] ?? 'dia'; // Valor por defecto
 
         // Calcular date límite según configuración
         $fechaLimite = now();
@@ -280,7 +280,7 @@ class ReservationController extends Controller
         }
 
         $fechaLimite = $fechaLimite->format('Y-m-d');
-        $turnos = AvailableAppointment::where('turno_id', $turno_nombre_id)
+        $appointments = AvailableAppointment::where('appointment_id', $turno_nombre_id)
             ->where('available_spots', '>', 0)
             ->whereDate('date', '<=', $fechaLimite) // Filtro superior
             ->where(function ($query) use ($hoy, $horaActual) {
@@ -293,16 +293,16 @@ class ReservationController extends Controller
             ->orderBy('date')
             ->orderBy('time')
             ->get()
-            ->map(function ($turno) {
+            ->map(function ($appointment) {
                 return [
-                    'id' => $turno->id,
-                    'date' => $turno->date,
-                    'time' => $turno->time ? \Carbon\Carbon::parse($turno->time)->format('H:i') : null,
+                    'id' => $appointment->id,
+                    'date' => $appointment->date,
+                    'time' => $appointment->time ? \Carbon\Carbon::parse($appointment->time)->format('H:i') : null,
                 ];
             });
 
         return response()->json([
-            'turnos' => $turnos,
+            'appointments' => $appointments,
             'preview_settings' => [
                 'amount' => $previewAmount,
                 'unit' => $previewUnit
@@ -312,32 +312,32 @@ class ReservationController extends Controller
 
     function confirmReservation(Request $request)
     {
-        $turno = AvailableAppointment::find($request->turno_id);
+        $appointment = AvailableAppointment::find($request->appointment_id);
         $user = Auth::user();
-        //Contar cuantos turnos se ha reservado el user
+        //Contar cuantos appointments se ha reservado el user
         $turnos_activos = Reservation::where('user_id', $user->id)
             ->whereHas('availableAppointment', function ($query) {
                 $query->whereNull('asistencia');
             })
             ->count();
-        // Verificar si el user tiene permisos para reservar turnos
-        $settings = Setting::where('group', 'turnos')->pluck('value', 'key');
-        $turnos_faltas_maximas = $settings['turnos.faltas_maximas'];
-        $turnos_limite_diario = $settings['turnos.limite_diario'];
+        // Verificar si el user tiene permisos para reservar appointments
+        $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
+        $turnos_faltas_maximas = $settings['appointments.faltas_maximas'];
+        $turnos_limite_diario = $settings['appointments.limite_diario'];
 
-        if ($turno && $user->faults <= $turnos_faltas_maximas && $user->status == 1 && $turnos_activos < $turnos_limite_diario) {
+        if ($appointment && $user->faults <= $turnos_faltas_maximas && $user->status == 1 && $turnos_activos < $turnos_limite_diario) {
             // Verificar si hay cupos disponibles
-            if ($turno->available_spots <= 0) {
+            if ($appointment->available_spots <= 0) {
                 session()->flash('error', [
                     'title' => 'Cupos no disponibles',
-                    'text' => 'No hay cupos disponibles para el turno seleccionado. Seleccione otro horario o date',
+                    'text' => 'No hay cupos disponibles para el appointment seleccionado. Seleccione otro horario o date',
                     'icon' => 'error',
                 ]);
 
                 return back();
             }
             // Verificar si la date y time son válidas
-            $fechaHoraTurno = Carbon::parse($turno->date)->setTimeFrom(Carbon::parse($turno->time));
+            $fechaHoraTurno = Carbon::parse($appointment->date)->setTimeFrom(Carbon::parse($appointment->time));
             $ahora = now();
 
             if ($fechaHoraTurno->lessThan($ahora)) {
@@ -348,24 +348,24 @@ class ReservationController extends Controller
                 ]);
                 return back();
             } else {
-                // Reservar el turno
-                $turno->available_spots -= 1;
-                $turno->reserved_spots += 1;
-                $turno->save();
-                //guardar los datos del user que reservation el turno
+                // Reservar el appointment
+                $appointment->available_spots -= 1;
+                $appointment->reserved_spots += 1;
+                $appointment->save();
+                //guardar los datos del user que reservation el appointment
                 $reservation = new Reservation();
                 if (Auth::check()) {
                     // Asigna los valores correctamente
                     $reservation->user_id = auth::id(); // ID del user autenticado
-                    $reservation->available_appointment_id = $turno->id;
+                    $reservation->available_appointment_id = $appointment->id;
                     $reservation->save();
                 } else {
                     return response()->json(['error' => 'Usuario no autenticado'], 401);
                 }
 
                 session()->flash('success', [
-                    'title' => 'Turno reservado',
-                    'text' => 'El turno ha sido reservado con éxito',
+                    'title' => 'Appointment reservado',
+                    'text' => 'El appointment ha sido reservado con éxito',
                     'icon' => 'success',
                 ]);
                 return redirect()->route('profile.historial');
@@ -374,7 +374,7 @@ class ReservationController extends Controller
             if ($user->status == 1 && $user->faults <= $turnos_faltas_maximas &&  $turnos_activos >= $turnos_limite_diario && $turnos_limite_diario > 0) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => '1. Has alcanzado el límite de faltas permitidas.<br>2. Su cuenta está inactiva.<br>3. Has alcanzado el límite de turnos activos permitidos.<br> Contacta al administrador.',
+                    'html' => '1. Has alcanzado el límite de faltas permitidas.<br>2. Su cuenta está inactiva.<br>3. Has alcanzado el límite de appointments activos permitidos.<br> Contacta al administrador.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
@@ -388,21 +388,21 @@ class ReservationController extends Controller
             } elseif ($user->faults > $turnos_faltas_maximas) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes reservar turnos.',
+                    'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes reservar appointments.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
             } elseif ($user->turnos_activos >= $turnos_limite_diario) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => 'Has alcanzado el límite de turnos activos permitidos.<br> Asiste a los turnos solicitados antes de solicitar uno nuevo.<br> No puedes reservar más turnos.',
+                    'html' => 'Has alcanzado el límite de appointments activos permitidos.<br> Asiste a los appointments solicitados antes de solicitar uno nuevo.<br> No puedes reservar más appointments.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
             } elseif ($turnos_limite_diario <= 0) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => 'No puedes reservar turnos en este momento. El límite de turnos activos ha sido deshabilitado.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
+                    'html' => 'No puedes reservar appointments en este momento. El límite de appointments activos ha sido deshabilitado.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
@@ -427,16 +427,16 @@ class ReservationController extends Controller
             $availableAppointment = AvailableAppointment::find($reservation->available_appointment_id);
 
             if (!$availableAppointment) {
-                throw new \Exception('Turno asociado no encontrado');
+                throw new \Exception('Appointment asociado no encontrado');
             }
 
-            // Verificación de si el turno ya pasó
+            // Verificación de si el appointment ya pasó
             $fechaHoraTurno = Carbon::parse($availableAppointment->date->format('Y-m-d') . ' ' . $availableAppointment->time->format('H:i:s'));
 
             if ($fechaHoraTurno->isPast()) {
                 session()->flash('error', [
                     'title' => 'Error!',
-                    'text' => 'No puedes cancelar un turno que ya ha pasado.',
+                    'text' => 'No puedes cancelar un appointment que ya ha pasado.',
                     'icon' => 'error'
                 ]);
                 /** @var \App\Models\User $user */
@@ -445,15 +445,15 @@ class ReservationController extends Controller
             // Verificación de límite de cancelación para pacientes
             /** @var \App\Models\User $user */
             if ($user->hasRole('user')) {
-                $settings = Setting::where('group', 'turnos')->pluck('value', 'key');
-                $horasLimiteCancelacion = $settings['turnos.horas_cancelacion'] ?? 24;
+                $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
+                $horasLimiteCancelacion = $settings['appointments.horas_cancelacion'] ?? 24;
 
                 $horasRestantes = now()->diffInHours($fechaHoraTurno, false);
 
                 if ($horasRestantes < $horasLimiteCancelacion) {
                     session()->flash('error', [
                         'title' => 'Error!',
-                        'text' => "No puedes cancelar el turno. Debes cancelar con al menos {$horasLimiteCancelacion} horas de anticipación.",
+                        'text' => "No puedes cancelar el appointment. Debes cancelar con al menos {$horasLimiteCancelacion} horas de anticipación.",
                         'icon' => 'error'
                     ]);
                     return redirect()->route('profile.historial');
@@ -484,7 +484,7 @@ class ReservationController extends Controller
                 } else if ($user->hasRole('user')) {
                     session()->flash('success', [
                         'title' => 'Reservation cancelada',
-                        'text' => 'La reservation de su turno ha sido cancelada.',
+                        'text' => 'La reservation de su appointment ha sido cancelada.',
                         'icon' => 'success'
                     ]);
                     return redirect()->route('profile.historial');

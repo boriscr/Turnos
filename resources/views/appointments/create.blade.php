@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Crear turno</h3>
+            <h3 class="title-form">Crear appointment</h3>
 
             <!-- Indicador de pasos -->
             <div class="step-indicator">
@@ -12,13 +12,13 @@
 
             <form x-data="iosCalendar()" x-init="init({{ $fechas ?? '[]' }})" id="multiStepForm"
                 @submit.prevent="updateSelectedDatesInput(); $el.submit()" method="POST"
-                action="{{ route('turnos.store') }}">
+                action="{{ route('appointments.store') }}">
                 @csrf
                 <!-- Paso 1 - Datos Iniciales -->
                 <div class="form-step active" data-step="1">
                     <div class="form-grid">
                         <div class="item">
-                            <label for="name">Nombre del Turno</label>
+                            <label for="name">Nombre del Appointment</label>
                             <input type="text" name="name" id="name" value="{{ old('name') }}" required>
                             @error('name')
                                 <div class="error">{{ $message }}</div>
@@ -26,10 +26,10 @@
                         </div>
 
                         <div class="item">
-                            <label for="direccion">Direccion</label>
-                            <input type="text" name="direccion" id="direccion" value="{{ old('direccion') }}"
+                            <label for="address">Direccion</label>
+                            <input type="text" name="address" id="address" value="{{ old('address') }}"
                                 required></input>
-                            @error('direccion')
+                            @error('address')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
@@ -65,24 +65,24 @@
                     </div>
                 </div>
 
-                <!-- Paso 2 - Horarios y Turnos -->
+                <!-- Paso 2 - Horarios y Appointments -->
                 <div class="form-step" data-step="2">
                     <div class="form-grid">
                         <div class="box-style">
-                            <h3>Asignar turno</h3>
+                            <h3>Asignar appointment</h3>
                             <div class="item-style">
                                 <div class="item">
-                                    <input type="radio" name="turno" value="mañana" id="manana">
-                                    <label for="manana">Turno Mañana</label>
+                                    <input type="radio" name="appointment" value="mañana" id="manana">
+                                    <label for="manana">Appointment Mañana</label>
                                 </div>
 
                                 <div class="item">
-                                    <input type="radio" name="turno" value="tarde" id="tarde">
-                                    <label for="tarde">Turno Tarde</label>
+                                    <input type="radio" name="appointment" value="tarde" id="tarde">
+                                    <label for="tarde">Appointment Tarde</label>
                                 </div>
                                 <div class="item">
-                                    <input type="radio" name="turno" value="noche" id="noche">
-                                    <label for="noche">Turno Noche</label>
+                                    <input type="radio" name="appointment" value="noche" id="noche">
+                                    <label for="noche">Appointment Noche</label>
                                 </div>
                             </div>
                         </div>
@@ -96,18 +96,18 @@
                         </div>
 
                         <div class="item">
-                            <label for="hora_inicio">Hora de Inicio</label>
-                            <input type="time" name="hora_inicio" id="hora_inicio" value="{{ old('inicio') }}"
+                            <label for="start_time">Hora de Inicio</label>
+                            <input type="time" name="start_time" id="start_time" value="{{ old('inicio') }}"
                                 required>
-                            @error('hora_inicio')
+                            @error('start_time')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="item">
-                            <label for="hora_fin">Hora de Fin</label>
-                            <input type="time" name="hora_fin" id="hora_fin" value="{{ old('fin') }}" required>
-                            @error('hora_fin')
+                            <label for="end_time">Hora de Fin</label>
+                            <input type="time" name="end_time" id="end_time" value="{{ old('fin') }}" required>
+                            @error('end_time')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
@@ -115,17 +115,17 @@
                         <div class="box-style">
                             <br>
                             <H3>Distribucion de horarios</H3>
-                            <input type="hidden" name="horarios_disponibles" id="horarios_disponibles">
+                            <input type="hidden" name="available_time_slots" id="available_time_slots">
                             <div class="item-style">
                                 <div class="item">
                                     <input type="radio" name="horario1" id="horario1"
                                         value="{{ old('horario1') }}">
-                                    <label for="horario1">Asignar turnos sin horarios</label>
+                                    <label for="horario1">Asignar appointments sin horarios</label>
                                 </div>
                                 <div class="item">
                                     <input type="radio" name="horario2" id="horario2"
                                         value="{{ old('horario2') }}">
-                                    <label for="horario2">Asignar turnos con division horaria</label>
+                                    <label for="horario2">Asignar appointments con division horaria</label>
                                 </div>
                             </div>
                             <div id="horario-box">
@@ -162,7 +162,7 @@
                     </div>
                     <div class="form-navigation">
                         <button type="button" class="prev-btn"><i class="bi bi-chevron-left"></i></button>
-                        <button type="submit" class="primary-btn">Crear Turno <i
+                        <button type="submit" class="primary-btn">Crear Appointment <i
                                 class="bi bi-check-circle"></i></button>
                     </div>
                 </div>

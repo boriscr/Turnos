@@ -17,7 +17,7 @@
 
                 <x-nav-link-active href="{{ route('reservations.create') }}" route="reservations.create">
                     <i
-                        class="bi bi-calendar-plus"></i><span>{{ __('navbar.book_appointment') }}</span>{{-- Reservar Turno --}}
+                        class="bi bi-calendar-plus"></i><span>{{ __('navbar.book_appointment') }}</span>{{-- Reservar Appointment --}}
                 </x-nav-link-active>
 
                 <!-- Settings Dropdown -->
@@ -67,16 +67,16 @@
                                             {{ __('navbar.specialties') }}</span>{{-- Specialties --}}
                                     </x-dropdown-link>
 
-                                    <!-- Sección Turnos -->
+                                    <!-- Sección Appointments -->
                                     <div class="subtitulo"> {{ __('navbar.manage_appointments') }}</div>
-                                    {{-- Gestionar Turnos --}}
-                                    <x-dropdown-link :href="route('turnos.index')">
+                                    {{-- Gestionar Appointments --}}
+                                    <x-dropdown-link :href="route('appointments.index')">
                                         <i class="bi bi-eye"></i> <span>
-                                            {{ __('navbar.view_appointments') }}</span>{{-- Ver Turnos --}}
+                                            {{ __('navbar.view_appointments') }}</span>{{-- Ver Appointments --}}
                                     </x-dropdown-link>
-                                    <x-dropdown-link :href="route('turnos.create')">
+                                    <x-dropdown-link :href="route('appointments.create')">
                                         <i class="bi bi-clock"></i> <span>
-                                            {{ __('navbar.create_appointment') }}</span>{{-- Crear Turnos --}}
+                                            {{ __('navbar.create_appointment') }}</span>{{-- Crear Appointments --}}
                                     </x-dropdown-link>
 
                                     <!-- Sección Reservations -->
@@ -174,7 +174,7 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('reservations.create')" :active="request()->routeIs('reservations.create')">
                 <i
-                    class="bi bi-calendar-plus"></i><span>{{ __('navbar.book_appointment') }}</span>{{-- Reservar Turno --}}
+                    class="bi bi-calendar-plus"></i><span>{{ __('navbar.book_appointment') }}</span>{{-- Reservar Appointment --}}
             </x-responsive-nav-link>
 
             @role('admin')
@@ -219,15 +219,15 @@
                                     {{ __('navbar.specialties') }}</span>{{-- Specialties --}}
                             </x-responsive-nav-link>
 
-                            <!-- Sección Turnos -->
-                            <div class="subtitulo"> {{ __('navbar.manage_appointments') }}</div>{{-- Gestionar Turnos --}}
-                            <x-responsive-nav-link :href="route('turnos.index')">
+                            <!-- Sección Appointments -->
+                            <div class="subtitulo"> {{ __('navbar.manage_appointments') }}</div>{{-- Gestionar Appointments --}}
+                            <x-responsive-nav-link :href="route('appointments.index')">
                                 <i class="bi bi-eye"></i> <span>
-                                    {{ __('navbar.view_appointments') }}</span>{{-- Ver Turnos --}}
+                                    {{ __('navbar.view_appointments') }}</span>{{-- Ver Appointments --}}
                             </x-responsive-nav-link>
-                            <x-responsive-nav-link :href="route('turnos.create')">
+                            <x-responsive-nav-link :href="route('appointments.create')">
                                 <i class="bi bi-clock"></i> <span>
-                                    {{ __('navbar.create_appointment') }}</span>{{-- Crear Turnos --}}
+                                    {{ __('navbar.create_appointment') }}</span>{{-- Crear Appointments --}}
                             </x-responsive-nav-link>
 
                             <!-- Sección Reservations -->

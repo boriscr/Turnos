@@ -11,7 +11,7 @@ class AvailableAppointmentsController extends Controller
     {
         // Si se presionó "Mostrar Todo", ignoramos todos los filtros
         if ($request->has('mostrar_todo')) {
-            $turnoDisponibles = AvailableAppointment::with(['turno', 'reservations.user'])
+            $turnoDisponibles = AvailableAppointment::with(['appointment', 'reservations.user'])
                 ->orderByDesc('date')
                 ->orderByDesc('time')
                 ->paginate(10);
@@ -35,7 +35,7 @@ class AvailableAppointmentsController extends Controller
         $hoy = now()->format('Y-m-d');
         $manana = now()->addDay()->format('Y-m-d'); // Nueva variable para mañana
 
-        $query = AvailableAppointment::with(['turno', 'reservations.user'])
+        $query = AvailableAppointment::with(['appointment', 'reservations.user'])
             ->when($search, function ($query) use ($search) {
                 $query->whereHas('reservations.user', function ($userQuery) use ($search) {
                     $userQuery->where('idNumber', 'like', "%$search%")

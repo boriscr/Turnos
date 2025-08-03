@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         box.className = 'box-accionesMovil';
 
         // Obtener los datos necesarios de la fila
-        if (window.location.pathname.includes('/turnos')) {
+        if (window.location.pathname.includes('/appointments')) {
           var elemento = 'td:nth-child(2)'
           var editarLink = row.querySelector('.acciones a:nth-child(2)').outerHTML;
         } else if (window.location.pathname.includes('/reservations')) {

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Turnos reservados</h3>
+            <h3 class="title-form">Appointments reservados</h3>
 
             <!-- Barra de búsqueda y filtros -->
             @include('layouts.reservation-filter')
@@ -10,7 +10,7 @@
                 <thead>
                     <tr>
                         <th>Id1</th>
-                        <th>Fecha del turno</th>
+                        <th>Fecha del appointment</th>
                         <th class="option-movil">Hora</th>
                         <th>Profesional</th>
                         <th>Paciente</th>

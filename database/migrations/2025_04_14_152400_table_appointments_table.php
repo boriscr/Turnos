@@ -11,22 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('turnos', function (Blueprint $table) {
+        Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('direccion');
+            $table->string('address');
             $table->foreignId('specialty_id')->constrained('specialties')->onDelete('cascade'); // OK
             $table->foreignId('doctor_id')->constrained(Doctor::TABLE)->onDelete('cascade'); // OK
-            $table->string('turno')->nullable();
-            $table->integer('cantidad_turnos');
-            $table->time('hora_inicio');
-            $table->time('hora_fin');
-            $table->json('horarios_disponibles')->nullable();
-            $table->json('fechas_disponibles');
+            $table->string('appointment')->nullable();
+            $table->integer('number_of_slots');
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->json('available_time_slots')->nullable();
+            $table->json('available_dates');
             $table->boolean('status')->default(true);
             // Modificado: sin onDelete('cascade') para users
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('user_id_update')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('createBy')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updateBy')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('turnos');
+        Schema::dropIfExists('appointments');
     }
 };
