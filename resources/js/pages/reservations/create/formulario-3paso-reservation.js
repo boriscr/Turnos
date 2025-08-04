@@ -1,5 +1,7 @@
 // Este script maneja la lógica del formulario multipaso para la gestión de appointments
-if (window.location.pathname.includes('/reservations/create') || window.location.pathname.includes('/availableAppointments/edit') || window.location.pathname.includes('/appointments/edit')) {
+if (window.location.pathname.includes('/reservations/create') || 
+    window.location.pathname.includes('/availableAppointments/edit') || 
+    window.location.pathname.includes('/appointments/edit')) {
 
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('multiStepForm');
@@ -10,18 +12,22 @@ if (window.location.pathname.includes('/reservations/create') || window.location
         // Mostrar el primer paso al cargar
         showStep(currentStep);
 
-        // Botón Siguiente
-        document.querySelector('.next-btn').addEventListener('click', function () {
-            if (validateStep(currentStep)) {
-                currentStep++;
-                showStep(currentStep);
-            }
+        // Manejadores para todos los botones Siguiente
+        document.querySelectorAll('.next-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                if (validateStep(currentStep)) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            });
         });
 
-        // Botón Anterior
-        document.querySelector('.prev-btn').addEventListener('click', function () {
-            currentStep--;
-            showStep(currentStep);
+        // Manejadores para todos los botones Anterior
+        document.querySelectorAll('.prev-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                currentStep--;
+                showStep(currentStep);
+            });
         });
 
         function showStep(stepIndex) {
@@ -41,18 +47,27 @@ if (window.location.pathname.includes('/reservations/create') || window.location
             });
 
             // Mostrar/ocultar botones según el paso
-            if (stepIndex === 0) {
-                document.querySelector('.prev-btn').style.display = 'none';
-            } else {
-                document.querySelector('.prev-btn').style.display = 'block';
-            }
+            const allPrevButtons = document.querySelectorAll('.prev-btn');
+            const allNextButtons = document.querySelectorAll('.next-btn');
+            const submitButton = document.querySelector('.primary-btn');
 
-            if (stepIndex === steps.length - 1) {
-                document.querySelector('.next-btn').style.display = 'none';
-                document.querySelector('.primary-btn').style.display = 'block';
-            } else {
-                document.querySelector('.next-btn').style.display = 'block';
-                document.querySelector('.primary-btn').style.display = 'none';
+            if (stepIndex === 0) {
+                // Primer paso - ocultar botones Anterior
+                allPrevButtons.forEach(btn => btn.style.display = 'none');
+                allNextButtons.forEach(btn => btn.style.display = 'block');
+                if (submitButton) submitButton.style.display = 'none';
+            } 
+            else if (stepIndex === 1) {
+                // Segundo paso - mostrar ambos botones
+                allPrevButtons.forEach(btn => btn.style.display = 'block');
+                allNextButtons.forEach(btn => btn.style.display = 'block');
+                if (submitButton) submitButton.style.display = 'none';
+            }
+            else if (stepIndex === 2) {
+                // Tercer paso - ocultar Siguiente, mostrar Confirmar
+                allPrevButtons.forEach(btn => btn.style.display = 'block');
+                allNextButtons.forEach(btn => btn.style.display = 'none');
+                if (submitButton) submitButton.style.display = 'block';
             }
         }
 
@@ -65,13 +80,26 @@ if (window.location.pathname.includes('/reservations/create') || window.location
                 if (!input.value.trim()) {
                     isValid = false;
                     input.style.borderColor = 'red';
+                    
+                    // Scroll al primer campo con error
+                    if (!isValid) {
+                        input.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    }
                 } else {
                     input.style.borderColor = '';
                 }
             });
 
             if (!isValid) {
-                alert('Por favor complete todos los campos requeridos antes de continuar.');
+                Swal.fire({
+                    title: 'Campos incompletos',
+                    text: 'Por favor complete todos los campos requeridos antes de continuar.',
+                    icon: 'warning',
+                    confirmButtonColor: 'var(--color_primario_btn)'
+                });
             }
 
             return isValid;

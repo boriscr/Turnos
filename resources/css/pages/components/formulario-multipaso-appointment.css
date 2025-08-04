@@ -7,7 +7,7 @@
 
 .step {
     text-align: center;
-    padding: 10px 20px;
+    padding: 15px 15px;
     margin: 0 5px;
     background: #e0e0e0ad;
     border-radius: 5px;
@@ -58,4 +58,13 @@
 .prev-btn:hover,
 .next-btn:hover {
     opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+    .step {
+        display: flex;
+        flex-direction: column;
+        padding: 5px 5px;
+        font-size: 0.8em;
+    }
 }

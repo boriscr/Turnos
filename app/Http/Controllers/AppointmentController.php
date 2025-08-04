@@ -228,7 +228,7 @@ class AppointmentController extends Controller
 
             return response()->json($doctors);
         } catch (\Exception $e) {
-            Log::error('Error al obtener médicos por specialty', ['specialty_id' => $id, 'error' => $e->getMessage()]);
+            Log::error('Error al obtener doctores por specialty', ['specialty_id' => $id, 'error' => $e->getMessage()]);
             return response()->json([], 500);
         }
     }

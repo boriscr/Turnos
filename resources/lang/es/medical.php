@@ -4,7 +4,7 @@ return [
     'register' => 'Registrar',
     'cancel' => 'Cancelar',
     'select_default' => 'Seleccionar',
-    'description_txt' => 'Descripcion',
+    'description_txt' => 'Descripción',
     'license_number' => 'Matricula',
     'role' => 'Rol',
     'admin' => 'Admin',

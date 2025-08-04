@@ -22,7 +22,7 @@
                         </div>
                         <div class="step">
                             <i class="icon-calendar"></i>
-                            <p>Solicite su primer appointment médico</p>
+                            <p>Solicite su primer appointment doctor</p>
                             <a href="{{ route('reservations.create') }}" class="btn-step-action">Sacar appointment</a>
                         </div>
                         <div class="step">

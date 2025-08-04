@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Lista de médicos</h3>
+            <h3 class="title-form">Lista de doctores</h3>
             <table>
                 <thead>
                     <tr>

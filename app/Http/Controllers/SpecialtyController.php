@@ -85,7 +85,7 @@ class SpecialtyController extends Controller
             if ($specialty->doctors()->exists()) {
                 session()->flash('error', [
                     'title' => 'Error!',
-                    'text' => 'No se puede eliminar una specialty con médicos asociados.',
+                    'text' => 'No se puede eliminar una specialty con doctores asociados.',
                     'icon' => 'error',
                 ]);
                 return redirect()->back();

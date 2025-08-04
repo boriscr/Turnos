@@ -1,101 +1,214 @@
 <x-app-layout>
     <div class="main full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Solicitar un nuevo appointment</h3>
+            <h3 class="title-form">{{ __('appointment.title_text') }}</h3>
 
             <!-- Indicador de pasos -->
             <div class="step-indicator">
-                <div class="step active" data-step="1"><i class="bi bi-person-circle"></i> Datos Personales</div>
-                <div class="step" data-step="2"><i class="bi bi-clock-history"></i> Selección de Appointment</div>
+                <div class="step active" data-step="1"><i
+                        class="bi bi-person-circle"></i><span>{{ __('appointment.step_1') }}</span>
+                </div>
+                <div class="step" data-step="2"><i
+                        class="bi bi-clock-history"></i><span>{{ __('appointment.step_2') }}</span> </div>
+                <div class="step" data-step="3"><i
+                        class="bi bi-check-circle-fill"></i><span>{{ __('appointment.step_3') }}</span>
+                </div>
             </div>
 
             <form action="{{ route('confirmReservation') }}" method="post" id="multiStepForm">
                 @csrf
-
                 <!-- Paso 1 - Datos Personales -->
                 <div class="form-step active" data-step="1">
                     <div class="item">
-                        <label for="name">Nombre</label>
+                        <x-input-label :value="__('contact.name')" />
                         <input name="name" value="{{ Auth::user()->name }}" readonly>
 
-                        <label for="surname">Apellido</label>
+                        <x-input-label :value="__('contact.surname')" />
                         <input name="surname" value="{{ Auth::user()->surname }}" readonly>
 
-                        <label for="email">Email</label>
+                        <x-input-label :value="__('contact.email')" />
                         <input name="email" value="{{ Auth::user()->email }}" readonly>
 
-                        <label for="phone">Teléfono</label>
+                        <x-input-label :value="__('contact.phone')" />
                         <input name="phone" value="{{ Auth::user()->phone }}" readonly>
 
-                        <label for="idNumber">DNI</label>
+                        <x-input-label :value="__('contact.idNumber')" />
                         <input name="idNumber" value="{{ Auth::user()->idNumber }}" readonly>
 
-                        <label for="address">Dirección</label>
+                        <x-input-label :value="__('contact.address')" />
                         <input name="address" value="{{ Auth::user()->address }}" readonly>
-
-                        <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                        <x-input-label :value="__('contact.birthdate')" />
                         <input name="fecha_nacimiento" value="{{ Auth::user()->birthdate }}" readonly>
                     </div>
-                    <br>
-                    <hr>
-                    <br>
-                    <div class="navegation-next full-center">
-                        <button type="button" class="next-btn full-center">Siguiente<i
+
+                    <div class="navegation-next full-center  mt-4">
+                        <button type="button" class="next-btn full-center">{{ __('button.next') }}<i
                                 class="bi bi-chevron-right"></i></button>
                     </div>
                 </div>
 
                 <!-- Paso 2 - Selección de Appointment -->
                 <div class="form-step" data-step="2">
-                    <div class="item">
-                        <label for="specialty_id"><i class="bi bi-1-circle"></i> Specialty</label>
-                        <select name="specialty_id" id="specialty_id" required>
-                            <option value="">Seleccione una specialty</option>
-                            @foreach ($specialties as $specialty)
-                                @if ($specialty->status == 1)
-                                    <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
+                    <x-form.select name="specialty_id" :label="__('specialty.title')" icon="bi-1-circle" :required="true">
+                        <option value="">{{ __('appointment.specialty_option') }}</option>
+                        @foreach ($specialties as $specialty)
+                            @if ($specialty->status == 1)
+                                <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                            @endif
+                        @endforeach
+                    </x-form.select>
 
-                    <div class="item">
-                        <label for="doctor_id"><i class="bi bi-2-circle"></i> Médico/a</label>
-                        <select name="doctor_id" id="doctor_id" required>
-                            <option value="">Seleccione un médico</option>
-                        </select>
-                    </div>
-                    <div class="item">
-                        <label for="turno_nombre_id"><i class="bi bi-3-circle"></i> Appointment</label>
-                        <select name="turno_nombre_id" id="turno_nombre_id" required>
-                            <option value="">Seleccione un appointment</option>
-                        </select>
-                    </div>
-                    <div class="item">
-                        <label for="fecha_turno"><i class="bi bi-4-circle"></i> Fecha del Appointment</label>
-                        <select name="fecha_turno" id="fecha_turno" required>
-                            <option value="">Seleccione una date</option>
-                        </select>
-                    </div>
-
-                    <div class="item">
-                        <label for="hora_turno"><i class="bi bi-5-circle"></i> Horario del Appointment</label>
-                        <select name="hora_turno" id="hora_turno" required>
-                            <option value="">Seleccione un horario</option>
-                        </select>
+                    <x-form.select name="doctor_id" :label="__('medical.doctor')" icon="bi-2-circle" :required="true">
+                        <option value="">{{ __('appointment.doctor_option') }}</option>
+                    </x-form.select>
+                    <x-form.select name="appointment_name_id" :label="__('appointment.title_name')" icon="bi-3-circle" :required="true">
+                        <option value="">{{ __('appointment.title_name_option') }}</option>
+                    </x-form.select>
+                    <x-form.select name="appointment_date" :label="__('appointment.date')" icon="bi-4-circle" :required="true">
+                        <option value="">{{ __('appointment.date_option') }}</option>
+                    </x-form.select>
+                    <x-form.select name="appointment_time" :label="__('appointment.time')" icon="bi-5-circle" :required="true">
+                        <option value="">{{ __('appointment.time_option') }}</option>
                         <input type="hidden" name="appointment_id" id="appointment_id">
-                    </div>
-                    <br>
-                    <hr>
-                    <br>
-                    <div class="form-navigation">
+                    </x-form.select>
+
+
+                    <div class="form-navigation  mt-4">
                         <button type="button" class="prev-btn full-center"><i
-                                class="bi bi-chevron-left"></i></button>
-                        <button type="submit" class="primary-btn">Confirmar Appointment <i
-                                class="bi bi-check-circle"></i></button>
+                                class="bi bi-chevron-left"></i>{{ __('button.back') }}</button>
+                        <button type="button" class="next-btn full-center">{{ __('button.next') }}<i
+                                class="bi bi-chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Paso 3 - Mensaje de Confirmación -->
+                <div class="form-step" data-step="3">
+                    <h2>{{__('appointment.reservation_details_txt')}}</h2>
+                    <div id="confirmation-details" class="mt-4">
+                        <!-- Los detalles se cargarán automáticamente -->
+                    </div>
+                    <div class="form-navigation mt-4">
+                        <button type="button" class="prev-btn full-center">
+                            <i class="bi bi-chevron-left"></i>{{ __('button.back') }}
+                        </button>
+                        <x-primary-button>
+                            <i class="bi bi-check-circle-fill text-success"></i><span>{{ __('button.confirm') }}</span>
+                        </x-primary-button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Configuración dinámica según tema
+            function getCurrentTheme() {
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            const isDarkMode = getCurrentTheme() === 'dark';
+
+            const form = document.getElementById('multiStepForm');
+            const confirmBtn = document.querySelector('#multiStepForm [type="submit"]');
+
+            // Cargar datos en el paso 3 cuando se avance desde el paso 2
+            document.querySelectorAll('.next-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (this.closest('.form-step').dataset.step === "2") {
+                        loadConfirmationData();
+                    }
+                });
+            });
+
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    // Validación básica
+                    const requiredFields = ['specialty_id', 'doctor_id', 'appointment_name_id',
+                        'appointment_date', 'appointment_time'
+                    ];
+                    const isValid = requiredFields.every(field => {
+                        const element = document.getElementById(field);
+                        return element && element.value;
+                    });
+
+                    if (!isValid) {
+                        Swal.fire({
+                            title: 'Campos incompletos',
+                            text: 'Por favor complete todos los campos del formulario',
+                            icon: 'warning',
+                        });
+                        return;
+                    }
+
+                    // Mostrar confirmación simple
+                    Swal.fire({
+                        title: '¿Confirmar turno?',
+                        background: isDarkMode ?
+                            'var(--fondo_aplicacion_dark)' : 'var(--fondo_aplicacion_light)',
+                        color: isDarkMode ?
+                            'var(--color_texto_dark)' : 'var(--color_texto_light)',
+                        confirmButtonColor: 'var(--color_primario_btn)',
+                        cancelButtonColor: '#dc3545',
+                        html: '<p>{{ config('app.mensaje_paciente') }}</p>',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Confirmar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            }
+
+            function loadConfirmationData() {
+                // Obtener elementos
+                const specialtySelect = document.getElementById('specialty_id');
+                const doctorSelect = document.getElementById('doctor_id');
+                const appointmentNameSelect = document.getElementById('appointment_name_id');
+                const dateSelect = document.getElementById('appointment_date');
+                const timeSelect = document.getElementById('appointment_time');
+                const confirmationDetails = document.getElementById('confirmation-details');
+
+                // Obtener textos seleccionados
+                const specialtyText = specialtySelect.options[specialtySelect.selectedIndex].text;
+                const doctorText = doctorSelect.options[doctorSelect.selectedIndex].text;
+                const appointmentNameText = appointmentNameSelect.options[appointmentNameSelect.selectedIndex].text;
+                const dateText = dateSelect.options[dateSelect.selectedIndex].text;
+                const timeText = timeSelect.options[timeSelect.selectedIndex].text;
+
+                // Obtener datos adicionales (usando Blade)
+                let address = 'No especificada';
+                @foreach ($appointment as $item)
+                    if ({{ $item->id }} == appointmentNameSelect.value) {
+                        address = '{{ $item->address }}';
+                    }
+                @endforeach
+
+                let specialtyDescription = 'No especificada';
+                @foreach ($specialties as $item)
+                    if ({{ $item->id }} == specialtySelect.value) {
+                        specialtyDescription = '{{ $item->description }}';
+                    }
+                @endforeach
+
+                // Construir HTML de confirmación
+                confirmationDetails.innerHTML = `
+            <div class="confirmation-detail">
+                <p><strong>{{__('appointment.title_name')}}:</strong> ${appointmentNameText}</p>
+                <p><strong>{{__('contact.address')}}:</strong> ${address}</p>
+                <p><strong>{{__('specialty.title')}}:</strong> ${specialtyText}</p>
+                <p><strong>{{__('medical.description_txt')}}:</strong> ${specialtyDescription}</p>
+                <hr>
+                <p><strong>{{__('medical.doctor')}}:</strong> ${doctorText}</p>
+                <p><strong>{{__('appointment.date')}}:</strong> ${dateText}</p>
+                <p><strong>{{__('appointment.time')}}:</strong> ${timeText}</p>
+            </div>
+        `;
+            }
+        });
+    </script>
+
 </x-app-layout>

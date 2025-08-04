@@ -51,7 +51,7 @@
                         <div class="item">
                             <label for="doctor_id">Médico</label>
                             <select name="doctor_id" id="doctor_id" required>
-                                <option value="">Seleccione un médico</option>
+                                <option value="">Seleccione un doctor</option>
                             </select>
                             @error('doctor_id')
                                 <div class="error">{{ $message }}</div>

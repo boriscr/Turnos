@@ -10,7 +10,7 @@ if (window.location.pathname.includes('/appointments/create') || window.location
                 medicoSelect.innerHTML = "";
 
                 if (data.length === 0) {
-                    medicoSelect.innerHTML = `<option value="">No hay médicos disponibles</option>`;
+                    medicoSelect.innerHTML = `<option value="">No hay doctores disponibles</option>`;
                 } else {
                     data.forEach(doctor => {
                         let option = document.createElement("option");
@@ -21,7 +21,7 @@ if (window.location.pathname.includes('/appointments/create') || window.location
                 }
             })
             .catch(error => {
-                console.error("Error al obtener lista de médicos:", error);
+                console.error("Error al obtener lista de doctores:", error);
             });
     }
 

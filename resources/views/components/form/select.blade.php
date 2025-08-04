@@ -1,6 +1,10 @@
-@props(['name', 'label', 'required' => false])
+@props(['name', 'label', 'icon', 'required' => false])
 <div class="item">
-    <x-input-label :for="$name" :value="$label" :required="$required" />
+    @if (!isset($icon))
+        <x-input-label :for="$name" :value="$label" :icon="$icon" :required="$required" />
+    @else
+        <label for="{{ $name }}"><i class="bi {{ $icon }}"></i><span>{{ $label }}</span></label>
+    @endif
     <select name="{{ $name }}" id="{{ $name }}" class="w-full rounded p-2"
         {{ $required ? 'required' : '' }}>
         {{ $slot }}

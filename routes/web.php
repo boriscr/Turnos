@@ -18,7 +18,7 @@ Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
     Route::get('/getDoctorsBySpecialty/{specialty_id}', [ReservationController::class, 'getDoctorsBySpecialty']);
     Route::get('/getAvailableReservationByName/{doctor_id}', [ReservationController::class, 'getAvailableReservationByName']);
-    Route::get('/getAvailableReservationByDoctor/{turno_nombre_id}', [ReservationController::class, 'getAvailableReservationByDoctor']);
+    Route::get('/getAvailableReservationByDoctor/{appointment_name_id}', [ReservationController::class, 'getAvailableReservationByDoctor']);
     Route::post('/confirmReservation', [ReservationController::class, 'confirmReservation'])->name('confirmReservation');
     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 

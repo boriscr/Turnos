@@ -69,7 +69,7 @@ if (window.location.pathname.includes('/reservations/create')) {
 
     // Función para limpiar selects dependientes
     function limpiarSelectsDependientes(selectInicial) {
-        const selects = ['specialty_id', 'doctor_id', 'turno_nombre_id', 'fecha_turno', 'hora_turno'];
+        const selects = ['specialty_id', 'doctor_id', 'appointment_name_id', 'appointment_date', 'appointment_time'];
         const indexInicial = selects.indexOf(selectInicial);
         
         if (indexInicial === -1) return;
@@ -84,7 +84,7 @@ if (window.location.pathname.includes('/reservations/create')) {
         }
     }
 
-    // Función para cargar médicos basados en specialty seleccionada
+    // Función para cargar doctores basados en specialty seleccionada
     async function cargarMedicos(especialidadId) {
         const selectMedico = document.getElementById('doctor_id');
         if (!selectMedico) return;
@@ -92,10 +92,10 @@ if (window.location.pathname.includes('/reservations/create')) {
         try {
             limpiarSelectsDependientes('specialty_id');
             selectMedico.disabled = true;
-            selectMedico.innerHTML = '<option value="">Cargando médicos...</option>';
+            selectMedico.innerHTML = '<option value="">Cargando doctores...</option>';
 
             if (!especialidadId) {
-                selectMedico.innerHTML = '<option value="">Seleccione un médico</option>';
+                selectMedico.innerHTML = '<option value="">Seleccione un doctor</option>';
                 return;
             }
 
@@ -114,14 +114,14 @@ if (window.location.pathname.includes('/reservations/create')) {
 
             selectMedico.disabled = false;
         } catch (error) {
-            console.error("Error al cargar lista de médicos:", error);
+            console.error("Error al cargar lista de doctores:", error);
             selectMedico.innerHTML = '<option value="">Error al cargar</option>';
         }
     }
 
-    // Función para cargar el name de los appointments basados en el médico seleccionado
+    // Función para cargar el name de los appointments basados en el doctor seleccionado
     async function cargarNombres(medicoId) {
-        const selectTurno = document.getElementById('turno_nombre_id');
+        const selectTurno = document.getElementById('appointment_name_id');
         if (!selectTurno) return;
 
         try {
@@ -130,7 +130,7 @@ if (window.location.pathname.includes('/reservations/create')) {
             selectTurno.innerHTML = '<option value="">Cargando appointments...</option>';
 
             if (!medicoId) {
-                selectTurno.innerHTML = '<option value="">Seleccione un médico primero</option>';
+                selectTurno.innerHTML = '<option value="">Seleccione un doctor primero</option>';
                 return;
             }
 
@@ -156,11 +156,11 @@ if (window.location.pathname.includes('/reservations/create')) {
 
     // Función para cargar appointments basados en el name de appointment seleccionado
     async function cargarTurnos(turnoNombreId) {
-        const selectFecha = document.getElementById('fecha_turno');
+        const selectFecha = document.getElementById('appointment_date');
         if (!selectFecha) return;
 
         try {
-            limpiarSelectsDependientes('turno_nombre_id');
+            limpiarSelectsDependientes('appointment_name_id');
             selectFecha.disabled = true;
             selectFecha.innerHTML = '<option value="">Cargando fechas...</option>';
 
@@ -213,11 +213,11 @@ if (window.location.pathname.includes('/reservations/create')) {
 
     // Función para cargar horas basadas en date seleccionada
     async function cargarHoras(fechaSeleccionada) {
-        const selectHora = document.getElementById('hora_turno');
+        const selectHora = document.getElementById('appointment_time');
         if (!selectHora) return;
 
         try {
-            limpiarSelectsDependientes('fecha_turno');
+            limpiarSelectsDependientes('appointment_date');
             selectHora.disabled = true;
             selectHora.innerHTML = '<option value="">Cargando horarios...</option>';
 
@@ -283,9 +283,9 @@ if (window.location.pathname.includes('/reservations/create')) {
             // Obtener valores iniciales si existen
             const especialidadInicial = document.getElementById('specialty_id')?.value;
             const medicoInicial = document.getElementById('doctor_id')?.value;
-            const nombreInicial = document.getElementById('turno_nombre_id')?.value;
-            const fechaInicial = document.getElementById('fecha_turno')?.value;
-            const turnoIdInicial = document.getElementById('hora_turno')?.value;
+            const nombreInicial = document.getElementById('appointment_name_id')?.value;
+            const fechaInicial = document.getElementById('appointment_date')?.value;
+            const turnoIdInicial = document.getElementById('appointment_time')?.value;
 
             // Configurar event listeners
             document.getElementById('specialty_id')?.addEventListener('change', function() {
@@ -296,15 +296,15 @@ if (window.location.pathname.includes('/reservations/create')) {
                 cargarNombres(this.value);
             });
 
-            document.getElementById('turno_nombre_id')?.addEventListener('change', function() {
+            document.getElementById('appointment_name_id')?.addEventListener('change', function() {
                 cargarTurnos(this.value);
             });
 
-            document.getElementById('fecha_turno')?.addEventListener('change', function() {
+            document.getElementById('appointment_date')?.addEventListener('change', function() {
                 cargarHoras(this.value);
             });
 
-            document.getElementById('hora_turno')?.addEventListener('change', function() {
+            document.getElementById('appointment_time')?.addEventListener('change', function() {
                 document.getElementById('appointment_id').value = this.value;
             });
 
@@ -315,13 +315,13 @@ if (window.location.pathname.includes('/reservations/create')) {
                         document.getElementById('doctor_id').value = medicoInicial;
                         cargarNombres(medicoInicial).then(() => {
                             if (nombreInicial) {
-                                document.getElementById('turno_nombre_id').value = nombreInicial;
+                                document.getElementById('appointment_name_id').value = nombreInicial;
                                 cargarTurnos(nombreInicial).then(() => {
                                     if (fechaInicial) {
-                                        document.getElementById('fecha_turno').value = fechaInicial;
+                                        document.getElementById('appointment_date').value = fechaInicial;
                                         cargarHoras(fechaInicial).then(() => {
                                             if (turnoIdInicial) {
-                                                document.getElementById('hora_turno').value = turnoIdInicial;
+                                                document.getElementById('appointment_time').value = turnoIdInicial;
                                                 document.getElementById('appointment_id').value = turnoIdInicial;
                                             }
                                         });

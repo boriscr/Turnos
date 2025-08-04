@@ -189,21 +189,21 @@ class ReservationController extends Controller
             } elseif ($user->faults > $turnos_faltas_maximas) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes reservar appointments.',
+                    'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes solicitar más reservas.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
             } elseif ($turnos_activos >= $turnos_limite_diario) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => 'Has alcanzado el límite de appointments activos permitidos.<br> Asiste a los appointments solicitados antes de solicitar uno nuevo.<br> No puedes reservar más appointments.',
+                    'html' => 'Has alcanzado el límite de reservas activas permitidas.<br> Asiste a las reservas solicitadas antes de solicitar una nueva.<br> No puedes realizar más reservas.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
             } elseif ($turnos_limite_diario <= 0) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => 'No puedes reservar appointments en este momento. El límite de appointments activos ha sido deshabilitado.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
+                    'html' => 'No puedes realizar más reservas en este momento. El límite de reservas activas ha sido deshabilitado.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
@@ -243,14 +243,14 @@ class ReservationController extends Controller
 
     // 3. Obtener appointments por doctor (filtrado por date/time)
     //Filtrado por date y time configurado en settings
-    // Devuelve los appointments disponibles para un médico específico, filtrando por date y time
+    // Devuelve los appointments disponibles para un doctor específico, filtrando por date y time
     // y aplicando la configuración de previsualización de appointments.
     // La previsualización se basa en la configuración de la ventana de tiempo definida en la base de datos.
     // La función también maneja la lógica de filtrado para mostrar solo los appointments que están disponibles
     // y que son futuros, teniendo en cuenta la date y time actuales.
     // El resultado se devuelve en formato JSON, incluyendo los appointments disponibles y la configuración de
     // previsualización utilizada para la consulta.
-    public function getAvailableReservationByDoctor($turno_nombre_id)
+    public function getAvailableReservationByDoctor($appointment_name_id)
     {
         $hoy = now()->format('Y-m-d');
         $horaActual = now()->format('H:i:s');
@@ -280,7 +280,7 @@ class ReservationController extends Controller
         }
 
         $fechaLimite = $fechaLimite->format('Y-m-d');
-        $appointments = AvailableAppointment::where('appointment_id', $turno_nombre_id)
+        $appointments = AvailableAppointment::where('appointment_id', $appointment_name_id)
             ->where('available_spots', '>', 0)
             ->whereDate('date', '<=', $fechaLimite) // Filtro superior
             ->where(function ($query) use ($hoy, $horaActual) {
@@ -330,7 +330,7 @@ class ReservationController extends Controller
             if ($appointment->available_spots <= 0) {
                 session()->flash('error', [
                     'title' => 'Cupos no disponibles',
-                    'text' => 'No hay cupos disponibles para el appointment seleccionado. Seleccione otro horario o date',
+                    'text' => 'No hay cupos disponibles para el turno seleccionado. Seleccione otro horario o fecha',
                     'icon' => 'error',
                 ]);
 
@@ -342,8 +342,8 @@ class ReservationController extends Controller
 
             if ($fechaHoraTurno->lessThan($ahora)) {
                 session()->flash('error', [
-                    'title' => 'Fecha y time inválidas',
-                    'text' => 'La date y time seleccionadas ya han pasado. Seleccione una date y time futura.',
+                    'title' => 'Fecha y hora inválidas',
+                    'text' => 'La fecha y hora seleccionadas ya han pasado. Seleccione una fecha y hora futura.',
                     'icon' => 'error',
                 ]);
                 return back();
@@ -364,8 +364,8 @@ class ReservationController extends Controller
                 }
 
                 session()->flash('success', [
-                    'title' => 'Appointment reservado',
-                    'text' => 'El appointment ha sido reservado con éxito',
+                    'title' => 'Reserva exitosa',
+                    'text' => 'Se ha reservado un turno con éxito',
                     'icon' => 'success',
                 ]);
                 return redirect()->route('profile.historial');
@@ -374,7 +374,7 @@ class ReservationController extends Controller
             if ($user->status == 1 && $user->faults <= $turnos_faltas_maximas &&  $turnos_activos >= $turnos_limite_diario && $turnos_limite_diario > 0) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => '1. Has alcanzado el límite de faltas permitidas.<br>2. Su cuenta está inactiva.<br>3. Has alcanzado el límite de appointments activos permitidos.<br> Contacta al administrador.',
+                    'html' => '1. Has alcanzado el límite de faltas permitidas.<br>2. Su cuenta está inactiva.<br>3. Has alcanzado el límite de reservas activas permitidos.<br> Contacta al administrador.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
@@ -388,21 +388,21 @@ class ReservationController extends Controller
             } elseif ($user->faults > $turnos_faltas_maximas) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes reservar appointments.',
+                    'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes realizar más reservas.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
             } elseif ($user->turnos_activos >= $turnos_limite_diario) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => 'Has alcanzado el límite de appointments activos permitidos.<br> Asiste a los appointments solicitados antes de solicitar uno nuevo.<br> No puedes reservar más appointments.',
+                    'html' => 'Has alcanzado el límite de reservas activas permitidas.<br> Asiste a los reservas solicitadas antes de solicitar una nueva.<br> No puedes reservar más.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
             } elseif ($turnos_limite_diario <= 0) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
-                    'html' => 'No puedes reservar appointments en este momento. El límite de appointments activos ha sido deshabilitado.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
+                    'html' => 'No puedes solicitar más reservas en este momento. El límite de reservas activas ha sido deshabilitada.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
@@ -427,7 +427,7 @@ class ReservationController extends Controller
             $availableAppointment = AvailableAppointment::find($reservation->available_appointment_id);
 
             if (!$availableAppointment) {
-                throw new \Exception('Appointment asociado no encontrado');
+                throw new \Exception('Reserva asociada no encontrada');
             }
 
             // Verificación de si el appointment ya pasó
@@ -436,7 +436,7 @@ class ReservationController extends Controller
             if ($fechaHoraTurno->isPast()) {
                 session()->flash('error', [
                     'title' => 'Error!',
-                    'text' => 'No puedes cancelar un appointment que ya ha pasado.',
+                    'text' => 'No puedes cancelar una reserva que ya ha pasado.',
                     'icon' => 'error'
                 ]);
                 /** @var \App\Models\User $user */
@@ -453,7 +453,7 @@ class ReservationController extends Controller
                 if ($horasRestantes < $horasLimiteCancelacion) {
                     session()->flash('error', [
                         'title' => 'Error!',
-                        'text' => "No puedes cancelar el appointment. Debes cancelar con al menos {$horasLimiteCancelacion} horas de anticipación.",
+                        'text' => "No puedes cancelar la reserva. Debes cancelar con al menos {$horasLimiteCancelacion} horas de anticipación.",
                         'icon' => 'error'
                     ]);
                     return redirect()->route('profile.historial');
@@ -476,15 +476,15 @@ class ReservationController extends Controller
                 DB::commit();
                 if ($user->hasRole('doctor') || $user->hasRole('admin')) {
                     session()->flash('success', [
-                        'title' => 'Reservation eliminada',
-                        'text' => 'La reservation ha sido cancelada y los cupos se han actualizado correctamente.',
+                        'title' => 'Reserva eliminada',
+                        'text' => 'La reserva ha sido cancelada y los cupos se han actualizado correctamente.',
                         'icon' => 'success'
                     ]);
                     return redirect()->route('reservations.index');
                 } else if ($user->hasRole('user')) {
                     session()->flash('success', [
-                        'title' => 'Reservation cancelada',
-                        'text' => 'La reservation de su appointment ha sido cancelada.',
+                        'title' => 'Reserva cancelada',
+                        'text' => 'La reserva del turno ha sido cancelada.',
                         'icon' => 'success'
                     ]);
                     return redirect()->route('profile.historial');
@@ -494,18 +494,18 @@ class ReservationController extends Controller
                 throw $e;
             }
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            Log::error('Reservation no encontrada', ['id' => $id, 'error' => $e->getMessage()]);
+            Log::error('Reserva no encontrada', ['id' => $id, 'error' => $e->getMessage()]);
             session()->flash('error', [
                 'title' => 'Error!',
-                'text' => 'Reservation no encontrada.',
+                'text' => 'Reserva no encontrada.',
                 'icon' => 'error'
             ]);
             return redirect()->route('reservations.index');
         } catch (\Exception $e) {
-            Log::error('Error al cancelar reservation', ['id' => $id, 'error' => $e->getMessage()]);
+            Log::error('Error al cancelar reserva', ['id' => $id, 'error' => $e->getMessage()]);
             session()->flash('error', [
                 'title' => 'Error!',
-                'text' => 'Ocurrió un error al cancelar la reservation: ' . $e->getMessage(),
+                'text' => 'Ocurrió un error al cancelar la reserva: ' . $e->getMessage(),
                 'icon' => 'error'
             ]);
             return redirect()->route('reservations.index');

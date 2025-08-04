@@ -30,15 +30,15 @@ class DoctorController extends Controller
 
             session()->flash('success', [
                 'title' => 'Creado!',
-                'text'  => 'Nuevo médico creado con éxito.',
+                'text'  => 'Nuevo doctor creado con éxito.',
                 'icon'  => 'success',
             ]);
         } catch (\Exception $e) {
-            Log::error('Error al crear nuevo médico', ['error' => $e->getMessage()]);
+            Log::error('Error al crear nuevo doctor', ['error' => $e->getMessage()]);
 
             session()->flash('error', [
                 'title' => 'Error!',
-                'text'  => 'Ocurrió un error al crear datos del médico.',
+                'text'  => 'Ocurrió un error al crear datos del doctor.',
                 'icon'  => 'error',
             ]);
         }
@@ -62,7 +62,7 @@ class DoctorController extends Controller
             ]);
             return back();
         } catch (\Exception $e) {
-            Log::error('Error al mostrar datos del médico', ['id' => $id, 'error' => $e->getMessage()]);
+            Log::error('Error al mostrar datos del doctor', ['id' => $id, 'error' => $e->getMessage()]);
             return back();
         }
     }
@@ -83,7 +83,7 @@ class DoctorController extends Controller
             ]);
             return back();
         } catch (\Exception $e) {
-            Log::error('Error al editar datos del médico', ['id' => $id, 'error' => $e->getMessage()]);
+            Log::error('Error al editar datos del doctor', ['id' => $id, 'error' => $e->getMessage()]);
             return back();
         }
     }
@@ -108,7 +108,7 @@ class DoctorController extends Controller
                 'icon'  => 'error',
             ]);
         } catch (\Exception $e) {
-            Log::error('Error al actualizar datos del médico', ['id' => $id, 'error' => $e->getMessage()]);
+            Log::error('Error al actualizar datos del doctor', ['id' => $id, 'error' => $e->getMessage()]);
 
             session()->flash('error', [
                 'title' => 'Error!',
@@ -144,7 +144,7 @@ class DoctorController extends Controller
             Log::error('Error al eliminar doctor', ['id' => $id, 'error' => $e->getMessage()]);
             session()->flash('error', [
                 'title' => 'Error!',
-                'text'  => 'Ocurrió un error al eliminar el médico.',
+                'text'  => 'Ocurrió un error al eliminar el doctor.',
                 'icon'  => 'error',
             ]);
             return redirect()->route('doctor.index');
