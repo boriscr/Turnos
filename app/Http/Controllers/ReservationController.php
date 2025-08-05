@@ -74,7 +74,7 @@ class ReservationController extends Controller
             $estadoAnterior = $reservation->asistencia;
 
             // Si se envía el valor específico en el request, usarlo
-            if ($request->has('asistencia')) {
+            if ($request->filled('asistencia')) {
                 $nuevoEstado = $request->asistencia == '1';
             } else {
                 // Comportamiento original de toggle
@@ -91,7 +91,26 @@ class ReservationController extends Controller
 
         return back()->with('success', 'Estado de asistencia actualizado correctamente');
     }
+    protected function gestionarFaltas(Reservation $reservation, $estadoAnterior, $nuevoEstado)
+    {
+        // Detectar si el estado anterior era null
+        $eraPendiente = is_null($estadoAnterior);
 
+        $estadoAnteriorBool = (bool) $estadoAnterior;
+        $nuevoEstadoBool = (bool) $nuevoEstado;
+
+        // Si el nuevo estado es "No Asistió" (false) y antes estaba en Pendiente o en Asistió
+        if ($nuevoEstadoBool === false && ($estadoAnteriorBool !== false || $eraPendiente)) {
+            $reservation->user->increment('faults');
+        }
+
+        // Si el nuevo estado es "Asistió" (true) y antes era "No Asistió" (false)
+        if ($nuevoEstadoBool === true && $estadoAnteriorBool === false) {
+            if ($reservation->user->faults > 0) {
+                $reservation->user->decrement('faults');
+            }
+        }
+    }
     // Método para verificación automática (se llamará desde la tarea programada)
     // php artisan schedule:work
     public function verificarAsistenciasAutomaticamente()
@@ -131,19 +150,6 @@ class ReservationController extends Controller
         ]);
     }
 
-    protected function gestionarFaltas(Reservation $reservation, $estadoAnterior, $nuevoEstado)
-    {
-        $estadoAnterior = (bool) $estadoAnterior;
-        $nuevoEstado = (bool) $nuevoEstado;
-
-        if ($nuevoEstado == false && $estadoAnterior != false) {
-            $reservation->user->increment('faults');
-        } elseif ($nuevoEstado === true && $estadoAnterior === false) {
-            if ($reservation->user->faults > 0) {
-                $reservation->user->decrement('faults');
-            }
-        }
-    }
 
     public function show($id)
     {
@@ -348,13 +354,13 @@ class ReservationController extends Controller
                 ]);
                 return back();
             } else {
-                // Reservar el appointment
-                $appointment->available_spots -= 1;
-                $appointment->reserved_spots += 1;
-                $appointment->save();
-                //guardar los datos del user que reservation el appointment
-                $reservation = new Reservation();
                 if (Auth::check()) {
+                    // Reservar el appointment
+                    $appointment->available_spots -= 1;
+                    $appointment->reserved_spots += 1;
+                    $appointment->save();
+                    //guardar los datos del user que reservation el appointment
+                    $reservation = new Reservation();
                     // Asigna los valores correctamente
                     $reservation->user_id = auth::id(); // ID del user autenticado
                     $reservation->available_appointment_id = $appointment->id;

@@ -39,13 +39,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     //Appointments disponibles "Reservations"
 
     //Reservations
-    Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
-    Route::post('/reservations/store', [ReservationController::class, 'store'])->name('reservations.store');
+    Route::get('/reservations/index', [ReservationController::class, 'index'])->name('reservations.index');
+    //Route::post('/reservations/store', [ReservationController::class, 'store'])->name('reservations.store');
     Route::get('/reservations/show/{id}', [ReservationController::class, 'show'])->name('reservations.show');
-    Route::get('/reservations/edit/{id}', [ReservationController::class, 'edit'])->name('reservations.edit');
-    Route::put('/reservations/{id}', [ReservationController::class, 'update'])->name('reservations.update');
+    //Route::get('/reservations/edit/{id}', [ReservationController::class, 'edit'])->name('reservations.edit');
+    //Route::put('/reservations/{id}', [ReservationController::class, 'update'])->name('reservations.update');
     Route::patch('/reservations/{reservation}/asistencia', [ReservationController::class, 'actualizarAsistencia'])
         ->name('reservations.asistencia');
+
+
     //Users
     Route::get('/users', [UserController::class, 'index'])->name('user.index');
     Route::get('/users/show/{id}', [UserController::class, 'show'])->name('user.show');

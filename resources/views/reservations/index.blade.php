@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Appointments reservados</h3>
+            <h3 class="title-form">Appointments22 reservados</h3>
 
             <!-- Barra de búsqueda y filtros -->
             @include('layouts.reservation-filter')
@@ -9,7 +9,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Id1</th>
+                        <th>Id</th>
                         <th>Fecha del appointment</th>
                         <th class="option-movil">Hora</th>
                         <th>Profesional</th>
@@ -22,7 +22,8 @@
                     @forelse ($reservations as $reservation)
                         <tr>
                             <td>{{ $reservation->id }}</td>
-                            <td>{{ Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</td>
+                            <td>{{ Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}
+                            </td>
                             <td class="option-movil">
                                 {{ Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</td>
                             <td><a
@@ -31,7 +32,6 @@
                             <td><a
                                     href="{{ route('user.show', $reservation->user->id) }}">{{ $reservation->user->name . ' ' . $reservation->user->surname }}</a>
                             </td>
-
 
                             <td>
                                 @if ($reservation->asistencia === null)
@@ -62,8 +62,8 @@
                                         </div>
                                     </div>
                                 @else
-                                    <form action="{{ route('reservations.asistencia', $reservation->id) }}" method="POST"
-                                        style="display:inline;">
+                                    <form action="{{ route('reservations.asistencia', $reservation->id) }}"
+                                        method="POST" style="display:inline;">
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit"
