@@ -11,7 +11,7 @@ class AppointmentUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user() && $this->user()->hasRole('admin');
     }
 
     /**
@@ -22,15 +22,15 @@ class AppointmentUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'address' => 'required|string',
-            'specialty_id' => 'required|exists:specialties,id',
-            'doctor_id' => 'required|exists:doctors,id',
-            'cantidad' => 'required|integer|min:1',
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'selected_dates' => 'required',
-            'status' => 'required|boolean',
+            'name' => ['required', 'string', 'min:3', 'max:80'],
+            'address' =>  ['required', 'string', 'min:3', 'max:150'],
+            'specialty_id' => ['required', 'exists:specialties,id'],
+            'doctor_id' => ['required', 'exists:doctors,id'],
+            'cantidad' =>  ['required', 'integer', 'min:1'],
+            'start_time' =>  ['required'],
+            'end_time' =>  ['required'],
+            'selected_dates' =>  ['required', 'json'], // Aseguramos que sea un JSON válido
+            'status' =>  ['required', 'boolean'],
         ];
     }
 }

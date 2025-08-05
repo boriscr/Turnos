@@ -20,14 +20,15 @@
                     <div class="form-grid">
                         <div class="item">
                             <label for="name">Nombre del Appointment</label>
-                            <input type="text" name="name" id="name" value="{{ $name }}" required>
+                            <input type="text" name="name" id="name" value="{{ $name }}" minlength="3" maxlength="80" required>
                             @error('name')
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="item">
-                            <label for="address">Dirección</label>
-                            <textarea name="address" id="address" rows="2" required>{{ $address }}</textarea>
+                            <label for="address">Direccion</label>
+                            <input type="text" name="address" id="address" value="{{ $address }}" minlength="3" maxlength="150"
+                                required></input>
                             @error('address')
                                 <div class="error">{{ $message }}</div>
                             @enderror
@@ -80,17 +81,17 @@
                                 <div class="item">
                                     <input type="radio" name="appointment" value="mañana" id="manana"
                                         {{ $turnoTipo == 'mañana' ? 'checked' : '' }}>
-                                    <label for="manana">Appointment Mañana</label>
+                                    <label for="manana">Turno Mañana</label>
                                 </div>
                                 <div class="item">
                                     <input type="radio" name="appointment" value="tarde" id="tarde"
                                         {{ $turnoTipo == 'tarde' ? 'checked' : '' }}>
-                                    <label for="tarde">Appointment Tarde</label>
+                                    <label for="tarde">Turno Tarde</label>
                                 </div>
                                 <div class="item">
                                     <input type="radio" name="appointment" value="noche" id="noche"
                                         {{ $turnoTipo == 'noche' ? 'checked' : '' }}>
-                                    <label for="noche">Appointment Noche</label>
+                                    <label for="noche">Turno Noche</label>
                                 </div>
                             </div>
                         </div>

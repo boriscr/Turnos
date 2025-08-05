@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Crear appointment</h3>
+            <h3 class="title-form">Crear turno</h3>
 
             <!-- Indicador de pasos -->
             <div class="step-indicator">
@@ -19,7 +19,7 @@
                     <div class="form-grid">
                         <div class="item">
                             <label for="name">Nombre del Appointment</label>
-                            <input type="text" name="name" id="name" value="{{ old('name') }}" required>
+                            <input type="text" name="name" id="name" value="{{ old('name') }}" minlength="3" maxlength="80" required>
                             @error('name')
                                 <div class="error">{{ $message }}</div>
                             @enderror
@@ -27,7 +27,7 @@
 
                         <div class="item">
                             <label for="address">Direccion</label>
-                            <input type="text" name="address" id="address" value="{{ old('address') }}"
+                            <input type="text" name="address" id="address" value="{{ old('address') }}" minlength="3" maxlength="150"
                                 required></input>
                             @error('address')
                                 <div class="error">{{ $message }}</div>
@@ -73,16 +73,16 @@
                             <div class="item-style">
                                 <div class="item">
                                     <input type="radio" name="appointment" value="mañana" id="manana">
-                                    <label for="manana">Appointment Mañana</label>
+                                    <label for="manana">Turno Mañana</label>
                                 </div>
 
                                 <div class="item">
                                     <input type="radio" name="appointment" value="tarde" id="tarde">
-                                    <label for="tarde">Appointment Tarde</label>
+                                    <label for="tarde">Turno Tarde</label>
                                 </div>
                                 <div class="item">
                                     <input type="radio" name="appointment" value="noche" id="noche">
-                                    <label for="noche">Appointment Noche</label>
+                                    <label for="noche">Turno Noche</label>
                                 </div>
                             </div>
                         </div>

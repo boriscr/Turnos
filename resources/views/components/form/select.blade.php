@@ -1,7 +1,7 @@
 @props(['name', 'label', 'icon', 'required' => false])
 <div class="item">
     @if (!isset($icon))
-        <x-input-label :for="$name" :value="$label" :icon="$icon" :required="$required" />
+        <x-input-label :for="$name" :value="$label" :required="$required" />
     @else
         <label for="{{ $name }}"><i class="bi {{ $icon }}"></i><span>{{ $label }}</span></label>
     @endif
