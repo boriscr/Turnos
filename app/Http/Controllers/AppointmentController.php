@@ -24,7 +24,6 @@ class AppointmentController extends Controller
     {
         $specialties = Specialty::all();
         return view('appointments/create', compact('specialties'));
-
     }
     public function store(AppointmentStoreRequest $request)
     {
@@ -124,36 +123,36 @@ class AppointmentController extends Controller
         return view('appointments.edit', [
             'appointment' => $appointment,
             'specialties' => $specialties,
-            'specialty_id' => $appointment->specialty_id,
-            'doctor_id' => $appointment->doctor_id,
-            'medico_nombre' => $appointment->doctor->name ?? 'Doctor no disponible',
-            'name' => $appointment->name,
-            'address' => $appointment->address,
-            'cantidad' => $appointment->number_of_slots,
-            'inicio' => $appointment->start_time ? Carbon::parse($appointment->start_time)->format('H:i') : null,
-            'fin' => $appointment->end_time ? Carbon::parse($appointment->end_time)->format('H:i') : null,
-            'turnoTipo' => $appointment->appointment,
             'fechas' => json_encode($appointment->available_dates),
-
-            'available_time_slots' => $available_time_slots
-
+            'availableTimeSlots' => $available_time_slots
         ]);
     }
+    //'turnoTipo' => $appointment->appointment,
+    //'specialty_id' => $appointment->specialty_id,
+    //'doctor_id' => $appointment->doctor_id,
+    //'medico_nombre' => $appointment->doctor->name ?? 'Doctor no disponible',
+    //'name' => $appointment->name,
+    //'address' => $appointment->address,
+    //'cantidad' => $appointment->number_of_slots,
+    //'inicio' => $appointment->start_time ? Carbon::parse($appointment->start_time)->format('H:i') : null,
+    //'fin' => $appointment->end_time ? Carbon::parse($appointment->end_time)->format('H:i') : null,
+
 
     public function update(AppointmentUpdateRequest $request, $id)
     {
         // Decodificar fechas seleccionadas
         $fechas = json_decode($request->selected_dates, true);
-
         if (empty($fechas)) {
-
-            return back()->with('error', 'Debe seleccionar al menos una date')->withInput();
+            return back()->with('error', 'Debe seleccionar al menos una fecha')->withInput();
         }
 
+        // Determinar el tipo de appointment basado en los radio buttons
+        $tipoAppointment = $request->appointment_type ?? 'horario1';
+
         // Validación específica para horarios
-        if ($request->appointment === 'horario2') {
+        if ($tipoAppointment === 'horario2') {
             if (empty($request->available_time_slots) || !json_decode($request->available_time_slots)) {
-                return back()->withErrors(['available_time_slots' => 'Para appointments por time, debe seleccionar al menos un horario'])->withInput();
+                return back()->withErrors(['available_time_slots' => 'Para reservas por hora, debe seleccionar al menos un horario'])->withInput();
             }
         }
 
@@ -169,31 +168,102 @@ class AppointmentController extends Controller
         $appointment->number_of_slots = trim($request->cantidad);
         $appointment->start_time = $request->start_time;
         $appointment->end_time = $request->end_time;
-        $appointment->available_time_slots = $request->available_time_slots;
-        $appointment->user_id_update = Auth::id();
-        $appointment->available_dates = $fechas;
+        $appointment->available_time_slots = $request->available_time_slots ? $request->available_time_slots : null;
+        $appointment->available_dates = $fechas; // No usar json_encode aquí
         $appointment->status = $request->status ?? $appointment->status;
-
+        $appointment->updateBy = Auth::id();
         $appointment->save();
 
-        // Eliminar disponibilidades existentes
 
-        // Crear nuevas disponibilidades según la configuración
+        // Preparar nuevas combinaciones fecha-hora basadas en el tipo de appointment
+        $nuevasCombinaciones = [];
+
         foreach ($fechas as $date) {
-            if ($request->available_time_slots && json_decode($request->available_time_slots)) {
+            if ($tipoAppointment === 'horario2' && $request->available_time_slots) {
+                // Appointment con división horaria
                 $horarios = json_decode($request->available_time_slots, true);
-
                 foreach ($horarios as $time) {
-                    AvailableAppointment::updateOrCreate(
-                        ['appointment_id' => $appointment->id, 'doctor_id' => $request->doctor_id, 'date' => $date, 'time' => $time],
-                        ['available_spots' => 1]
-                    );
+                    // Normalizar formato de hora
+                    $horaNormalizada = \Carbon\Carbon::parse($time)->format('H:i:s');
+                    $nuevasCombinaciones[] = [
+                        'date' => $date,
+                        'time' => $time,
+                        'key' => $date . '_' . $horaNormalizada
+                    ];
                 }
             } else {
-                AvailableAppointment::updateOrCreate(
-                    ['appointment_id' => $appointment->id, 'doctor_id' => $request->doctor_id, 'date' => $date, 'time' => $request->start_time],
-                    ['available_spots' => $request->cantidad]
-                );
+                // Appointment sin horarios específicos
+                $horaNormalizada = $request->start_time ? \Carbon\Carbon::parse($request->start_time)->format('H:i:s') : '';
+                $nuevasCombinaciones[] = [
+                    'date' => $date,
+                    'time' => $request->start_time ?? null,
+                    'key' => $date . '_' . $horaNormalizada
+                ];
+            }
+        }
+
+        // Enfoque más robusto: eliminar todas las disponibilidades existentes y recrear
+        // Solo si no tienen reservas, o manejar las reservas de manera inteligente
+
+        // Primero, obtener todas las disponibilidades con reservas
+        $disponibilidadesConReservas = AvailableAppointment::where('appointment_id', $appointment->id)
+            ->where('reserved_spots', '>', 0)
+            ->get();
+
+        // Eliminar solo las disponibilidades sin reservas
+        AvailableAppointment::where('appointment_id', $appointment->id)
+            ->where('reserved_spots', 0)
+            ->delete();
+
+        // Procesar cada nueva combinación
+        foreach ($nuevasCombinaciones as $combinacion) {
+            $availableSpots = ($tipoAppointment === 'horario1') ? intval($request->cantidad) : 1;
+
+            // Buscar si ya existe una disponibilidad con reservas para esta combinación
+            $existenteConReservas = $disponibilidadesConReservas->first(function ($item) use ($combinacion) {
+                $fechaExistente = \Carbon\Carbon::parse($item->date)->format('Y-m-d');
+                $horaExistente = $item->time ? \Carbon\Carbon::parse($item->time)->format('H:i:s') : '';
+                $horaComparacion = $combinacion['time'] ? \Carbon\Carbon::parse($combinacion['time'])->format('H:i:s') : '';
+
+                return $fechaExistente === $combinacion['date'] && $horaExistente === $horaComparacion;
+            });
+
+            if ($existenteConReservas) {
+                // Actualizar la existente que tiene reservas
+                $reservedSpots = $existenteConReservas->reserved_spots;
+                $newAvailableSpots = max($availableSpots - $reservedSpots, 0);
+
+                $existenteConReservas->update([
+                    'doctor_id' => $request->doctor_id,
+                    'available_spots' => $newAvailableSpots
+                ]);
+            } else {
+                // Crear nueva disponibilidad
+                AvailableAppointment::create([
+                    'appointment_id' => $appointment->id,
+                    'doctor_id' => $request->doctor_id,
+                    'date' => $combinacion['date'],
+                    'time' => $combinacion['time'],
+                    'available_spots' => $availableSpots,
+                    'reserved_spots' => 0
+                ]);
+            }
+        }
+
+        // Eliminar disponibilidades con reservas que ya no están en las nuevas combinaciones
+        foreach ($disponibilidadesConReservas as $disponibilidad) {
+            $fechaDisponibilidad = \Carbon\Carbon::parse($disponibilidad->date)->format('Y-m-d');
+            $horaDisponibilidad = $disponibilidad->time ? \Carbon\Carbon::parse($disponibilidad->time)->format('H:i:s') : '';
+
+            $existeEnNuevas = collect($nuevasCombinaciones)->first(function ($nueva) use ($fechaDisponibilidad, $horaDisponibilidad) {
+                $horaNueva = $nueva['time'] ? \Carbon\Carbon::parse($nueva['time'])->format('H:i:s') : '';
+                return $nueva['date'] === $fechaDisponibilidad && $horaNueva === $horaDisponibilidad;
+            });
+
+            if (!$existeEnNuevas) {
+                // Esta disponibilidad ya no está en las nuevas, pero tiene reservas
+                Log::warning("Disponibilidad eliminada tenía reservas: {$fechaDisponibilidad} {$horaDisponibilidad}");
+                $disponibilidad->delete();
             }
         }
 
@@ -202,8 +272,14 @@ class AppointmentController extends Controller
             'text' => 'El appointment ha sido actualizado correctamente.',
             'icon' => 'success'
         ]);
+
         return redirect()->route('appointments.index');
     }
+
+
+
+
+
 
     function destroy($id)
     {

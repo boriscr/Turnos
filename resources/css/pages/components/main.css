@@ -52,9 +52,7 @@ small {
     color: #ffffff79;
 }
 
-span{
-    margin-left: 5px;
-}
+
 /*adaptar el tamaño de la pantalla*/
 @media (max-width: 670px) {
     .section-container {

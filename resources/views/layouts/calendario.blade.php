@@ -9,7 +9,7 @@
             <button type="button" @click="mode = 'single'" :class="{ 'active': mode === 'single' }">Día único</button>
             <button type="button" @click="mode = 'range'" :class="{ 'active': mode === 'range' }">Rango</button>
         </div>
-        
+
         <!-- Toggle días no laborables -->
         <div class="toggle-weekends">
             <label>
@@ -59,5 +59,6 @@
 
     </div>
 </div>
+<input type="hidden" name="selected_dates" x-ref="selectedDatesInput">
 
 <!-- FIN CALENDARIO -->

@@ -15,8 +15,7 @@ import '../js/pages/appointments/components/formulario-3paso-appointment.js';
 import '../js/pages/appointments/create/calendario.js';
 import '../js/pages/appointments/create/specialties-create-appointments.js';
 import '../js/pages/appointments/create/horarios.js';
-import '../js/pages/appointments/edit/calendario-edit.js';
-import '../js/pages/appointments/edit/horarios-edit.js';
+
 //components
 import '../js/pages/components/delete-btn.js';
 import '../js/pages/components/table-acciones-movile.js';
