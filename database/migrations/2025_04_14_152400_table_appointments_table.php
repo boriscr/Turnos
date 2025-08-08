@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('address');
             $table->foreignId('specialty_id')->constrained('specialties')->onDelete('cascade'); // OK
             $table->foreignId('doctor_id')->constrained(Doctor::TABLE)->onDelete('cascade'); // OK
-            $table->string('appointment')->nullable();
+            $table->string('shift');
             $table->integer('number_of_slots');
             $table->time('start_time');
             $table->time('end_time');

@@ -43,7 +43,7 @@ class AppointmentController extends Controller
             'address' => trim($request->address),
             'specialty_id' => $request->specialty_id,
             'doctor_id' => $request->doctor_id,
-            'appointment' => $request->appointment, // Asignar el appointment si se proporciona
+            'shift' => $request->shift,
             'number_of_slots' => trim($request->cantidad),
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
@@ -114,7 +114,7 @@ class AppointmentController extends Controller
         // Procesar available_time_slots para la vista
         $available_time_slots = $appointment->available_time_slots;
 
-        // Verificar si es un array JSON (horario2)
+        // Verificar si es un array JSON (multi_slot)
         $horariosArray = json_decode($appointment->available_time_slots, true);
         if (json_last_error() === JSON_ERROR_NONE && is_array($horariosArray)) {
             $available_time_slots = json_encode($horariosArray);
@@ -147,10 +147,10 @@ class AppointmentController extends Controller
         }
 
         // Determinar el tipo de appointment basado en los radio buttons
-        $tipoAppointment = $request->appointment_type ?? 'horario1';
+        $tipoAppointment = $request->appointment_type ?? 'single_slot';
 
         // Validación específica para horarios
-        if ($tipoAppointment === 'horario2') {
+        if ($tipoAppointment === 'multi_slot') {
             if (empty($request->available_time_slots) || !json_decode($request->available_time_slots)) {
                 return back()->withErrors(['available_time_slots' => 'Para reservas por hora, debe seleccionar al menos un horario'])->withInput();
             }
@@ -164,7 +164,7 @@ class AppointmentController extends Controller
         $appointment->address = trim($request->address);
         $appointment->specialty_id = $request->specialty_id;
         $appointment->doctor_id = $request->doctor_id;
-        $appointment->appointment = $request->appointment;
+        $appointment->shift = $request->shift;
         $appointment->number_of_slots = trim($request->cantidad);
         $appointment->start_time = $request->start_time;
         $appointment->end_time = $request->end_time;
@@ -179,7 +179,7 @@ class AppointmentController extends Controller
         $nuevasCombinaciones = [];
 
         foreach ($fechas as $date) {
-            if ($tipoAppointment === 'horario2' && $request->available_time_slots) {
+            if ($tipoAppointment === 'multi_slot' && $request->available_time_slots) {
                 // Appointment con división horaria
                 $horarios = json_decode($request->available_time_slots, true);
                 foreach ($horarios as $time) {
@@ -217,7 +217,7 @@ class AppointmentController extends Controller
 
         // Procesar cada nueva combinación
         foreach ($nuevasCombinaciones as $combinacion) {
-            $availableSpots = ($tipoAppointment === 'horario1') ? intval($request->cantidad) : 1;
+            $availableSpots = ($tipoAppointment === 'single_slot') ? intval($request->cantidad) : 1;
 
             // Buscar si ya existe una disponibilidad con reservas para esta combinación
             $existenteConReservas = $disponibilidadesConReservas->first(function ($item) use ($combinacion) {
@@ -269,7 +269,7 @@ class AppointmentController extends Controller
 
         session()->flash('success', [
             'title' => 'Actualizado!',
-            'text' => 'El appointment ha sido actualizado correctamente.',
+            'text' => 'El turno ha sido actualizado correctamente.',
             'icon' => 'success'
         ]);
 

@@ -1,19 +1,21 @@
 <!-- CALENDARIO -->
 <!-- npm install alpinejs @floating-ui/dom date-fns -->
 <div class="calendario-box">
-    <H3>Seleccionar días de atención</H3>
+    <h3>{{ __('appointment.date.title') }}</h3>
     <div class="calendar-container">
         <!-- Selector de modo -->
 
         <div class="mode-selector">
-            <button type="button" @click="mode = 'single'" :class="{ 'active': mode === 'single' }">Día único</button>
-            <button type="button" @click="mode = 'range'" :class="{ 'active': mode === 'range' }">Rango</button>
+            <button type="button" @click="mode = 'single'"
+                :class="{ 'active': mode === 'single' }">{{ __('appointment.date.single_day') }}</button>
+            <button type="button" @click="mode = 'range'"
+                :class="{ 'active': mode === 'range' }">{{ __('appointment.date.range') }}</button>
         </div>
 
         <!-- Toggle días no laborables -->
         <div class="toggle-weekends">
             <label>
-                <span>Omitir fines de semana</span>
+                <span>{{ __('appointment.date.toggle_weekends') }}</span>
                 <div @click="toggleWeekends()" :class="{ 'enabled': skipWeekends }" class="toggle-switch">
                     <span class="toggle-thumb" :class="{ 'on': skipWeekends }"></span>
                 </div>
@@ -31,13 +33,13 @@
 
         <!-- Días de la semana -->
         <div class="weekdays" id="weekdays">
-            <div>Dom</div>
-            <div>Lun</div>
-            <div>Mar</div>
-            <div>Mié</div>
-            <div>Jue</div>
-            <div>Vie</div>
-            <div>Sáb</div>
+            <div>{{ __('appointment.date.su') }}</div>
+            <div>{{ __('appointment.date.mo') }}</div>
+            <div>{{ __('appointment.date.tu') }}</div>
+            <div>{{ __('appointment.date.we') }}</div>
+            <div>{{ __('appointment.date.th') }}</div>
+            <div>{{ __('appointment.date.fr') }}</div>
+            <div>{{ __('appointment.date.sa') }}</div>
         </div>
 
         <!-- Días del mes -->
@@ -60,5 +62,3 @@
     </div>
 </div>
 <input type="hidden" name="selected_dates" x-ref="selectedDatesInput">
-
-<!-- FIN CALENDARIO -->

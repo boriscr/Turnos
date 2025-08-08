@@ -5,8 +5,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     if (window.location.pathname.includes('/appointments/create') || window.location.pathname.includes('/appointments/edit')) {
 
-        let horario1 = document.getElementById("horario1");
-        let horario2 = document.getElementById("horario2");
+        let single_slot = document.getElementById("single_slot");
+        let multi_slot = document.getElementById("multi_slot");
         let cantidad = document.getElementById("cantidad");
         let horarioBox = document.getElementById("horario-box");
         let horarioItem = document.getElementById("horarios-item");
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function generarHorarios() {
-            if (horario2.checked && cantidad.value >= 1 && start_time.value !== "" && end_time.value !== "") {
+            if (multi_slot.checked && cantidad.value >= 1 && start_time.value !== "" && end_time.value !== "") {
                 horarioBox.style.display = "flex";
 
                 let minutosTotalesInicio = convertirATiempoEnMinutos(start_time.value);
@@ -45,14 +45,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Disparar automáticamente al cargar la página si ya hay valores cargados
-        if (horario2.checked) {
+        if (multi_slot.checked) {
             if (cantidad.value >= 1 && start_time.value !== "" && end_time.value !== "") {
                 generarHorarios();
             }
         }
 
         // Controlar radios manualmente
-        horario2.addEventListener("change", function () {
+        multi_slot.addEventListener("change", function () {
             if (this.checked) {
                 if (cantidad.value >= 1 && start_time.value !== "" && end_time.value !== "") {
                     generarHorarios();
@@ -67,12 +67,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         cantidad.addEventListener("input", function () {
-            if (horario2.checked && this.value >= 1) {
+            if (multi_slot.checked && this.value >= 1) {
                 generarHorarios();
             }
         });
 
-        horario1.addEventListener("change", function () {
+        single_slot.addEventListener("change", function () {
             if (this.checked) {
                 horarioBox.style.display = "none";
                 document.getElementById("available_time_slots").value = "";

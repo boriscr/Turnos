@@ -1,16 +1,35 @@
 <?php
 return [
-    'title_text'=>'Reservar un nuevo turno',
-    'step_1'=>'Datos Personales',
-    'step_2'=>'Reserva de turno',
-    'step_3'=>'Confirmar reseva',
-    'title_name' => 'Nombre del Turno',
-    'date' => 'Fecha del Turno',
-    'time' => 'Horario del Turno',
-    'specialty_option' => 'Seleccione una especialidad',
-    'doctor_option' => 'Seleccione un doctor',
-    'title_name_option' => 'Seleccione un turno',
-    'date_option' => 'Seleccione una fecha',
-    'time_option' => 'Seleccione una horario',
-    'reservation_details_txt'=>'Detalles de la reserva',
+    'create_title' => 'Crear turno',
+    'edit_title' => 'Editar turno',
+    'creation' => 'Creacion',
+
+    'shift' => [
+        'title' => 'Elegir bloque de atención',
+        'morning_shift' => 'Mañana',
+        'afternoon_shift' => 'Tarde',
+        'night_shift' => 'Noche',
+    ],
+
+    'schedule' => [
+        'title' => 'Horarios',
+        'number_of_slots' => 'Cantidad de reservas',
+        'start_time' => 'Hora de Inicio',
+        'end_time' => 'Hora de Fin',
+        'single' => 'Asignar reservas con único horario.',
+        'multiple' => 'Asignar reservas con división horaria.',
+    ],
+    'date' => [
+        'title' => 'Fechas de atención',
+        'single_day' => 'Día único',
+        'range' => 'Rango',
+        'toggle_weekends' => 'Omitir fines de semana',
+        'su' => 'Do',
+        'mo' => 'Lu',
+        'tu' => 'Ma',
+        'we' => 'Mi',
+        'th' => 'Ju',
+        'fr' => 'Vi',
+        'sa' => 'Sá'
+    ],
 ];

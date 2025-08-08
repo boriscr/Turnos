@@ -10,7 +10,7 @@
                         <th class="option-movil">Direccion</th>
                         <th class="option-movil">Specialty</th>
                         <th>Encargado</th>
-                        <th class="option-movil">Appointment</th>
+                        <th class="option-movil">Turno</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -23,7 +23,7 @@
                             <td class="option-movil">{{ $appointment->address }}</td>
                             <td class="option-movil">{{ $appointment->specialty->name }}</td>
                             <td>{{ $appointment->doctor->name . ' ' . $appointment->doctor->surname }}</td>
-                            <td class="option-movil">{{ $appointment->appointment }}</td>
+                            <td class="option-movil">{{ $appointment->shift }}</td>
                             <td>{{ $appointment->status ? 'Activo' : 'Inactivo' }}</td>
                             <td class="acciones full-center">
                                 <a href="{{ route('appointments.show', $appointment->id) }}" class="btn btn-view"><i

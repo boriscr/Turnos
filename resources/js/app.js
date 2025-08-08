@@ -9,7 +9,6 @@ import '../js/pages/reservations/index/validar-fechas.js';
 import '../js/pages/reservations/create/filtro-appointments.js';
 import '../js/pages/reservations/create/formulario-3paso-reservation.js';
 
-import '../js/pages/appointments/components/checkboxs.js';
 import '../js/pages/appointments/components/formulario-3paso-appointment.js';
 
 import '../js/pages/appointments/create/calendario.js';

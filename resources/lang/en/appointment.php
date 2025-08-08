@@ -1,16 +1,36 @@
 <?php
 return [
-    'title_text' => 'Book a New Appointment',
-    'step_1' => 'Personal Information',
-    'step_2' => 'Appointment Booking',
-    'step_3' => 'Confirm Booking',
-    'title_name' => 'Appointment Type Name',
-    'date' => 'Appointment Date',
-    'time' => 'Appointment Time',
-    'specialty_option' => 'Select a specialty',
-    'doctor_option' => 'Select a doctor',
-    'title_name_option' => 'Select an appointment type',
-    'date_option' => 'Select a date',
-    'time_option' => 'Select a time slot',
-    'reservation_details_txt' => 'Reservation details',
+    'create_title' => 'Create appointment',
+    'edit_title' => 'Edit appointment',
+    'creation' => 'Creation',
+
+    'shift' => [
+        'title' => 'Select time block',
+        'morning_shift' => 'Morning',
+        'afternoon_shift' => 'Afternoon',
+        'night_shift' => 'Night',
+    ],
+
+    'schedule' => [
+        'title' => 'Schedule settings',
+        'number_of_slots' => 'Number of reservations',
+        'start_time' => 'Start time',
+        'end_time' => 'End time',
+        'single' => 'Assign reservations in a single time block.',
+        'multiple' => 'Assign reservations with time slot division.',
+    ],
+
+    'date' => [
+        'title' => 'Service dates',
+        'single_day' => 'Single day',
+        'range' => 'Date range',
+        'toggle_weekends' => 'Exclude weekends',
+        'su' => 'Su',
+        'mo' => 'Mo',
+        'tu' => 'Tu',
+        'we' => 'We',
+        'th' => 'Th',
+        'fr' => 'Fr',
+        'sa' => 'Sa',
+    ],
 ];

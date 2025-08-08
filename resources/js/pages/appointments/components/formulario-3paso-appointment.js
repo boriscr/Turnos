@@ -84,7 +84,7 @@ if (window.location.pathname.includes('/appointments/create') ||window.location.
 
             // Validación adicional para checkboxes en paso 2
             if (stepIndex === 1) {
-                const turnoCheckboxes = currentStepForm.querySelectorAll('input[name="appointment"]:checked');
+                const turnoCheckboxes = currentStepForm.querySelectorAll('input[name="shift"]:checked');
                 if (turnoCheckboxes.length === 0) {
                     isValid = false;
                     alert('Seleccione al menos un tipo de appointment');

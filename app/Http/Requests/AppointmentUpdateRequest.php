@@ -26,6 +26,7 @@ class AppointmentUpdateRequest extends FormRequest
             'address' =>  ['required', 'string', 'min:3', 'max:150'],
             'specialty_id' => ['required', 'exists:specialties,id'],
             'doctor_id' => ['required', 'exists:doctors,id'],
+            'shift'=>['required','string','in:morning,afternoon,night'],
             'cantidad' =>  ['required', 'integer', 'min:1'],
             'start_time' =>  ['required'],
             'end_time' =>  ['required'],

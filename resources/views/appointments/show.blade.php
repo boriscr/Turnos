@@ -6,11 +6,11 @@
             <div class="card">
                 <p><b>Nombre:</b> {{ $appointment->name }}</p>
                 <p><b>Direccion:</b> {{ $appointment->address }}</p>
-                <p><b>Specialty:</b> {{ $appointment->specialty->name }}</p>
+                <p><b>Especialidad:</b> {{ $appointment->specialty->name }}</p>
                 <p><b>Encargado/a:</b> {{ $appointment->doctor->name . ' ' . $appointment->doctor->surname }} <a
                         href="{{ route('doctor.show', $appointment->doctor->id) }}"><i class="bi bi-eye"></i></a></p>
-                <p><b>Appointment:</b> {{ $appointment->appointment }}</p>
-                <p><b>Cantidad de appointments:</b> {{ $appointment->number_of_slots }} </p>
+                <p><b>Appointment:</b> {{ $appointment->shift }}</p>
+                <p><b>Cantidad de reservas:</b> {{ $appointment->number_of_slots }} </p>
                 <p><b>Hora de inicio:</b> {{ \Carbon\Carbon::parse($appointment->start_time)->format('H:i') }}</p>
                 <p><b>Hora de finalizacion:</b> {{ \Carbon\Carbon::parse($appointment->end_time)->format('H:i') }}</p>
                 @if ($appointment->available_time_slots)

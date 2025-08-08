@@ -14,7 +14,7 @@ class Appointment extends Model
         'address',
         'specialty_id',
         'doctor_id',
-        'appointment',
+        'shift',
         'number_of_slots',
         'start_time',
         'end_time',
