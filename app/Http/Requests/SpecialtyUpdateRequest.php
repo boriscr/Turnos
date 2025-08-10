@@ -25,9 +25,9 @@ class SpecialtyUpdateRequest extends FormRequest
         $specialty_id = $this->route('id'); // Asegúrate de que el name del parámetro en la ruta coincida
 
         return [
-            'name' => 'required|string|min:5|max:30|unique:specialties,name,' . $specialty_id,
-            'description' => 'required|string|min:5|max:500',
-            'status' => 'required|boolean',
+            'name' => 'required','string','min:5','max:30','unique:specialties,name,' . $specialty_id,
+            'description' => 'required','string|min:5','max:500',
+            'status' => 'required','boolean',
         ];
     }
     protected function prepareForValidation(): void
