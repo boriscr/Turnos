@@ -172,13 +172,23 @@ class ReservationController extends Controller
                 $query->whereNull('asistencia');
             })
             ->count();
-        if ($user->status == 1 && $user->faults <= $turnos_faltas_maximas &&  $turnos_activos < $turnos_limite_diario && $turnos_limite_diario > 0) {
+        if (
+            $user->status == 1 &&
+            $user->faults <= $turnos_faltas_maximas &&
+            $turnos_activos < $turnos_limite_diario &&
+            $turnos_limite_diario > 0
+        ) {
             $availableAppointment = AvailableAppointment::all();
-            $appointment = Appointment::where('status', 1)->get();
+            $appointments = Appointment::where('status', 1)->get();
             $specialties = Specialty::where('status', 1)->get();
-            return view('reservations/create', compact('availableAppointment', 'appointment', 'specialties'));
+            //dd($availableAppointment, $appointments, $specialties);
+            return view('reservations/create', compact('availableAppointment', 'appointments', 'specialties'));
         } else {
-            if ($user->faults > $turnos_faltas_maximas && $user->status == 0 && $turnos_activos >= $turnos_limite_diario) {
+            if (
+                $user->faults > $turnos_faltas_maximas &&
+                $user->status == 0 &&
+                $turnos_activos >= $turnos_limite_diario
+            ) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => '1. Has alcanzado el límite de faltas permitidas.<br>2. Su cuenta está inactiva.<br> Contacta al administrador.',

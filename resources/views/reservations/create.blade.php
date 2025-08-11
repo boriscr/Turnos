@@ -1,17 +1,18 @@
 <x-app-layout>
+
     <div class="main full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">{{ __('appointment.title_text') }}</h3>
+            <h3 class="title-form">{{ __('reservation.title_text') }}</h3>
 
             <!-- Indicador de pasos -->
             <div class="step-indicator">
                 <div class="step active" data-step="1"><i
-                        class="bi bi-person-circle"></i><span>{{ __('appointment.step_1') }}</span>
+                        class="bi bi-person-circle"></i><span>{{ __('reservation.step_1') }}</span>
                 </div>
                 <div class="step" data-step="2"><i
-                        class="bi bi-clock-history"></i><span>{{ __('appointment.step_2') }}</span> </div>
+                        class="bi bi-clock-history"></i><span>{{ __('reservation.step_2') }}</span> </div>
                 <div class="step" data-step="3"><i
-                        class="bi bi-check-circle-fill"></i><span>{{ __('appointment.step_3') }}</span>
+                        class="bi bi-check-circle-fill"></i><span>{{ __('reservation.step_3') }}</span>
                 </div>
             </div>
 
@@ -50,25 +51,31 @@
                 <!-- Paso 2 - Selección de Appointment -->
                 <div class="form-step" data-step="2">
                     <x-form.select name="specialty_id" :label="__('specialty.title')" icon="bi-1-circle" :required="true">
-                        <option value="">{{ __('appointment.specialty_option') }}</option>
-                        @foreach ($specialties as $specialty)
-                            @if ($specialty->status == 1)
-                                <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
-                            @endif
-                        @endforeach
+                        <option value="">{{ __('reservation.specialty_option') }}</option>
+                        @if (!empty($specialties))
+                            @foreach ($specialties as $specialty)
+                                @if ($specialty->status == 1)
+                                    <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                                @endif
+                            @endforeach
+                        @endif
                     </x-form.select>
 
                     <x-form.select name="doctor_id" :label="__('medical.doctor')" icon="bi-2-circle" :required="true">
-                        <option value="">{{ __('appointment.doctor_option') }}</option>
+                        <option value="">{{ __('reservation.doctor_option') }}</option>
                     </x-form.select>
-                    <x-form.select name="appointment_name_id" :label="__('appointment.title_name')" icon="bi-3-circle" :required="true">
-                        <option value="">{{ __('appointment.title_name_option') }}</option>
+                    <x-form.select name="appointment_name_id" :label="__('reservation.title_name')" icon="bi-3-circle" :required="true">
+                        <option value="">{{ __('reservation.title_name_option') }}</option>
                     </x-form.select>
-                    <x-form.select name="appointment_date" :label="__('appointment.date')" icon="bi-4-circle" :required="true">
-                        <option value="">{{ __('appointment.date_option') }}</option>
+
+
+                    <x-form.select name="appointment_date" :label="__('reservation.date')" icon="bi-4-circle" :required="true">
+                        <option value="">{{ __('reservation.date_option') }}</option>
                     </x-form.select>
-                    <x-form.select name="appointment_time" :label="__('appointment.time')" icon="bi-5-circle" :required="true">
-                        <option value="">{{ __('appointment.time_option') }}</option>
+
+                    
+                    <x-form.select name="appointment_time" :label="__('reservation.time')" icon="bi-5-circle" :required="true">
+                        <option value="">{{ __('reservation.time_option') }}</option>
                         <input type="hidden" name="appointment_id" id="appointment_id">
                     </x-form.select>
 
@@ -83,7 +90,7 @@
 
                 <!-- Paso 3 - Mensaje de Confirmación -->
                 <div class="form-step" data-step="3">
-                    <h2>{{__('appointment.reservation_details_txt')}}</h2>
+                    <h2>{{ __('reservation.reservation_details_txt') }}</h2>
                     <div id="confirmation-details" class="mt-4">
                         <!-- Los detalles se cargarán automáticamente -->
                     </div>
@@ -99,6 +106,7 @@
             </form>
         </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Configuración dinámica según tema
@@ -181,30 +189,33 @@
 
                 // Obtener datos adicionales (usando Blade)
                 let address = 'No especificada';
-                @foreach ($appointment as $item)
-                    if ({{ $item->id }} == appointmentNameSelect.value) {
-                        address = '{{ $item->address }}';
-                    }
-                @endforeach
-
+                @if (!empty($appointments))
+                    @foreach ($appointments as $item)
+                        if ({{ $item->id }} == appointmentNameSelect.value) {
+                            address = '{{ $item->address }}';
+                        }
+                    @endforeach
+                @endif
                 let specialtyDescription = 'No especificada';
-                @foreach ($specialties as $item)
-                    if ({{ $item->id }} == specialtySelect.value) {
-                        specialtyDescription = '{{ $item->description }}';
-                    }
-                @endforeach
+                @if (!empty($specialties))
+                    @foreach ($specialties as $item)
+                        if ({{ $item->id }} == specialtySelect.value) {
+                            specialtyDescription = '{{ $item->description }}';
+                        }
+                    @endforeach
+                @endif
 
                 // Construir HTML de confirmación
                 confirmationDetails.innerHTML = `
             <div class="confirmation-detail">
-                <p><strong>{{__('appointment.title_name')}}:</strong> ${appointmentNameText}</p>
-                <p><strong>{{__('contact.address')}}:</strong> ${address}</p>
-                <p><strong>{{__('specialty.title')}}:</strong> ${specialtyText}</p>
-                <p><strong>{{__('medical.description_txt')}}:</strong> ${specialtyDescription}</p>
+                <p><strong>{{ __('reservation.title_name') }}:</strong> ${appointmentNameText}</p>
+                <p><strong>{{ __('contact.address') }}:</strong> ${address}</p>
+                <p><strong>{{ __('specialty.title') }}:</strong> ${specialtyText}</p>
+                <p><strong>{{ __('medical.description_txt') }}:</strong> ${specialtyDescription}</p>
                 <hr>
-                <p><strong>{{__('medical.doctor')}}:</strong> ${doctorText}</p>
-                <p><strong>{{__('appointment.date')}}:</strong> ${dateText}</p>
-                <p><strong>{{__('appointment.time')}}:</strong> ${timeText}</p>
+                <p><strong>{{ __('medical.doctor') }}:</strong> ${doctorText}</p>
+                <p><strong>{{ __('reservation.date') }}:</strong> ${dateText}</p>
+                <p><strong>{{ __('reservation.time') }}:</strong> ${timeText}</p>
             </div>
         `;
             }
