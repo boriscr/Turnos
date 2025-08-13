@@ -18,25 +18,25 @@
     width: 70%;
 }
 
-.card-claro {
-    background-color: var(--fondo_aplicacion_light);
-    color: var(--color_texto_light)!important;
+.light-card {
+    background-color: var(--light_application_background);
+    color: var(--light_text_color)!important;
 }
 
-.card-claro small {
-    color: var(--color_texto_small_light);
+.light-card small {
+    color: var(--text_color_small_light);
 }
 
-.card-oscuro {
-    background-color: var(--fondo_aplicacion_dark);
-    color: var(--color_texto_dark)!important;
+.dark-card {
+    background-color: var(--dark_application_background);
+    color: var(--dark_text_color)!important;
 }
 
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     .card {
-        color: var(--color_texto_dark);
+        color: var(--dark_text_color);
     }
 }
 
@@ -44,7 +44,7 @@
 @media (prefers-color-scheme: light) {
 
     .card {
-        color: var(--color_texto_light);
+        color: var(--light_text_color);
     }
 
 }

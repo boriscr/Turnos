@@ -1,7 +1,7 @@
 if (window.location.pathname.includes('/reservations/create')) {
     // Variables globales
     let todosLosTurnos = [];
-    let previewSettings = { amount: 30, unit: 'dia' }; // Valores por defecto
+    let previewSettings = { amount: 30, unit: 'day' }; // Valores por defecto
 
     // Función para obtener date actual en formato ISO (YYYY-MM-DD)
     function obtenerFechaActual() {
@@ -22,10 +22,10 @@ if (window.location.pathname.includes('/reservations/create')) {
                 case 'time':
                     ahora.setHours(ahora.getHours() + previewSettings.amount);
                     break;
-                case 'mes':
+                case 'month':
                     ahora.setMonth(ahora.getMonth() + previewSettings.amount);
                     break;
-                case 'dia':
+                case 'day':
                 default:
                     ahora.setDate(ahora.getDate() + previewSettings.amount);
                     break;

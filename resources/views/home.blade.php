@@ -3,8 +3,8 @@
         <div class="box-presentacion">
             <h1>Appointments Online</h1>
             <h2>Bienvenido a la plataforma de gestión de appointments online</h2>
-            <p>{{ config('app.mensaje_bienvenida') }}</p>
-            <p>{{ config('app.mensaje_paciente') }}</p>
+            <p>{{ config('app.welcome_message') }}</p>
+            <p>{{ config('app.patient_message') }}</p>
             @if (auth()->check())
                 @auth
                     <div class="full-center">

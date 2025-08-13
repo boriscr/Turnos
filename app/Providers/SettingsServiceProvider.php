@@ -24,31 +24,31 @@ class SettingsServiceProvider extends ServiceProvider
         // Configuración de diseño
         $designSettings = [
             //Colores de la app
-            'design.fondo_aplicacion_dark' => setting('design.fondo_aplicacion_dark'),
-            'design.fondo_aplicacion_light' => setting('design.fondo_aplicacion_light'),
-            'design.color_texto_titulo' => setting('design.color_texto_titulo'),
-            'design.color_texto_dark' => setting('design.color_texto_dark'),
-            'design.color_texto_light' => setting('design.color_texto_light'),
-            'design.color_texto_small_dark' => setting('design.color_texto_small_dark'),
-            'design.color_texto_small_light' => setting('design.color_texto_small_light'),
+            'design.dark_application_background' => setting('design.dark_application_background'),
+            'design.light_application_background' => setting('design.light_application_background'),
+            'design.title_text_color' => setting('design.title_text_color'),
+            'design.dark_text_color' => setting('design.dark_text_color'),
+            'design.light_text_color' => setting('design.light_text_color'),
+            'design.text_color_small_dark' => setting('design.text_color_small_dark'),
+            'design.text_color_small_light' => setting('design.text_color_small_light'),
 
-            'design.color_primario_btn' => setting('design.color_primario_btn'),
-            'design.color_secundario_btn' => setting('design.color_secundario_btn'),
-            'design.color_texto_btn' => setting('design.color_texto_btn'),
+            'design.primary_color_btn' => setting('design.primary_color_btn'),
+            'design.secondary_color_btn' => setting('design.secondary_color_btn'),
+            'design.btn_text_color' => setting('design.btn_text_color'),
 
-            'design.fondo_navbar_dark' => setting('design.fondo_navbar_dark'),
-            'design.fondo_navbar_light' => setting('design.fondo_navbar_light'),
-            'design.fondo_login_register_dark' => setting('design.fondo_login_register_dark'),
-            'design.fondo_login_register_light' => setting('design.fondo_login_register_light'),
-            'design.color_texto_form_elements_dark' => setting('design.color_texto_form_elements_dark'),
-            'design.color_texto_form_elements_light' => setting('design.color_texto_form_elements_light'),
+            'design.background_navbar_dark' => setting('design.background_navbar_dark'),
+            'design.background_navbar_light' => setting('design.background_navbar_light'),
+            'design.background_login_and_register_dark' => setting('design.background_login_and_register_dark'),
+            'design.background_login_and_register_light' => setting('design.background_login_and_register_light'),
+            'design.text_color_form_elements_dark' => setting('design.text_color_form_elements_dark'),
+            'design.text_color_form_elements_light' => setting('design.text_color_form_elements_light'),
         ];
         config($designSettings);
         // Cargar configuraciones importantes
         config([
             'app.name' => setting('app.name', config('app.name')),
             'app.description' => setting('app.description'),
-            'app.mensaje_paciente' => setting('app.mensaje_paciente'),
+            'app.patient_message' => setting('app.patient_message'),
 
         ]);
     }

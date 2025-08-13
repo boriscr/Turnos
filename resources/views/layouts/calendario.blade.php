@@ -42,7 +42,7 @@
             <div>{{ __('appointment.date.sa') }}</div>
         </div>
 
-        <!-- Días del mes -->
+        <!-- Días del month -->
         <div class="days-grid">
             <template x-for="(day, index) in days" :key="index">
                 <button @click="selectDate(day)" :disabled="day === null || (skipWeekends && isWeekend(day))"

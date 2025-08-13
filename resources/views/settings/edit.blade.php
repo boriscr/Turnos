@@ -1,237 +1,126 @@
 <x-app-layout>
     <div class="main full-center">
+        <H3 class="title-form">{{ __('navbar.settings') }}</H3>
         <div class="container-form full-center">
-            <H3 class="title-form">Settings</H3>
             <form action="{{ route('settings.update') }}" method="post">
                 @csrf
                 @method('PUT')
                 <div class="form-grid">
-                    <h3>Contenido personalizado</h3>
-                    <div class="item">
-                        <label for="name">Nombre de la Aplicación</label>
-                        <input type="text" name="app[name]" id="name" value="{{ $settings['app.name'] }}"
-                            required>
-                        @error('app.name')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="item">
-                        <label for="mensaje_bienvenida">Mensaje de bienvenida en la app</label>
-                        <small>Se mostrará en la pantalla de inicio de la aplicación.</small>
-                        <textarea name="app[mensaje_bienvenida]" id="mensaje_bienvenida" cols="30" rows="5" required> {{ $settings['app.mensaje_bienvenida'] }}</textarea>
-                        @error('app.mensaje_bienvenida')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="item">
-                        <label for="pie_pagina">Pie de página</label>
-                        <small>Se mostrará en la parte inferior de la aplicación.</small>
-                        <textarea name="app[pie_pagina]" id="pie_pagina" cols="30" rows="3" required>{{ $settings['app.pie_pagina'] }}</textarea>
-                        @error('app.pie_pagina')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="item">
-                        <label for="nombre_institucion">Nombre de la institución prestadora del servicio.</label>
-                        <input type="text" name="app[nombre_institucion]" id="nombre_institucion"
-                            value="{{ $settings['app.nombre_institucion'] }}" required>
-                        @error('app.nombre_institucion')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="item">
-                        <label for="mensaje_paciente">Mensaje al solicitar un appointment.</label>
-                        <small>Se mostrará al paciente cuando solicite un appointment.</small>
-                        <textarea name="app[mensaje_paciente]" id="mensaje_paciente" cols="30" rows="3" required>{{ $settings['app.mensaje_paciente'] }}</textarea>
-                        @error('app.mensaje_paciente')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <h3>Usuarios</h3>
-                    <div class="item">
-                        <label for="faltas">Faltas</label>
-                        <small>Cantidad de faltas que un user puede tener antes de ser bloqueado.</small>
-                        <input type="number" name="appointments[faltas_maximas]" id="faltas"
-                            value="{{ $settings['appointments.faltas_maximas'] }}" required>
-                        @error('appointments.faltas_maximas')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="item">
-                        <label for="faltas">Limites de appointments</label>
-                        <small>Cantidad de appointments que un user puede reservar en un día.</small>
-                        <input type="number" name="appointments[limite_diario]" id="limites"
-                            value="{{ $settings['appointments.limite_diario'] }}" required>
-                        @error('appointments.limite_diario')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="item">
-                        <label for="horas_cancelacion">Cancelacion de appointments.</label>
-                        <small>Tiempo mínimo para cancelar un appointment (en horas).</small>
-                        <input type="number" name="appointments[horas_cancelacion]" id="horas_cancelacion"
-                            value="{{ $settings['appointments.horas_cancelacion'] }}" required>
-                        @error('appointments.horas_cancelacion')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="item">
-                        <label for="antelacion_reserva">Anticipación para reservar</label>
-                        <small>¿Desde cuántas horas/días antes los users pueden ver los appointments?(por ejemplo:
-                            24)</small>
-                        <input type="number" name="appointments[antelacion_reserva]" id="preview_window_amount"
-                            value="{{ $settings['appointments.antelacion_reserva'] }}" min="1" required>
-                        @error('appointments.antelacion_reserva')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <h3>{{ __('medical.setting.title_1') }}</h3>
+                    <x-form.text-input type="text" name="app[name]" :label="__('medical.setting.name')"
+                        context="{{ __('medical.setting.name_context') }}" minlength="3" maxlength="255"
+                        :required="true" value="{{ $settings['app.name'] }}" />
+
+                    <x-form.textarea name="app[welcome_message]" label="{{ __('medical.setting.welcome_message') }}"
+                        context="{{ __('medical.setting.welcome_message_context') }}" minlength="20" maxlength="500"
+                        value="{{ $settings['app.welcome_message'] }}" required />
+
+                    <x-form.textarea name="app[footer]" label="{{ __('medical.setting.footer') }}"
+                        context="{{ __('medical.setting.footer_context') }}" minlength="10" maxlength="300"
+                        value="{{ $settings['app.footer'] }}" required />
+
+                    <x-form.text-input type="text" name="app[institution_name]" :label="__('medical.setting.institution_name')"
+                        context="{{ __('medical.setting.footer_context') }}" minlength="5" maxlength="80"
+                        value="{{ $settings['app.institution_name'] }}" :required="true" />
+
+                    <x-form.textarea name="app[patient_message]" label="{{ __('medical.setting.patient_message') }}"
+                        context="{{ __('medical.setting.patient_message_context') }}" minlength="20" maxlength="500"
+                        value="{{ $settings['app.patient_message'] }}" required />
+                </div>
+                <br>
+                <div class="item-reservations">
+                    <h3>{{ __('medical.setting.title_2') }}</h3>
+                    <x-form.text-input type="number" name="appointments[maximum_faults]" :label="__('medical.setting.maximum_faults')"
+                        context="{{ __('medical.setting.maximum_faults_context') }}" minlength="0" :required="true"
+                        value="{{ $settings['appointments.maximum_faults'] }}" />
+
+                    <x-form.text-input type="number" name="appointments[daily_limit]" :label="__('medical.setting.daily_limit')"
+                        context="{{ __('medical.setting.daily_limit_context') }}" minlength="0" :required="true"
+                        value="{{ $settings['appointments.daily_limit'] }}" />
+
+                    <x-form.text-input type="number" name="appointments[cancellation_hours]" :label="__('medical.setting.cancellation_hours')"
+                        context="{{ __('medical.setting.cancellation_hours_context') }}" minlength="0"
+                        :required="true" value="{{ $settings['appointments.cancellation_hours'] }}" />
                     <br>
-                    <div class="box-style">
-                        <label for="unidad_antelacion">Elegí la unidad de tiempo: Horas, Días, o Meses</label>
-                        <small>
-                            *Ejemplo: si configuras “3 días”, el user podrá ver los appointments hasta 3 días antes
-                            de
-                            que ocurran.
-                        </small>
+                    <div class="box-style box-border">
+                        <x-form.text-input type="number" name="appointments[advance_reservation]" :label="__('medical.setting.advance_reservation')"
+                            context="{{ __('medical.setting.advance_reservation_context') }}" minlength="0"
+                            :required="true" value="{{ $settings['appointments.advance_reservation'] }}" />
+                        <label for="unit_advance"> {{ __('medical.setting.unit_advance') }}</label>
+                        <small>{{ __('medical.setting.unit_advance_context') }}</small>
                         <div class="item-style">
-                            <div class="item">
-                                <input type="radio" name="appointments[unidad_antelacion]" value="time" id="horas"
-                                    {{ $settings['appointments.unidad_antelacion'] == 'time' ? 'checked' : '' }}>
-                                <label for="time">Horas</label>
-                            </div>
-                            <div class="item">
-                                <input type="radio" name="appointments[unidad_antelacion]" value="dia" id="dias"
-                                    {{ $settings['appointments.unidad_antelacion'] == 'dia' ? 'checked' : '' }}>
-                                <label for="dia">Días</label>
-                            </div>
-                            <div class="item">
-                                <input type="radio" name="appointments[unidad_antelacion]" value="mes" id="mes"
-                                    {{ $settings['appointments.unidad_antelacion'] == 'mes' ? 'checked' : '' }}>
-                                <label for="mes">Meses</label>
-                            </div>
+                            <x-form.text-input type="radio" name="appointments[unit_advance]" value="time"
+                                :label="__('medical.setting.time')"
+                                checkedValue="{{ $settings['appointments.unit_advance'] == 'time' ? 'checked' : '' }}" />
+
+                            <x-form.text-input type="radio" name="appointments[unit_advance]" value="day"
+                                :label="__('medical.setting.day')"
+                                checkedValue="{{ $settings['appointments.unit_advance'] == 'day' ? 'checked' : '' }}" />
+
+                            <x-form.text-input type="radio" name="appointments[unit_advance]" value="month"
+                                :label="__('medical.setting.month')"
+                                checkedValue="{{ $settings['appointments.unit_advance'] == 'month' ? 'checked' : '' }}" />
                         </div>
-                        @error('appointments.unidad_antelacion')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
                     </div>
 
-                    <div class="item">
-                        <label for="intervalo_verificacion">Frecuancia de verificacion Asistencias</label>
-                        <small>Cada x time se verifican las asistencias automáticamente. Marcando si Asistío o No
-                            asistio</small>
-                        <input type="number" name="asistencias[intervalo_verificacion]"
-                            id="hora_verificacion_asistencias"
-                            value="{{ $settings['asistencias.intervalo_verificacion'] }}" min="1" required>
-                        @error('asistencias.intervalo_verificacion')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <x-form.text-input type="number" name="assists[verification_interval]" :label="__('medical.setting.verification_interval')"
+                        context="{{ __('medical.setting.verification_interval_context') }}" minlength="1"
+                        :required="true" value="{{ $settings['assists.verification_interval'] }}" />
                 </div>
+                <br>
                 <div class="item-colores">
-                    <hr>
-                    <h1>Personalizacion</h1>
+                    <h3>{{ __('medical.setting.title_3') }}</h3>
                     <div class="card">
-                        <h3>Colores generales</h3>
-                        <div class="item">
-                            <input type="color" name="design[color_texto_titulo]" id="color_texto_titulo"
-                                value="{{ $settings['design.color_texto_titulo'] }}">
-                            <label for="color_texto_titulo">Titulos</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[color_primario_btn]" id="color_primario_btn"
-                                value="{{ $settings['design.color_primario_btn'] }}">
-                            <label for="color_primario_btn">Color primario boton</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[color_secundario_btn]" id="color_secundario_btn"
-                                value="{{ $settings['design.color_secundario_btn'] }}">
-                            <label for="color_secundario_btn">Color secundario boton</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[color_texto_btn]" id="color_texto_btn"
-                                value="{{ $settings['design.color_texto_btn'] }}">
-                            <label for="color_texto_btn">Color de texto boton</label>
-                        </div>
+                        <h5>{{ __('medical.setting.subtitle_1') }}</h5>
+                        <x-form.text-input type="color" name="design[title_text_color]" :label="__('medical.setting.title_text_color')"
+                            value="{{ $settings['design.title_text_color'] }}" />
+                        <x-form.text-input type="color" name="design[primary_color_btn]" :label="__('medical.setting.primary_color_btn')"
+                            value="{{ $settings['design.primary_color_btn'] }}" />
+                        <x-form.text-input type="color" name="design[secondary_color_btn]" :label="__('medical.setting.secondary_color_btn')"
+                            value="{{ $settings['design.secondary_color_btn'] }}" />
+                        <x-form.text-input type="color" name="design[btn_text_color]" :label="__('medical.setting.btn_text_color')"
+                            value="{{ $settings['design.btn_text_color'] }}" />
                     </div>
                     <hr>
-                    <div class="card card-oscuro">
-                        <h3>Tema Oscuro</h3>
-                        <div class="item">
-                            <input type="color" name="design[fondo_aplicacion_dark]" id="fondo_aplicacion_dark"
-                                value="{{ $settings['design.fondo_aplicacion_dark'] }}">
-                            <label for="fondo_aplicacion_dark">Color de fondo</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[color_texto_dark]" id="color_texto_dark"
-                                value="{{ $settings['design.color_texto_dark'] }}">
-                            <label for="color_texto_dark">Color de texto</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[color_texto_small_dark]" id="color_texto_small_dark"
-                                value="{{ $settings['design.color_texto_small_dark'] }}">
-                            <label for="color_texto_small_dark">Color de texto pequeño</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[fondo_navbar_dark]" id="fondo_navbar_dark"
-                                value="{{ $settings['design.fondo_navbar_dark'] }}">
-                            <label for="fondo_navbar_dark"><b>Barra de navegacion</b> color de fondo</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[fondo_login_register_dark]"
-                                id="fondo_login_register_dark"
-                                value="{{ $settings['design.fondo_login_register_dark'] }}">
-                            <label for="fondo_login_register_dark"><b>Login y Register</b> color de fondo</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[color_texto_form_elements_dark]"
-                                id="color_texto_form_elements_dark"
-                                value="{{ $settings['design.color_texto_form_elements_dark'] }}">
-                            <label for="color_texto_form_elements_dark"><b>Elementos en formulario</b> color de
-                                texto</label>
-                        </div>
+                    <div class="card dark-card">
+                        <h5>{{ __('medical.setting.subtitle_2') }}</h5>
+                        <x-form.text-input type="color" name="design[dark_application_background]" :label="__('medical.setting.application_background')"
+                            value="{{ $settings['design.dark_application_background'] }}" />
+                        <x-form.text-input type="color" name="design[dark_text_color]" :label="__('medical.setting.text_color')"
+                            value="{{ $settings['design.dark_text_color'] }}" />
+                        <x-form.text-input type="color" name="design[text_color_small_dark]" :label="__('medical.setting.text_color_small')"
+                            value="{{ $settings['design.text_color_small_dark'] }}" />
+                        <x-form.text-input type="color" name="design[background_navbar_dark]" :label="__('medical.setting.background_navbar')"
+                            value="{{ $settings['design.background_navbar_dark'] }}" />
+                        <x-form.text-input type="color" name="design[background_login_and_register_dark]"
+                            :label="__('medical.setting.background_login_and_register')" value="{{ $settings['design.background_login_and_register_dark'] }}" />
+                        <x-form.text-input type="color" name="design[text_color_form_elements_dark]"
+                            :label="__('medical.setting.text_color_form_elements')" value="{{ $settings['design.text_color_form_elements_dark'] }}" />
                     </div>
                     <hr>
-                    <div class="card card-claro">
-                        <h3>Tema Claro</h3>
-                        <div class="item">
-                            <input type="color" name="design[fondo_aplicacion_light]" id="fondo_aplicacion_light"
-                                value="{{ $settings['design.fondo_aplicacion_light'] }}">
-                            <label for="fondo_aplicacion_light">Color de fondo</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[color_texto_light]" id="color_texto_light"
-                                value="{{ $settings['design.color_texto_light'] }}">
-                            <label for="color_texto_light">Color de texto</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[color_texto_small_light]" id="color_texto_small_light"
-                                value="{{ $settings['design.color_texto_small_light'] }}">
-                            <label for="color_texto_small_light">Color de texto pequeño</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[fondo_navbar_light]" id="fondo_navbar_light"
-                                value="{{ $settings['design.fondo_navbar_light'] }}">
-                            <label for="fondo_navbar_light"><b>Barra de navegacion</b> color de fondo</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[fondo_login_register_light]"
-                                id="fondo_login_register_light"
-                                value="{{ $settings['design.fondo_login_register_light'] }}">
-                            <label for="fondo_login_register_light"><b>Login y Register</b> color de fondo</label>
-                        </div>
-                        <div class="item">
-                            <input type="color" name="design[color_texto_form_elements_light]"
-                                id="color_texto_form_elements_light"
-                                value="{{ $settings['design.color_texto_form_elements_light'] }}">
-                            <label for="color_texto_form_elements_light"><b>Elementos en formulario</b> color de
-                                texto</label>
-                        </div>
+                    <div class="card light-card">
+                        <h5>{{ __('medical.setting.subtitle_3') }}</h5>
+                        <x-form.text-input type="color" name="design[light_application_background]"
+                            :label="__('medical.setting.application_background')" value="{{ $settings['design.light_application_background'] }}" />
+                        <x-form.text-input type="color" name="design[light_text_color]" :label="__('medical.setting.text_color')"
+                            value="{{ $settings['design.light_text_color'] }}" />
+                        <x-form.text-input type="color" name="design[text_color_small_light]" :label="__('medical.setting.text_color_small')"
+                            value="{{ $settings['design.text_color_small_light'] }}" />
+                        <x-form.text-input type="color" name="design[background_navbar_light]" :label="__('medical.setting.background_navbar')"
+                            value="{{ $settings['design.background_navbar_light'] }}" />
+                        <x-form.text-input type="color" name="design[background_login_and_register_light]"
+                            :label="__('medical.setting.background_login_and_register')"
+                            value="{{ $settings['design.background_login_and_register_light'] }}" />
+                        <x-form.text-input type="color" name="design[text_color_form_elements_light]"
+                            :label="__('medical.setting.text_color_form_elements')" value="{{ $settings['design.text_color_form_elements_light'] }}" />
                     </div>
                 </div>
                 <br>
                 <hr>
                 <br>
-                <button type="submit" class="primary-btn">Actualizar</button>
+                <x-primary-button>
+                    {{ __('medical.update') }}
+                </x-primary-button>
             </form>
         </div>
 </x-app-layout>

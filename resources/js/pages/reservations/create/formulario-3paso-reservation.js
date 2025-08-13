@@ -98,7 +98,7 @@ if (window.location.pathname.includes('/reservations/create') ||
                     title: 'Campos incompletos',
                     text: 'Por favor complete todos los campos requeridos antes de continuar.',
                     icon: 'warning',
-                    confirmButtonColor: 'var(--color_primario_btn)'
+                    confirmButtonColor: 'var(--primary_color_btn)'
                 });
             }
 

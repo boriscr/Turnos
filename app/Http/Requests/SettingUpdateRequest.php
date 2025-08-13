@@ -22,40 +22,40 @@ class SettingUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'app.name' => ['required', 'string', 'max:255'],
-            'app.mensaje_bienvenida' => ['required', 'string', 'max:255'],
-            'app.pie_pagina' => ['required', 'string', 'max:255'],
-            'app.nombre_institucion' => ['required', 'string', 'max:255'],
-            'app.mensaje_paciente' => ['required', 'string', 'max:255'],
-            'appointments.faltas_maximas' => ['required', 'integer', 'min:0'],
-            'appointments.limite_diario' => ['required', 'integer', 'min:1'],
-            'appointments.horas_cancelacion' => ['required', 'integer', 'min:0'],
-            'appointments.antelacion_reserva' => ['required', 'integer', 'min:1'],
-            'appointments.unidad_antelacion' => ['required', 'in:time,dia,mes'],
-            'asistencias.intervalo_verificacion' => ['required', 'integer', 'min:1'],
+            'app.name' => ['required', 'string','min:3', 'max:255'],
+            'app.welcome_message' => ['required', 'string','min:20', 'max:500'],
+            'app.footer' => ['required', 'string', 'min:10', 'max:300'],
+            'app.institution_name' => ['required', 'string', 'min:5', 'max:80'],
+            'app.patient_message' => ['required', 'string','min:20', 'max:500'],
+            'appointments.maximum_faults' => ['required', 'integer', 'min:0'],
+            'appointments.daily_limit' => ['required', 'integer', 'min:0'],
+            'appointments.cancellation_hours' => ['required', 'integer', 'min:0'],
+            'appointments.advance_reservation' => ['required', 'integer', 'min:0'],
+            'appointments.unit_advance' => ['required', 'in:time,day,month'],
+            'assists.verification_interval' => ['required', 'integer', 'min:1'],
             //color de fonde de la aplicacion
-            'design.fondo_aplicacion_dark' => ['required', 'string', 'max:10'],
-            'design.fondo_aplicacion_light' => ['required', 'string', 'max:10'],
+            'design.dark_application_background' => ['required', 'string', 'max:10'],
+            'design.light_application_background' => ['required', 'string', 'max:10'],
             //Colores de los textos
-            'design.color_texto_titulo' => ['required', 'string', 'max:10'],
-            'design.color_texto_dark' => ['required', 'string|max:10'],
-            'design.color_texto_light' => ['required', 'string', 'max:10'],
+            'design.title_text_color' => ['required', 'string', 'max:10'],
+            'design.dark_text_color' => ['required', 'string','max:10'],
+            'design.light_text_color' => ['required', 'string', 'max:10'],
             //Color texto letra pequeña (Small)
-            'design.color_texto_small_dark' => ['required', 'string', 'max:10'],
-            'design.color_texto_small_light' => ['required', 'string', 'max:10'],
+            'design.text_color_small_dark' => ['required', 'string', 'max:10'],
+            'design.text_color_small_light' => ['required', 'string', 'max:10'],
             //Color de fondo botones
-            'design.color_primario_btn' => ['required', 'string', 'max:10'],
-            'design.color_secundario_btn' => ['required', 'string', 'max:10'],
-            'design.color_texto_btn' => ['required', 'string', 'max:10'],
+            'design.primary_color_btn' => ['required', 'string', 'max:10'],
+            'design.secondary_color_btn' => ['required', 'string', 'max:10'],
+            'design.btn_text_color' => ['required', 'string', 'max:10'],
             //Navbar
-            'design.fondo_navbar_dark' => ['required', 'string', 'max:10'],
-            'design.fondo_navbar_light' => ['required', 'string', 'max:10'],
+            'design.background_navbar_dark' => ['required', 'string', 'max:10'],
+            'design.background_navbar_light' => ['required', 'string', 'max:10'],
             //Login-Register
-            'design.fondo_login_register_dark' => ['required', 'string', 'max:10'],
-            'design.fondo_login_register_light' => ['required', 'string', 'max:10'],
+            'design.background_login_and_register_dark' => ['required', 'string', 'max:10'],
+            'design.background_login_and_register_light' => ['required', 'string', 'max:10'],
             //Form elements text color
-            'design.color_texto_form_elements_dark' => ['required', 'string', 'max:10'],
-            'design.color_texto_form_elements_light' => ['required', 'string', 'max:10'],
+            'design.text_color_form_elements_dark' => ['required', 'string', 'max:10'],
+            'design.text_color_form_elements_light' => ['required', 'string', 'max:10'],
 
         ];
     }

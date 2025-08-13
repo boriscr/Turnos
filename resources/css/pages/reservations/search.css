@@ -1,7 +1,7 @@
 .search-filters {
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px var(--color_secundario_btn);;
+    box-shadow: 0 2px 4px var(--secondary_color_btn);;
 }
 .input-group{
     gap: 5px;

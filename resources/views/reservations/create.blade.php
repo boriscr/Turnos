@@ -153,12 +153,12 @@
                     Swal.fire({
                         title: '¿Confirmar turno?',
                         background: isDarkMode ?
-                            'var(--fondo_aplicacion_dark)' : 'var(--fondo_aplicacion_light)',
+                            'var(--dark_application_background)' : 'var(--light_application_background)',
                         color: isDarkMode ?
-                            'var(--color_texto_dark)' : 'var(--color_texto_light)',
-                        confirmButtonColor: 'var(--color_primario_btn)',
+                            'var(--dark_text_color)' : 'var(--light_text_color)',
+                        confirmButtonColor: 'var(--primary_color_btn)',
                         cancelButtonColor: '#dc3545',
-                        html: '<p>{{ config('app.mensaje_paciente') }}</p>',
+                        html: '<p>{{ config('app.patient_message') }}</p>',
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'Confirmar',

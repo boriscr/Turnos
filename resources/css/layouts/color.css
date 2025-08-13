@@ -3,50 +3,50 @@ h2,
 h3,
 h4,
 h5 {
-    color: var(--color_texto_titulo) !important;
+    color: var(--title_text_color) !important;
     text-align: center;
     font-weight: bold !important;
     font-size: 23px !important;
 }
 
 b {
-    color: var(--color_texto_titulo);
+    color: var(--title_text_color);
 }
 
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     body {
-        background-color: var(--fondo_aplicacion_dark) !important;
-        color: var(--color_texto_dark);
+        background-color: var(--dark_application_background) !important;
+        color: var(--dark_text_color);
     }
 
     .bi {
-        color: var(--color_texto_dark);
+        color: var(--dark_text_color);
     }
 
     small {
-        color: var(--color_texto_small_dark) !important;
+        color: var(--text_color_small_dark) !important;
     }
 
     p {
-        color: var(--color_texto_dark);
+        color: var(--dark_text_color);
     }
 }
 
 /* Modo claro */
 @media (prefers-color-scheme: light) {
     body {
-        background-color: var(--fondo_aplicacion_light);
-        color: var(--color_texto_light);
+        background-color: var(--light_application_background);
+        color: var(--light_text_color);
     }
 
     small {
-        color: var(--color_texto_small_light);
+        color: var(--text_color_small_light);
 
     }
 
     p {
-        color: var(--color_texto_light);
+        color: var(--light_text_color);
     }
 }

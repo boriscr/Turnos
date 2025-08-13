@@ -116,7 +116,7 @@ class ReservationController extends Controller
     public function verificarAsistenciasAutomaticamente()
     {
         $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
-        $hora_asistencia = (int) ($settings['asistencias.intervalo_verificacion'] ?? 1); // Valor por defecto
+        $hora_asistencia = (int) ($settings['assists.verification_interval'] ?? 1); // Valor por defecto
         $now = Carbon::now();
         $fourHoursAgo = $now->copy()->subHours($hora_asistencia);
 
@@ -161,11 +161,11 @@ class ReservationController extends Controller
     public function create()
     {
         $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
-        $turnos_antelacion_reserva = $settings['appointments.antelacion_reserva'];
-        $turnos_faltas_maximas = $settings['appointments.faltas_maximas'];
-        $turnos_horas_cancelacion = $settings['appointments.horas_cancelacion'];
-        $turnos_limite_diario = $settings['appointments.limite_diario'];
-        $turnos_unidad_antelacion = $settings['appointments.unidad_antelacion'];
+        $turnos_antelacion_reserva = $settings['appointments.advance_reservation'];
+        $turnos_faltas_maximas = $settings['appointments.maximum_faults'];
+        $turnos_horas_cancelacion = $settings['appointments.cancellation_hours'];
+        $turnos_limite_diario = $settings['appointments.daily_limit'];
+        $turnos_unidad_antelacion = $settings['appointments.unit_advance'];
         $user = Auth::user();
         $turnos_activos = Reservation::where('user_id', $user->id)
             ->whereHas('availableAppointment', function ($query) {
@@ -181,7 +181,6 @@ class ReservationController extends Controller
             $availableAppointment = AvailableAppointment::all();
             $appointments = Appointment::where('status', 1)->get();
             $specialties = Specialty::where('status', 1)->get();
-            //dd($availableAppointment, $appointments, $specialties);
             return view('reservations/create', compact('availableAppointment', 'appointments', 'specialties'));
         } else {
             if (
@@ -274,8 +273,8 @@ class ReservationController extends Controller
         // Obtener configuración de previsualización
         $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
 
-        $previewAmount = (int) ($settings['appointments.antelacion_reserva'] ?? 30); // Valor por defecto
-        $previewUnit = $settings['appointments.unidad_antelacion'] ?? 'dia'; // Valor por defecto
+        $previewAmount = (int) ($settings['appointments.advance_reservation'] ?? 30); // Valor por defecto
+        $previewUnit = $settings['appointments.unit_advance'] ?? 'day'; // Valor por defecto
 
         // Calcular date límite según configuración
         $fechaLimite = now();
@@ -284,10 +283,10 @@ class ReservationController extends Controller
             case 'time':
                 $fechaLimite->addHours($previewAmount);
                 break;
-            case 'mes':
+            case 'month':
                 $fechaLimite->addMonths($previewAmount);
                 break;
-            case 'dia':
+            case 'day':
                 $fechaLimite->addDays($previewAmount);
                 break;
             default:
@@ -338,8 +337,8 @@ class ReservationController extends Controller
             ->count();
         // Verificar si el user tiene permisos para reservar appointments
         $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
-        $turnos_faltas_maximas = $settings['appointments.faltas_maximas'];
-        $turnos_limite_diario = $settings['appointments.limite_diario'];
+        $turnos_faltas_maximas = $settings['appointments.maximum_faults'];
+        $turnos_limite_diario = $settings['appointments.daily_limit'];
 
         if ($appointment && $user->faults <= $turnos_faltas_maximas && $user->status == 1 && $turnos_activos < $turnos_limite_diario) {
             // Verificar si hay cupos disponibles
@@ -462,7 +461,7 @@ class ReservationController extends Controller
             /** @var \App\Models\User $user */
             if ($user->hasRole('user')) {
                 $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
-                $horasLimiteCancelacion = $settings['appointments.horas_cancelacion'] ?? 24;
+                $horasLimiteCancelacion = $settings['appointments.cancellation_hours'] ?? 24;
 
                 $horasRestantes = now()->diffInHours($fechaHoraTurno, false);
 

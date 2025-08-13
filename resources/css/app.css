@@ -16,7 +16,7 @@
 @import 'pages/appointments/calendario.css';
 @import 'pages/reservations/search.css';
 @import 'pages/reservations/actualizacion-de-asistencia-btn.css';
-
+@import 'pages/settings/settings.css';
 @import 'pages/specialties/form-specialty.css';
 
 @tailwind base;

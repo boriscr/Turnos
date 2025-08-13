@@ -7,13 +7,16 @@
     'placeholder' => '',
     'rows' => 5,
     'value' => '',
+    'context'
 ])
 
 <div class="item">
     <x-input-label :for="$name" :value="$label" :required="$required" />
+    @if (!empty($context))
+        <small>{{ $context }}</small>
+    @endif
     <textarea name="{{ $name }}" id="{{ $name }}" rows="{{ $rows }}" minlength="{{ $minlength }}"
-        maxlength="{{ $maxlength }}" placeholder="{{ $placeholder }}" @if ($required) required @endif
-        >{{ old($name, $value) }}</textarea>
+        maxlength="{{ $maxlength }}" placeholder="{{ $placeholder }}" @if ($required) required @endif>{{ old($name, $value) }}</textarea>
 
     <x-input-error :messages="$errors->get($name)" class="mt-2" />
 </div>

@@ -11,14 +11,14 @@
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     #specialty-form {
-        background-color: var(--fondo_aplicacion_dark);
+        background-color: var(--dark_application_background);
     }
 }
 
 /* Modo claro */
 @media (prefers-color-scheme: light) {
     #specialty-form {
-        background: var(--fondo_aplicacion_light);
+        background: var(--light_application_background);
     }
 }
 

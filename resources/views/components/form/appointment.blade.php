@@ -1,8 +1,8 @@
 <!-- Indicador de pasos -->
 <div class="step-indicator">
-    <div class="step active" data-step="1"><i class="bi bi-stars"></i> {{__('appointment.creation')}}</div>
-    <div class="step" data-step="2"><i class="bi bi-clock-history"></i> {{__('reservation.time')}}</div>
-    <div class="step" data-step="3"><i class="bi bi-calendar-date-fill"></i> {{__('reservation.date')}}</div>
+    <div class="step active" data-step="1"><i class="bi bi-stars"></i> {{ __('appointment.creation') }}</div>
+    <div class="step" data-step="2"><i class="bi bi-clock-history"></i> {{ __('reservation.time') }}</div>
+    <div class="step" data-step="3"><i class="bi bi-calendar-date-fill"></i> {{ __('reservation.date') }}</div>
 </div>
 
 <form x-data="iosCalendar()" x-init="init({{ $fechas ?? '[]' }})" id="multiStepForm"
@@ -55,7 +55,7 @@
     <div class="form-step" data-step="2">
         <div class="form-grid">
             <div class="box-style">
-                <h3>{{__('appointment.shift.title')}}</h3>
+                <h3>{{ __('appointment.shift.title') }}</h3>
                 <div class="item-style">
                     <x-form.text-input type="radio" name="shift" value="morning" :label="__('appointment.shift.morning_shift')"
                         checkedValue="{{ !isset($create) ? ($appointment->shift == 'morning' ? 'checked' : '') : '' }}" />
@@ -80,18 +80,12 @@
 
             <div class="box-style">
                 <br>
-                <h3>{{__('appointment.schedule.title')}}</h3>
+                <h3>{{ __('appointment.schedule.title') }}</h3>
                 <div class="item-style">
-                    <div class="item">
-                        <input type="radio" name="appointment_type" id="single_slot" value="single_slot"
-                            {{ !isset($appointment) || $appointment->available_time_slots == null ? 'checked' : '' }}>
-                        <label for="single_slot">{{__('appointment.schedule.single')}}</label>
-                    </div>
-                    <div class="item">
-                        <input type="radio" name="appointment_type" id="multi_slot" value="multi_slot"
-                            {{ isset($appointment) && $appointment->available_time_slots != null ? 'checked' : '' }}>
-                        <label for="multi_slot">{{__('appointment.schedule.multiple')}}</label>
-                    </div>
+                    <x-form.text-input type="radio" name="appointment_type" id="single_slot" value="single_slot" :label="__('appointment.schedule.single')"
+                        checkedValue="{{ !isset($appointment) || $appointment->available_time_slots == null ? 'checked' : '' }}" />
+                    <x-form.text-input type="radio" name="appointment_type" id="multi_slot" value="multi_slot" :label="__('appointment.schedule.multiple')"
+                        checkedValue="{{ isset($appointment) && $appointment->available_time_slots != null ? 'checked' : '' }}" />
                     <input type="hidden" name="available_time_slots" id="available_time_slots">
                 </div>
                 <div id="horario-box">

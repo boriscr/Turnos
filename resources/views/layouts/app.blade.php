@@ -18,28 +18,28 @@
     <style>
         :root {
             /*Color de fondo de la aplicacion*/
-            --fondo_aplicacion_dark: {{ setting('design.fondo_aplicacion_dark') }};
-            --fondo_aplicacion_light: {{ setting('design.fondo_aplicacion_light') }};
+            --dark_application_background: {{ setting('design.dark_application_background') }};
+            --light_application_background: {{ setting('design.light_application_background') }};
             /*Colores de los textos*/
-            --color_texto_titulo: {{ setting('design.color_texto_titulo') }};
-            --color_texto_dark: {{ setting('design.color_texto_dark') }};
-            --color_texto_light: {{ setting('design.color_texto_light') }};
+            --title_text_color: {{ setting('design.title_text_color') }};
+            --dark_text_color: {{ setting('design.dark_text_color') }};
+            --light_text_color: {{ setting('design.light_text_color') }};
             /*Color texto letra pequeña (Small)*/
-            --color_texto_small_dark: {{ setting('design.color_texto_small_dark') }};
-            --color_texto_small_light: {{ setting('design.color_texto_small_light') }};
+            --text_color_small_dark: {{ setting('design.text_color_small_dark') }};
+            --text_color_small_light: {{ setting('design.text_color_small_light') }};
             /*Color de fondo botones*/
-            --color_primario_btn: {{ setting('design.color_primario_btn') }};
-            --color_secundario_btn: {{ setting('design.color_secundario_btn') }};
-            --color_texto_btn: {{ setting('design.color_texto_btn') }};
+            --primary_color_btn: {{ setting('design.primary_color_btn') }};
+            --secondary_color_btn: {{ setting('design.secondary_color_btn') }};
+            --btn_text_color: {{ setting('design.btn_text_color') }};
             /*Color de fondo de Barra de navegacion*/
-            --fondo_navbar_dark: {{ setting('design.fondo_navbar_dark') }};
-            --fondo_navbar_light: {{ setting('design.fondo_navbar_light') }};
+            --background_navbar_dark: {{ setting('design.background_navbar_dark') }};
+            --background_navbar_light: {{ setting('design.background_navbar_light') }};
             /*Color de fondo de seccion login y registro*/
-            --fondo_login_register_dark: {{ setting('design.fondo_login_register_dark') }};
-            --fondo_login_register_light: {{ setting('design.fondo_login_register_light') }};
+            --background_login_and_register_dark: {{ setting('design.background_login_and_register_dark') }};
+            --background_login_and_register_light: {{ setting('design.background_login_and_register_light') }};
             /*Color de texto de elementos (input,option y textarea)*/
-            --color_texto_form_elements_dark: {{ setting('design.color_texto_form_elements_dark') }};
-            --color_texto_form_elements_light: {{ setting('design.color_texto_form_elements_light') }};
+            --text_color_form_elements_dark: {{ setting('design.text_color_form_elements_dark') }};
+            --text_color_form_elements_light: {{ setting('design.text_color_form_elements_light') }};
         }
     </style>
     @vite(['resources/css/app.css'])

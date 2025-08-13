@@ -34,7 +34,7 @@
     margin: 0px 10%;
     width: 80%;
     height: 50px;
-    color: var(--color_texto_light);
+    color: var(--light_text_color);
 }
 
 /*Titulo agg doctor y user*/
@@ -70,20 +70,20 @@ input[type="date"] {
 
 input[type="radio"]:checked {
     margin-right: 10px;
-    background-color: var(--color_texto_titulo) !important;
+    background-color: var(--title_text_color) !important;
 }
 
 /*checkbox para Formulario login register*/
 input[type="checkbox"]:checked {
     margin-right: 10px;
-    background-color: var(--color_texto_titulo) !important;
+    background-color: var(--title_text_color) !important;
 }
 
 input[type="color"] {
     width: 45px;
     height: 45px;
-    box-shadow: 0px 0px 5px 1px var(--color_texto_titulo);
-    border: 2px solid var(--color_texto_titulo);
+    box-shadow: 0px 0px 5px 1px var(--title_text_color);
+    border: 2px solid var(--title_text_color);
 }
 
 select {
@@ -120,7 +120,7 @@ option {
     justify-content: space-between;
     text-align: center;
     margin: 2px 3px;
-    border: 1px solid var(--color_texto_titulo);
+    border: 1px solid var(--title_text_color);
     border-radius: 5px;
     padding: 5px;
 }
@@ -150,7 +150,7 @@ option {
 
 .box-style .item-style .item:hover {
     cursor: pointer;
-    background-color: var(--color_texto_titulo);
+    background-color: var(--title_text_color);
     opacity: 0.8;
 }
 
@@ -162,24 +162,24 @@ option {
 
     .container-form-register,
     .container-form-register select {
-        background-color: var(--fondo_login_register_dark);
+        background-color: var(--background_login_and_register_dark);
     }
 
     .main .container-form,
     .main .container-form select {
-        background-color: var(--fondo_aplicacion_dark);
+        background-color: var(--dark_application_background);
     }
 
     option,
     input,
     textarea {
         background: transparent !important;
-        color: var(--color_texto_form_elements_dark) !important;
+        color: var(--text_color_form_elements_dark) !important;
     }
 
     input:focus,
     textarea:focus {
-        border-color: var(--color_texto_form_elements_dark) !important;
+        border-color: var(--text_color_form_elements_dark) !important;
     }
 }
 
@@ -188,24 +188,24 @@ option {
 
     .container-form-register,
     .container-form-register select {
-        background-color: var(--fondo_login_register_light);
+        background-color: var(--background_login_and_register_light);
     }
 
     .main .container-form,
     .main .container-form select {
-        background-color: var(--fondo_aplicacion_light);
+        background-color: var(--light_application_background);
     }
 
     option,
     input,
     textarea {
         background: transparent !important;
-        color: var(--color_texto_form_elements_light) !important;
+        color: var(--text_color_form_elements_light) !important;
     }
 
     input:focus,
     textarea:focus {
-        border-color: var(--color_texto_form_elements_light) !important;
+        border-color: var(--text_color_form_elements_light) !important;
     }
 
 }

@@ -3,8 +3,8 @@
     width: 100%;
     height: 100%;
     border-radius: 0px 0px 100px 100px;
-    background-color: var(--color_secundario_btn);
-    color: var(--color_texto_btn);
+    background-color: var(--secondary_color_btn);
+    color: var(--btn_text_color);
 }
 
 .new-specialty-box #specialty-btn:hover {
@@ -24,8 +24,8 @@
 /*botones submit*/
 
 .primary-btn {
-    background-color: var(--color_primario_btn);
-    color: var(--color_texto_btn);
+    background-color: var(--primary_color_btn);
+    color: var(--btn_text_color);
     border: none;
     cursor: pointer;
     width: 100%;
@@ -45,13 +45,13 @@
 }
 
 .primary-btn:active {
-    background-color: var(--color_primario_btn);
-    color: var(--color_texto_btn);
+    background-color: var(--primary_color_btn);
+    color: var(--btn_text_color);
 }
 
 /*Vista register*/
 .secondary-btn {
-    background-color: var(--color_secundario_btn);
+    background-color: var(--secondary_color_btn);
 }
 
 .secondary-btn {
@@ -60,7 +60,7 @@
 }
 
 .primario-btn {
-    background-color: var(--color_primario_btn);
+    background-color: var(--primary_color_btn);
 }
 
 /*Botones de acciones de las tablas*/
@@ -86,8 +86,8 @@
 
 
 .main-table .container-form .opciones .btn-add {
-    background-color: var(--color_secundario_btn);
-    color: var(--color_texto_btn);
+    background-color: var(--secondary_color_btn);
+    color: var(--btn_text_color);
     width: 150px;
 }
 

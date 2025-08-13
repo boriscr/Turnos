@@ -80,12 +80,12 @@
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     .box-accionesMovil {
-        background-color: var(--fondo_aplicacion_dark);
+        background-color: var(--dark_application_background);
         border: 1px solid #dee2e6;
         box-shadow: 0 4px 8px rgba(255, 255, 255, 0.29);
 
         * {
-            color: var(--color_texto_dark);
+            color: var(--dark_text_color);
         }
     }
 }
@@ -93,7 +93,7 @@
 /* Modo claro */
 @media (prefers-color-scheme: light) {
     /*.accionesMovilBtn .bi {
-        color: var(--fondo_aplicacion_dark) !important;
+        color: var(--dark_application_background) !important;
     }*/
 
     .box-accionesMovil {
@@ -102,7 +102,7 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.29);
 
         * {
-            color: var(--color_texto_dark);
+            color: var(--dark_text_color);
         }
     }
 }

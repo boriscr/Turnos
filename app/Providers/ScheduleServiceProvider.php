@@ -14,7 +14,7 @@ class ScheduleServiceProvider extends ServiceProvider
 
     public function boot(Schedule $schedule): void
     {
-        $schedule->command('asistencias:verificar')->everyTenMinutes();
+        $schedule->command('assists:verificar')->everyTenMinutes();
     }
 }
 
