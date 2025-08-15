@@ -97,6 +97,11 @@ class SettingSeeder extends Seeder
                     'type' => 'string',
                     'desc' => 'Color de fondo de la aplicación'
                 ],
+                'general_design_color' => [
+                    'value' => '#4CAF50', // Verde claro
+                    'type' => 'string',
+                    'desc' => 'Color de texto para bordes, subrayados, iconos, sombras'
+                ],
                 'title_text_color' => [
                     'value' => '#4CAF50', // Verde claro
                     'type' => 'string',

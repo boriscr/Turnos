@@ -26,6 +26,7 @@ class SettingsServiceProvider extends ServiceProvider
             //Colores de la app
             'design.dark_application_background' => setting('design.dark_application_background'),
             'design.light_application_background' => setting('design.light_application_background'),
+            'design.general_design_color' => setting('design.general_design_color'),
             'design.title_text_color' => setting('design.title_text_color'),
             'design.dark_text_color' => setting('design.dark_text_color'),
             'design.light_text_color' => setting('design.light_text_color'),

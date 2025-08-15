@@ -62,6 +62,7 @@ return [
         'verification_interval_context' => 'Intervalo de tiempo para la verificación automática de asistencias (se marcará como *Asistió* o *No asistió*).',
 
         // Personalización de colores
+        'general_design_color'=>'Color general de diseño',
         'title_text_color' => 'Color de los títulos',
         'primary_color_btn' => 'Color principal para botones',
         'secondary_color_btn' => 'Color secundario para botones',

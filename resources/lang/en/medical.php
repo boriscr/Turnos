@@ -62,6 +62,7 @@ return [
         'verification_interval_context' => 'Time interval for automatic attendance verification (will be marked as *Attended* or *No-show*).',
 
         // Color Customization
+        'general_design_color' => 'Overall design color',
         'title_text_color' => 'Title Text Color',
         'primary_color_btn' => 'Primary Button Color',
         'secondary_color_btn' => 'Secondary Button Color',

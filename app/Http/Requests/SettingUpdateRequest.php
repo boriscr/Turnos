@@ -22,11 +22,11 @@ class SettingUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'app.name' => ['required', 'string','min:3', 'max:255'],
-            'app.welcome_message' => ['required', 'string','min:20', 'max:500'],
+            'app.name' => ['required', 'string', 'min:3', 'max:255'],
+            'app.welcome_message' => ['required', 'string', 'min:20', 'max:500'],
             'app.footer' => ['required', 'string', 'min:10', 'max:300'],
             'app.institution_name' => ['required', 'string', 'min:5', 'max:80'],
-            'app.patient_message' => ['required', 'string','min:20', 'max:500'],
+            'app.patient_message' => ['required', 'string', 'min:20', 'max:500'],
             'appointments.maximum_faults' => ['required', 'integer', 'min:0'],
             'appointments.daily_limit' => ['required', 'integer', 'min:0'],
             'appointments.cancellation_hours' => ['required', 'integer', 'min:0'],
@@ -36,9 +36,11 @@ class SettingUpdateRequest extends FormRequest
             //color de fonde de la aplicacion
             'design.dark_application_background' => ['required', 'string', 'max:10'],
             'design.light_application_background' => ['required', 'string', 'max:10'],
+            //Color general de diseño
+            'design.general_design_color' => ['required', 'string', 'max:10'],
             //Colores de los textos
             'design.title_text_color' => ['required', 'string', 'max:10'],
-            'design.dark_text_color' => ['required', 'string','max:10'],
+            'design.dark_text_color' => ['required', 'string', 'max:10'],
             'design.light_text_color' => ['required', 'string', 'max:10'],
             //Color texto letra pequeña (Small)
             'design.text_color_small_dark' => ['required', 'string', 'max:10'],

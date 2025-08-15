@@ -70,20 +70,20 @@ input[type="date"] {
 
 input[type="radio"]:checked {
     margin-right: 10px;
-    background-color: var(--title_text_color) !important;
+    background-color: var(--general_design_color) !important;
 }
 
 /*checkbox para Formulario login register*/
 input[type="checkbox"]:checked {
     margin-right: 10px;
-    background-color: var(--title_text_color) !important;
+    background-color: var(--general_design_color) !important;
 }
 
 input[type="color"] {
     width: 45px;
     height: 45px;
-    box-shadow: 0px 0px 5px 1px var(--title_text_color);
-    border: 2px solid var(--title_text_color);
+    box-shadow: 0px 0px 5px 1px var(--general_design_color);
+    border: 2px solid var(--general_design_color);
 }
 
 select {
@@ -120,7 +120,7 @@ option {
     justify-content: space-between;
     text-align: center;
     margin: 2px 3px;
-    border: 1px solid var(--title_text_color);
+    border: 1px solid var(--general_design_colorolor);
     border-radius: 5px;
     padding: 5px;
 }
@@ -150,7 +150,7 @@ option {
 
 .box-style .item-style .item:hover {
     cursor: pointer;
-    background-color: var(--title_text_color);
+    background-color: var(--general_design_color);
     opacity: 0.8;
 }
 

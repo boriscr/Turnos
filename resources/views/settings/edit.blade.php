@@ -72,6 +72,8 @@
                     <h3>{{ __('medical.setting.title_3') }}</h3>
                     <div class="card">
                         <h5>{{ __('medical.setting.subtitle_1') }}</h5>
+                        <x-form.text-input type="color" name="design[general_design_color]" :label="__('medical.setting.general_design_color')"
+                            value="{{ $settings['design.general_design_color'] }}" />
                         <x-form.text-input type="color" name="design[title_text_color]" :label="__('medical.setting.title_text_color')"
                             value="{{ $settings['design.title_text_color'] }}" />
                         <x-form.text-input type="color" name="design[primary_color_btn]" :label="__('medical.setting.primary_color_btn')"

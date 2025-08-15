@@ -25,7 +25,7 @@
     bottom: 0;
     width: 0%;
     height: 2px;
-    background-color: var(--title_text_color);
+    background-color: var(--general_design_color);
     transition: width 0.3s ease;
 }
 
@@ -37,11 +37,11 @@
 /*Enlace activo*/
 .items-nav-active {
     font-weight: 600;
-    border-color: var(--title_text_color);
+    border-color: var(--general_design_color);
 }
 
 .items-nav:hover {
-    border-color: var(--title_text_color);
+    border-color: var(--general_design_color);
 }
 
 /*Dropdown botton*/
@@ -54,7 +54,7 @@
     width: 220px;
     border-radius: 10px;
     padding: 2px;
-    border: 1px solid var(--title_text_color);
+    border: 1px solid var(--general_design_color);
 }
 
 .dropdown-item {
@@ -69,7 +69,7 @@
 
 
 .main-nav .bi {
-    color: var(--title_text_color);
+    color: var(--general_design_color);
     margin-right: 5px;
 }
 
@@ -95,7 +95,7 @@
     display: block;
     font-weight: bold;
     margin-bottom: 0.25rem;
-    color: var(--title_text_color)
+    color: var(--general_design_color)
 }
 
 .hamburger {

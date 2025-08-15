@@ -10,7 +10,7 @@
 
 .card-profile {
     flex-direction: column;
-    border: 1px solid var(--title_text_color);
+    border: 1px solid var(--general_design_color);
     background-color: transparent;
     width: 400px;
     padding: 10px;
@@ -19,7 +19,7 @@
 
 
 .card-profile .bi {
-    color: var(--title_text_color);
+    color: var(--general_design_color);
     font-size: 80px;
 }
 

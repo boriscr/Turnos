@@ -37,19 +37,19 @@
 
             <div class="section-container-profile">
                 <div class="card-profile full-center">
-                    <h1><b>Seccion Informacion</b></h1>
+                    <h1>Seccion Informacion</h1>
                     <i class="bi bi-person-bounding-box"></i>
                     <a href="{{ route('profile.edit') }}">Ver mis datos</a>
                 </div>
                 <div class="card-profile full-center">
-                    <h1><b>Seccion Appointments</b></h1>
+                    <h1>Seccion Appointments</h1>
                     <i class="bi bi-calendar3"></i>
                     <a href="{{ route('profile.edit') }}">Reservar appointment</a>
                 </div>
 
                 <!-- Notificaciones importantes -->
                 <div class="card-profile full-center">
-                    <h1><b>Mi historial</b></h1>
+                    <h1>Mi historial</h1>
                     <i class="bi bi-journal-text"></i>
                     <a href="{{ route('profile.historial') }}">Ver historial</a>
                 </div>
