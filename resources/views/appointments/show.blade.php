@@ -1,9 +1,9 @@
 <x-app-layout>
     <div class="content-wrapper">
-        <H3 class="title-form">Detalles</H3>
-
+        <h1>Detalles</h1>
         <div class="section-container full-center">
             <div class="card">
+                <h2>Datos Personales</h2>
                 <p><b>Nombre:</b> {{ $appointment->name }}</p>
                 <p><b>Direccion:</b> {{ $appointment->address }}</p>
                 <p><b>Especialidad:</b> {{ $appointment->specialty->name }}</p>
@@ -18,6 +18,7 @@
                 @endif
             </div>
             <div class="card">
+                <h2>Detalles de Gestión</h2>
                 <p><b>Fechas disponibles:</b> @json($appointment->available_dates)</p>
                 <p><b>Estado:</b> {{ $appointment->status ? 'Activo' : 'Inactivo' }}</p>
                 <p><b>Creado por:</b> {{ $appointment->createdBy->name . ' ' . $appointment->createdBy->surname }} <a

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Appointments22 reservados</h3>
+            <h1>Turnos reservados</h1>
 
             <!-- Barra de búsqueda y filtros -->
             @include('layouts.reservation-filter')

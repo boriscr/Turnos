@@ -1,9 +1,10 @@
 <x-app-layout>
     @if (isset($doctor))
         <div class="content-wrapper">
-            <h3 class="title-form">Detalles</h3>
+            <h1>Detalles</h1>
             <div class="section-container centrado-t">
                 <div class="card">
+                    <h2>Datos Personales</h2>
                     <p><b> Nombre y surname: </b>{{ $doctor->name . ' ' . $doctor->surname }}</p>
                     <p><b> Dni: </b>{{ $doctor->idNumber }}</p>
                     <p><b>Perfil:</b>

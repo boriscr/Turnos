@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Specialties</h3>
+            <h1>Especialidades</h1>
             <div class="opciones full-center">
                 <button class="btn-add">
                     <a href="{{ route('specialty.create') }}">Crear specialty</a>

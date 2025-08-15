@@ -1,10 +1,10 @@
 <x-app-layout>
     @if (isset($reservation))
         <div class="content-wrapper">
-            <h3 class="title-form">Detalles</h3>
+            <h1>Detalles</h1>
             <div class="section-container full-center">
                 <div class="card">
-                    <H1>Paciente</H1>
+                    <h2>Datos del paciente</h2>
                     <p><b> Paciente: </b> {{ $reservation->user->name . ' ' . $reservation->user->surname }}
                         <a href="{{ route('user.show', $reservation->user->id) }}"><i class="bi bi-eye"></i></a>
                     </p>
@@ -23,7 +23,7 @@
                     <p><b> Fecha de última actualizacion: </b>{{ $reservation->updated_at }}</p>
                 </div>
                 <div class="card">
-                    <H1>Doctor/a</H1>
+                    <h2>Datos del doctor</h2>
                     <p><b> Doctor/a:
                         </b>{{ $reservation->availableAppointment->doctor->name . ' ' . $reservation->availableAppointment->doctor->surname }}
                     </p>

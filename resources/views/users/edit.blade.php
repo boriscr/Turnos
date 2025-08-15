@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">{{ __('medical.section_title_edit') }}</h3>
+            <h1>{{ __('medical.section_title_edit') }}</h1>
             @if (isset($user))
                 <form action="{{ route('user.update', $user->id) }}" method="post">
                     @csrf

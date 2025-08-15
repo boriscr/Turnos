@@ -1,10 +1,10 @@
 <x-app-layout>
     <div class="content-wrapper">
-        <H3 class="title-form">Detalles</H3>
+        <h1>Detalles</h1>
 
         <div class="section-container full-center">
             <div class="card">
-                <h1><b>Datos Personales</b></h1>
+                <h2>Datos Personales</h2>
                 <p><b>Nombre y surname: </b>{{ $user->name . ' ' . $user->surname }}</p>
                 <p><b>DNI: </b>{{ $user->idNumber }}</p>
                 <p><b>Fecha de nacimiento: </b>{{ \Carbon\Carbon::parse($user->birthdate)->format('d/m/Y') }}</p>
@@ -18,14 +18,14 @@
 
             </div>
             <div class="card">
-                <h1><b>Direccion</b></h1>
+                <h2>Direccion</h2>
                 <p><b>Pais: </b> {{ $user->country }}</p>
                 <p><b>Provincia: </b>{{ $user->province }}</p>
                 <p><b>Ciudad: </b>{{ $user->city }}</p>
                 <p><b>Calle: </b>{{ $user->address }}</p>
             </div>
             <div class="card">
-                <h1><b>Datos de contacto</b></h1>
+                <h2>Datos de contacto</h2>
                 <p><b>Teléfono: </b>{{ $user->phone }}</p>
                 <p><b>Correo electrónico: </b>{{ $user->email }}</p>
             </div>

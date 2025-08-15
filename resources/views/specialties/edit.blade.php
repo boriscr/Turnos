@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Editar datos de la specialty</h3>
+            <h1>Editar datos de la especialidad</h1>
             <x-form.specialty
                 :ruta="route('specialty.update', $specialty->id)"
                 :edit="true"

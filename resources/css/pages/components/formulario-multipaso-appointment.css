@@ -15,8 +15,8 @@
 }
 
 .step.active {
-    background: #4CAF50;
-    color: white;
+    background: var(--general_design_color);
+    color: #fff;
 }
 
 .form-step {

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Historial</h3>
+            <h1>Historial</h1>
             <table>
                 <thead>
                     <tr>

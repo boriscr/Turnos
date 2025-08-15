@@ -16,7 +16,7 @@
 }
 
 .calendar-container .bi {
-    color: #3b82f6;
+    color: var(--general_design_color);
 }
 
 .calendar-header {
@@ -62,7 +62,7 @@
 }
 
 .days-grid button.selected {
-    background-color: #3b82f6;
+    background-color: var(--general_design_color);
     color: white;
 }
 
@@ -71,7 +71,7 @@
 }
 
 .days-grid button.today {
-    border: 2px solid #3b82f6;
+    border: 2px solid var(--general_design_color);
 }
 
 .days-grid button.disabled {
@@ -103,9 +103,9 @@
 }
 
 .mode-selector button.active {
-    background: #3b82f6 !important;
+    background: var(--general_design_color) !important;
     color: white;
-    border-color: #3b82f6;
+    border-color: var(--general_design_color);
 }
 
 .toggle-weekends {
@@ -132,7 +132,7 @@
 }
 
 .toggle-switch.enabled {
-    background: #2563eb;
+    background: var(--general_design_color);
 }
 
 .toggle-thumb {
@@ -156,6 +156,7 @@
         font-size: 0.7rem;
     }
 }
+
 @media (max-width: 360px) {
     #weekdays>* {
         font-size: 0.6.5rem;

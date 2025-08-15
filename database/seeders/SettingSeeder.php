@@ -107,6 +107,11 @@ class SettingSeeder extends Seeder
                     'type' => 'string',
                     'desc' => 'Color de texto para títulos y encabezados'
                 ],
+                'subtitle_text_color' => [
+                    'value' => '#4CAF50', // Verde claro
+                    'type' => 'string',
+                    'desc' => 'Color de texto para subtítulos y encabezados'
+                ],
                 'dark_text_color' => [
                     'value' => '#FFFAFA', // Blanco nieve
                     'type' => 'string',

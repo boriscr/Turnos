@@ -2,7 +2,7 @@
 
     <div class="main full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">{{ __('reservation.title_text') }}</h3>
+            <h1>{{ __('reservation.title_text') }}</h1>
 
             <!-- Indicador de pasos -->
             <div class="step-indicator">
@@ -99,7 +99,8 @@
                             <i class="bi bi-chevron-left"></i>{{ __('button.back') }}
                         </button>
                         <x-primary-button>
-                            <i class="bi bi-check-circle-fill text-success"></i><span>{{ __('button.confirm') }}</span>
+                            {{ __('button.confirm') }}
+                            <i class="bi bi-check-circle"></i>
                         </x-primary-button>
                     </div>
                 </div>

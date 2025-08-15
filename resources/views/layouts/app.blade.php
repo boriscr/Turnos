@@ -24,6 +24,7 @@
             --general_design_color: {{ setting('design.general_design_color') }};
             /*Colores de los textos*/
             --title_text_color: {{ setting('design.title_text_color') }};
+            --subtitle_text_color: {{ setting('design.subtitle_text_color') }};
             --dark_text_color: {{ setting('design.dark_text_color') }};
             --light_text_color: {{ setting('design.light_text_color') }};
             /*Color texto letra pequeña (Small)*/

@@ -1,12 +1,19 @@
-h1,
+h1 {
+    color: var(--title_text_color);
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem !important;
+    margin: 15px 0px !important;
+}
+
 h2,
 h3,
 h4,
 h5 {
-    color: var(--title_text_color) !important;
+    color: var(--subtitle_text_color);
     text-align: center;
-    font-weight: bold !important;
-    font-size: 23px !important;
+    font-weight: bold;
+    font-size: 1.1rem !important;
 }
 
 b {
@@ -42,7 +49,7 @@ b {
     }
 
     small {
-        color: var(--text_color_small_light);
+        color: var(--text_color_small_light) !important;
 
     }
 

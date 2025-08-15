@@ -1,7 +1,7 @@
 <x-app-layout>
     @if (isset($reservation) && $reservation->availableAppointment->appointment->status === true)
         <div class="content-wrapper">
-            <h3 class="title-form">Detalles</h3>
+            <h1>Detalles</h1>
             <div class="section-container full-center">
                 <div class="card">
                     <h1>Mis datos</h1>
@@ -39,7 +39,7 @@
         </div>
     @else
         <div class="content-wrapper">
-            <h3 class="title-form">Upss...</h3>
+            <h1>Upss...</h1>
             <div class="card-error full-center">
                 <div class="card">
                     <div class="mensaje-error-box">

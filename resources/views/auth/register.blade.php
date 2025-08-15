@@ -7,7 +7,7 @@
             <template x-for="s in 3">
                 <div class="flex items-center">
                     <div :class="{
-                        'bg-green-500 text-white': step > s,
+                        'bg-[var(--general-design-color)] text-white': step > s,
                         'bg-grey-500 text-white': step ===
                             s,
                         'bg-gray-300 text-gray-700': step < s
@@ -16,7 +16,7 @@
                         <span x-text="s"></span>
                     </div>
                     <div x-show="s !== 3" class="h-1 w-10"
-                        :class="{ 'bg-green-500': step > s, 'bg-gray-300': step <= s }">
+                        :class="{ 'bg-[var(--general-design-color)]': step > s, 'bg-gray-300': step <= s }">
                     </div>
                 </div>
             </template>

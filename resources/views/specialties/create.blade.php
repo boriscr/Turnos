@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Crear specialty</h3>
+            <h1>Crear especialidad</h1>
 
             <x-form.specialty
                 :ruta="route('specialty.store')"

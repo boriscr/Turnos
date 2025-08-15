@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="content-wrapper">
-        <H3 class="title-form">
+        <h2>
             @if (Auth::user()->gender == 'Masculino')
                 Bienvenido, {{ Auth::user()->name }}
             @elseif(Auth::user()->gender == 'Femenino')
@@ -8,12 +8,12 @@
             @else
                 Hola, {{ Auth::user()->name }}
             @endif
-            </H1>
+        </h2>
 
             <!-- Para nuevos users -->
             @if (Auth::user()->is_new_user)
                 <div class="welcome-guide">
-                    <h2>¡Bienvenido a nuestro sistema de appointments online!</h2>
+                    <h3>¡Bienvenido a nuestro sistema de appointments online!</h3>
                     <div class="guide-steps">
                         <div class="step">
                             <i class="icon-user-check"></i>

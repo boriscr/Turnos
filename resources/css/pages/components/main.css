@@ -3,7 +3,9 @@
     justify-content: center;
     align-items: center;
 }
-
+.item{
+    margin-top: 10px;
+}
 .error {
     color: red;
 }

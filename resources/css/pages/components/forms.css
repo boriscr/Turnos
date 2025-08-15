@@ -37,13 +37,6 @@
     color: var(--light_text_color);
 }
 
-/*Titulo agg doctor y user*/
-.title-form {
-    text-align: center;
-    margin: 10px 0px;
-    font-size: 25px;
-}
-
 form {
     width: 100%;
     padding: 10px;
@@ -89,6 +82,7 @@ input[type="color"] {
 select {
     width: 100%;
     padding: 10px;
+    text-align: center;
 }
 
 option {
@@ -217,10 +211,6 @@ option {
     .container-form-register {
         width: 90%;
         padding: 10px;
-    }
-
-    .title-form {
-        font-size: 20px;
     }
 
     input,

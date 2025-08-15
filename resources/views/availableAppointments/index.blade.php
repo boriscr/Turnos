@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h3 class="title-form">Appointments creados</h3>
+            <h1>Turnos creados</h1>
             <div class="mb-4">
                 <!-- Formulario de búsqueda y filtros rápidos -->
                 <form action="{{ route('availableAppointments.index') }}" method="GET" class="mb-4" id="filterForm">
@@ -116,7 +116,7 @@
 
                 <!-- Formulario de rango de fechas personalizado -->
                 <form action="{{ route('availableAppointments.index') }}" method="GET" class="mb-4 border p-3 rounded">
-                    <h5 class="mb-3">Filtrar por rango de fechas</h5>
+                    <h3 class="mb-3">Filtrar por rango de fechas</h3>
 
                     <div class="row align-items-end">
                         <!-- Mantener el filtro de reservations en el formulario de rango -->
@@ -150,7 +150,7 @@
 
         <div class="main-table full-center">
             <div class="container-form full-center">
-                <h3 class="title-form">Appointments reservados</h3>
+                <h2>Turnos reservados</h2>
                 <table>
                     <thead>
                         <tr>

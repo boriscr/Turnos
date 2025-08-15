@@ -4,7 +4,7 @@
         @method('PUT')
     @endif
     @if (isset($crear))
-        <h3 class="title-form">{{ __('specialty.btn_name') }}</h3>
+        <h1>{{ __('specialty.btn_name') }}</h1>
         <hr>
     @endif
     <x-form.text-input type="text" name="name" label="{{ __('specialty.name') }}"

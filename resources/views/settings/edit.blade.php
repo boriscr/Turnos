@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="main full-center">
-        <H3 class="title-form">{{ __('navbar.settings') }}</H3>
+        <h1>{{ __('navbar.settings') }}</h1>
         <div class="container-form full-center">
             <form action="{{ route('settings.update') }}" method="post">
                 @csrf
                 @method('PUT')
                 <div class="form-grid">
-                    <h3>{{ __('medical.setting.title_1') }}</h3>
+                    <h2>{{ __('medical.setting.title_1') }}</h2>
                     <x-form.text-input type="text" name="app[name]" :label="__('medical.setting.name')"
                         context="{{ __('medical.setting.name_context') }}" minlength="3" maxlength="255"
                         :required="true" value="{{ $settings['app.name'] }}" />
@@ -29,7 +29,7 @@
                 </div>
                 <br>
                 <div class="item-reservations">
-                    <h3>{{ __('medical.setting.title_2') }}</h3>
+                    <h2>{{ __('medical.setting.title_2') }}</h2>
                     <x-form.text-input type="number" name="appointments[maximum_faults]" :label="__('medical.setting.maximum_faults')"
                         context="{{ __('medical.setting.maximum_faults_context') }}" minlength="0" :required="true"
                         value="{{ $settings['appointments.maximum_faults'] }}" />
@@ -69,13 +69,15 @@
                 </div>
                 <br>
                 <div class="item-colores">
-                    <h3>{{ __('medical.setting.title_3') }}</h3>
+                    <h2>{{ __('medical.setting.title_3') }}</h2>
                     <div class="card">
                         <h5>{{ __('medical.setting.subtitle_1') }}</h5>
                         <x-form.text-input type="color" name="design[general_design_color]" :label="__('medical.setting.general_design_color')"
                             value="{{ $settings['design.general_design_color'] }}" />
                         <x-form.text-input type="color" name="design[title_text_color]" :label="__('medical.setting.title_text_color')"
                             value="{{ $settings['design.title_text_color'] }}" />
+                        <x-form.text-input type="color" name="design[subtitle_text_color]" :label="__('medical.setting.subtitle_text_color')"
+                            value="{{ $settings['design.subtitle_text_color'] }}" />
                         <x-form.text-input type="color" name="design[primary_color_btn]" :label="__('medical.setting.primary_color_btn')"
                             value="{{ $settings['design.primary_color_btn'] }}" />
                         <x-form.text-input type="color" name="design[secondary_color_btn]" :label="__('medical.setting.secondary_color_btn')"
@@ -85,7 +87,7 @@
                     </div>
                     <hr>
                     <div class="card dark-card">
-                        <h5>{{ __('medical.setting.subtitle_2') }}</h5>
+                        <h3>{{ __('medical.setting.subtitle_2') }}</h3>
                         <x-form.text-input type="color" name="design[dark_application_background]" :label="__('medical.setting.application_background')"
                             value="{{ $settings['design.dark_application_background'] }}" />
                         <x-form.text-input type="color" name="design[dark_text_color]" :label="__('medical.setting.text_color')"
@@ -101,7 +103,7 @@
                     </div>
                     <hr>
                     <div class="card light-card">
-                        <h5>{{ __('medical.setting.subtitle_3') }}</h5>
+                        <h3>{{ __('medical.setting.subtitle_3') }}</h3>
                         <x-form.text-input type="color" name="design[light_application_background]"
                             :label="__('medical.setting.application_background')" value="{{ $settings['design.light_application_background'] }}" />
                         <x-form.text-input type="color" name="design[light_text_color]" :label="__('medical.setting.text_color')"
