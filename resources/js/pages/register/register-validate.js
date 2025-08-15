@@ -32,8 +32,10 @@ document.addEventListener('DOMContentLoaded', function () {
             case 'surname':
                 if (!value) {
                     showError(field, 'Este campo es obligatorio');
-                } else if (value.length > 255) {
-                    showError(field, 'Máximo 255 caracteres permitidos');
+                } else if (value.length > 40) {
+                    showError(field, 'Máximo 40 caracteres permitidos.');
+                } else if (value.length < 3) {
+                    showError(field, 'Mínimo 3 caracteres requeridos.');
                 }
                 break;
 
@@ -74,14 +76,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 break;
 
-            case 'country':
             case 'province':
             case 'city':
+                if (!value) {
+                    showError(field, 'Este campo es obligatorio');
+                } else if (value.length > 50) {
+                    showError(field, 'Máximo 50 caracteres permitidos.');
+                }
+                else if (value.length < 3) {
+                    showError(field, 'Mínimo 3 caracteres requeridos.');
+                }
+                break;
+
             case 'address':
                 if (!value) {
                     showError(field, 'Este campo es obligatorio');
-                } else if (value.length > 255) {
-                    showError(field, 'Máximo 255 caracteres permitidos');
+                } else if (value.length > 100) {
+                    showError(field, 'Máximo 100 caracteres permitidos.');
+                } else if (value.length < 10) {
+                    showError(field, 'Mínimo 10 caracteres requeridos.');
                 }
                 break;
 
@@ -89,9 +102,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!value) {
                     showError(field, 'El teléfono es obligatorio');
                 } else if (value.length < 9) {
-                    showError(field, 'Mínimo 9 caracteres permitidos');
+                    showError(field, 'Mínimo 9 caracteres requeridos.');
                 } else if (value.length > 15) {
-                    showError(field, 'Máximo 15 caracteres permitidos');
+                    showError(field, 'Máximo 15 caracteres permitidos.');
                 } else if (!/^[\d\s+-]+$/.test(value)) {
                     showError(field, 'Ingresa un número de teléfono válido');
                 }
@@ -102,8 +115,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     showError(field, 'El email es obligatorio');
                 } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
                     showError(field, 'Ingresa un email válido');
-                } else if (value.length > 255) {
-                    showError(field, 'Máximo 255 caracteres permitidos');
+                } else if (value.length > 60) {
+                    showError(field, 'Máximo 60 caracteres permitidos.');
+                }
+                else if (value.length < 5) {
+                    showError(field, 'Mínimo 5 caracteres requeridos.');
                 }
                 break;
 
@@ -111,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!value) {
                     showError(field, 'La contraseña es obligatoria');
                 } else if (value.length < 12) {
-                    showError(field, 'Mínimo 12 caracteres requeridos');
+                    showError(field, 'Mínimo 12 caracteres requeridos.');
                 } else if (!/[A-Z]/.test(value)) {
                     showError(field, 'Debe contener al menos una mayúscula');
                 } else if (!/[a-z]/.test(value)) {

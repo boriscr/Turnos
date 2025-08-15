@@ -27,12 +27,12 @@
             <h1>{{ __('Register') }}</h1>
             <div class="mt-4">
                 <x-input-label for="name" :value="__('contact.name')" />
-                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" required />
+                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" minlength="3" maxlength="40"  required />
                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
             </div>
             <div class="mt-4">
                 <x-input-label for="surname" :value="__('contact.surname')" />
-                <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" required />
+                <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" minlength="3" maxlength="40" required />
                 <x-input-error :messages="$errors->get('surname')" class="mt-2" />
             </div>
 
@@ -134,19 +134,19 @@
 
             <div class="mt-4">
                 <x-input-label for="province" :value="__('contact.province')" />
-                <x-text-input id="province" class="block mt-1 w-full" type="text" name="province" required />
+                <x-text-input id="province" class="block mt-1 w-full" type="text" name="province" minlength="3" maxlength="50" required />
                 <x-input-error :messages="$errors->get('province')" class="mt-2" />
             </div>
 
             <div class="mt-4">
                 <x-input-label for="city" :value="__('contact.city')" />
-                <x-text-input id="city" class="block mt-1 w-full" type="text" name="city" required />
+                <x-text-input id="city" class="block mt-1 w-full" type="text" name="city" minlength="3" maxlength="50" required />
                 <x-input-error :messages="$errors->get('city')" class="mt-2" />
             </div>
 
             <div class="mt-4">
                 <x-input-label for="address" :value="__('contact.address')" />
-                <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" required />
+                <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" minlength="10" maxlength="100" required />
                 <x-input-error :messages="$errors->get('address')" class="mt-2" />
             </div>
 
@@ -163,12 +163,12 @@
             <h1>{{ __('contact.contact_and_access') }}</h1>
             <div class="mt-4">
                 <x-input-label for="phone" :value="__('contact.phone')" />
-                <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" required />
+                <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" minlength="9" maxlength="15" required />
                 <x-input-error :messages="$errors->get('phone')" class="mt-2" />
             </div>
             <div class="mt-4">
                 <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" required />
+                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" minlength="5" maxlength="60" required />
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
@@ -199,8 +199,6 @@
             </div>
         </div>
     </form>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         function registerForm() {

@@ -73,7 +73,7 @@
                         <option value="">{{ __('reservation.date_option') }}</option>
                     </x-form.select>
 
-                    
+
                     <x-form.select name="appointment_time" :label="__('reservation.time')" icon="bi-5-circle" :required="true">
                         <option value="">{{ __('reservation.time_option') }}</option>
                         <input type="hidden" name="appointment_id" id="appointment_id">
@@ -154,7 +154,8 @@
                     Swal.fire({
                         title: '¿Confirmar turno?',
                         background: isDarkMode ?
-                            'var(--dark_application_background)' : 'var(--light_application_background)',
+                            'var(--dark_application_background)' :
+                            'var(--light_application_background)',
                         color: isDarkMode ?
                             'var(--dark_text_color)' : 'var(--light_text_color)',
                         confirmButtonColor: 'var(--primary_color_btn)',

@@ -1,8 +1,8 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium">
+        <h1 class="text-lg font-medium">
             {{ __('Profile Information') }}
-        </h2>
+        </h1>
 
         <p class="mt-1 text-sm">
             {{ __("Update your account's profile information and email address.") }}
@@ -20,28 +20,28 @@
         <div x-show="step === 1" x-transition>
             <h1>Registro</h1>
             <div>
-                <x-input-label for="name" :value="__('Nombre/s')" />
-                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)"
+                <x-input-label for="name" :value="__('contact.name')" />
+                <x-text-input id="name" name="name" type="text" minlength="3" maxlength="40" class="mt-1 block w-full" :value="old('name', $user->name)"
                     required autofocus autocomplete="name" />
                 <x-input-error class="mt-2" :messages="$errors->get('name')" />
             </div>
 
             <div>
-                <x-input-label for="surname" :value="__('Apellido')" />
-                <x-text-input id="surname" name="surname" type="text" class="mt-1 block w-full" :value="old('surname', $user->surname)"
+                <x-input-label for="surname" :value="__('contact.surname')" />
+                <x-text-input id="surname" name="surname" type="text" minlength="3" maxlength="40" class="mt-1 block w-full" :value="old('surname', $user->surname)"
                     required autofocus autocomplete="surname" />
                 <x-input-error class="mt-2" :messages="$errors->get('surname')" />
             </div>
 
             <div>
-                <x-input-label for="idNumber" :value="__('DNI')" />
+                <x-input-label for="idNumber" :value="__('contact.idNumber')" />
                 <x-text-input style="background: transparent; border: 1px solid gray" id="idNumber" name="idNumber"
-                    type="text" class="mt-1 block w-full" :value="old('idNumber', $user->idNumber)" readonly />
+                    type="text" minlength="7" maxlength="8" class="mt-1 block w-full" :value="old('idNumber', $user->idNumber)" readonly />
                 <x-input-error class="mt-2" :messages="$errors->get('idNumber')" />
             </div>
 
             <div>
-                <x-input-label for="birthdate" :value="__('Fecha de nacimiento')" />
+                <x-input-label for="birthdate" :value="__('contact.birthdate')" />
                 <x-text-input id="birthdate" name="birthdate" type="date" class="mt-1 block w-full"
                     :value="old('birthdate', $user->birthdate)" required autofocus autocomplete="birthdate" />
                 <x-input-error class="mt-2" :messages="$errors->get('birthdate')" />
@@ -49,7 +49,7 @@
             </div>
 
             <div class="mt-4">
-                <x-input-label for="gender" :value="__('Género')" />
+                <x-input-label for="gender" :value="__('contact.gender')" />
                 <select name="gender" id="gender" class="w-full rounded p-2" required>
                     <option value="">Selecciona...</option>
                     <option {{ $user->gender == 'Femenino' ? 'selected' : '' }} value="Femenino">Femenino</option>
@@ -67,9 +67,9 @@
         <!-- Paso 2 -->
         <div x-show="step === 2" x-transition>
             <!-- Address -->
-            <h1>Domicillio</h1>
+            <h1>{{ __('contact.address') }}</h1>
             <div class="mt-4">
-                <x-input-label for="country" :value="__('Pais')" />
+                <x-input-label for="country" :value="__('contact.country')" />
                 <select name="country" id="country">
                     <option {{ $user->country == 'Argentina' ? 'selected' : '' }} value="Argentina">Argentina</option>
                     <!-- Países de América -->
@@ -131,22 +131,22 @@
             </div>
 
             <div class="mt-4">
-                <x-input-label for="province" :value="__('Provincia')" />
-                <x-text-input id="province" class="block mt-1 w-full" type="text" name="province" required
+                <x-input-label for="province" :value="__('contact.province')" />
+                <x-text-input id="province" class="block mt-1 w-full" type="text" name="province" minlength="3" maxlength="50" required
                     :value="old('province', $user->province)" />
                 <x-input-error :messages="$errors->get('province')" class="mt-2" />
             </div>
 
             <div class="mt-4">
-                <x-input-label for="city" :value="__('Ciudad')" />
-                <x-text-input id="city" class="block mt-1 w-full" type="text" name="city" required
+                <x-input-label for="city" :value="__('contact.city')" />
+                <x-text-input id="city" class="block mt-1 w-full" type="text" name="city" minlength="3" maxlength="50" required
                     :value="old('city', $user->city)" />
                 <x-input-error :messages="$errors->get('city')" class="mt-2" />
             </div>
 
             <div class="mt-4">
-                <x-input-label for="address" :value="__('Calle, número y barrio')" />
-                <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" required
+                <x-input-label for="address" :value="__('contact.address')" />
+                <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" minlength="10" maxlength="100" required
                     :value="old('address', $user->address)" />
                 <x-input-error :messages="$errors->get('address')" class="mt-2" />
             </div>
@@ -154,17 +154,17 @@
 
         <!-- Paso 3 -->
         <div x-show="step === 3" x-transition>
-            <h1>Contacto</h1>
+            <h1>{{ __('contact.contact_and_access') }}</h1>
             <div class="mt-4">
-                <x-input-label for="phone" :value="__('Teléfono')" />
-                <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone" required
+                <x-input-label for="phone" :value="__('contact.phone')" />
+                <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone" minlength="9" maxlength="15" required
                     :value="old('phone', $user->phone)" />
                 <x-input-error :messages="$errors->get('phone')" class="mt-2" />
             </div>
 
             <div>
                 <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" name="email" type="email" class="mt-1 block w-full"
+                <x-text-input id="email" name="email" type="email" minlength="5" maxlength="60" class="mt-1 block w-full"
                     :value="old('email', $user->email)" required autocomplete="username" />
                 <x-input-error class="mt-2" :messages="$errors->get('email')" />
 

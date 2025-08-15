@@ -62,9 +62,11 @@ class RegisteredUserController extends Controller
 
         session()->flash('success', [
             'title' => 'Registro exitoso',
-            'message' => '¡Bienvenido/a! Tu cuenta ha sido creada exitosamente.',
+            'html' => '<h1>¡Holaa!</h1> 
+                <h2>Tu cuenta ha sido creada exitosamente.</h2>
+                <h3>Te invitamos a leer las normas de la aplicación para aprovecharla al máximo y evitar problemas.</h3>
+                <a href="">Revisar ahora</a>',
             'icon' => 'success',
-            'timer' => 3000,
         ]);
 
         return redirect(route('home', absolute: false));

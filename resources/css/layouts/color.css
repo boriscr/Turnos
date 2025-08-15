@@ -14,9 +14,14 @@ h5 {
     text-align: center;
     font-weight: bold;
     font-size: 1.1rem !important;
+    word-wrap: break-word;
+    /* Compatibilidad antigua */
+    overflow-wrap: break-word;
+    /* Estándar moderno */
 }
 
-b {
+b,
+a {
     color: var(--general_design_color);
 }
 

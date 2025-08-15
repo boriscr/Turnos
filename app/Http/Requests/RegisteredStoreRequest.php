@@ -30,7 +30,7 @@ class RegisteredStoreRequest extends FormRequest
             'gender' => ['required', 'string', 'in:Masculino,Femenino,No binario,Otro,Prefiero no decir'],
             'country' => ['required', 'string', 'min:3', 'max:50'],
             'province' => ['required', 'string', 'min:3', 'max:50'],
-            'city' => ['required', 'string', 'min:2', 'max:50'],
+            'city' => ['required', 'string', 'min:3', 'max:50'],
             'address' => ['required', 'string', 'min:10', 'max:100'],
             'phone' => ['required', 'string', 'min:9', 'max:15', 'unique:' . User::class],
             'email' => ['required', 'string', 'email', 'min:5', 'max:60', 'unique:' . User::class],
