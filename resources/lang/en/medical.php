@@ -68,6 +68,7 @@ return [
         'primary_color_btn' => 'Primary Button Color',
         'secondary_color_btn' => 'Secondary Button Color',
         'btn_text_color' => 'Button Text Color',
+        'footer_background' => 'Footer background color',
 
         // Dark/Light Modes
         'application_background' => 'Application Background Color',

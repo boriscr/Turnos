@@ -1,0 +1,6 @@
+footer {
+    margin-top: 50px;
+    flex-direction: column;
+    background-color: var(--footer_background);
+    padding: 30px 10px;
+}

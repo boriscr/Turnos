@@ -20,6 +20,8 @@
             /*Color de fondo de la aplicacion*/
             --dark_application_background: {{ setting('design.dark_application_background') }};
             --light_application_background: {{ setting('design.light_application_background') }};
+            /*Color de fondo del pie de página*/
+            --footer_background: {{ setting('design.footer_background') }};
             /*Color de diseño general*/
             --general_design_color: {{ setting('design.general_design_color') }};
             /*Colores de los textos*/
@@ -73,6 +75,8 @@
             {{ $slot }}
         </main>
     </div>
+    @include('layouts.footer')
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite(['resources/js/app.js'])
 </body>

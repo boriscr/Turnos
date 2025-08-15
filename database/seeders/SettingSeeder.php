@@ -112,6 +112,11 @@ class SettingSeeder extends Seeder
                     'type' => 'string',
                     'desc' => 'Color de texto para subtítulos y encabezados'
                 ],
+                'footer_background' => [
+                    'value' => '#000000', // negro
+                    'type' => 'string',
+                    'desc' => 'Color de texto para subtítulos y encabezados'
+                ],
                 'dark_text_color' => [
                     'value' => '#FFFAFA', // Blanco nieve
                     'type' => 'string',

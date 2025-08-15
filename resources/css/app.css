@@ -2,6 +2,8 @@
 @import 'layouts/navbar.css';
 @import 'layouts/icon.css';
 @import 'layouts/color.css';
+@import 'layouts/footer.css';
+
 /*Components*/
 @import 'pages/components/main.css';
 @import 'pages/components/buttons.css';

@@ -29,6 +29,8 @@ class SettingsServiceProvider extends ServiceProvider
             'design.general_design_color' => setting('design.general_design_color'),
             'design.title_text_color' => setting('design.title_text_color'),
             'design.subtitle_text_color' => setting('design.subtitle_text_color'),
+            'design.footer_background' => setting('design.footer_background'),
+            
             'design.dark_text_color' => setting('design.dark_text_color'),
             'design.light_text_color' => setting('design.light_text_color'),
             'design.text_color_small_dark' => setting('design.text_color_small_dark'),
@@ -49,9 +51,11 @@ class SettingsServiceProvider extends ServiceProvider
         // Cargar configuraciones importantes
         config([
             'app.name' => setting('app.name', config('app.name')),
-            'app.description' => setting('app.description'),
+            'app.welcome_message' => setting('app.welcome_message'),
+            'app.footer' => setting('app.footer'),
+            'app.institution_name' => setting('app.institution_name'),
             'app.patient_message' => setting('app.patient_message'),
-
+            'app.logo_url' => setting('app.logo_url'),
         ]);
     }
 }

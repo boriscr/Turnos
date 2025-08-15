@@ -8,8 +8,8 @@
                 <div class="form-grid">
                     <h2>{{ __('medical.setting.title_1') }}</h2>
                     <x-form.text-input type="text" name="app[name]" :label="__('medical.setting.name')"
-                        context="{{ __('medical.setting.name_context') }}" minlength="3" maxlength="255"
-                        :required="true" value="{{ $settings['app.name'] }}" />
+                        context="{{ __('medical.setting.name_context') }}" minlength="3" maxlength="255" :required="true"
+                        value="{{ $settings['app.name'] }}" />
 
                     <x-form.textarea name="app[welcome_message]" label="{{ __('medical.setting.welcome_message') }}"
                         context="{{ __('medical.setting.welcome_message_context') }}" minlength="20" maxlength="500"
@@ -84,12 +84,14 @@
                             value="{{ $settings['design.secondary_color_btn'] }}" />
                         <x-form.text-input type="color" name="design[btn_text_color]" :label="__('medical.setting.btn_text_color')"
                             value="{{ $settings['design.btn_text_color'] }}" />
+                        <x-form.text-input type="color" name="design[footer_background]" :label="__('medical.setting.footer_background')"
+                            value="{{ $settings['design.footer_background'] }}" />
                     </div>
                     <hr>
                     <div class="card dark-card">
                         <h3>{{ __('medical.setting.subtitle_2') }}</h3>
-                        <x-form.text-input type="color" name="design[dark_application_background]" :label="__('medical.setting.application_background')"
-                            value="{{ $settings['design.dark_application_background'] }}" />
+                        <x-form.text-input type="color" name="design[dark_application_background]"
+                            :label="__('medical.setting.application_background')" value="{{ $settings['design.dark_application_background'] }}" />
                         <x-form.text-input type="color" name="design[dark_text_color]" :label="__('medical.setting.text_color')"
                             value="{{ $settings['design.dark_text_color'] }}" />
                         <x-form.text-input type="color" name="design[text_color_small_dark]" :label="__('medical.setting.text_color_small')"

@@ -68,6 +68,7 @@ return [
         'primary_color_btn' => 'Color principal para botones',
         'secondary_color_btn' => 'Color secundario para botones',
         'btn_text_color' => 'Color del texto en botones',
+        'footer_background' => 'Color de fondo del pie de página',
 
         // Modos oscuro/claro
         'application_background' => 'Color de fondo de la aplicación',

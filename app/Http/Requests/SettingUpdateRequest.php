@@ -42,6 +42,8 @@ class SettingUpdateRequest extends FormRequest
             'design.title_text_color' => ['required', 'string', 'max:10'],
             'design.subtitle_text_color' => ['required', 'string', 'max:10'],
             'design.dark_text_color' => ['required', 'string', 'max:10'],
+            'design.footer_background' => ['required', 'string', 'max:10'],
+
             'design.light_text_color' => ['required', 'string', 'max:10'],
             //Color texto letra pequeña (Small)
             'design.text_color_small_dark' => ['required', 'string', 'max:10'],
