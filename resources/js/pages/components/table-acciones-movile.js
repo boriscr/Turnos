@@ -39,9 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Construir el contenido del box
         box.innerHTML = `
-                    <a href="#" class="paciente-info">${pacienteNombre}</a>
+                    <h1> <a href="#" class="paciente-info">${pacienteNombre}</a></h1>
                     <hr>
-                    <h1>Acciones</h1>
                     <hr>
                     <div class="contenido-accionesMovil">
                         ${verLink}

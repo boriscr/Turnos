@@ -19,6 +19,14 @@
     color: #fff;
 }
 
+.step .bi {
+    color: grey;
+}
+
+.step.active .bi {
+    color: var(--btn_text_color);
+}
+
 .form-step {
     display: none;
 }

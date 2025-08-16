@@ -116,7 +116,9 @@
     background-color: #e0a800;
     /* Amarillo más intenso */
 }
-
+.btn-edit .bi{
+    color: #fff;
+}
 .btn-delete {
     background-color: #dc3545;
 }

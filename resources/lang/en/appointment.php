@@ -3,17 +3,21 @@ return [
     'create_title' => 'Create appointment',
     'edit_title' => 'Edit appointment',
     'creation' => 'Creation',
+    'index_title' => 'Appointments created',
 
     'shift' => [
         'title' => 'Select time block',
+        'name' => 'Shift',
         'morning_shift' => 'Morning',
         'afternoon_shift' => 'Afternoon',
         'night_shift' => 'Night',
     ],
 
     'schedule' => [
-        'title' => 'Schedule settings',
-        'number_of_slots' => 'Number of reservations',
+        'title' => 'Opening hours',
+        'number_of_slots' => 'Number of reservations per day',
+        'total_amount_of_reservations' => 'Total amount of reservations',
+        'number_of_dates'=>'Number of dates',
         'start_time' => 'Start time',
         'end_time' => 'End time',
         'single' => 'Assign reservations in a single time block.',

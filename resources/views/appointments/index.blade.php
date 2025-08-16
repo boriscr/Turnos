@@ -1,18 +1,18 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h1>Turnos creados</h1>
+            <h1>{{ __('appointment.index_title') }}</h1>
             <table>
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Nombre</th>
-                        <th class="option-movil">Direccion</th>
-                        <th class="option-movil">Specialty</th>
-                        <th>Encargado</th>
-                        <th class="option-movil">Turno</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
+                        <th>{{ __('reservation.title_name') }}</th>
+                        <th class="option-movil">{{ __('contact.address') }}</th>
+                        <th class="option-movil">{{ __('specialty.title') }}</th>
+                        <th>{{ __('medical.doctor') }}</th>
+                        <th class="option-movil">{{ __('appointment.shift.name') }}</th>
+                        <th>{{ __('medical.status') }}</th>
+                        <th>{{ __('medical.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,20 +23,24 @@
                             <td class="option-movil">{{ $appointment->address }}</td>
                             <td class="option-movil">{{ $appointment->specialty->name }}</td>
                             <td>{{ $appointment->doctor->name . ' ' . $appointment->doctor->surname }}</td>
-                            <td class="option-movil">{{ $appointment->shift }}</td>
-                            <td>{{ $appointment->status ? 'Activo' : 'Inactivo' }}</td>
+                            <td class="option-movil">
+                                {{ $appointment->shift === 'morning' ? __('appointment.shift.morning_shift') : ($appointment->shift === 'afternoon' ? __('appointment.shift.afternoon_shift') : __('appointment.shift.night_shift')) }}
+                            </td>
+                            <td>{{ $appointment->status ? __('medical.active') : __('medical.inactive') }}</td>
                             <td class="acciones full-center">
                                 <a href="{{ route('appointments.show', $appointment->id) }}" class="btn btn-view"><i
-                                        class="bi bi-eye"></i><b class="accionesMovil">Ver</b></a>
+                                        class="bi bi-eye"></i><b class="accionesMovil">{{ __('button.view') }}</b></a>
                                 <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn btn-edit"><i
-                                        class="bi bi-pencil-fill"></i><b class="accionesMovil">Editar</b></a>
+                                        class="bi bi-pencil-fill"></i><b
+                                        class="accionesMovil">{{ __('button.edit') }}</b></a>
 
                                 <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST"
                                     class="delete-form" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-delete delete-btn">
-                                        <i class="bi bi-trash-fill"></i><b class="accionesMovil">Eliminar</b>
+                                        <i class="bi bi-trash-fill"></i><b
+                                            class="accionesMovil">{{ __('button.delete') }}</b>
                                     </button>
                                 </form>
                             </td>

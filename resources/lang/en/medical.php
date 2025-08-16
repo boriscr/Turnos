@@ -13,8 +13,20 @@ return [
     'status' => 'Status',
     'active' => 'Active',
     'inactive' => 'Inactive',
+    'actions' => 'Actions',
     'section_title_add' => 'Add new',
     'section_title_edit' => 'Edit data',
+    'created_by' => 'Created by',
+    'creation_date' => 'Creation date',
+    'updated_by' => 'Updated by',
+    'update_date' => 'Update date',
+
+    'titles' => [
+        'details' => 'Details',
+        'management'=>'Management',
+        'creation'=>'Creation',
+    ],
+
     'setting' => [
         'title_1' => 'Custom Content',
         'title_2' => 'Booking Settings',

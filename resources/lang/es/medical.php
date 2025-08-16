@@ -13,8 +13,19 @@ return [
     'status' => 'Estado',
     'active' => 'Activo',
     'inactive' => 'Inactivo',
+    'actions' => 'Acciones',
     'section_title_add' => 'Agregar nuevo',
     'section_title_edit' => 'Editar datos',
+    'created_by' => 'Creado por',
+    'creation_date' => 'Fecha de creación',
+    'updated_by' => 'Actualizado por',
+    'update_date' => 'Fecha de actualizacion',
+
+    'titles' => [
+        'details' => 'Detalle',
+        'management' => 'Gestión',
+        'creation' => 'Creación',
+    ],
     'setting' => [
         'title_1' => 'Contenido personalizado',
         'title_2' => 'Configuración de reservas',

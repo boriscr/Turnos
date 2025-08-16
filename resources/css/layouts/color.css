@@ -21,19 +21,19 @@ h5 {
 }
 
 b,
-a {
+a,
+.bi {
     color: var(--general_design_color);
 }
 
+button .bi {
+    color: var(--btn_text_color);
+}
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     body {
         background-color: var(--dark_application_background) !important;
-        color: var(--dark_text_color);
-    }
-
-    .bi {
         color: var(--dark_text_color);
     }
 
