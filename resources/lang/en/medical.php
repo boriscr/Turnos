@@ -20,11 +20,17 @@ return [
     'creation_date' => 'Creation date',
     'updated_by' => 'Updated by',
     'update_date' => 'Update date',
-
+    'no_data'=>'No data',
+    'no_profile'=>'No user profile',
+    'profile'=>'Profile',
+    
     'titles' => [
+        'appointment_index_title' => 'List of created appointment',
+        'doctor_index_title' => 'List of created doctors',
         'details' => 'Details',
-        'management'=>'Management',
-        'creation'=>'Creation',
+        'management' => 'Management',
+        'creation' => 'Creation',
+        'personal_data' => 'Personal data',
     ],
 
     'setting' => [

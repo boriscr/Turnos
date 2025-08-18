@@ -54,7 +54,7 @@ class AvailableAppointmentsController extends Controller
                 }
             });
 
-        // Manejo de fechas
+        // Manejo de available_dates
         if ($fechaFiltro === 'personalizado') {
             if ($fechaInicio && $fechaFin) {
                 $query->whereBetween('date', [$fechaInicio, $fechaFin]);

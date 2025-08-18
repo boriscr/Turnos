@@ -18,15 +18,15 @@ return new class extends Migration
             $table->foreignId('specialty_id')->constrained('specialties')->onDelete('cascade'); // OK
             $table->foreignId('doctor_id')->constrained(Doctor::TABLE)->onDelete('cascade'); // OK
             $table->string('shift');
-            $table->integer('number_of_slots');
+            $table->integer('number_of_reservations');
             $table->time('start_time');
             $table->time('end_time');
             $table->json('available_time_slots')->nullable();
             $table->json('available_dates');
             $table->boolean('status')->default(true);
             // Modificado: sin onDelete('cascade') para users
-            $table->foreignId('createBy')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('updateBy')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('create_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('update_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
     }

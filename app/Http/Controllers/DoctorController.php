@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Requests\DoctorStoreRequest;
 use App\Http\Requests\DoctorUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 
 class DoctorController extends Controller
 {
@@ -26,8 +27,12 @@ class DoctorController extends Controller
     public function store(DoctorStoreRequest $request)
     {
         try {
-            Doctor::create($request->validated());
 
+            Doctor::create([
+                ...$request->validated(),
+                'create_by' => Auth::id(),
+                'update_by' => Auth::id(),
+            ]);
             session()->flash('success', [
                 'title' => 'Creado!',
                 'text'  => 'Nuevo doctor creado con éxito.',
@@ -92,8 +97,10 @@ class DoctorController extends Controller
     {
         try {
             $doctor = Doctor::findOrFail($id);
-            $doctor->update($request->validated());
-
+            $doctor->update([
+                ...$request->validated(), // Spread operator para los datos validados
+                'update_by' => Auth::id(), // Asignar el usuario que actualiza
+            ]);
             session()->flash('success', [
                 'title' => 'Actualizado!',
                 'text'  => 'Datos actualizados con éxito.',

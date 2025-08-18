@@ -162,10 +162,10 @@ if (window.location.pathname.includes('/reservations/create')) {
         try {
             limpiarSelectsDependientes('appointment_name_id');
             selectFecha.disabled = true;
-            selectFecha.innerHTML = '<option value="">Cargando fechas...</option>';
+            selectFecha.innerHTML = '<option value="">Cargando fechas disponibles...</option>';
 
             if (!turnoNombreId) {
-                selectFecha.innerHTML = '<option value="">Seleccione un appointment primero</option>';
+                selectFecha.innerHTML = '<option value="">Seleccione un turno primero</option>';
                 return;
             }
 
@@ -187,10 +187,10 @@ if (window.location.pathname.includes('/reservations/create')) {
                 return;
             }
 
-            // Obtener fechas únicas de los appointments
+            // Obtener available_dates únicas de los appointments
             const fechasUnicas = [...new Set(todosLosTurnos.map(t => t.date))];
 
-            selectFecha.innerHTML = '<option value="">Seleccione una date</option>';
+            selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
             fechasUnicas.forEach(date => {
                 const fechaObj = new Date(date);
                 const option = document.createElement('option');
@@ -206,7 +206,7 @@ if (window.location.pathname.includes('/reservations/create')) {
 
             selectFecha.disabled = false;
         } catch (error) {
-            console.error("Error al cargar appointments:", error);
+            console.error("Error al cargar turnos:", error);
             selectFecha.innerHTML = '<option value="">Error al cargar</option>';
         }
     }
@@ -222,13 +222,13 @@ if (window.location.pathname.includes('/reservations/create')) {
             selectHora.innerHTML = '<option value="">Cargando horarios...</option>';
 
             if (!fechaSeleccionada) {
-                selectHora.innerHTML = '<option value="">Seleccione una date primero</option>';
+                selectHora.innerHTML = '<option value="">Seleccione una fecha primero</option>';
                 return;
             }
 
             // Validación de todosLosTurnos
             if (!Array.isArray(todosLosTurnos)) {
-                throw new Error('La lista de appointments no es válida');
+                throw new Error('La lista de turnos no es válida');
             }
 
             // Filtrar los appointments disponibles para esa date
@@ -241,7 +241,7 @@ if (window.location.pathname.includes('/reservations/create')) {
                 const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
                 horaActual = ahora.split(',')[1] ? ahora.split(',')[1].trim() : '00:00';
             } catch (error) {
-                console.error('Error al obtener time actual:', error);
+                console.error('Error al obtener hora actual:', error);
             }
 
             // Filtrar horarios pasados si es el día actual
@@ -252,7 +252,7 @@ if (window.location.pathname.includes('/reservations/create')) {
                         const ahoraDate = new Date(`${fechaActual}T${horaActual}:00`);
                         return turnoDate.getTime() >= ahoraDate.getTime();
                     } catch (error) {
-                        console.error('Error al comparar fechas:', error);
+                        console.error('Error al comparar fechas disponibles:', error);
                         return false;
                     }
                 });
@@ -272,7 +272,7 @@ if (window.location.pathname.includes('/reservations/create')) {
                 selectHora.disabled = false;
             }
         } catch (error) {
-            console.error('Error en cargarHoras:', error);
+            console.error('Error en cargar Horas:', error);
             selectHora.innerHTML = '<option value="">Error al cargar horarios</option>';
         }
     }

@@ -5,7 +5,7 @@
     <div class="step" data-step="3"><i class="bi bi-calendar-date-fill"></i> {{ __('reservation.date') }}</div>
 </div>
 
-<form x-data="iosCalendar()" x-init="init({{ $fechas ?? '[]' }})" id="multiStepForm"
+<form x-data="iosCalendar()" x-init="init({{ $dates ?? '[]' }})" id="multiStepForm"
     @submit.prevent="updateSelectedDatesInput(); $el.submit()" method="POST" action="{{ $route }}">
     @csrf
     @if (!isset($create))
@@ -66,8 +66,8 @@
                 </div>
             </div>
 
-            <x-form.text-input type="number" name="cantidad" :label="__('appointment.schedule.number_of_slots')"
-                value="{{ !isset($create) ? $appointment->number_of_slots : old('cantidad') }}" min="1"
+            <x-form.text-input type="number" name="number_of_reservations" :label="__('appointment.schedule.number_of_reservations')"
+                value="{{ !isset($create) ? $appointment->number_of_reservations : old('number_of_reservations') }}" min="1"
                 :required="true" />
 
             <x-form.text-input type="time" name="start_time" :label="__('appointment.schedule.start_time')"

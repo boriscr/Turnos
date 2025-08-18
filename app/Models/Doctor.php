@@ -20,6 +20,8 @@ class Doctor extends Model
         'licenseNumber',
         'status',
         'role',
+        'create_by',
+        'update_by'
     ];
 
     // Relación inversa (pertenece a un User)
@@ -39,5 +41,16 @@ class Doctor extends Model
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
+    }
+    // Usuario que creó el doctor
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'create_by');
+    }
+
+    // Usuario que actualizó el doctor
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'update_by');
     }
 }

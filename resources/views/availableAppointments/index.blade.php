@@ -39,7 +39,7 @@
                             </div>
                         </div>
 
-                        <!-- Filtro rápido de fechas -->
+                        <!-- Filtro rápido de available_dates -->
                         <div class="col-md-6 mb-2">
                             <div class="btn-group w-100" role="group">
                                 <input type="hidden" name="date" id="fechaInput"
@@ -114,9 +114,9 @@
                     });
                 </script>
 
-                <!-- Formulario de rango de fechas personalizado -->
+                <!-- Formulario de rango de available_dates personalizado -->
                 <form action="{{ route('availableAppointments.index') }}" method="GET" class="mb-4 border p-3 rounded">
-                    <h3 class="mb-3">Filtrar por rango de fechas</h3>
+                    <h3 class="mb-3">Filtrar por rango de available_dates</h3>
 
                     <div class="row align-items-end">
                         <!-- Mantener el filtro de reservations en el formulario de rango -->

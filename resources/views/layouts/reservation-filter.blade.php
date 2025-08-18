@@ -16,7 +16,7 @@
                     </div>
                 </form>
 
-                <!-- Filtro de fechas -->
+                <!-- Filtro de available_dates -->
                 <div class="date-filters">
                     <form action="{{ route('reservations.index') }}" method="GET" id="dateFilterForm">
                         <input type="hidden" name="search" value="{{ request('search') }}">

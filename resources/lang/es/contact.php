@@ -13,4 +13,5 @@ return [
     'city' => 'Ciudad',
     'address' => 'Dirección',
     'phone' => 'Teléfono',
+    'name_and_surname'=>'Nombre y apellido',
 ];

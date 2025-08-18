@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let single_slot = document.getElementById("single_slot");
         let multi_slot = document.getElementById("multi_slot");
-        let cantidad = document.getElementById("cantidad");
+        let number_of_reservations = document.getElementById("number_of_reservations");
         let horarioBox = document.getElementById("horario-box");
         let horarioItem = document.getElementById("horarios-item");
         let start_time = document.getElementById("start_time");
@@ -19,16 +19,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function generarHorarios() {
-            if (multi_slot.checked && cantidad.value >= 1 && start_time.value !== "" && end_time.value !== "") {
+            if (multi_slot.checked && number_of_reservations.value >= 1 && start_time.value !== "" && end_time.value !== "") {
                 horarioBox.style.display = "flex";
 
                 let minutosTotalesInicio = convertirATiempoEnMinutos(start_time.value);
                 let minutosTotalesFin = convertirATiempoEnMinutos(end_time.value);
-                let tiempoPorTurno = (minutosTotalesFin - minutosTotalesInicio) / cantidad.value;
+                let tiempoPorTurno = (minutosTotalesFin - minutosTotalesInicio) / number_of_reservations.value;
 
                 let horarios = [];
 
-                for (let i = 0; i < cantidad.value; i++) {
+                for (let i = 0; i < number_of_reservations.value; i++) {
                     let minutosActuales = minutosTotalesInicio + i * tiempoPorTurno;
                     let time = Math.floor(minutosActuales / 60);
                     let minutos = Math.floor(minutosActuales % 60);
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Disparar automáticamente al cargar la página si ya hay valores cargados
         if (multi_slot.checked) {
-            if (cantidad.value >= 1 && start_time.value !== "" && end_time.value !== "") {
+            if (number_of_reservations.value >= 1 && start_time.value !== "" && end_time.value !== "") {
                 generarHorarios();
             }
         }
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Controlar radios manualmente
         multi_slot.addEventListener("change", function () {
             if (this.checked) {
-                if (cantidad.value >= 1 && start_time.value !== "" && end_time.value !== "") {
+                if (number_of_reservations.value >= 1 && start_time.value !== "" && end_time.value !== "") {
                     generarHorarios();
                 } else {
                     alert("Por favor, complete todos los campos con valores válidos antes de continuar.");
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        cantidad.addEventListener("input", function () {
+        number_of_reservations.addEventListener("input", function () {
             if (multi_slot.checked && this.value >= 1) {
                 generarHorarios();
             }

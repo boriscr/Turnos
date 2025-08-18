@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Doctor;
+
 return new class extends Migration
 {
     /**
@@ -23,6 +24,8 @@ return new class extends Migration
             $table->string('licenseNumber')->nullable();
             $table->string('role');
             $table->boolean('status')->default(true); // Valor por defecto true
+            $table->foreignId('create_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('update_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
     }

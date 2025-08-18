@@ -29,6 +29,7 @@ return new class extends Migration
             $table->integer('faults')->nullable()->default(0);
             $table->string('password');
             $table->rememberToken();
+            $table->foreignId('update_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
 

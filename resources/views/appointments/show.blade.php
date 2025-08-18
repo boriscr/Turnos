@@ -9,7 +9,8 @@
                 <p><b>{{ __('specialty.title') }}:</b> {{ $appointment->specialty->name }}</p>
                 <p><b>{{ __('medical.doctor') }}:</b>
                     {{ $appointment->doctor->name . ' ' . $appointment->doctor->surname }} <a
-                        href="{{ route('doctor.show', $appointment->doctor->id) }}"><i class="bi bi-eye"></i></a></p>
+                        href="{{ route('doctor.show', $appointment->doctor->id) }}"><i
+                            class="bi bi-eye">{{ __('button.view') }}</i></a></p>
                 <p><b>{{ __('appointment.shift.name') }}:</b>
                     {{ $appointment->shift === 'morning' ? __('appointment.shift.morning_shift') : ($appointment->shift === 'afternoon' ? __('appointment.shift.afternoon_shift') : __('appointment.shift.night_shift')) }}
                 </p>
@@ -18,40 +19,66 @@
                     {{ \Carbon\Carbon::parse($appointment->start_time)->format('H:i') }}</p>
                 <p><b>{{ __('appointment.schedule.end_time') }}:</b>
                     {{ \Carbon\Carbon::parse($appointment->end_time)->format('H:i') }}</p>
-                @if ($appointment->available_time_slots)
-                    <p><b>{{ __('appointment.schedule.title') }}:</b> {{ $appointment->available_time_slots }}</p>
+                @if (!empty($appointment->available_time_slots))
+                    @php
+                        $number_of_hours_available = 0;
+                    @endphp
+                    <p><b>{{ __('appointment.schedule.title') }}:</b>
+                        <small>
+                            @foreach ($appointment->available_time_slots as $time)
+                                @php
+                                    $number_of_hours_available++;
+                                @endphp
+                                <i class="bi bi-clock-fill"></i>{{ $time }}
+                            @endforeach
+                        </small>
+                    </p>
+                @else
+                    <p><b>{{ __('appointment.schedule.title') }}:</b>
+                        <small>
+                            <i
+                                class="bi bi-clock-fill"></i>{{ \Carbon\Carbon::parse($appointment->start_time)->format('H:i') }}
+                        </small>
+                    </p>
                 @endif
                 @php
-                    $cantidad = 0;
+                    $number_of_reservations = 0;
                 @endphp
                 <p><b>{{ __('appointment.date.title') }}:</b>
-                    @foreach ($appointment->available_dates as $item)
-                        @php
-                            $cantidad++;
-                        @endphp
-                        <small> - <i class="bi bi-calendar-check"></i> {{ $item }}</small>
-                    @endforeach
+                    <small>
+                        @foreach ($appointment->available_dates as $item)
+                            @php
+                                $number_of_reservations++;
+                            @endphp
+                            <i class="bi bi-calendar-check"></i>{{ $item }}
+                        @endforeach
+                    </small>
                 </p>
             </div>
             <div class="card">
                 <h2>{{ __('medical.titles.creation') }}</h2>
-
+                <p><b>{{ __('appointment.schedule.number_of_available_schedules') }}:</b>
+                    {{ $number_of_hours_available ?? '1' }}
+                </p>
                 <p><b>{{ __('appointment.schedule.number_of_dates') }}:</b>
-                    {{ $cantidad }}</p>
-                <p><b>{{ __('appointment.schedule.number_of_slots') }}:</b> {{ $appointment->number_of_slots }} </p>
+                    {{ $number_of_reservations }}</p>
+                <p><b>{{ __('appointment.schedule.number_of_reservations') }}:</b>
+                    {{ $appointment->number_of_reservations }} </p>
                 <p><b>{{ __('appointment.schedule.total_amount_of_reservations') }}:</b>
-                    {{ $appointment->number_of_slots * $cantidad }}</p>
+                    {{ $appointment->number_of_reservations * $number_of_reservations }}</p>
                 <p><b>{{ __('medical.status') }}:</b>
                     {{ $appointment->status ? __('medical.active') : __('medical.inactive') }}</p>
                 <p><b>{{ __('medical.created_by') }}:</b>
                     {{ $appointment->createdBy->name . ' ' . $appointment->createdBy->surname }} <a
-                        href="{{ route('user.show', $appointment->createBy) }}"><i class="bi bi-eye"></i></a></p>
+                        href="{{ route('user.show', $appointment->create_by) }}"><i
+                            class="bi bi-eye">{{ __('button.view') }}</i></a></p>
                 <p><b>{{ __('medical.creation_date') }}:</b>
                     {{ \Carbon\Carbon::parse($appointment->created_at)->format('d/m/Y H:i') }}
                 </p>
                 <p><b>{{ __('medical.updated_by') }}:</b>
                     {{ $appointment->updatedBy->name . ' ' . $appointment->updatedBy->surname }} <a
-                        href="{{ route('user.show', $appointment->updateBy) }}"><i class="bi bi-eye"></i></a></p>
+                        href="{{ route('user.show', $appointment->update_by) }}"><i
+                            class="bi bi-eye">{{ __('button.view') }}</i></a></p>
                 <p><b>{{ __('medical.update_date') }}:</b>
                     {{ \Carbon\Carbon::parse($appointment->updated_at)->format('d/m/Y H:i') }}
                 </p>
@@ -60,7 +87,7 @@
         </div>
         <div class="opciones full-center">
             <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn-edit"><i
-                    class="bi bi-pencil-fill">{{ __('button.view') }}</i></a>
+                    class="bi bi-pencil-fill">{{ __('button.edit') }}</i></a>
             <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" class="delete-form">
                 @csrf
                 @method('DELETE')
@@ -71,8 +98,8 @@
         <br>
         <div class="full-center mt-4">
             <x-secondary-button>
-                <a href="{{ route('availableAppointments.index', $appointment->doctor_id) }}"
-                    >{{ __('button.view_available_reservations') }}</a>
+                <a
+                    href="{{ route('availableAppointments.index', $appointment->doctor_id) }}">{{ __('button.view_available_reservations') }}</a>
             </x-secondary-button>
         </div>
 </x-app-layout>

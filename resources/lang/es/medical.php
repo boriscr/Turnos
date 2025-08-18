@@ -20,11 +20,17 @@ return [
     'creation_date' => 'Fecha de creación',
     'updated_by' => 'Actualizado por',
     'update_date' => 'Fecha de actualizacion',
+    'no_data'=>'Sin datos',
+    'no_profile'=>'Sin perfil de usuario',
+    'profile'=>'Perfil',
 
     'titles' => [
-        'details' => 'Detalle',
+        'appointment_index_title' => 'Lista de turnos creados',
+        'doctor_index_title' => 'Lista de doctores creados',
+        'details' => 'Detalles',
         'management' => 'Gestión',
         'creation' => 'Creación',
+        'personal_data'=>'Datos personales',
     ],
     'setting' => [
         'title_1' => 'Contenido personalizado',

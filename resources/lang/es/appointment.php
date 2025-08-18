@@ -3,7 +3,6 @@ return [
     'create_title' => 'Crear turno',
     'edit_title' => 'Editar turno',
     'creation' => 'Creacion',
-    'index_title' => 'Turnos creados',
 
     'shift' => [
         'title' => 'Elegir bloque de atención',
@@ -15,9 +14,10 @@ return [
 
     'schedule' => [
         'title' => 'Horarios de atención',
-        'number_of_slots' => 'Cantidad de reservas por día',
+        'number_of_available_schedules'=>'Cantidad de horarios disponibles por día',
+        'number_of_reservations' => 'Cantidad de reservas por día',
         'total_amount_of_reservations' => 'Cantidad total de reservas',
-        'number_of_dates' => 'Cantidad de fechas',
+        'number_of_dates' => 'Cantidad de fechas disponibles',
         'start_time' => 'Hora de Inicio',
         'end_time' => 'Hora de Fin',
         'single' => 'Asignar reservas con único horario.',

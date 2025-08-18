@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AppointmentStoreRequest;
 use App\Http\Requests\AppointmentUpdateRequest;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Appointment;
 use App\Models\Specialty;
@@ -27,37 +26,28 @@ class AppointmentController extends Controller
     }
     public function store(AppointmentStoreRequest $request)
     {
-        // Decodificar fechas seleccionadas
-        $fechas = json_decode($request->selected_dates, true);
+        $timeSlots = json_decode($request->available_time_slots, true);        // Decodificar available_dates seleccionadas
+        $available_dates = json_decode($request->selected_dates, true);
 
-        if (empty($fechas)) {
-            Log::info('Fechas recibidas:', ['fechas' => $request->selected_dates]);
+        if (empty($available_dates)) {
+            Log::info('Fechas recibidas:', ['available_dates' => $request->selected_dates]);
             Log::info('Decodificadas:', ['decoded' => json_decode($request->selected_dates, true)]);
 
             return back()->with('error', 'Debe seleccionar al menos una date');
         }
 
-        // Crear el appointment principal
         $appointment = Appointment::create([
-            'name' => trim($request->name),
-            'address' => trim($request->address),
-            'specialty_id' => $request->specialty_id,
-            'doctor_id' => $request->doctor_id,
-            'shift' => $request->shift,
-            'number_of_slots' => trim($request->cantidad),
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-            'available_time_slots' => $request->available_time_slots,
-            'createBy' => Auth::id(),
-            'updateBy' => Auth::id(),
-            'available_dates' => $fechas,
-            'status' => $request->status,
+            ...$request->validated(),
+            'create_by' => Auth::id(),
+            'update_by' => Auth::id(),
+            'available_time_slots' => $timeSlots,
+            'available_dates' => $available_dates,
         ]);
 
         // Crear los appointments disponibles para cada date
 
         // Crear disponibilidad por date y horario
-        foreach ($fechas as $date) {
+        foreach ($available_dates as $date) {
 
             if ($request->available_time_slots) {
                 // Caso CON horarios (vienen en JSON)
@@ -79,7 +69,7 @@ class AppointmentController extends Controller
                     'doctor_id' => $request->doctor_id,
                     'date' => $date,
                     'time' => $request->start_time, // sin time específica
-                    'available_spots' => $request->cantidad, // cupo total por date
+                    'available_spots' => $request->number_of_reservations, // cupo total por date
                 ]);
             }
         }
@@ -115,15 +105,17 @@ class AppointmentController extends Controller
         $available_time_slots = $appointment->available_time_slots;
 
         // Verificar si es un array JSON (multi_slot)
-        $horariosArray = json_decode($appointment->available_time_slots, true);
+        $availableTimeSlotsValue = is_string($appointment->available_time_slots) ? $appointment->available_time_slots : '';
+        $horariosArray = json_decode($availableTimeSlotsValue, true);
         if (json_last_error() === JSON_ERROR_NONE && is_array($horariosArray)) {
             $available_time_slots = json_encode($horariosArray);
         }
 
+        //dd($appointment,$specialties,json_encode($appointment->available_dates),$available_time_slots);
         return view('appointments.edit', [
             'appointment' => $appointment,
             'specialties' => $specialties,
-            'fechas' => json_encode($appointment->available_dates),
+            'available_dates' => json_encode($appointment->available_dates),
             'availableTimeSlots' => $available_time_slots
         ]);
     }
@@ -133,16 +125,17 @@ class AppointmentController extends Controller
     //'medico_nombre' => $appointment->doctor->name ?? 'Doctor no disponible',
     //'name' => $appointment->name,
     //'address' => $appointment->address,
-    //'cantidad' => $appointment->number_of_slots,
+    //'number_of_reservations' => $appointment->number_of_reservations,
     //'inicio' => $appointment->start_time ? Carbon::parse($appointment->start_time)->format('H:i') : null,
     //'fin' => $appointment->end_time ? Carbon::parse($appointment->end_time)->format('H:i') : null,
 
 
     public function update(AppointmentUpdateRequest $request, $id)
     {
-        // Decodificar fechas seleccionadas
-        $fechas = json_decode($request->selected_dates, true);
-        if (empty($fechas)) {
+        // Decodificar available_dates seleccionadas
+        $timeSlots = json_decode($request->available_time_slots, true);        // Decodificar available_dates seleccionadas
+        $available_dates = json_decode($request->selected_dates, true);
+        if (empty($available_dates)) {
             return back()->with('error', 'Debe seleccionar al menos una fecha')->withInput();
         }
 
@@ -158,27 +151,18 @@ class AppointmentController extends Controller
 
         // Obtener el appointment a actualizar
         $appointment = Appointment::findOrFail($id);
-
-        // Actualizar el appointment principal
-        $appointment->name = trim($request->name);
-        $appointment->address = trim($request->address);
-        $appointment->specialty_id = $request->specialty_id;
-        $appointment->doctor_id = $request->doctor_id;
-        $appointment->shift = $request->shift;
-        $appointment->number_of_slots = trim($request->cantidad);
-        $appointment->start_time = $request->start_time;
-        $appointment->end_time = $request->end_time;
-        $appointment->available_time_slots = $request->available_time_slots ? $request->available_time_slots : null;
-        $appointment->available_dates = $fechas; // No usar json_encode aquí
-        $appointment->status = $request->status ?? $appointment->status;
-        $appointment->updateBy = Auth::id();
-        $appointment->save();
-
+        $appointment->update([
+            ...$request->validated(), // Spread operator para los datos validados
+            'available_time_slots' => $timeSlots ? $timeSlots : null,
+            'available_dates' => $available_dates,
+            'status' => $request->status ?? $appointment->status,
+            'update_by' => Auth::id(), // Asignar el usuario que actualiza
+        ]);
 
         // Preparar nuevas combinaciones fecha-hora basadas en el tipo de appointment
         $nuevasCombinaciones = [];
 
-        foreach ($fechas as $date) {
+        foreach ($available_dates as $date) {
             if ($tipoAppointment === 'multi_slot' && $request->available_time_slots) {
                 // Appointment con división horaria
                 $horarios = json_decode($request->available_time_slots, true);
@@ -217,7 +201,7 @@ class AppointmentController extends Controller
 
         // Procesar cada nueva combinación
         foreach ($nuevasCombinaciones as $combinacion) {
-            $availableSpots = ($tipoAppointment === 'single_slot') ? intval($request->cantidad) : 1;
+            $availableSpots = ($tipoAppointment === 'single_slot') ? intval($request->number_of_reservations) : 1;
 
             // Buscar si ya existe una disponibilidad con reservas para esta combinación
             $existenteConReservas = $disponibilidadesConReservas->first(function ($item) use ($combinacion) {

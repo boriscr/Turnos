@@ -15,14 +15,14 @@ class Appointment extends Model
         'specialty_id',
         'doctor_id',
         'shift',
-        'number_of_slots',
+        'number_of_reservations',
         'start_time',
         'end_time',
         'available_dates',
         'available_time_slots',
         'status',
-        'createBy',
-        'updateBy'
+        'create_by',
+        'update_by'
     ];
 
     protected $casts = [
@@ -56,12 +56,12 @@ class Appointment extends Model
     // Usuario que creó el appointment
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'createBy');
+        return $this->belongsTo(User::class, 'create_by');
     }
 
     // Usuario que actualizó el appointment
     public function updatedBy()
     {
-        return $this->belongsTo(User::class, 'updateBy');
+        return $this->belongsTo(User::class, 'update_by');
     }
 }

@@ -3,7 +3,6 @@ return [
     'create_title' => 'Create appointment',
     'edit_title' => 'Edit appointment',
     'creation' => 'Creation',
-    'index_title' => 'Appointments created',
 
     'shift' => [
         'title' => 'Select time block',
@@ -15,9 +14,10 @@ return [
 
     'schedule' => [
         'title' => 'Opening hours',
-        'number_of_slots' => 'Number of reservations per day',
+        'number_of_available_schedules' => 'Number of available schedules per day',
+        'number_of_reservations' => 'Number of reservations per day',
         'total_amount_of_reservations' => 'Total amount of reservations',
-        'number_of_dates'=>'Number of dates',
+        'number_of_dates' => 'Number of dates available',
         'start_time' => 'Start time',
         'end_time' => 'End time',
         'single' => 'Assign reservations in a single time block.',
