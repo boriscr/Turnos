@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+
 class User extends Authenticatable
 {
-    
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
     use HasRoles;
@@ -33,19 +34,25 @@ class User extends Authenticatable
         'status',
         'password',
         'faults',
+        'update_by'
     ];
 
     public function appointment()
     {
         return $this->hasMany(Appointment::class);
-    } 
-// Relación 1:1 con Doctor (un user PUEDE ser un profesional)
-public function doctor()
-{
-    return $this->hasOne(Doctor::class, 'user_id'); 
-    // 'user_id' es la FK en la tabla doctors
-}
+    }
+    // Relación 1:1 con Doctor (un user PUEDE ser un profesional)
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class, 'user_id');
+        // 'user_id' es la FK en la tabla doctors
+    }
 
+    // Usuario que actualizó el appointment
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'update_by');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

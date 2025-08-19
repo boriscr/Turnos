@@ -1,7 +1,5 @@
 <?php
 return[
-    'title_text' => 'Reservar un nuevo turno',
-    'step_1' => 'Datos personales',
     'step_2' => 'Reserva de turno',
     'step_3' => 'Confirmar reseva',
     'title_name' => 'Nombre del turno',

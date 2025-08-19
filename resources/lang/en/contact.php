@@ -7,6 +7,7 @@ return [
     'email' => 'Email',
     'idNumber' => 'ID Number',
     'birthdate' => 'Birthdate',
+    'age' => 'Age',
     'gender' => 'Gender',
     'country' => 'Country',
     'province' => 'Province',

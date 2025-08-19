@@ -5,7 +5,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>{{ __('medical.id') }}</th>
                         <th>{{ __('reservation.title_name') }}</th>
                         <th class="option-movil">{{ __('contact.address') }}</th>
                         <th class="option-movil">{{ __('specialty.title') }}</th>

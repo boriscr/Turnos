@@ -2,12 +2,12 @@
 
     <div class="main full-center">
         <div class="container-form full-center">
-            <h1>{{ __('reservation.title_text') }}</h1>
+            <h1>{{ __('medical.titles.book_a_new_appointment') }}</h1>
 
             <!-- Indicador de pasos -->
             <div class="step-indicator">
                 <div class="step active" data-step="1"><i
-                        class="bi bi-person-circle"></i><span>{{ __('reservation.step_1') }}</span>
+                        class="bi bi-person-circle"></i><span>{{ __('medical.titles.personal_data') }}</span>
                 </div>
                 <div class="step" data-step="2"><i
                         class="bi bi-clock-history"></i><span>{{ __('reservation.step_2') }}</span> </div>

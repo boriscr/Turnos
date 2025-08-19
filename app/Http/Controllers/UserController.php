@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -43,9 +44,11 @@ class UserController extends Controller
         $newRole = $validated['role'];
 
         DB::transaction(function () use ($user, $validated, $originalRole, $newRole) {
-            // Actualizar campos del usuario (excepto rol)
-            $user->fill(Arr::except($validated, 'role'));
-            $user->save();
+            // Actualizar campos del usuario
+            $user->update([
+                ...Arr::except($validated, 'role'),
+                'update_by' => Auth::id()
+            ]);
 
             // Manejar cambios de rol
             $this->handleRoleChange($user, $originalRole, $newRole);

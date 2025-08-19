@@ -14,8 +14,7 @@ table {
 
 
 thead {
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--general_design_color);
     text-align: center;
 }
 

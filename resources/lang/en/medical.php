@@ -4,6 +4,7 @@ return [
     'register' => 'Register',
     'cancel' => 'Cancel',
     'select_default' => 'Select',
+    'id' => 'Id',
     'description_txt' => 'Description',
     'license_number' => 'License Number',
     'role' => 'Role',
@@ -20,17 +21,23 @@ return [
     'creation_date' => 'Creation date',
     'updated_by' => 'Updated by',
     'update_date' => 'Update date',
-    'no_data'=>'No data',
-    'no_profile'=>'No user profile',
-    'profile'=>'Profile',
-    
+    'no_data' => 'No data',
+    'no_profile' => 'No user profile',
+    'profile' => 'Profile',
+    'none' => 'None',
+    'unassisted_reservations' => 'Unassisted reservations',
+
     'titles' => [
+        'book_a_new_appointment' => 'Book a new appointment',
         'appointment_index_title' => 'List of created appointment',
         'doctor_index_title' => 'List of created doctors',
         'details' => 'Details',
         'management' => 'Management',
         'creation' => 'Creation',
         'personal_data' => 'Personal data',
+        'contact_details' => 'Contact details',
+        'reservations'=>'Reservations',
+
     ],
 
     'setting' => [

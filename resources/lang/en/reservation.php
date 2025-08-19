@@ -1,7 +1,5 @@
 <?php
 return [
-    'title_text' => 'Book a new appointment',
-    'step_1' => 'Personal information',
     'step_2' => 'Appointment booking',
     'step_3' => 'Confirm booking',
     'title_name' => 'Appointment name',

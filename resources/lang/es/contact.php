@@ -7,6 +7,7 @@ return [
     'email' => 'Correo electrónico',
     'idNumber' => 'D.N.I',
     'birthdate' => 'Fecha de nacimiento',
+    'age'=>'Edad',
     'gender' => 'Género',
     'country' => 'País',
     'province' => 'Provincia',
