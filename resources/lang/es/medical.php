@@ -29,8 +29,9 @@ return [
 
     'titles' => [
         'book_a_new_appointment'=>'Reservar un nuevo turno',
-        'appointment_index_title' => 'Lista de turnos creados',
+        'user_index_title' => 'Lista de usuarios registrados',
         'doctor_index_title' => 'Lista de doctores creados',
+        'appointment_index_title' => 'Lista de turnos creados',
         'details' => 'Detalles',
         'management' => 'Gestión',
         'creation' => 'Creación',

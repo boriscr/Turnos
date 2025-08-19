@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h1>Usuarios creados</h1>
+            <h1>{{__('medical.titles.user_index_title')}}</h1>
             <table>
                 <thead>
                     <tr>

@@ -29,14 +29,15 @@ return [
 
     'titles' => [
         'book_a_new_appointment' => 'Book a new appointment',
-        'appointment_index_title' => 'List of created appointment',
+        'user_index_title' => 'List of registered users',
         'doctor_index_title' => 'List of created doctors',
+        'appointment_index_title' => 'List of created appointment',
         'details' => 'Details',
         'management' => 'Management',
         'creation' => 'Creation',
         'personal_data' => 'Personal data',
         'contact_details' => 'Contact details',
-        'reservations'=>'Reservations',
+        'reservations' => 'Reservations',
 
     ],
 
