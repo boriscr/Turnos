@@ -19,7 +19,6 @@ export default {
                 'texto-titulo': 'var(--title_text_color)',
                 'texto-light': 'var(--light_text_color)',
                 'texto-dark': 'var(--dark_text_color)',
-                'primario-btn': 'var(--primary_color_btn)',
                 'secondary-btn': 'var(--secondary_color_btn)',
                 'fondo-dark': 'var(--dark_application_background)',
                 'fondo-light': 'var(--light_application_background)',

@@ -8,6 +8,7 @@ class Reservation extends Model
 {
     protected $fillable = [
         'available_appointment_id',
+        'specialty_id',
         'user_id',
         'asistencia',
     ];
@@ -23,5 +24,9 @@ class Reservation extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function specialties()
+    {
+        return $this->belongsTo(Specialty::class);
     }
 }

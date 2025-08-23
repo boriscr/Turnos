@@ -160,7 +160,7 @@ option {
     }
 
     .main .container-form,
-    .main .container-form select {
+    .item select {
         background-color: var(--dark_application_background);
     }
 

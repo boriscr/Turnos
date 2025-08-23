@@ -15,6 +15,8 @@ return [
     'active' => 'Active',
     'inactive' => 'Inactive',
     'actions' => 'Actions',
+    'patient' => 'Patient',
+    'attendance' => 'Attendance',
     'section_title_add' => 'Add new',
     'section_title_edit' => 'Edit data',
     'created_by' => 'Created by',
@@ -27,18 +29,23 @@ return [
     'none' => 'None',
     'unassisted_reservations' => 'Unassisted reservations',
 
+    'labels' => [
+        'start_date' => 'Start date',
+        'end_date' => 'End date',
+    ],
+
     'titles' => [
         'book_a_new_appointment' => 'Book a new appointment',
         'user_index_title' => 'List of registered users',
         'doctor_index_title' => 'List of created doctors',
         'appointment_index_title' => 'List of created appointment',
+        'reservation_list' => 'Reservation list',
         'details' => 'Details',
         'management' => 'Management',
         'creation' => 'Creation',
         'personal_data' => 'Personal data',
         'contact_details' => 'Contact details',
         'reservations' => 'Reservations',
-
     ],
 
     'setting' => [

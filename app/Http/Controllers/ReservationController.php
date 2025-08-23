@@ -17,13 +17,37 @@ use Illuminate\Support\Facades\Log;
 class ReservationController extends Controller
 {
     public function index(Request $request)
-    { //admin
-        $search = $request->input('search');
-        $fechaFiltro = $request->input('date', 'hoy'); // Valores: hoy, anteriores, futuros, personalizado
-        $fechaInicio = $request->input('fecha_inicio');
-        $fechaFin = $request->input('fecha_fin');
+    {
+        $specialties = Specialty::where('status', 1)->get();
 
-        $hoy = now()->format('Y-m-d');
+        // Si se presionó "Mostrar Todo", ignoramos todos los filtros
+        if ($request->has('show_all')) {
+            $reservations = Reservation::with(['availableAppointment.doctor', 'user'])
+                ->orderByDesc('created_at')
+                ->paginate(10);
+
+            return view('reservations.index', [
+                'specialties' => $specialties,
+                'reservations' => $reservations,
+                'reservaFiltro' => 'all',
+                'fechaFiltro' => 'all',
+                'search' => null,
+                'fechaInicio' => null,
+                'fechaFin' => null,
+                'specialty_id' => 'all_specialties'
+            ]);
+        }
+
+        // Procesamiento normal de filtros
+        $search = $request->input('search');
+        $reservaFiltro = $request->input('reservation', 'pending');
+        $fechaInicio = $request->input('start_date');
+        $fechaFin = $request->input('end_date');
+        $fechaFiltro = $request->input('date', 'today'); // Añadido para capturar el filtro rápido
+        $today = now()->format('Y-m-d');
+        $yesterday = now()->subDay()->format('Y-m-d');
+        $tomorrow = now()->addDay()->format('Y-m-d');
+        $specialty_id = $request->input('specialty_id', 'all_specialties');
 
         $reservations = Reservation::with(['user', 'availableAppointment.doctor'])
             ->when($search, function ($query) use ($search) {
@@ -40,33 +64,63 @@ class ReservationController extends Controller
                         });
                 });
             })
-            ->when($fechaFiltro, function ($query) use ($fechaFiltro, $hoy, $fechaInicio, $fechaFin) {
-                $query->whereHas('availableAppointment', function ($q) use ($fechaFiltro, $hoy, $fechaInicio, $fechaFin) {
-                    switch ($fechaFiltro) {
-                        case 'hoy':
-                            $q->whereDate('date', $hoy);
-                            break;
-                        case 'anteriores':
-                            $q->whereDate('date', '<', $hoy);
-                            break;
-                        case 'futuros':
-                            $q->whereDate('date', '>', $hoy);
-                            break;
-                        case 'personalizado':
-                            if ($fechaInicio && $fechaFin) {
-                                $q->whereBetween('date', [$fechaInicio, $fechaFin]);
-                            }
-                            break;
-                        default:
-                            $q->whereDate('date', $hoy);
-                    }
+            ->when(in_array($reservaFiltro, ['assisted', 'pending', 'not_attendance']), function ($query) use ($reservaFiltro) {
+                switch ($reservaFiltro) {
+                    case 'assisted':
+                        $query->where('asistencia', '=', 1);
+                        break;
+                    case 'pending':
+                        $query->where('asistencia', '=', null);
+                        break;
+                    case 'not_attendance':
+                        $query->where('asistencia', '=', 0);
+                        break;
+                }
+            })
+            ->when($specialty_id !== 'all_specialties', function ($query) use ($specialty_id) {
+                $query->where('specialty_id', $specialty_id);
+            })
+            // LÓGICA CORREGIDA PARA FECHAS - SIN CONFLICTOS
+            ->when($fechaInicio && $fechaFin, function ($query) use ($fechaInicio, $fechaFin) {
+                // Solo filtro por rango personalizado si hay fechas
+                $query->whereHas('availableAppointment', function ($q) use ($fechaInicio, $fechaFin) {
+                    $q->whereBetween('date', [$fechaInicio, $fechaFin]);
                 });
+            }, function ($query) use ($fechaFiltro, $today, $yesterday, $tomorrow, $fechaInicio, $fechaFin) {
+                // Solo aplicar filtros rápidos si NO hay rango personalizado
+                if (!$fechaInicio && !$fechaFin) {
+                    $query->whereHas('availableAppointment', function ($q) use ($fechaFiltro, $today, $yesterday, $tomorrow) {
+                        switch ($fechaFiltro) {
+                            case 'yesterday':
+                                $q->whereDate('date', $yesterday);
+                                break;
+                            case 'today':
+                                $q->whereDate('date', $today);
+                                break;
+                            case 'tomorrow':
+                                $q->whereDate('date', $tomorrow);
+                                break;
+                            default:
+                                $q->whereDate('date', $today);
+                        }
+                    });
+                }
             })
             ->orderByDesc('created_at')
             ->paginate(10);
 
-        return view('reservations.index', compact('reservations', 'fechaFiltro', 'fechaInicio', 'fechaFin'));
+        return view('reservations.index', compact(
+            'specialties',
+            'reservations',
+            'search',
+            'reservaFiltro',
+            'fechaFiltro', // Añadido para mantener el estado del botón
+            'fechaInicio',
+            'fechaFin',
+            'specialty_id'
+        ));
     }
+
 
     public function actualizarAsistencia(Request $request, Reservation $reservation)
     {
@@ -267,7 +321,7 @@ class ReservationController extends Controller
     // previsualización utilizada para la consulta.
     public function getAvailableReservationByDoctor($appointment_name_id)
     {
-        $hoy = now()->format('Y-m-d');
+        $today = now()->format('Y-m-d');
         $horaActual = now()->format('H:i:s');
 
         // Obtener configuración de previsualización
@@ -298,10 +352,10 @@ class ReservationController extends Controller
         $appointments = AvailableAppointment::where('appointment_id', $appointment_name_id)
             ->where('available_spots', '>', 0)
             ->whereDate('date', '<=', $fechaLimite) // Filtro superior
-            ->where(function ($query) use ($hoy, $horaActual) {
-                $query->whereDate('date', '>', $hoy)
-                    ->orWhere(function ($q) use ($hoy, $horaActual) {
-                        $q->whereDate('date', $hoy)
+            ->where(function ($query) use ($today, $horaActual) {
+                $query->whereDate('date', '>', $today)
+                    ->orWhere(function ($q) use ($today, $horaActual) {
+                        $q->whereDate('date', $today)
                             ->whereTime('time', '>=', $horaActual);
                     });
             })
@@ -373,6 +427,7 @@ class ReservationController extends Controller
                     // Asigna los valores correctamente
                     $reservation->user_id = auth::id(); // ID del user autenticado
                     $reservation->available_appointment_id = $appointment->id;
+                    $reservation->specialty_id = $request->input('specialty_id');
                     $reservation->save();
                 } else {
                     return response()->json(['error' => 'Usuario no autenticado'], 401);

@@ -39,8 +39,7 @@
 }
 
 .primary-btn:hover,
-.secondary-btn:hover,
-.primario-btn:hover {
+.secondary-btn:hover{
     opacity: 0.8;
 }
 
@@ -52,15 +51,11 @@
 /*Vista register*/
 .secondary-btn {
     background-color: var(--secondary_color_btn);
-}
-
-.secondary-btn {
+    color: var(--btn_text_color);
     height: 40px;
     padding: 10px;
-}
-
-.primario-btn {
-    background-color: var(--primary_color_btn);
+    border: 1px solid #fff;
+    border-radius: 5px;
 }
 
 /*Botones de acciones de las tablas*/
@@ -115,9 +110,11 @@
     background-color: #e0a800;
     /* Amarillo más intenso */
 }
-.btn-edit .bi{
+
+.btn-edit .bi {
     color: #fff;
 }
+
 .btn-delete {
     background-color: #dc3545;
 }

@@ -1,11 +1,13 @@
 .search-filters {
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px var(--secondary_color_btn);;
+    box-shadow: 0 2px 4px var(--secondary_color_btn);
 }
-.input-group{
+
+.input-group {
     gap: 5px;
 }
+
 .date-filters {
     margin-top: 15px;
     padding-top: 15px;
@@ -26,12 +28,60 @@
     margin-right: 0;
 }
 
+.btn-active {
+    background: var(--secondary_color_btn);
+    border: 1px solid #fff;
+    margin: 0 10px !important;
+    border-radius: 5px !important;
+}
+
+.btn-active:hover {
+    background: var(--secondary_color_btn);
+}
+
+.btn-outline-primary {
+    border: 1px solid var(--general_design_color);
+    color: gray;
+}
+
+.btn-outline-primary:hover {
+    background: var(--secondary_color_btn);
+    border-radius: 5px !important;
+    margin: 0 5px !important;
+}
+
+/* Modo oscuro */
+
+@media (prefers-color-scheme: dark) {
+    .btn-active {
+        color: var(--text_color_dark);
+    }
+
+    .btn-outline-primary:hover {
+        border: 1px solid var(--text_color_dark);
+    }
+}
+
+/* Modo claro */
+
+@media (prefers-color-scheme: light) {
+    .btn-active {
+        color: var(--text_color_light);
+    }
+
+    .btn-outline-primary:hover {
+        border: 1px solid var(--text_color_light);
+    }
+}
+
+
 @media (max-width: 768px) {
+
     .date-filters .col-md-5,
     .date-filters .col-md-2 {
         padding: 0 5px;
     }
-    
+
     .date-filters .btn {
         padding: 5px 8px;
         font-size: 14px;

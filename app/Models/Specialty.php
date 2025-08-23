@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Specialty extends Model
 {
- protected $table = 'specialties';
+    protected $table = 'specialties';
 
     protected $fillable = [
         'name',
@@ -17,5 +17,9 @@ class Specialty extends Model
     public function doctors()
     {
         return $this->hasMany(Doctor::class, 'specialty_id');
+    }
+    public function reservation()
+    {
+        return $this->hasMany(Reservation::class, 'specialty_id');
     }
 }

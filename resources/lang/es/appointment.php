@@ -14,10 +14,11 @@ return [
 
     'schedule' => [
         'title' => 'Horarios de atención',
-        'number_of_available_schedules'=>'Cantidad de horarios disponibles por día',
+        'number_of_available_schedules' => 'Cantidad de horarios disponibles por día',
         'number_of_reservations' => 'Cantidad de reservas por día',
         'total_amount_of_reservations' => 'Cantidad total de reservas',
         'number_of_dates' => 'Cantidad de fechas disponibles',
+        'time' => 'Hora',
         'start_time' => 'Hora de Inicio',
         'end_time' => 'Hora de Fin',
         'single' => 'Asignar reservas con único horario.',
@@ -25,6 +26,7 @@ return [
     ],
     'date' => [
         'title' => 'Fechas de atención',
+        'date' => 'Fecha',
         'single_day' => 'Día único',
         'range' => 'Rango',
         'toggle_weekends' => 'Omitir fines de semana',

@@ -5,7 +5,8 @@ import '../js/pages/register/register-validate.js';
 import '../js/pages/doctors/specialty.js';
 import '../js/pages/profiles/anular-btn.js';
 
-import '../js/pages/reservations/index/validate-available-dates.js';
+import '../js/pages/reservations/index/date-filter.js';
+import '../js/pages/reservations/index/search.js';
 import '../js/pages/reservations/create/filtro-appointments.js';
 import '../js/pages/reservations/create/formulario-3paso-reservation.js';
 

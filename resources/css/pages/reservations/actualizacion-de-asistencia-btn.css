@@ -14,12 +14,9 @@
     position: absolute;
     z-index: 1000;
     min-width: 180px;
-    background-color: white;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 5px var(--general_design_color);
     overflow: hidden;
-    margin-top: 2px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .ios-dropdown-item {
@@ -62,4 +59,20 @@
 
 .dropdown-toggle::after {
     display: none;
+}
+
+/* Modo oscuro */
+
+@media (prefers-color-scheme: dark) {
+    .ios-dropdown-menu {
+        background-color: var(--background_navbar_dark);
+    }
+}
+
+/* Modo claro */
+
+@media (prefers-color-scheme: light) {
+    .ios-dropdown-menu {
+        background-color: var(--background_navbar_light);
+    }
 }

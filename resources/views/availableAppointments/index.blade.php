@@ -4,11 +4,11 @@
             <h1>Turnos creados</h1>
             <div class="mb-4">
                 <!-- Formulario de búsqueda y filtros rápidos -->
-                <form action="{{ route('availableAppointments.index') }}" method="GET" class="mb-4" id="filterForm">
-                    <div class="input-group mb-3">
+                <form action="{{ route('availableAppointments.index') }}" method="GET" class="mb-4 border p-3 rounded" id="filterForm">
+                    {{--<div class="input-group mb-3">
                         <input type="text" name="search" class="form-control"
                             placeholder="Buscar por DNI o name..." value="{{ request('search') }}">
-                        <button type="submit" class="btn btn-default">
+                        <button type="submit" class="secondary-btn full-center">
                             <i class="bi bi-search"></i> Buscar
                         </button>
                         @if (request('search'))
@@ -17,23 +17,23 @@
                             </a>
                         @endif
                     </div>
-
+                --}}
                     <div class="row mb-3">
                         <!-- Filtro de reservations -->
-                        <div class="col-md-6 mb-2">
+                         <div class="col-md-6 mb-2">
                             <div class="btn-group w-100" role="group">
                                 <input type="hidden" name="reservation" id="reservaInput"
                                     value="{{ request('reservation', 'reservados') }}">
                                 <button type="button" data-value="reservados"
-                                    class="btn {{ request('reservation', 'reservados') == 'reservados' ? 'btn-default' : 'btn-outline-primary' }} reservation-btn">
+                                    class="btn {{ request('reservation', 'reservados') == 'reservados' ? 'btn-active' : 'btn-outline-primary' }} reservation-btn">
                                     Reservados
                                 </button>
                                 <button type="button" data-value="sin_reserva"
-                                    class="btn {{ request('reservation') == 'sin_reserva' ? 'btn-default' : 'btn-outline-primary' }} reservation-btn">
-                                    Sin reservation
+                                    class="btn {{ request('reservation') == 'sin_reserva' ? 'btn-active' : 'btn-outline-primary' }} reservation-btn">
+                                    Sin reserva
                                 </button>
                                 <button type="button" data-value="todos"
-                                    class="btn {{ request('reservation') == 'todos' ? 'btn-default' : 'btn-outline-primary' }} reservation-btn">
+                                    class="btn {{ request('reservation') == 'todos' ? 'btn-active' : 'btn-outline-primary' }} reservation-btn">
                                     Todos
                                 </button>
                             </div>
@@ -45,15 +45,15 @@
                                 <input type="hidden" name="date" id="fechaInput"
                                     value="{{ request('date', 'hoy') }}">
                                 <button type="button" data-value="anteriores"
-                                    class="btn {{ request('date') == 'anteriores' ? 'btn-default' : 'btn-outline-primary' }} date-btn">
+                                    class="btn {{ request('date') == 'anteriores' ? 'btn-active' : 'btn-outline-primary' }} date-btn">
                                     Anteriores
                                 </button>
                                 <button type="button" data-value="hoy"
-                                    class="btn {{ request('date', 'hoy') == 'hoy' ? 'btn-default' : 'btn-outline-primary' }} date-btn">
+                                    class="btn {{ request('date', 'hoy') == 'hoy' ? 'btn-active' : 'btn-outline-primary' }} date-btn">
                                     Hoy
                                 </button>
                                 <button type="button" data-value="futuros"
-                                    class="btn {{ request('date') == 'futuros' ? 'btn-default' : 'btn-outline-primary' }} date-btn">
+                                    class="btn {{ request('date') == 'futuros' ? 'btn-active' : 'btn-outline-primary' }} date-btn">
                                     Mañana
                                 </button>
                             </div>
@@ -62,7 +62,7 @@
 
                     <!-- Botón para mostrar todo sin filtros -->
                     <div class="text-center">
-                        <a href="{{ route('availableAppointments.index') }}?mostrar_todo=1" class="btn btn-success">
+                        <a href="{{ route('availableAppointments.index') }}?show_all=1" class="secondary-btn full-center">
                             <i class="bi bi-list-ul"></i> Mostrar Todo (sin filtros)
                         </a>
                     </div>
@@ -124,21 +124,21 @@
 
                         <div class="col-md-4">
                             <label class="form-label">Fecha inicio</label>
-                            <input type="date" name="fecha_inicio" class="form-control"
-                                value="{{ request('fecha_inicio') }}">
+                            <input type="date" name="start_date" class="form-control"
+                                value="{{ request('start_date') }}">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Fecha fin</label>
-                            <input type="date" name="fecha_fin" class="form-control"
-                                value="{{ request('fecha_fin') }}">
+                            <input type="date" name="end_date" class="form-control"
+                                value="{{ request('end_date') }}">
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" name="date" value="personalizado" class="btn btn-default w-100">
-                                <i class="bi bi-filter"></i> Filtrar
+                            <button type="submit" name="date" value="personalizado" class="secondary-btn full-center w-100">
+                                <i class="bi bi-search"></i> Filtrar
                             </button>
                         </div>
                         <div class="col-md-2">
-                            <a href="{{ route('availableAppointments.index') }}" class="btn btn-outline-secondary w-100">
+                            <a href="{{ route('availableAppointments.index') }}" class="secondary-btn full-center w-100">
                                 <i class="bi bi-x-circle"></i> Limpiar
                             </a>
                         </div>
@@ -203,8 +203,8 @@
 
     <script>
         function limpiarFechas() {
-            document.querySelector('input[name="fecha_inicio"]').value = '';
-            document.querySelector('input[name="fecha_fin"]').value = '';
+            document.querySelector('input[name="start_date"]').value = '';
+            document.querySelector('input[name="end_date"]').value = '';
             // opcionalmente desmarcar el select de date o setearlo a "todos"
             document.querySelector('select[name="date"]').value = 'todos';
             // enviar el formulario

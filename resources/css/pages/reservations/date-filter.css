@@ -1,0 +1,162 @@
+/*Box form*/
+.filter-box {
+    width: 700px;
+}
+
+/* Contenedor principal */
+.date-filter-container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+/* Wrapper para los filtros */
+.date-filters-wrapper {
+    min-height: 100px;
+    overflow: hidden;
+}
+
+/* Estilos base para ambos filtros */
+.date-filter {
+    width: 100%;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--general_design_color);
+}
+
+/* Filtro rápido visible por defecto */
+.date-filter.quick-filter.active {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 10;
+    width: 90%;
+    min-height: 100px;
+}
+
+.date-filter.quick-filter:not(.active) {
+    opacity: 0;
+    transform: translateX(-20px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+}
+
+/* Filtro de rango */
+.date-filter.range-filter.active {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 10;
+}
+
+.date-filter.range-filter:not(.active) {
+    opacity: 0.2;
+    transform: translateX(calc(100% - 60px));
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+}
+
+/* Botones de cambio */
+.filter-switch-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--general_design_color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.filter-switch-btn:hover {
+    border-color: var(--secondary_color_btn);
+}
+
+.filter-switch-btn i {
+    font-size: 0.8rem;
+}
+
+/* Toggle para móvil */
+.date-filter-toggle {
+    display: none;
+}
+
+
+/* Modo oscuro */
+
+@media (prefers-color-scheme: dark) {
+
+    /* Estilos base para ambos filtros */
+    .date-filter {
+        background: var(--background-dark);
+    }
+
+    .filter-switch-btn i {
+        color: var(--text_color_dark) !important;
+    }
+}
+
+/* Modo claro */
+
+@media (prefers-color-scheme: light) {
+
+    /* Estilos base para ambos filtros */
+    .date-filter {
+        background: var(--background-light);
+    }
+
+    .filter-switch-btn i {
+        color: var(--text_color_light) !important;
+    }
+}
+
+
+
+/* Responsive: móvil */
+@media (max-width: 767.98px) {
+
+    /*Box form*/
+    .filter-box {
+        width: 100%;
+    }
+
+    /* Filtro rápido visible por defecto */
+    .date-filter.quick-filter.active {
+        width: 100%;
+    }
+
+    .date-filter:not(.active) {
+        display: none !important;
+    }
+
+    .date-filter-toggle {
+        display: block;
+    }
+
+    .filter-switch-btn {
+        display: none !important;
+    }
+
+    .date-filters-wrapper {
+        min-height: auto;
+    }
+}
+
+/* Efecto de superposición para desktop */
+@media (min-width: 768px) {
+    .date-filters-wrapper {
+        height: 60px;
+    }
+
+    .date-filter {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+}

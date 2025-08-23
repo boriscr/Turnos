@@ -18,6 +18,7 @@ return [
         'number_of_reservations' => 'Number of reservations per day',
         'total_amount_of_reservations' => 'Total amount of reservations',
         'number_of_dates' => 'Number of dates available',
+        'time' => 'Time',
         'start_time' => 'Start time',
         'end_time' => 'End time',
         'single' => 'Assign reservations in a single time block.',
@@ -26,6 +27,7 @@ return [
 
     'date' => [
         'title' => 'Service dates',
+        'date' => 'Date',
         'single_day' => 'Single day',
         'range' => 'Date range',
         'toggle_weekends' => 'Exclude weekends',

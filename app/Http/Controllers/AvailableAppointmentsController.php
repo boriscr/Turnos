@@ -10,7 +10,7 @@ class AvailableAppointmentsController extends Controller
     public function index(Request $request)
     {
         // Si se presionó "Mostrar Todo", ignoramos todos los filtros
-        if ($request->has('mostrar_todo')) {
+        if ($request->has('show_all')) {
             $turnoDisponibles = AvailableAppointment::with(['appointment', 'reservations.user'])
                 ->orderByDesc('date')
                 ->orderByDesc('time')
@@ -27,22 +27,22 @@ class AvailableAppointmentsController extends Controller
         }
 
         // Procesamiento normal de filtros
-        $search = $request->input('search');
+        ///$search = $request->input('search');
         $reservaFiltro = $request->input('reservation', 'reservados');
         $fechaFiltro = $request->input('date', 'hoy');
-        $fechaInicio = $request->input('fecha_inicio');
-        $fechaFin = $request->input('fecha_fin');
+        $fechaInicio = $request->input('start_date');
+        $fechaFin = $request->input('end_date');
         $hoy = now()->format('Y-m-d');
         $manana = now()->addDay()->format('Y-m-d'); // Nueva variable para mañana
 
         $query = AvailableAppointment::with(['appointment', 'reservations.user'])
-            ->when($search, function ($query) use ($search) {
+/*            ->when($search, function ($query) use ($search) {
                 $query->whereHas('reservations.user', function ($userQuery) use ($search) {
                     $userQuery->where('idNumber', 'like', "%$search%")
                         ->orWhere('name', 'like', "%$search%")
                         ->orWhere('surname', 'like', "%$search%");
                 });
-            })
+            })*/
             ->when($reservaFiltro !== 'todos', function ($query) use ($reservaFiltro) {
                 switch ($reservaFiltro) {
                     case 'reservados':
@@ -83,6 +83,6 @@ class AvailableAppointmentsController extends Controller
             ->orderByDesc('time')
             ->paginate(10);
 
-        return view('availableAppointments.index', compact('turnoDisponibles', 'reservaFiltro', 'fechaFiltro', 'search', 'fechaInicio', 'fechaFin'));
+        return view('availableAppointments.index', compact('turnoDisponibles', 'reservaFiltro', 'fechaFiltro', 'fechaInicio', 'fechaFin'));
     }
 }
