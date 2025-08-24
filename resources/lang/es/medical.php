@@ -26,6 +26,7 @@ return [
     'no_data' => 'Sin datos',
     'no_profile' => 'Sin perfil de usuario',
     'profile' => 'Perfil',
+    'doctor_profile'=>'Perfil del doctor',
     'none' => 'Ninguno',
     'unassisted_reservations' => 'Reservas no asistidas',
     
@@ -44,8 +45,11 @@ return [
         'management' => 'Gestión',
         'creation' => 'Creación',
         'personal_data' => 'Datos personales',
+        'patient_data'=>'Datos del paciente',
+        'doctor_details' => 'Datos del doctor',
         'contact_details' => 'Datos de contacto',
         'reservations' => 'Reservas',
+        'reserved_appointment_details'=>'Detalles del turno reservado',
     ],
     'setting' => [
         'title_1' => 'Contenido personalizado',
