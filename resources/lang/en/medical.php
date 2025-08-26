@@ -26,7 +26,6 @@ return [
     'no_data' => 'No data',
     'no_profile' => 'No user profile',
     'profile' => 'Profile',
-    'doctor_profile'=>'Doctor profile',
     'none' => 'None',
     'unassisted_reservations' => 'Unassisted reservations',
 
@@ -45,11 +44,13 @@ return [
         'management' => 'Management',
         'creation' => 'Creation',
         'personal_data' => 'Personal data',
-        'patient_data'=>'Patient data',
+        'patient_data' => 'Patient data',
         'doctor_details' => 'Doctor information',
         'contact_details' => 'Contact details',
+        'my_data' => 'My data',
         'reservations' => 'Reservations',
-        'reserved_appointment_details'=>'Reserved appointment details',
+        'reserved_appointment_details' => 'Reserved appointment details',
+        'historical' => 'Historical'
     ],
 
     'setting' => [

@@ -1,16 +1,16 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h1>Historial</h1>
+            <h1>{{ __('medical.titles.historical') }}</h1>
             <table>
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Specialty</th>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Asistencia</th>
-                        <th>Acciones</th>
+                        <th>{{ __('medical.id') }}</th>
+                        <th>{{ __('specialty.title') }}</th>
+                        <th>{{ __('appointment.date.date') }}</th>
+                        <th>{{ __('appointment.schedule.time') }}</th>
+                        <th>{{ __('medical.status') }}</th>
+                        <th>{{ __('medical.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,7 +63,6 @@
                 </tbody>
             </table>
             {{ $reservations->links() }}
-
         </div>
     </div>
 </x-app-layout>

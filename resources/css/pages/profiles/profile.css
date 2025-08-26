@@ -35,7 +35,8 @@
 
 .card-error .card {
     background-color: rgb(70, 0, 0);
-    color: red;
+    color: #4CAF50;
+    box-shadow: 0px 0px 10px 5px rgb(100, 1, 1);
 }
 
 .card-error .card h1 {

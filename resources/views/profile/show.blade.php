@@ -1,69 +1,72 @@
 <x-app-layout>
     @if (isset($reservation) && $reservation->availableAppointment->appointment->status === true)
         <div class="content-wrapper">
-            <h1>Detalles</h1>
+            <h1>{{ __('medical.titles.details') }}</h1>
             <div class="section-container full-center">
                 <div class="card">
-                    <h1>Mis datos</h1>
-                    <p><b> Paciente: </b> {{ Auth::user()->name . ' ' . Auth::user()->surname }}
-                    </p>
-                    <p><b> DNI: </b>{{ Auth::user()->idNumber }}</p>
-                    <p><b> Activo: </b>{{ $reservation->availableAppointment->doctor->status ? 'Si' : 'No' }}</p>
-
-                </div>
-                <div class="card">
-                    <h1>Appointment</h1>
-                    <p><b> Specialty: </b>{{ $reservation->availableAppointment->doctor->specialty->name }}</p>
-                    <p><b> Hora del appointment:
-                        </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</p>
-                    <p><b> Fecha del appointment:
-                        </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</p>
-                    <p><b> Direccion: </b>{{ $reservation->availableAppointment->address }}</p>
-
-                    <p><b> Asistencia:
-                        </b>{{ $reservation->asistencia == null ? 'Pendiente' : ($reservation->asistencia == true ? 'Asistio' : 'No asistio') }}
-                    </p>
-                    <p><b> Fecha de creación: </b>{{ $reservation->created_at }}</p>
-                    <p><b> Fecha de última actualizacion: </b>{{ $reservation->updated_at }}</p>
-                </div>
-                <div class="card">
-                    <h1>Doctor/a</h1>
-                    <p><b> Doctor/a:
+                    <h2>{{ __('medical.titles.reserved_appointment_details') }}</h2>
+                    <p><b><i class="bi bi-activity"></i>{{ __('reservation.title_name') }}:
+                        </b>{{ $reservation->availableAppointment->appointment->name }}</p>
+                    <p><b><i class="bi bi-geo-alt-fill"></i>{{ __('contact.address') }}:
+                        </b>{{ $reservation->availableAppointment->appointment->address }}</p>
+                    <p><b><i class="bi bi-heart-pulse-fill"></i>{{ __('specialty.title') }}:
+                        </b>{{ $reservation->availableAppointment->doctor->specialty->name }}</p>
+                    <p><b><i class="bi bi-person-check-fill"></i>{{ __('medical.doctor') }}:
                         </b>{{ $reservation->availableAppointment->doctor->name . ' ' . $reservation->availableAppointment->doctor->surname }}
                     </p>
-                    <p><b> DNI: </b>{{ $reservation->availableAppointment->doctor->idNumber }}</p>
-                    <p><b> Activo: </b>{{ $reservation->availableAppointment->doctor->status ? 'Si' : 'No' }}</p>
-                    <p><b> Specialty: </b>{{ $reservation->availableAppointment->doctor->specialty->name }}</p>
+                    <p><b><i class="bi bi-clock-fill"></i>{{ __('appointment.schedule.time') }}:
+                        </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</p>
+                    <p><b><i class="bi bi-calendar-check-fill"></i>{{ __('appointment.date.date') }}:
+                        </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</p>
+                    <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status') }}: </b>
+                        <span
+                            class="{{ $reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia === true ? 'btn-success' : 'btn-danger') }}">
+                            {{ $reservation->asistencia === null ? __('button.search.pending') : ($reservation->asistencia === true ? __('button.search.assisted') : __('button.search.not_attendance')) }}
+                        </span>
+                    </p>
+                    <p><b><i class="bi bi-calendar-date"></i>{{ __('medical.creation_date') }}:
+                        </b>{{ $reservation->created_at }}</p>
+                </div>
+                <div class="card">
+                    <h2>{{ __('medical.titles.my_data') }}</h2>
+                    <p><b><i class="bi bi-person-fill"></i>{{ __('contact.name_and_surname') }}: </b>
+                        {{ @Auth::user()->name . ' ' . @Auth::user()->surname }}
+                    </p>
+                    <p><b><i class="bi bi-fingerprint"></i>{{ __('contact.idNumber') }}:
+                        </b>{{ @Auth::user()->idNumber }}</p>
+                    <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status') }}:
+                        </b>
+                        <spam class="{{ @Auth::user()->status ? 'btn-success' : 'btn-danger' }}">
+                            {{ @Auth::user()->status ? __('medical.active') : __('medical.inactive') }}</spam>
+                    </p>
                 </div>
             </div>
         </div>
     @else
         <div class="content-wrapper">
-            <h1>Upss...</h1>
+            <h1>{{ __('error.oops.title') }}</h1>
             <div class="card-error full-center">
                 <div class="card">
                     <div class="mensaje-error-box">
-                        <h1>Appointment No Disponible</h1>
-                        <p>El appointment que intentas acceder no está disponible o ha sido cancelado.</p>
-
+                        <h2>{{ __('error.oops.subtitle_1') }}</h2>
+                        <p>{{ __('error.oops.message') }}</p>
                     </div>
                     <div class="icono-error-box full-center">
                         <i class="bi bi-x-circle-fill"></i>
                     </div>
-                    <h2>¿Por qué sucede esto?</h2>
-                    <p>Este appointment ha sido marcado como inactivo por un administrador. Esto significa que puede ser
-                        reprogramado o definitivamente cancelado.</p>
-
-                    <h2>¿Qué puedes hacer?</h2>
+                    <p>{{ __('error.oops.message_1') }}</p>
+                    <hr>
+                    <hr>
+                    <h2>{{ __('error.oops.subtitle_2') }}</h2>
+                    <p>{{ __('error.oops.message_2') }}</p>
+                    <h2>{{ __('error.oops.subtitle_3') }}</h2>
                     <ul>
-                        <li><i class="bi-caret-right-fill"></i>Verifica la información en tu historial de appointments mas
-                            tarde.</li>
-                        <li><i class="bi-caret-right-fill"></i>Si crees que esto es un error, puedes contactar al
-                            soporte.</li>
-                        <li><i class="bi-caret-right-fill"></i>Consulta nuestra <a href="/ayuda">sección de ayuda</a>
-                            para más detalles.</li>
+                        <li><i class="bi-caret-right-fill"></i>{{ __('error.oops.item_1') }}</li>
+                        <li><i class="bi-caret-right-fill"></i>{{ __('error.oops.item_2') }}</li>
+                        <li><i class="bi-caret-right-fill"></i>{{ __('error.oops.item_3') }}</li>
+                        <li><i class="bi-caret-right-fill"></i>{{ __('error.oops.item_4') }}</li>
                     </ul>
-                    <p>Agradecemos tu comprensión y estamos aquí para ayudarte.</p>
+                    <p>{{ __('error.oops.message_3') }}</p>
                 </div>
             </div>
         </div>
