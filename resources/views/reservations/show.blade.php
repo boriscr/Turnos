@@ -31,8 +31,8 @@
                     <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status') }}: </b>
                         </b>
                         <span
-                            class="{{ $reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia === true ? 'btn-success' : 'btn-danger') }}">
-                            {{ $reservation->asistencia === null ? __('button.search.pending') : ($reservation->asistencia === true ? __('button.search.assisted') : __('button.search.not_attendance')) }}
+                            class="{{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia === true ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
+                            {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? __('button.search.pending') : ($reservation->asistencia === true ? __('button.search.assisted') : __('button.search.not_attendance'))) : __('button.search.inactive_appointment') }}
                         </span>
                     </p>
                     <p><b><i class="bi bi-calendar-date"></i>{{ __('medical.creation_date') }}:
@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <div class="opciones full-center">
+            <div class="options full-center">
                 <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST"
                     style="display:inline;" class="delete-form">
                     @csrf

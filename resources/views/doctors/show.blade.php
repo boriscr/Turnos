@@ -28,7 +28,11 @@
                     <h2>{{ __('medical.titles.creation') }}</h2>
                     <p><b> {{ __('medical.role') }}: </b>{{ $doctor->role }}</p>
                     <p><b> {{ __('medical.status') }}:
-                        </b>{{ $doctor->status ? __('medical.active') : __('medical.inactive') }}</p>
+                        </b>
+                        <span class="{{ $doctor->status ? 'btn-success' : 'inactive' }}">
+                            {{ $doctor->status ? __('medical.active') : __('medical.inactive') }}
+                        </span>
+                    </p>
                     <p><b>{{ __('medical.created_by') }}:
                         </b>{{ $doctor->createdBy->name . ' ' . $doctor->createdBy->surname }}
                         <a href="{{ route('user.show', $doctor->create_by) }}"><i
@@ -43,7 +47,7 @@
                     <p><b> {{ __('medical.update_date') }}: </b>{{ $doctor->updated_at }}</p>
                 </div>
             </div>
-            <div class="opciones full-center">
+            <div class="options full-center">
                 <a href="{{ route('doctor.edit', $doctor->id) }}" class="btn-edit"><i
                         class="bi bi-pencil-fill">{{ __('button.edit') }}</i></a>
                 <form action="{{ route('doctor.destroy', $doctor->id) }}" method="POST" class="delete-form">

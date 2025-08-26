@@ -13,6 +13,7 @@ return [
         'assisted' => 'Asistido',
         'pending' => 'Pendiente',
         'not_attendance' => 'No asistido',
+        'inactive_appointment'=> 'Turno inactivo',
         'all' => 'Todos',
         'yesterday' => 'Ayer',
         'today' => 'Hoy',

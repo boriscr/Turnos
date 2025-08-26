@@ -60,48 +60,56 @@
                                     href="{{ route('user.show', $reservation->user->id) }}">{{ $reservation->user->name . ' ' . $reservation->user->surname }}</a>
                             </td>
                             <td>
-                                @if ($reservation->asistencia === null)
-                                    <div class="ios-dropdown">
-                                        <button class="btn-asistencia btn-default dropdown-toggle"
-                                            title="Marcar asistencia">
-                                            <i class="bi bi-hourglass-split"></i>{{ __('button.search.pending') }}
-                                        </button>
-                                        <div class="ios-dropdown-menu">
-                                            <form action="{{ route('reservations.asistencia', $reservation->id) }}"
-                                                method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="asistencia" value="1">
-                                                <button type="submit" class="ios-dropdown-item success">
-                                                    <i class="bi bi-check-circle-fill"></i>
-                                                    {{ __('button.search.assisted') }}
-                                                </button>
-                                            </form>
-                                            <form action="{{ route('reservations.asistencia', $reservation->id) }}"
-                                                method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="asistencia" value="0">
-                                                <button type="submit" class="ios-dropdown-item danger">
-                                                    <i class="bi bi-x-circle-fill"></i>
-                                                    {{ __('button.search.not_attendance') }}
-                                                </button>
-                                            </form>
+                                @if ($reservation->availableAppointment->appointment->status === true)
+                                    @if ($reservation->asistencia === null)
+                                        <div class="ios-dropdown">
+                                            <button class="btn-asistencia btn-default dropdown-toggle"
+                                                title="Marcar asistencia">
+                                                <i class="bi bi-hourglass-split"></i>{{ __('button.search.pending') }}
+                                            </button>
+                                            <div class="ios-dropdown-menu">
+                                                <form action="{{ route('reservations.asistencia', $reservation->id) }}"
+                                                    method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="hidden" name="asistencia" value="1">
+                                                    <button type="submit" class="ios-dropdown-item success">
+                                                        <i class="bi bi-check-circle-fill"></i>
+                                                        {{ __('button.search.assisted') }}
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('reservations.asistencia', $reservation->id) }}"
+                                                    method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="hidden" name="asistencia" value="0">
+                                                    <button type="submit" class="ios-dropdown-item danger">
+                                                        <i class="bi bi-x-circle-fill"></i>
+                                                        {{ __('button.search.not_attendance') }}
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @else
+                                        <form action="{{ route('reservations.asistencia', $reservation->id) }}"
+                                            method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="btn-asistencia {{ $reservation->asistencia ? 'btn-success' : 'btn-danger' }}"
+                                                title="{{ $reservation->asistencia ? __('button.reservation.assisted_txt') : __('button.reservation.not_attendance_txt') }}">
+                                                <i
+                                                    class="bi {{ $reservation->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill' }}"></i>
+                                                {{ $reservation->asistencia ? __('button.search.assisted') : __('button.search.not_attendance') }}
+                                            </button>
+                                        </form>
+                                    @endif
                                 @else
-                                    <form action="{{ route('reservations.asistencia', $reservation->id) }}"
-                                        method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit"
-                                            class="btn-asistencia {{ $reservation->asistencia ? 'btn-success' : 'btn-danger' }}"
-                                            title="{{ $reservation->asistencia ? __('button.reservation.assisted_txt') : __('button.reservation.not_attendance_txt') }}">
-                                            <i
-                                                class="bi {{ $reservation->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill' }}"></i>
-                                            {{ $reservation->asistencia ? __('button.search.assisted') : __('button.search.not_attendance') }}
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn-asistencia inactive"
+                                        title="{{ __('button.search.inactive_appointment') }}">
+                                        <i class="bi bi-slash-circle"></i>
+                                        {{ __('button.search.inactive_appointment') }}
+                                    </button>
                                 @endif
                             </td>
 

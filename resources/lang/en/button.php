@@ -13,6 +13,7 @@ return [
         'assisted' => 'Assisted',
         'pending' => 'Pending',
         'not_attendance' => 'Unassisted',
+        'inactive_appointment'=> 'Inactive appointment',
         'all' => 'All',
         'yesterday' => 'Yesterday',
         'today' => 'Today',

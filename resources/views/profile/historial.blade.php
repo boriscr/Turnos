@@ -25,14 +25,16 @@
                             <td>{{ $id }}</td>
                             <td>{{ $reservation->availableAppointment->doctor->specialty->name }}</td>
                             <td class="date-td">
-                                {{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</td>
-                            <td>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</td>
+                                {{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}
+                            </td>
                             <td
-                                class="{{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia == true ? 'btn-success' : 'btn-danger')) : 'btn-danger' }}">
+                                class="{{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia === true ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
                                 <i
-                                    class="bi {{ $reservation->asistencia === null ? 'bi-hourglass-split' : ($reservation->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill') }}">
+                                    class="bi {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? 'bi-hourglass-split' : ($reservation->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill')) : 'bi-slash-circle' }} ">
                                 </i>
-                                {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? 'Pendiente' : ($reservation->asistencia ? 'Asistió' : 'No asistió')) : 'Appointment Inactivo' }}
+                                {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? __('button.search.pending') : ($reservation->asistencia ? __('button.search.assisted') : __('button.search.not_attendance'))) : __('button.search.inactive_appointment') }}
                             </td>
                             <td>
                                 <a href="{{ route('profile.show', $reservation->id) }}" class="btn btn-view">

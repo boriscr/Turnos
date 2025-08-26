@@ -89,7 +89,7 @@ option {
     text-align: center;
 }
 
-/*opciones tipos de appointments mañana-tardenoche*/
+/*options tipos de appointments mañana-tardenoche*/
 .box-style {
     display: flex;
     justify-content: space-between;

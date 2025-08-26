@@ -13,6 +13,9 @@
                         </b>{{ $reservation->availableAppointment->doctor->specialty->name }}</p>
                     <p><b><i class="bi bi-person-check-fill"></i>{{ __('medical.doctor') }}:
                         </b>{{ $reservation->availableAppointment->doctor->name . ' ' . $reservation->availableAppointment->doctor->surname }}
+                        <span class="{{ $reservation->availableAppointment->doctor->status===true ? 'btn-success' : 'inactive' }}">
+                            <i class="bi bi-exclamation-diamond"></i>{{ __('medical.inactive') }}
+                        </span>
                     </p>
                     <p><b><i class="bi bi-clock-fill"></i>{{ __('appointment.schedule.time') }}:
                         </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</p>
@@ -45,13 +48,13 @@
     @else
         <div class="content-wrapper">
             <h1>{{ __('error.oops.title') }}</h1>
-            <div class="card-error full-center">
+            <div class="error-card full-center">
                 <div class="card">
-                    <div class="mensaje-error-box">
+                    <div class="error-box-message">
                         <h2>{{ __('error.oops.subtitle_1') }}</h2>
                         <p>{{ __('error.oops.message') }}</p>
                     </div>
-                    <div class="icono-error-box full-center">
+                    <div class="error-box-icon full-center">
                         <i class="bi bi-x-circle-fill"></i>
                     </div>
                     <p>{{ __('error.oops.message_1') }}</p>

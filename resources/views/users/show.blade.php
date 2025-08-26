@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        <div class="opciones full-center">
+        <div class="options full-center">
             <a href="{{ route('user.edit', $user->id) }}" class="btn-edit"><i
                     class="bi bi-pencil-fill">{{ __('button.edit') }}</i></a>
             <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="delete-form">

@@ -2,7 +2,7 @@
     <div class="main-table full-center">
         <div class="container-form full-center">
             <h1>Especialidades</h1>
-            <div class="opciones full-center">
+            <div class="options full-center">
                 <button class="btn-add">
                     <a href="{{ route('specialty.create') }}">Crear specialty</a>
                 </button>

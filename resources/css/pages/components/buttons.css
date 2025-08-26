@@ -39,7 +39,7 @@
 }
 
 .primary-btn:hover,
-.secondary-btn:hover{
+.secondary-btn:hover {
     opacity: 0.8;
 }
 
@@ -60,15 +60,15 @@
 
 /*Botones de acciones de las tablas*/
 /*heder*/
-.opciones {
+.options {
     width: 100%;
     padding: 0px 10px;
     margin-top: 15px;
     gap: 10px;
 }
 
-.opciones>*,
-.opciones .delete-btn {
+.options>*,
+.options .delete-btn {
     width: 85px;
     height: 50px;
     border-radius: 10px;
@@ -79,19 +79,27 @@
 }
 
 
-.main-table .container-form .opciones .btn-add {
+.main-table .container-form .options .btn-add {
     background-color: var(--secondary_color_btn);
     color: var(--btn_text_color);
     width: 150px;
 }
 
-.main-table .container-form .opciones .btn-add:hover {
+.main-table .container-form .options .btn-add:hover {
     opacity: 0.8;
 }
 
 
 
 /*body*/
+.inactive {
+    background-color: #770000;
+    color: #fff;
+    padding: 1px 2px;
+}
+.inactive .bi{
+    color: #fff;
+}
 
 .btn-view {
     background-color: #007bff;

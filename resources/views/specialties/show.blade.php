@@ -13,7 +13,7 @@
                     <p><b>Fecha de última actualizacion:</b> {{ $specialty->updated_at }}</p>
                 </div>
             </div>
-            <div class="opciones full-center">
+            <div class="options full-center">
                 <a href="{{ route('specialty.edit', $specialty->id) }}" class="btn-edit"><i
                         class="bi bi-pencil-fill">Editar</i></a>
                 <form action="{{ route('specialty.destroy', $specialty->id) }}" method="POST" class="delete-form">
