@@ -13,7 +13,10 @@ class Specialty extends Model
         'description',
         'status',
     ];
-
+    public function availableAppointment()
+    {
+        return $this->hasMany(AvailableAppointment::class);
+    }
     public function doctors()
     {
         return $this->hasMany(Doctor::class, 'specialty_id');

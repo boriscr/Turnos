@@ -16,7 +16,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('confirmReservation') }}" method="post" id="multiStepForm">
+            <form action="{{ route('reservation.store') }}" method="post" id="multiStepForm">
                 @csrf
                 <!-- Paso 1 - Datos Personales -->
                 <div class="form-step active" data-step="1">

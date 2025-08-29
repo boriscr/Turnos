@@ -19,7 +19,7 @@ Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     Route::get('/getDoctorsBySpecialty/{specialty_id}', [ReservationController::class, 'getDoctorsBySpecialty']);
     Route::get('/getAvailableReservationByName/{doctor_id}', [ReservationController::class, 'getAvailableReservationByName']);
     Route::get('/getAvailableReservationByDoctor/{appointment_name_id}', [ReservationController::class, 'getAvailableReservationByDoctor']);
-    Route::post('/confirmReservation', [ReservationController::class, 'confirmReservation'])->name('confirmReservation');
+    Route::post('/reservation/store', [ReservationController::class, 'store'])->name('reservation.store');
     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 
     // Profile

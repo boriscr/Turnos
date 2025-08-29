@@ -11,6 +11,7 @@ class AvailableAppointment extends Model
     protected $fillable = [
         'doctor_id',
         'appointment_id',
+        'specialty_id',
         'date',
         'time',
         'available_spots',
@@ -22,7 +23,10 @@ class AvailableAppointment extends Model
         'time' => 'datetime:H:i',
         'disponible' => 'boolean'
     ];
-
+    public function specialty()
+    {
+        return $this->belongsTo(Specialty::class);
+    }
     public function appointment()
     {
         return $this->belongsTo(Appointment::class);

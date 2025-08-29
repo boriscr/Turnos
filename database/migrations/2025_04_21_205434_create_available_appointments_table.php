@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Doctor;
+
 return new class extends Migration
 {
     /**
@@ -15,18 +16,18 @@ return new class extends Migration
             $table->id();
             $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
             $table->foreignId('doctor_id')->constrained(Doctor::TABLE)->onDelete('cascade');
+            $table->foreignId('specialty_id')->constrained('specialties')->onDelete('cascade');
             $table->date('date');
             $table->time('time')->nullable(); // Si no se asignan horarios específicos, queda null
             $table->integer('available_spots')->default(1);
             $table->integer('reserved_spots')->default(0);
-            
+
             $table->unique(['appointment_id', 'date', 'time']);
             $table->index(['date', 'time']);
             $table->timestamps();
         });
-        
     }
-    
+
 
     /**
      * Reverse the migrations.

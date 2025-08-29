@@ -57,6 +57,7 @@ class AppointmentController extends Controller
                     AvailableAppointment::create([
                         'appointment_id' => $appointment->id,
                         'doctor_id' => $request->doctor_id,
+                        'specialty_id' => $request->specialty_id,
                         'date' => $date,
                         'time' => $time,
                         'available_spots' => 1, // 1 cupo por horario individual
@@ -67,6 +68,7 @@ class AppointmentController extends Controller
                 AvailableAppointment::create([
                     'appointment_id' => $appointment->id,
                     'doctor_id' => $request->doctor_id,
+                    'specialty_id' => $request->specialty_id,
                     'date' => $date,
                     'time' => $request->start_time, // sin time específica
                     'available_spots' => $request->number_of_reservations, // cupo total por date
@@ -219,13 +221,16 @@ class AppointmentController extends Controller
 
                 $existenteConReservas->update([
                     'doctor_id' => $request->doctor_id,
-                    'available_spots' => $newAvailableSpots
+                    'available_spots' => $newAvailableSpots,
+                    'specialty_id' => $request->specialty_id,
+
                 ]);
             } else {
                 // Crear nueva disponibilidad
                 AvailableAppointment::create([
                     'appointment_id' => $appointment->id,
                     'doctor_id' => $request->doctor_id,
+                    'specialty_id' => $request->specialty_id,
                     'date' => $combinacion['date'],
                     'time' => $combinacion['time'],
                     'available_spots' => $availableSpots,

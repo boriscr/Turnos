@@ -13,8 +13,14 @@
                         </b>{{ $reservation->availableAppointment->doctor->specialty->name }}</p>
                     <p><b><i class="bi bi-person-check-fill"></i>{{ __('medical.doctor') }}:
                         </b>{{ $reservation->availableAppointment->doctor->name . ' ' . $reservation->availableAppointment->doctor->surname }}
-                        <span class="{{ $reservation->availableAppointment->doctor->status===true ? 'btn-success' : 'inactive' }}">
-                            <i class="bi bi-exclamation-diamond"></i>{{ __('medical.inactive') }}
+                        <span
+                            class="{{ $reservation->availableAppointment->doctor->status ? 'btn-success' : 'inactive' }}">
+                            @if ($reservation->availableAppointment->doctor->status)
+                                {{ __('medical.active') }}
+                            @else
+                                <i class="bi bi-exclamation-diamond"></i>
+                                {{ __('medical.inactive') }}
+                            @endif
                         </span>
                     </p>
                     <p><b><i class="bi bi-clock-fill"></i>{{ __('appointment.schedule.time') }}:
