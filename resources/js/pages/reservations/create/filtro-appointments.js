@@ -71,9 +71,9 @@ if (window.location.pathname.includes('/reservations/create')) {
     function limpiarSelectsDependientes(selectInicial) {
         const selects = ['specialty_id', 'doctor_id', 'appointment_name_id', 'appointment_date', 'appointment_time'];
         const indexInicial = selects.indexOf(selectInicial);
-        
+
         if (indexInicial === -1) return;
-        
+
         // Limpiar todos los selects posteriores al que cambió
         for (let i = indexInicial + 1; i < selects.length; i++) {
             const select = document.getElementById(selects[i]);
@@ -101,7 +101,7 @@ if (window.location.pathname.includes('/reservations/create')) {
 
             const response = await fetch(`/getDoctorsBySpecialty/${especialidadId}`);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            
+
             const data = await response.json();
 
             selectMedico.innerHTML = '<option value="">Seleccione un profesional</option>';
@@ -136,7 +136,7 @@ if (window.location.pathname.includes('/reservations/create')) {
 
             const response = await fetch(`/getAvailableReservationByName/${medicoId}`);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            
+
             const data = await response.json();
 
             selectTurno.innerHTML = '<option value="">Seleccione un appointment</option>';
@@ -152,6 +152,54 @@ if (window.location.pathname.includes('/reservations/create')) {
             console.error("Error al cargar lista de appointments:", error);
             selectTurno.innerHTML = '<option value="">Error al cargar</option>';
         }
+    }
+
+    // Función para cargar appointments basados en el name de appointment seleccionado
+    // Función para formatear fechas de manera segura
+    function formatearFecha(dateString) {
+        try {
+            // Extraer solo la parte de la fecha del formato ISO (YYYY-MM-DD)
+            let fechaParte = dateString;
+
+            // Si viene en formato ISO completo, extraer solo la fecha
+            if (dateString.includes('T')) {
+                fechaParte = dateString.split('T')[0];
+            }
+
+            const [year, month, day] = fechaParte.split('-').map(Number);
+
+            // Validar que sea una fecha válida
+            if (!year || !month || !day || isNaN(year) || isNaN(month) || isNaN(day)) {
+                return fechaParte; // Devolver el string original si no se puede parsear
+            }
+
+            const fecha = new Date(year, month - 1, day);
+
+            // Verificar si la fecha es válida
+            if (isNaN(fecha.getTime())) {
+                return fechaParte;
+            }
+
+            // ELIMINAR la capitalización extra - devolver el formato natural de toLocaleDateString
+            return fecha.toLocaleDateString('es-ES', {
+                weekday: 'long',
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+
+        } catch (error) {
+            console.error('Error al formatear fecha:', error, dateString);
+            return dateString; // Devolver el string original en caso de error
+        }
+    }
+
+    // Función para extraer solo la fecha del formato ISO
+    function extraerSoloFecha(dateString) {
+        if (dateString.includes('T')) {
+            return dateString.split('T')[0];
+        }
+        return dateString;
     }
 
     // Función para cargar appointments basados en el name de appointment seleccionado
@@ -171,7 +219,7 @@ if (window.location.pathname.includes('/reservations/create')) {
 
             const response = await fetch(`/getAvailableReservationByDoctor/${turnoNombreId}`);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            
+
             const data = await response.json();
 
             // Guardar configuración de previsualización
@@ -179,28 +227,22 @@ if (window.location.pathname.includes('/reservations/create')) {
                 previewSettings = data.preview_settings;
             }
 
-            // Filtrar appointments en el frontend como capa adicional
-            todosLosTurnos = filtrarTurnos(data.appointments);
+            // Usar directamente los appointments que vienen del backend (ya filtrados)
+            todosLosTurnos = data.appointments;
 
             if (todosLosTurnos.length === 0) {
                 selectFecha.innerHTML = '<option value="">Sin fechas disponibles</option>';
                 return;
             }
 
-            // Obtener available_dates únicas de los appointments
-            const fechasUnicas = [...new Set(todosLosTurnos.map(t => t.date))];
+            // Extraer solo la parte de la fecha y obtener dates únicas
+            const fechasUnicas = [...new Set(todosLosTurnos.map(t => extraerSoloFecha(t.date)))].sort();
 
             selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
             fechasUnicas.forEach(date => {
-                const fechaObj = new Date(date);
                 const option = document.createElement('option');
-                option.value = date;
-                option.textContent = fechaObj.toLocaleDateString('es-ES', {
-                    weekday: 'long',
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric'
-                });
+                option.value = date; // Guardamos solo la parte de la fecha (YYYY-MM-DD)
+                option.textContent = formatearFecha(date);
                 selectFecha.appendChild(option);
             });
 
@@ -231,32 +273,26 @@ if (window.location.pathname.includes('/reservations/create')) {
                 throw new Error('La lista de turnos no es válida');
             }
 
-            // Filtrar los appointments disponibles para esa date
-            let availableAppointments = todosLosTurnos.filter(appointment => appointment.date === fechaSeleccionada);
+            // Filtrar los appointments disponibles para esa date (comparando solo la parte de la fecha)
+            let availableAppointments = todosLosTurnos.filter(appointment => {
+                const appointmentDate = extraerSoloFecha(appointment.date);
+                return appointmentDate === fechaSeleccionada;
+            });
 
-            // Obtener date y time actual en zona horaria de Jujuy
-            const fechaActual = obtenerFechaActual();
-            let horaActual = '00:00';
-            try {
-                const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
-                horaActual = ahora.split(',')[1] ? ahora.split(',')[1].trim() : '00:00';
-            } catch (error) {
-                console.error('Error al obtener hora actual:', error);
-            }
+            // Obtener fecha y hora actual
+            const ahora = new Date();
+            const fechaActual = ahora.toISOString().split('T')[0];
+            const horaActual = ahora.toTimeString().split(' ')[0].substring(0, 5); // Formato HH:mm
 
             // Filtrar horarios pasados si es el día actual
             if (fechaSeleccionada === fechaActual) {
                 availableAppointments = availableAppointments.filter(appointment => {
-                    try {
-                        const turnoDate = new Date(`${fechaSeleccionada}T${appointment.time}:00`);
-                        const ahoraDate = new Date(`${fechaActual}T${horaActual}:00`);
-                        return turnoDate.getTime() >= ahoraDate.getTime();
-                    } catch (error) {
-                        console.error('Error al comparar fechas disponibles:', error);
-                        return false;
-                    }
+                    return appointment.time >= horaActual;
                 });
             }
+
+            // Ordenar los horarios
+            availableAppointments.sort((a, b) => a.time.localeCompare(b.time));
 
             // Mostrar resultados
             if (availableAppointments.length === 0) {
@@ -276,7 +312,6 @@ if (window.location.pathname.includes('/reservations/create')) {
             selectHora.innerHTML = '<option value="">Error al cargar horarios</option>';
         }
     }
-
     // Event listeners
     document.addEventListener('DOMContentLoaded', function () {
         try {
@@ -288,23 +323,23 @@ if (window.location.pathname.includes('/reservations/create')) {
             const turnoIdInicial = document.getElementById('appointment_time')?.value;
 
             // Configurar event listeners
-            document.getElementById('specialty_id')?.addEventListener('change', function() {
+            document.getElementById('specialty_id')?.addEventListener('change', function () {
                 cargarMedicos(this.value);
             });
 
-            document.getElementById('doctor_id')?.addEventListener('change', function() {
+            document.getElementById('doctor_id')?.addEventListener('change', function () {
                 cargarNombres(this.value);
             });
 
-            document.getElementById('appointment_name_id')?.addEventListener('change', function() {
+            document.getElementById('appointment_name_id')?.addEventListener('change', function () {
                 cargarTurnos(this.value);
             });
 
-            document.getElementById('appointment_date')?.addEventListener('change', function() {
+            document.getElementById('appointment_date')?.addEventListener('change', function () {
                 cargarHoras(this.value);
             });
 
-            document.getElementById('appointment_time')?.addEventListener('change', function() {
+            document.getElementById('appointment_time')?.addEventListener('change', function () {
                 document.getElementById('appointment_id').value = this.value;
             });
 

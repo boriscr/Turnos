@@ -322,6 +322,65 @@ class ReservationController extends Controller
     // previsualización utilizada para la consulta.
     public function getAvailableReservationByDoctor($appointment_name_id)
     {
+        $now = now();
+
+        // Obtener configuración de previsualización
+        $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
+        $previewAmount = (int) ($settings['appointments.advance_reservation'] ?? 30);
+        $previewUnit = $settings['appointments.unit_advance'] ?? 'day';
+
+        // Calcular fecha/hora límite
+        $fechaLimite = match ($previewUnit) {
+            'time' => $now->copy()->addHours($previewAmount),
+            'month' => $now->copy()->addMonths($previewAmount),
+            'day' => $now->copy()->addDays($previewAmount),
+            default => $now->copy()->addDays($previewAmount)
+        };
+
+        $appointments = AvailableAppointment::where('appointment_id', $appointment_name_id)
+            ->where('available_spots', '>', 0)
+            ->where(function ($query) use ($now, $fechaLimite) {
+                // Para appointments futuros (mayores a ahora)
+                $query->where(function ($q) use ($now) {
+                    $q->whereDate('date', '>', $now->format('Y-m-d'))
+                        ->orWhere(function ($q2) use ($now) {
+                            $q2->whereDate('date', $now->format('Y-m-d'))
+                                ->whereTime('time', '>', $now->format('H:i:s'));
+                        });
+                })
+
+                    // Para appointments dentro del límite configurado
+                    ->where(function ($q) use ($fechaLimite) {
+                        $q->whereDate('date', '<', $fechaLimite->format('Y-m-d'))
+                            ->orWhere(function ($q2) use ($fechaLimite) {
+                                $q2->whereDate('date', $fechaLimite->format('Y-m-d'))
+                                    ->whereTime('time', '<=', $fechaLimite->format('H:i:s'));
+                            });
+                    });
+            })
+            ->orderBy('date')
+            ->orderBy('time')
+            ->get()
+            ->map(function ($appointment) {
+                return [
+                    'id' => $appointment->id,
+                    'date' => $appointment->date,
+                    'time' => $appointment->time ? \Carbon\Carbon::parse($appointment->time)->format('H:i') : null,
+                ];
+            });
+
+        return response()->json([
+            'appointments' => $appointments,
+            'preview_settings' => [
+                'amount' => $previewAmount,
+                'unit' => $previewUnit
+            ]
+        ]);
+    }
+
+    /*
+    public function getAvailableReservationByDoctor($appointment_name_id)
+    {
         $today = now()->format('Y-m-d');
         $horaActual = now()->format('H:i:s');
 
@@ -378,7 +437,7 @@ class ReservationController extends Controller
                 'unit' => $previewUnit
             ]
         ]);
-    }
+    }*/
 
     function store(Request $request)
     {
@@ -422,20 +481,85 @@ class ReservationController extends Controller
                 ]);
                 return back();
             } else {
+
                 if (Auth::check()) {
-                    //Verificar si la especialidad esta activa
+                    // 1. Validar configuración de tiempo
+                    $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
+                    $previewAmount = (int) ($settings['appointments.advance_reservation'] ?? 30);
+                    $previewUnit = $settings['appointments.unit_advance'] ?? 'day';
+
+                    $now = now();
+                    $fechaLimite = match ($previewUnit) {
+                        'time' => $now->copy()->addHours($previewAmount),
+                        'month' => $now->copy()->addMonths($previewAmount),
+                        'day' => $now->copy()->addDays($previewAmount),
+                        default => $now->copy()->addDays($previewAmount)
+                    };
+
+                    // Si el campo 'date' tiene la fecha correcta y el campo 'time' tiene la hora correcta
+                    //laravel incluye la fecha actual por defecto en los campos time como si fuese datetime. solucion:
+                    $turnoDateTime = Carbon::parse($Available_appointment->date)
+                        ->setTime(
+                            Carbon::parse($Available_appointment->time)->hour,
+                            Carbon::parse($Available_appointment->time)->minute,
+                            Carbon::parse($Available_appointment->time)->second
+                        );
+
+                    if ($turnoDateTime <= $now) {
+                        session()->flash('error', [
+                            'title' => 'Turno no disponible',
+                            'text' => 'El turno seleccionado ya ha pasado. Por favor, elige otro horario.',
+                            'icon' => 'error',
+                        ]);
+                        return back();
+                    }
+
+                    if ($turnoDateTime > $fechaLimite) {
+                        session()->flash('error', [
+                            'title' => 'Turno fuera de rango',
+                            'text' => "El turno seleccionado excede el límite de reserva configurado ($previewAmount $previewUnit).",
+                            'icon' => 'error',
+                        ]);
+                        return back();
+                    }
+
+                    // 2. Validar disponibilidad
+                    if ($Available_appointment->available_spots <= 0) {
+                        session()->flash('error', [
+                            'title' => 'Turno agotado',
+                            'text' => 'El turno seleccionado ya no tiene disponibilidad. Por favor, elige otro horario.',
+                            'icon' => 'error',
+                        ]);
+                        return back();
+                    }
+
+                    // 3. Validar duplicados
+                    $existingReservation = Reservation::where('user_id', auth::id())
+                        ->whereHas('availableAppointment', function ($query) use ($Available_appointment) {
+                            $query->where('date', $Available_appointment->date)
+                                ->where('time', $Available_appointment->time);
+                        })
+                        ->exists();
+
+                    if ($existingReservation) {
+                        session()->flash('error', [
+                            'title' => 'Turno duplicado',
+                            'text' => 'Ya tienes un turno reservado para esta misma fecha y hora.',
+                            'icon' => 'error',
+                        ]);
+                        return back();
+                    }
+
+                    // 4. Validar estados y consistencia de datos (tu código original)
                     $specialtyStatus = Specialty::where('id', $request->input('specialty_id'))->value('status');
-                    //verificar si el doctor esta activo
                     $doctorStatus = Doctor::where('id', $Available_appointment->appointment->doctor_id)->value('status');
-                    //Verificar si el turno a reservar esta activo
                     $appointmentStatus = Appointment::where('id', $Available_appointment->appointment_id)->value('status');
 
-                    //verificar que coincidan los datos relacionados con el turno disponble
                     $specialtyMatch = AvailableAppointment::where('id', $Available_appointment->id)
                         ->where('specialty_id', $request->input('specialty_id'))
                         ->where('doctor_id', $Available_appointment->doctor_id)
                         ->exists();
-                    //verificar que la especialidad coincida con el turno
+
                     $appointmentMatch = Appointment::where('id', $Available_appointment->appointment_id)
                         ->where('specialty_id', $request->input('specialty_id'))
                         ->where('doctor_id', $Available_appointment->doctor_id)
@@ -449,7 +573,7 @@ class ReservationController extends Controller
                         ]);
                         return back();
                     }
-                    // Si alguno de los estados no es activo, mostrar mensaje de error específico
+
                     if (!$specialtyStatus || !$doctorStatus || !$appointmentStatus) {
                         if (!$specialtyStatus) {
                             session()->flash('error', [
@@ -475,25 +599,25 @@ class ReservationController extends Controller
                             ]);
                             return back();
                         }
-                    } else {
-                        // Reservar el appointment
-                        $Available_appointment->available_spots -= 1;
-                        $Available_appointment->reserved_spots += 1;
-                        $Available_appointment->save();
-                        //guardar los datos del user que reservation el appointment
-                        $reservation = new Reservation();
-                        // Asigna los valores correctamente
-                        $reservation->user_id = auth::id(); // ID del user autenticado
-                        $reservation->available_appointment_id = $Available_appointment->id;
-                        $reservation->specialty_id = $request->input('specialty_id');
-                        $reservation->save();
-                        session()->flash('success', [
-                            'title' => 'Reserva exitosa',
-                            'text' => 'Se ha reservado un turno con éxito',
-                            'icon' => 'success',
-                        ]);
-                        return redirect()->route('profile.historial');
                     }
+
+                    // 5. Si pasa todas las validaciones, proceder con la reserva
+                    $Available_appointment->available_spots -= 1;
+                    $Available_appointment->reserved_spots += 1;
+                    $Available_appointment->save();
+
+                    $reservation = new Reservation();
+                    $reservation->user_id = auth::id();
+                    $reservation->available_appointment_id = $Available_appointment->id;
+                    $reservation->specialty_id = $request->input('specialty_id');
+                    $reservation->save();
+
+                    session()->flash('success', [
+                        'title' => 'Reserva exitosa',
+                        'text' => 'Se ha reservado un turno con éxito',
+                        'icon' => 'success',
+                    ]);
+                    return redirect()->route('profile.historial');
                 } else {
                     return response()->json(['error' => 'Usuario no autenticado'], 401);
                 }
