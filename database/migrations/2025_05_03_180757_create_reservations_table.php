@@ -9,6 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    // En tu migración, agrega constraints únicos
     public function up(): void
     {
         Schema::create('reservations', function (Blueprint $table) {
@@ -18,9 +19,14 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->boolean('asistencia')->nullable();
             $table->timestamps();
+
+            // EVITA que un usuario reserve el mismo turno múltiples veces
+            $table->unique(['user_id', 'available_appointment_id']);
+
+            // EVITA que un turno sea reservado por múltiples usuarios (si es 1 spot)
+            // $table->unique(['available_appointment_id']);
         });
     }
-
     /**
      * Reverse the migrations.
      */

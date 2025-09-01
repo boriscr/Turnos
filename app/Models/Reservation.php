@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Reservation extends Model
 {
     protected $fillable = [
-        'available_appointment_id',
+        'available_appointment_id', 
         'specialty_id',
         'user_id',
-        'asistencia',
+        //'asistencia',
     ];
     protected $casts = [
         'asistencia' => 'boolean',
