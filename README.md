@@ -282,4 +282,22 @@
 - Exportación/Importación - Backup y restauración de configuraciones (Futuro)
 - Configuración por roles - Permisos diferenciados para modificaciones
   
-<p>🎯 Nota: Todos los cambios de configuración requieren confirmación y quedan registrados en el historial de modificaciones del sistema. La personalización visual se aplica inmediatamente para todos los usuarios. (Futuro)</p>  
+<p>🎯 Nota: Todos los cambios de configuración requieren confirmación y quedan registrados en el historial de modificaciones del sistema. La personalización visual se aplica inmediatamente para todos los usuarios. (Futuro)</p> 
+
+## Capturas
+
+### Vista de creación de turno
+<img src="https://i.postimg.cc/Vvb2yX76/2025-09-02-4.png">
+<img src="https://i.postimg.cc/mDk0wvC7/2025-09-02-5.png">
+<img src="https://i.postimg.cc/SsPHtgf3/2025-09-02-6.png">
+<img src="https://i.postimg.cc/ThMFThSc/2025-09-02-7.png">
+
+### Vista de reserva de turno
+<img src="https://i.postimg.cc/pVhdV749/2025-09-02-8.png">
+<img src="https://i.postimg.cc/WpB1d8c5/2025-09-02-9.png">
+
+### Vista Historial (usuario)
+<img src="https://i.postimg.cc/hPVPTmSc/2025-09-02-10.png">
+
+### Vista Reservas (administrador)
+<img src="https://i.postimg.cc/VkRfHcrh/2025-09-02-12.png">
