@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -21,14 +22,28 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    protected $model = User::class;
+
+    public function definition()
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => $this->faker->firstName(),
+            'surname' => $this->faker->lastName(),
+            'idNumber' => $this->faker->unique()->numerify('########'),
+            'birthdate' => $this->faker->date('Y-m-d', '2005-01-01'),
+            'gender' => $this->faker->randomElement(['male','female','other']),
+            'country' => $this->faker->country(),
+            'province' => $this->faker->state(),
+            'city' => $this->faker->city(),
+            'address' => $this->faker->streetAddress(),
+            'phone' => $this->faker->phoneNumber(),
+            'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'status' => true,
+            'faults' => 0,
+            'password' => bcrypt('passwordSegura123'), // contraseña por defecto
             'remember_token' => Str::random(10),
+            'update_by' => null,
         ];
     }
 

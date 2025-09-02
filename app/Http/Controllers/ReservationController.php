@@ -394,6 +394,7 @@ class ReservationController extends Controller
             Log::debug('AvailableAppointment find:', [
                 'result' => AvailableAppointment::find($request->appointment_id)
             ]);
+            //sleep(8); // Simular retardo para pruebas de concurrencia
             return DB::transaction(function () use ($request) {
                 // 1. BLOQUEAR el registro para evitar acceso concurrente
                 $availableAppointment = AvailableAppointment::where('id', $request->appointment_id)
