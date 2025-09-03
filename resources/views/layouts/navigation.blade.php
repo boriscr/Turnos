@@ -126,12 +126,16 @@
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-
+                                <x-primary-button class="btn-salir">
+                                    <i class="bi bi-box-arrow-left"></i><span>{{ __('logout') }}</span>
+                                </x-primary-button>
+                                {{--
                                 <x-dropdown-link class="btn-salir" :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                     <i class="bi bi-box-arrow-left"></i><span>{{ __('Logout') }}</span>
                                 </x-dropdown-link>
+                                --}}
                             </form>
                         </x-slot>
                     </x-dropdown>
@@ -263,12 +267,16 @@
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-
+                                <x-primary-button class="btn-salir">
+                                    <i class="bi bi-box-arrow-left"></i><span>{{ __('logout') }}</span>
+                                </x-primary-button>
+                                {{--
                                 <x-responsive-nav-link class="btn-salir" :href="route('logout')"
                                     onclick="event.preventDefault();
                                         this.closest('form').submit();">
                                     <i class="bi bi-box-arrow-left"></i><span>{{ __('Logout') }}</span>
                                 </x-responsive-nav-link>
+                                --}}
                             </form>
                         </div>
                     </div>

@@ -55,7 +55,6 @@
         }
     </style>
     @vite(['resources/css/app.css'])
-    @vite(['resources/js/app.js'])
 </head>
 </head>
 
@@ -74,6 +73,10 @@
     @include('layouts.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Loader Component -->
+    <x-loader />
+    @vite(['resources/js/app.js'])
 </body>
 
 </html>

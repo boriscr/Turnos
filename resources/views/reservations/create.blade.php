@@ -109,7 +109,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
             // Configuración dinámica según tema
             function getCurrentTheme() {
                 return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -128,8 +128,9 @@
                 });
             });
 
+            // Mover el event listener del confirmBtn fuera del DOMContentLoaded anidado
             if (confirmBtn) {
-                confirmBtn.addEventListener('click', (e) => {
+                confirmBtn.addEventListener('click', function(e) {
                     e.preventDefault();
 
                     // Validación básica
@@ -150,24 +151,39 @@
                         return;
                     }
 
-                    // Mostrar confirmación simple
+                    // Mostrar confirmación con SweetAlert2
                     Swal.fire({
                         title: '¿Confirmar turno?',
-                        background: isDarkMode ?
-                            'var(--dark_application_background)' :
-                            'var(--light_application_background)',
-                        color: isDarkMode ?
-                            'var(--dark_text_color)' : 'var(--light_text_color)',
-                        confirmButtonColor: 'var(--primary_color_btn)',
-                        cancelButtonColor: '#dc3545',
                         html: '<p>{{ config('app.patient_message') }}</p>',
                         icon: 'question',
                         showCancelButton: true,
+                        confirmButtonColor: 'var(--primary_color_btn)',
+                        cancelButtonColor: '#dc3545',
                         confirmButtonText: 'Confirmar',
-                        cancelButtonText: 'Cancelar'
+                        cancelButtonText: 'Cancelar',
+                        background: isDarkMode ? 'var(--dark_application_background)' :
+                            'var(--light_application_background)',
+                        color: isDarkMode ? 'var(--dark_text_color)' : 'var(--light_text_color)'
                     }).then((result) => {
                         if (result.isConfirmed) {
+                            // Mostrar loader y DESHABILITAR el timeout de seguridad
+                            if (window.loaderTimeout) {
+                                clearTimeout(window.loaderTimeout);
+                            }
+
+                            showLoader('Confirmando su turno...');
+
+                            // Enviar formulario inmediatamente
                             form.submit();
+
+                            // Opcional: mostrar un mensaje después de 5 segundos si aún no se redirige
+                            window.loaderTimeout = setTimeout(() => {
+                                const loaderText = document.querySelector('.loader-text');
+                                if (loaderText) {
+                                    loaderText.textContent =
+                                        'Procesando, por favor espere...';
+                                }
+                            }, 5000);
                         }
                     });
                 });

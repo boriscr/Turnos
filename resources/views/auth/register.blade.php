@@ -200,84 +200,96 @@
         </div>
     </form>
 
-    <script>
-        function registerForm() {
-            return {
-                step: 1,
+<script>
+function registerForm() {
+    return {
+        step: 1,
 
-                nextStep(stepNumber) {
-                    let stepDiv = document.querySelectorAll('[x-show="step === ' + stepNumber + '"]')[0];
-                    let inputs = stepDiv.querySelectorAll('input, select');
-                    let valid = true;
+        nextStep(stepNumber) {
+            let stepDiv = document.querySelectorAll('[x-show="step === ' + stepNumber + '"]')[0];
+            let inputs = stepDiv.querySelectorAll('input, select');
+            let valid = true;
 
-                    inputs.forEach(input => {
-                        if (input.hasAttribute('required') && !input.value) {
-                            valid = false;
-                            input.classList.add('border-red-500');
-                        } else {
-                            input.classList.remove('border-red-500');
-                        }
-                    });
+            inputs.forEach(input => {
+                if (input.hasAttribute('required') && !input.value) {
+                    valid = false;
+                    input.classList.add('border-red-500');
+                } else {
+                    input.classList.remove('border-red-500');
+                }
+            });
 
-                    if (valid) {
-                        this.step++;
-                    } else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Campos incompletos',
-                            text: 'Por favor completa todos los campos antes de continuar.'
-                        });
-                    }
-                },
+            if (valid) {
+                this.step++;
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campos incompletos',
+                    text: 'Por favor completa todos los campos antes de continuar.'
+                });
+            }
+        },
 
-                confirmSubmit() {
-                    let stepDiv = document.querySelectorAll('[x-show="step === 3"]')[0];
-                    let inputs = stepDiv.querySelectorAll('input, select');
-                    let valid = true;
+        confirmSubmit() {
+            let stepDiv = document.querySelectorAll('[x-show="step === 3"]')[0];
+            let inputs = stepDiv.querySelectorAll('input, select');
+            let valid = true;
 
-                    inputs.forEach(input => {
-                        if (input.hasAttribute('required') && !input.value) {
-                            valid = false;
-                            input.classList.add('border-red-500');
-                        } else {
-                            input.classList.remove('border-red-500');
-                        }
-                    });
+            inputs.forEach(input => {
+                if (input.hasAttribute('required') && !input.value) {
+                    valid = false;
+                    input.classList.add('border-red-500');
+                } else {
+                    input.classList.remove('border-red-500');
+                }
+            });
 
-                    if (valid) {
-                        Swal.fire({
-                            title: '¿Confirmar registro?',
-                            html: `
+            if (valid) {
+                Swal.fire({
+                    title: '¿Confirmar registro?',
+                    html: `
                     <p class="text-left" style="color:black">
-                        Los datos que estás por registrar serán utilizados para la reservation de appointments. 
+                        Los datos que estás por registrar serán utilizados para la reservation de turnos. 
                         <strong>Algunos datos no podrán ser editados posteriormente</strong>, ya que estarán asociados de forma exclusiva a esta cuenta.
                     </p>
                     <p class="text-left mt-2" style="color:black">
                         Si los datos son incorrectos, podrías recibir la negación de appointments o no poder gestionarlos correctamente.
                     </p>
                     <p class="text-left mt-2 font-semibold" style="color:black">
-                        Por favor, revisa cuidadosamente toda la información antes de continuar y asegúrate de que los datos ingresados coincidan exactamente con los que figuran en tu DNI.                    </p>
+                        Por favor, revisa cuidadosamente toda la información antes de continuar y asegúrate de que los datos ingresados coincidan exactamente con los que figuran en tu DNI.
+                    </p>
                     `,
-                            icon: 'question',
-                            showCancelButton: true,
-                            confirmButtonColor: '#10B981',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Sí, registrar',
-                            cancelButtonText: 'Cancelar'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                this.$refs.registerForm.submit();
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Campos incompletos',
-                            text: 'Por favor completa todos los campos antes de continuar.'
-                        });
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#10B981',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, registrar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // MOSTRAR EL LOADER antes de enviar el formulario
+                        if (typeof showLoader === 'function') {
+                            showLoader('Registrando cuenta...');
+                        } else {
+                            // Fallback si showLoader no está disponible
+                            console.log('Loader function not available');
+                        }
+                        
+                        // Enviar formulario después de un breve delay
+                        setTimeout(() => {
+                            this.$refs.registerForm.submit();
+                        }, 300);
                     }
-                }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campos incompletos',
+                    text: 'Por favor completa todos los campos antes de continuar.'
+                });
             }
         }
-    </script>
+    }
+}
+</script>
 </x-guest-layout>

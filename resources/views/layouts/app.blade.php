@@ -50,12 +50,14 @@
     @vite(['resources/css/app.css'])
 </head>
 
+
 <body class="font-sans antialiased">
     <div class="min-h-screen">
         <header>
             <!-- Navigation Bar -->
             @include('layouts.navigation')
         </header>
+
         @if (session('success'))
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
@@ -63,6 +65,7 @@
                 })
             </script>
         @endif
+
         @if (session('error'))
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
@@ -70,15 +73,20 @@
                 })
             </script>
         @endif
+
         <!-- Page Content -->
         <main>
             {{ $slot }}
         </main>
     </div>
-    @include('layouts.footer')
 
+    @include('layouts.footer')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     @vite(['resources/js/app.js'])
+    <!-- Loader Component -->
+    <x-loader />
+
 </body>
 
 </html>
