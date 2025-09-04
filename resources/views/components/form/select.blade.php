@@ -5,7 +5,7 @@
     @else
         <label for="{{ $name }}"><i class="bi {{ $icon }}"></i><span>{{ $label }}</span></label>
     @endif
-    <select name="{{ $name }}" id="{{ $name }}" class="w-full rounded p-2"
+    <select name="{{ $name }}" id="{{ $name }}" class="w-full rounded"
         {{ $required ? 'required' : '' }}>
         {{ $slot }}
     </select>

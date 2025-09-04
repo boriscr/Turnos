@@ -1,0 +1,24 @@
+/* Animación de borde pulsante con colores */
+@keyframes bordeAtencion {
+  0% {
+    border-color: #007AFF;
+    box-shadow: 0 0 4px var(--general_design_color);
+  }
+
+  50% {
+    border-color: var(--general_design_color);
+    box-shadow: 0 0 8px var(--general_design_color);
+  }
+
+  100% {
+    border-color: #5AC8FA;
+    box-shadow: 0 0 4px var(--general_design_color);
+  }
+}
+
+.input-animado {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  animation: bordeAtencion 3s infinite ease-in-out;
+  outline: none;
+}

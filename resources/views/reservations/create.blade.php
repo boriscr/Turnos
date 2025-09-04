@@ -21,25 +21,20 @@
                 <!-- Paso 1 - Datos Personales -->
                 <div class="form-step active" data-step="1">
                     <div class="item">
-                        <x-input-label :value="__('contact.name')" />
-                        <input name="name" value="{{ Auth::user()->name }}" readonly>
-
-                        <x-input-label :value="__('contact.surname')" />
-                        <input name="surname" value="{{ Auth::user()->surname }}" readonly>
-
-                        <x-input-label :value="__('contact.email')" />
-                        <input name="email" value="{{ Auth::user()->email }}" readonly>
-
-                        <x-input-label :value="__('contact.phone')" />
-                        <input name="phone" value="{{ Auth::user()->phone }}" readonly>
-
-                        <x-input-label :value="__('contact.idNumber')" />
-                        <input name="idNumber" value="{{ Auth::user()->idNumber }}" readonly>
-
-                        <x-input-label :value="__('contact.address')" />
-                        <input name="address" value="{{ Auth::user()->address }}" readonly>
-                        <x-input-label :value="__('contact.birthdate')" />
-                        <input name="fecha_nacimiento" value="{{ Auth::user()->birthdate }}" readonly>
+                        <small>{{ __('contact.name') }} </small>
+                        <p>{{ Auth::user()->name }}</p>
+                        <small>{{ __('contact.surname') }} </small>
+                        <p>{{ Auth::user()->surname }}</p>
+                        <small>{{ __('contact.email') }} </small>
+                        <p>{{ Auth::user()->email }}</p>
+                        <small>{{ __('contact.phone') }} </small>
+                        <p>{{ Auth::user()->phone }}</p>
+                        <small>{{ __('contact.idNumber') }} </small>
+                        <p>{{ Auth::user()->idNumber }}</p>
+                        <small>{{ __('contact.address') }} </small>
+                        <p>{{ Auth::user()->address }}</p>
+                        <small>{{ __('contact.birthdate') }} </small>
+                        <p>{{ Auth::user()->birthdate }}</p>
                     </div>
 
                     <div class="navegation-next full-center  mt-4">
@@ -47,7 +42,6 @@
                                 class="bi bi-chevron-right"></i></button>
                     </div>
                 </div>
-
                 <!-- Paso 2 - Selección de Appointment -->
                 <div class="form-step" data-step="2">
                     <x-form.select name="specialty_id" :label="__('specialty.title')" icon="bi-1-circle" :required="true">
@@ -128,77 +122,77 @@
                 });
             });
 
-    if (confirmBtn) {
-        confirmBtn.addEventListener('click', function(e) {
-            e.preventDefault();
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
 
-            // Validación básica (tu código existente)
-            const requiredFields = ['specialty_id', 'doctor_id', 'appointment_name_id',
-                'appointment_date', 'appointment_time'
-            ];
-            const isValid = requiredFields.every(field => {
-                const element = document.getElementById(field);
-                return element && element.value;
-            });
-
-            if (!isValid) {
-                Swal.fire({
-                    title: 'Campos incompletos',
-                    text: 'Por favor complete todos los campos del formulario',
-                    icon: 'warning',
-                });
-                return;
-            }
-
-            // Mostrar confirmación
-            Swal.fire({
-                title: '¿Confirmar turno?',
-                html: '<p>{{ config('app.patient_message') }}</p>',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: 'var(--primary_color_btn)',
-                cancelButtonColor: '#dc3545',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar',
-                background: isDarkMode ? 'var(--dark_application_background)' :
-                    'var(--light_application_background)',
-                color: isDarkMode ? 'var(--dark_text_color)' : 'var(--light_text_color)',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                allowEnterKey: false,
-                showLoaderOnConfirm: true,
-                preConfirm: () => {
-                    return new Promise((resolve) => {
-                        // Simular procesamiento en frontend (3 segundos)
-                        setTimeout(() => {
-                            resolve();
-                        }, 3000);
+                    // Validación básica (tu código existente)
+                    const requiredFields = ['specialty_id', 'doctor_id', 'appointment_name_id',
+                        'appointment_date', 'appointment_time'
+                    ];
+                    const isValid = requiredFields.every(field => {
+                        const element = document.getElementById(field);
+                        return element && element.value;
                     });
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Deshabilitar el botón para evitar múltiples clics
-                    confirmBtn.disabled = true;
-                    confirmBtn.classList.add('submitting');
 
-                    // Mostrar loader personalizado adicional
-                    if (typeof showLoader === 'function') {
-                        showLoader('Procesando confirmación...');
+                    if (!isValid) {
+                        Swal.fire({
+                            title: 'Campos incompletos',
+                            text: 'Por favor complete todos los campos del formulario',
+                            icon: 'warning',
+                        });
+                        return;
                     }
 
-                    // Crear campo hidden para indicar el retardo de testing
-                    const testingField = document.createElement('input');
-                    testingField.type = 'hidden';
-                    testingField.name = 'testing_concurrency';
-                    testingField.value = 'true';
-                    form.appendChild(testingField);
+                    // Mostrar confirmación
+                    Swal.fire({
+                        title: '¿Confirmar turno?',
+                        html: '<p>{{ config('app.patient_message') }}</p>',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: 'var(--primary_color_btn)',
+                        cancelButtonColor: '#dc3545',
+                        confirmButtonText: 'Confirmar',
+                        cancelButtonText: 'Cancelar',
+                        background: isDarkMode ? 'var(--dark_application_background)' :
+                            'var(--light_application_background)',
+                        color: isDarkMode ? 'var(--dark_text_color)' : 'var(--light_text_color)',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                        showLoaderOnConfirm: true,
+                        preConfirm: () => {
+                            return new Promise((resolve) => {
+                                // Simular procesamiento en frontend (3 segundos)
+                                setTimeout(() => {
+                                    resolve();
+                                }, 3000);
+                            });
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Deshabilitar el botón para evitar múltiples clics
+                            confirmBtn.disabled = true;
+                            confirmBtn.classList.add('submitting');
 
-                    // Enviar formulario
-                    form.submit();
-                }
-            });
-        });
-    }
+                            // Mostrar loader personalizado adicional
+                            if (typeof showLoader === 'function') {
+                                showLoader('Procesando confirmación...');
+                            }
+
+                            // Crear campo hidden para indicar el retardo de testing
+                            const testingField = document.createElement('input');
+                            testingField.type = 'hidden';
+                            testingField.name = 'testing_concurrency';
+                            testingField.value = 'true';
+                            form.appendChild(testingField);
+
+                            // Enviar formulario
+                            form.submit();
+                        }
+                    });
+                });
+            }
 
             function loadConfirmationData() {
                 // Obtener elementos

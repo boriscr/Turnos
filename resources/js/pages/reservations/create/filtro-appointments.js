@@ -312,6 +312,43 @@ if (window.location.pathname.includes('/reservations/create')) {
             selectHora.innerHTML = '<option value="">Error al cargar horarios</option>';
         }
     }
+    // Función para resaltar el siguiente campo (animación)
+    function resaltarSiguiente(actualId, siguienteId) {
+        const actual = document.getElementById(actualId);
+        const siguiente = document.getElementById(siguienteId);
+
+        // Quitar animación del actual (ya fue completado)
+        if (actual) actual.classList.remove('input-animado');
+
+        // Agregar animación al siguiente campo
+        if (siguiente) siguiente.classList.add('input-animado');
+    }
+    function actualizarAnimaciones() {
+        const campos = [
+            'specialty_id',
+            'doctor_id',
+            'appointment_name_id',
+            'appointment_date',
+            'appointment_time'
+        ];
+
+        // Quitar animaciones de todos
+        campos.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('input-animado');
+        });
+
+        // Encontrar el primer campo vacío y resaltarlo
+        for (let i = 0; i < campos.length; i++) {
+            const el = document.getElementById(campos[i]);
+            if (el && (!el.value || el.value === "")) {
+                el.classList.add('input-animado');
+                break; // solo uno a la vez
+            }
+        }
+    }
+
+
     // Event listeners
     document.addEventListener('DOMContentLoaded', function () {
         try {
@@ -325,23 +362,30 @@ if (window.location.pathname.includes('/reservations/create')) {
             // Configurar event listeners
             document.getElementById('specialty_id')?.addEventListener('change', function () {
                 cargarMedicos(this.value);
+                actualizarAnimaciones();
             });
 
             document.getElementById('doctor_id')?.addEventListener('change', function () {
                 cargarNombres(this.value);
+                actualizarAnimaciones();
             });
 
             document.getElementById('appointment_name_id')?.addEventListener('change', function () {
                 cargarTurnos(this.value);
+                actualizarAnimaciones();
             });
 
             document.getElementById('appointment_date')?.addEventListener('change', function () {
                 cargarHoras(this.value);
+                actualizarAnimaciones();
             });
 
             document.getElementById('appointment_time')?.addEventListener('change', function () {
                 document.getElementById('appointment_id').value = this.value;
+                actualizarAnimaciones();
             });
+
+
 
             // Cargar datos iniciales si existen
             if (especialidadInicial) {
@@ -370,5 +414,6 @@ if (window.location.pathname.includes('/reservations/create')) {
         } catch (error) {
             console.error("Error en inicialización:", error);
         }
+        actualizarAnimaciones();
     });
 }
