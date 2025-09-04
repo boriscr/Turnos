@@ -128,66 +128,77 @@
                 });
             });
 
-            // Mover el event listener del confirmBtn fuera del DOMContentLoaded anidado
-            if (confirmBtn) {
-                confirmBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', function(e) {
+            e.preventDefault();
 
-                    // Validación básica
-                    const requiredFields = ['specialty_id', 'doctor_id', 'appointment_name_id',
-                        'appointment_date', 'appointment_time'
-                    ];
-                    const isValid = requiredFields.every(field => {
-                        const element = document.getElementById(field);
-                        return element && element.value;
+            // Validación básica (tu código existente)
+            const requiredFields = ['specialty_id', 'doctor_id', 'appointment_name_id',
+                'appointment_date', 'appointment_time'
+            ];
+            const isValid = requiredFields.every(field => {
+                const element = document.getElementById(field);
+                return element && element.value;
+            });
+
+            if (!isValid) {
+                Swal.fire({
+                    title: 'Campos incompletos',
+                    text: 'Por favor complete todos los campos del formulario',
+                    icon: 'warning',
+                });
+                return;
+            }
+
+            // Mostrar confirmación
+            Swal.fire({
+                title: '¿Confirmar turno?',
+                html: '<p>{{ config('app.patient_message') }}</p>',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: 'var(--primary_color_btn)',
+                cancelButtonColor: '#dc3545',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
+                background: isDarkMode ? 'var(--dark_application_background)' :
+                    'var(--light_application_background)',
+                color: isDarkMode ? 'var(--dark_text_color)' : 'var(--light_text_color)',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    return new Promise((resolve) => {
+                        // Simular procesamiento en frontend (3 segundos)
+                        setTimeout(() => {
+                            resolve();
+                        }, 3000);
                     });
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Deshabilitar el botón para evitar múltiples clics
+                    confirmBtn.disabled = true;
+                    confirmBtn.classList.add('submitting');
 
-                    if (!isValid) {
-                        Swal.fire({
-                            title: 'Campos incompletos',
-                            text: 'Por favor complete todos los campos del formulario',
-                            icon: 'warning',
-                        });
-                        return;
+                    // Mostrar loader personalizado adicional
+                    if (typeof showLoader === 'function') {
+                        showLoader('Procesando confirmación...');
                     }
 
-                    // Mostrar confirmación con SweetAlert2
-                    Swal.fire({
-                        title: '¿Confirmar turno?',
-                        html: '<p>{{ config('app.patient_message') }}</p>',
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonColor: 'var(--primary_color_btn)',
-                        cancelButtonColor: '#dc3545',
-                        confirmButtonText: 'Confirmar',
-                        cancelButtonText: 'Cancelar',
-                        background: isDarkMode ? 'var(--dark_application_background)' :
-                            'var(--light_application_background)',
-                        color: isDarkMode ? 'var(--dark_text_color)' : 'var(--light_text_color)'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Mostrar loader y DESHABILITAR el timeout de seguridad
-                            if (window.loaderTimeout) {
-                                clearTimeout(window.loaderTimeout);
-                            }
+                    // Crear campo hidden para indicar el retardo de testing
+                    const testingField = document.createElement('input');
+                    testingField.type = 'hidden';
+                    testingField.name = 'testing_concurrency';
+                    testingField.value = 'true';
+                    form.appendChild(testingField);
 
-                            showLoader('Confirmando su turno...');
-
-                            // Enviar formulario inmediatamente
-                            form.submit();
-
-                            // Opcional: mostrar un mensaje después de 5 segundos si aún no se redirige
-                            window.loaderTimeout = setTimeout(() => {
-                                const loaderText = document.querySelector('.loader-text');
-                                if (loaderText) {
-                                    loaderText.textContent =
-                                        'Procesando, por favor espere...';
-                                }
-                            }, 5000);
-                        }
-                    });
-                });
-            }
+                    // Enviar formulario
+                    form.submit();
+                }
+            });
+        });
+    }
 
             function loadConfirmationData() {
                 // Obtener elementos
@@ -239,5 +250,4 @@
             }
         });
     </script>
-
 </x-app-layout>

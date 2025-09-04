@@ -385,16 +385,8 @@ class ReservationController extends Controller
     public function store(ReservationStoreRequest $request)
     {
         try {
-            Log::debug('Datos recibidos:', [
-                'appointment_id' => $request->appointment_id,
-                'specialty_id' => $request->specialty_id,
-                //'user_id' => auth()->id()
-            ]);
-
-            Log::debug('AvailableAppointment find:', [
-                'result' => AvailableAppointment::find($request->appointment_id)
-            ]);
-            sleep(5); // Simular retardo para pruebas de concurrencia
+            // Simular procesamiento que podría causar condiciones de carrera
+            usleep(rand(2000000, 6000000)); // Retardo aleatorio entre 2-6 segundos
             return DB::transaction(function () use ($request) {
                 // 1. BLOQUEAR el registro para evitar acceso concurrente
                 $availableAppointment = AvailableAppointment::where('id', $request->appointment_id)

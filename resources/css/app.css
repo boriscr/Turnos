@@ -1,4 +1,5 @@
 /* app.css */
+@import 'layouts/loader.css';
 @import 'layouts/navbar.css';
 @import 'layouts/icon.css';
 @import 'layouts/color.css';
