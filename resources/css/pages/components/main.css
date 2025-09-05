@@ -1,3 +1,12 @@
+/* En tu CSS principal */
+body, html {
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+}
+
 .full-center {
     display: flex;
     justify-content: center;

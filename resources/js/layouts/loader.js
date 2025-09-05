@@ -1,4 +1,5 @@
 // Funciones globales para controlar el loader
+/*
 window.showLoader = function (message = 'Cargando...') {
     const loader = document.getElementById('globalLoader');
     if (loader) {
@@ -20,6 +21,28 @@ window.hideLoader = function () {
 // Ocultar el loader cuando la página esté completamente cargada
 window.addEventListener('load', function () {
     hideLoader();
+});
+
+
+// Nueva lógica: esperar a que el CSS crítico cargue
+document.addEventListener('DOMContentLoaded', function () {
+    const css = document.querySelector('link[href*="app.css"]');
+
+    if (css) {
+        css.addEventListener('load', () => {
+            // El CSS está listo → mostramos la app
+            hideLoader();
+            document.body.classList.add('css-ready');
+        });
+
+        css.addEventListener('error', () => {
+            // Si falla el CSS, ocultar el loader igual para no trabar la app
+            hideLoader();
+        });
+    } else {
+        // Si no existe link al CSS, fallback
+        hideLoader();
+    }
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -77,3 +100,4 @@ document.addEventListener('DOMContentLoaded', function () {
 setTimeout(() => {
     hideLoader();
 }, 10000);
+*/

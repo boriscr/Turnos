@@ -1,6 +1,8 @@
+/* Footer estático al final del contenido, no fijo en pantalla */
 footer {
-    margin-top: 50px;
+    width: 100%;
     flex-direction: column;
     background-color: var(--footer_background);
     padding: 30px 10px;
+    margin-top: 50px;
 }

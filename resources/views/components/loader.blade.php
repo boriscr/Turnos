@@ -1,4 +1,4 @@
-<div class="loader-overlay" id="globalLoader" style="width: {{ $width }}px; height: {{ $height }}px;">
+<div class="active loader-overlay" id="globalLoader" style="width: {{ $width }}px; height: {{ $height }}px;">
     <div class="modern-loader">
         <div class="loader-content">
             <img src="{{asset('images/specialiste.gif')}}" alt="especialista logo" class="loader-logo" />
