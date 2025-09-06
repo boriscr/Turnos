@@ -120,6 +120,9 @@
                             <x-dropdown-link :href="route('profile.index')">
                                 <i class="bi bi-person-circle"></i><span>{{ __('Profile') }}</span>
                             </x-dropdown-link>
+                            <x-dropdown-link :href="route('myAppointments.index')">
+                                <i class="bi bi-calendar-check-fill"></i><span>{{ __('myAppointments') }}</span>
+                            </x-dropdown-link>
                             <x-dropdown-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                                 <i class="bi bi-speedometer2"></i><span>{{ __('Dashboard') }}</span>
                             </x-dropdown-link>
@@ -260,6 +263,9 @@
                         <div class="mt-3 space-y-1">
                             <x-responsive-nav-link :href="route('profile.index')" :active="request()->routeIs('profile.index')">
                                 <i class="bi bi-person-circle"></i><span>{{ __('Profile') }}</span>
+                            </x-responsive-nav-link>
+                            <x-responsive-nav-link :href="route('myAppointments.index')" :active="request()->routeIs('myAppointments.index')">
+                                <i class="bi bi-calendar-check-fill"></i><span>{{ __('myAppointments') }}</span>
                             </x-responsive-nav-link>
                             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                                 <i class="bi bi-speedometer2"></i><span>{{ __('Dashboard') }}</span>

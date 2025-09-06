@@ -10,6 +10,7 @@ return [
     'role' => 'Role',
     'admin' => 'Admin',
     'doctor' => 'Doctor',
+    'dr' => 'Dr.',
     'user' => 'User',
     'status' => 'Status',
     'active' => 'Active',
@@ -28,7 +29,8 @@ return [
     'profile' => 'Profile',
     'none' => 'None',
     'unassisted_reservations' => 'Unassisted reservations',
-
+    'no_appointments' => 'No booked appointments.',
+    
     'labels' => [
         'start_date' => 'Start date',
         'end_date' => 'End date',

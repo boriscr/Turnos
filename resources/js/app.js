@@ -17,6 +17,7 @@ import '../js/pages/appointments/create/specialties-create-appointments.js';
 import '../js/pages/appointments/create/horarios.js';
 
 //components
+import '../js/pages/components/cancel-btn.js';
 import '../js/pages/components/delete-btn.js';
 import '../js/pages/components/table-acciones-movile.js';
 

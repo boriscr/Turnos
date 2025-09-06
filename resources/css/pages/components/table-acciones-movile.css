@@ -91,10 +91,6 @@
 
 /* Modo claro */
 @media (prefers-color-scheme: light) {
-    /*.accionesMovilBtn .bi {
-        color: var(--dark_application_background) !important;
-    }*/
-
     .box-accionesMovil {
         background-color: var(--background-light);
         border: 1px solid #00000064;

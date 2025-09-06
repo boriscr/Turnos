@@ -14,6 +14,8 @@
 @import 'pages/components/forms.css';
 @import 'pages/components/form-settings.css';
 /*pages*/
+@import 'pages/myAppointments/myAppointments.css';
+@import 'pages/myAppointments/show.css';
 /*@import 'pages/home/home.css';*/
 @import 'pages/profiles/profile.css';
 @import 'pages/appointments/calendario.css';

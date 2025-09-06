@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\AvailableAppointment;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ReservationStoreRequest;
+use Illuminate\Http\RedirectResponse;
 
 class ReservationController extends Controller
 {
@@ -566,7 +567,7 @@ class ReservationController extends Controller
             'text' => $message,
             'icon' => 'success',
         ]);
-        return redirect()->route('profile.historial');
+        return redirect()->route('myAppointments.index');
     }
 
     /**
@@ -583,333 +584,72 @@ class ReservationController extends Controller
     }
 
 
-    /*function store(ReservationStoreRequest $request)
-    {
-        $Available_appointment = AvailableAppointment::find($request->appointment_id);
-        $user = Auth::user();
-        //Contar cuantos appointments se ha reservado el user
-        $turnos_activos = Reservation::where('user_id', $user->id)
-            ->whereHas('availableAppointment', function ($query) {
-                $query->whereNull('asistencia');
-            })
-            ->count();
-        // Verificar si el user tiene permisos para reservar appointments
-        $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
-        $turnos_faltas_maximas = $settings['appointments.maximum_faults'];
-        $turnos_limite_diario = $settings['appointments.daily_limit'];
 
-        if (
-            $Available_appointment &&
-            $user->faults <= $turnos_faltas_maximas &&
-            $user->status &&
-            $turnos_activos < $turnos_limite_diario
-        ) {
-            // Verificar si hay cupos disponibles
-            if ($Available_appointment->available_spots <= 0) {
-                session()->flash('error', [
-                    'title' => 'Cupos no disponibles',
-                    'text' => 'No hay cupos disponibles para el turno seleccionado. Seleccione otro horario o fecha',
-                    'icon' => 'error',
-                ]);
-                return back();
-            }
-            // Verificar si la date y time son válidas
-            $fechaHoraTurno = Carbon::parse($Available_appointment->date)->setTimeFrom(Carbon::parse($Available_appointment->time));
-            $ahora = now();
-
-            if ($fechaHoraTurno->lessThan($ahora)) {
-                session()->flash('error', [
-                    'title' => 'Fecha y hora inválidas',
-                    'text' => 'La fecha y hora seleccionadas ya han pasado. Seleccione una fecha y hora futura.',
-                    'icon' => 'error',
-                ]);
-                return back();
-            } else {
-
-                if (Auth::check()) {
-                    // 1. Validar configuración de tiempo
-                    $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
-                    $previewAmount = (int) ($settings['appointments.advance_reservation'] ?? 30);
-                    $previewUnit = $settings['appointments.unit_advance'] ?? 'day';
-
-                    $now = now();
-                    $fechaLimite = match ($previewUnit) {
-                        'time' => $now->copy()->addHours($previewAmount),
-                        'month' => $now->copy()->addMonths($previewAmount),
-                        'day' => $now->copy()->addDays($previewAmount),
-                        default => $now->copy()->addDays($previewAmount)
-                    };
-
-                    // Si el campo 'date' tiene la fecha correcta y el campo 'time' tiene la hora correcta
-                    //laravel incluye la fecha actual por defecto en los campos time como si fuese datetime. solucion:
-                    $turnoDateTime = Carbon::parse($Available_appointment->date)
-                        ->setTime(
-                            Carbon::parse($Available_appointment->time)->hour,
-                            Carbon::parse($Available_appointment->time)->minute,
-                            Carbon::parse($Available_appointment->time)->second
-                        );
-
-                    if ($turnoDateTime <= $now) {
-                        session()->flash('error', [
-                            'title' => 'Turno no disponible',
-                            'text' => 'El turno seleccionado ya ha pasado. Por favor, elige otro horario.',
-                            'icon' => 'error',
-                        ]);
-                        return back();
-                    }
-
-                    if ($turnoDateTime > $fechaLimite) {
-                        session()->flash('error', [
-                            'title' => 'Turno fuera de rango',
-                            'text' => "El turno seleccionado excede el límite de reserva configurado ($previewAmount $previewUnit).",
-                            'icon' => 'error',
-                        ]);
-                        return back();
-                    }
-
-                    // 2. Validar disponibilidad
-                    if ($Available_appointment->available_spots <= 0) {
-                        session()->flash('error', [
-                            'title' => 'Turno agotado',
-                            'text' => 'El turno seleccionado ya no tiene disponibilidad. Por favor, elige otro horario.',
-                            'icon' => 'error',
-                        ]);
-                        return back();
-                    }
-
-                    // 3. Validar duplicados
-                    $existingReservation = Reservation::where('user_id', auth::id())
-                        ->whereHas('availableAppointment', function ($query) use ($Available_appointment) {
-                            $query->where('date', $Available_appointment->date)
-                                ->where('time', $Available_appointment->time);
-                        })
-                        ->exists();
-
-                    if ($existingReservation) {
-                        session()->flash('error', [
-                            'title' => 'Turno duplicado',
-                            'text' => 'Ya tienes un turno reservado para esta misma fecha y hora.',
-                            'icon' => 'error',
-                        ]);
-                        return back();
-                    }
-
-                    // 4. Validar estados y consistencia de datos (tu código original)
-                    $specialtyStatus = Specialty::where('id', $request->input('specialty_id'))->value('status');
-                    $doctorStatus = Doctor::where('id', $Available_appointment->appointment->doctor_id)->value('status');
-                    $appointmentStatus = Appointment::where('id', $Available_appointment->appointment_id)->value('status');
-
-                    $specialtyMatch = AvailableAppointment::where('id', $Available_appointment->id)
-                        ->where('specialty_id', $request->input('specialty_id'))
-                        ->where('doctor_id', $Available_appointment->doctor_id)
-                        ->exists();
-
-                    $appointmentMatch = Appointment::where('id', $Available_appointment->appointment_id)
-                        ->where('specialty_id', $request->input('specialty_id'))
-                        ->where('doctor_id', $Available_appointment->doctor_id)
-                        ->exists();
-
-                    if (!$specialtyMatch && !$appointmentMatch) {
-                        session()->flash('error', [
-                            'title' => 'Datos inconsistentes',
-                            'text' => 'La especialidad seleccionada no coincide con el doctor asociado al turno. Por favor, verifica los datos.',
-                            'icon' => 'error',
-                        ]);
-                        return back();
-                    }
-
-                    if (!$specialtyStatus || !$doctorStatus || !$appointmentStatus) {
-                        if (!$specialtyStatus) {
-                            session()->flash('error', [
-                                'title' => 'Especialidad no disponible',
-                                'text' => 'La especialidad seleccionada no está disponible. Por favor, elige otra.',
-                                'icon' => 'error',
-                            ]);
-                            return back();
-                        }
-                        if (!$doctorStatus) {
-                            session()->flash('error', [
-                                'title' => 'Doctor no disponible',
-                                'text' => 'El doctor asociado al turno seleccionado no está disponible. Por favor, elige otro.',
-                                'icon' => 'error',
-                            ]);
-                            return back();
-                        }
-                        if (!$appointmentStatus) {
-                            session()->flash('error', [
-                                'title' => 'Turno no disponible',
-                                'text' => 'El turno seleccionado no está disponible. Por favor, elige otro.',
-                                'icon' => 'error',
-                            ]);
-                            return back();
-                        }
-                    }
-
-                    // 5. Si pasa todas las validaciones, proceder con la reserva
-                    $Available_appointment->available_spots -= 1;
-                    $Available_appointment->reserved_spots += 1;
-                    $Available_appointment->save();
-
-                    $reservation = new Reservation();
-                    $reservation->user_id = auth::id();
-                    $reservation->available_appointment_id = $Available_appointment->id;
-                    $reservation->specialty_id = $request->input('specialty_id');
-                    $reservation->save();
-
-                    session()->flash('success', [
-                        'title' => 'Reserva exitosa',
-                        'text' => 'Se ha reservado un turno con éxito',
-                        'icon' => 'success',
-                    ]);
-                    return redirect()->route('profile.historial');
-                } else {
-                    return response()->json(['error' => 'Usuario no autenticado'], 401);
-                }
-            }
-        } else {
-            if (
-                !$user->status &&
-                $user->faults >= $turnos_faltas_maximas &&
-                $turnos_activos >= $turnos_limite_diario &&
-                $turnos_limite_diario > 0
-            ) {
-                session()->flash('error', [
-                    'title' => 'Acceso denegado',
-                    'html' => '1. Su cuenta está inactiva. <br>2. Has alcanzado el límite de faltas permitidas. <br>3. Has alcanzado el límite de reservas activas permitidos.<br> Contacta al administrador.',
-                    'icon' => 'error',
-                ]);
-                return redirect()->route('home');
-            } elseif (!$user->status) {
-                session()->flash('error', [
-                    'title' => 'Acceso denegado',
-                    'html' => 'Su cuenta está inactiva.<br> Contacta al administrador.',
-                    'icon' => 'error',
-                ]);
-                return redirect()->route('home');
-            } elseif ($user->faults > $turnos_faltas_maximas) {
-                session()->flash('error', [
-                    'title' => 'Acceso denegado',
-                    'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes realizar más reservas.',
-                    'icon' => 'error',
-                ]);
-                return redirect()->route('home');
-            } elseif ($user->turnos_activos >= $turnos_limite_diario) {
-                session()->flash('error', [
-                    'title' => 'Acceso denegado',
-                    'html' => 'Has alcanzado el límite de reservas activas permitidas.<br> Asiste a los reservas solicitadas antes de solicitar una nueva.<br> No puedes reservar más.',
-                    'icon' => 'error',
-                ]);
-                return redirect()->route('home');
-            } elseif ($turnos_limite_diario <= 0) {
-                session()->flash('error', [
-                    'title' => 'Acceso denegado',
-                    'html' => 'No puedes solicitar más reservas en este momento. El límite de reservas activas ha sido deshabilitada.<br>Por favor, regresa más tarde.<br>Si tenés dudas, contactá al administrador.',
-                    'icon' => 'error',
-                ]);
-                return redirect()->route('home');
-            } else {
-                session()->flash('error', [
-                    'title' => 'Error al reservar',
-                    'html' => 'Error al ejecutar la petición.<br> Contacta al administrador.',
-                    'icon' => 'error',
-                ]);
-                return redirect()->route('home');
-            }
+/**
+ * Elimina una reserva (solo para administradores)
+ */
+public function destroy(int $id): RedirectResponse
+{
+    try {
+        $reservation = Reservation::with('availableAppointment')->findOrFail($id);
+        
+        if (!$reservation->availableAppointment) {
+            throw new \Exception('La cita disponible asociada no fue encontrada');
         }
-    }*/
 
-    //Permite eliminar la reserva al usuario y al administrador
-    //Eliminar reservation y actualizar los cupos disponibles
-    public function destroy($id)
-    {
-        try {
-            $reservation = Reservation::findOrFail($id);
-            $user = Auth::user();
-            $availableAppointment = AvailableAppointment::find($reservation->available_appointment_id);
+        DB::transaction(function () use ($reservation) {
+            $this->updateAppointmentSpots($reservation->availableAppointment);
+            $reservation->delete();
+        });
 
-            if (!$availableAppointment) {
-                throw new \Exception('Reserva asociada no encontrada');
-            }
+        $this->flashSuccess(
+            'Reserva eliminada', 
+            'La reserva ha sido cancelada y los cupos se han actualizado correctamente.'
+        );
 
-            // Verificación de si el appointment ya pasó
-            $fechaHoraTurno = Carbon::parse($availableAppointment->date->format('Y-m-d') . ' ' . $availableAppointment->time->format('H:i:s'));
-
-            if ($fechaHoraTurno->isPast()) {
-                session()->flash('error', [
-                    'title' => 'Error!',
-                    'text' => 'No puedes cancelar una reserva que ya ha pasado.',
-                    'icon' => 'error'
-                ]);
-                /** @var \App\Models\User $user */
-                return $user->hasRole('user') ? redirect()->route('profile.historial') : redirect()->route('reservations.index');
-            }
-            // Verificación de límite de cancelación para pacientes
-            /** @var \App\Models\User $user */
-            if ($user->hasRole('user')) {
-                $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
-                $horasLimiteCancelacion = $settings['appointments.cancellation_hours'] ?? 24;
-
-                $horasRestantes = now()->diffInHours($fechaHoraTurno, false);
-
-                if ($horasRestantes < $horasLimiteCancelacion) {
-                    session()->flash('error', [
-                        'title' => 'Error!',
-                        'text' => "No puedes cancelar la reserva. Debes cancelar con al menos {$horasLimiteCancelacion} horas de anticipación.",
-                        'icon' => 'error'
-                    ]);
-                    return redirect()->route('profile.historial');
-                }
-            }
-
-            // Lógica de cancelación y actualización de cupos
-            $availableAppointment->available_spots++;
-            $availableAppointment->reserved_spots = max(0, $availableAppointment->reserved_spots - 1);
-
-            if ($availableAppointment->reserved_spots < 0) {
-                $availableAppointment->reserved_spots = 0;
-            }
-
-            DB::beginTransaction();
-
-            try {
-                $availableAppointment->save();
-                $reservation->delete();
-                DB::commit();
-                if ($user->hasRole('doctor') || $user->hasRole('admin')) {
-                    session()->flash('success', [
-                        'title' => 'Reserva eliminada',
-                        'text' => 'La reserva ha sido cancelada y los cupos se han actualizado correctamente.',
-                        'icon' => 'success'
-                    ]);
-                    return redirect()->route('reservations.index');
-                } else if ($user->hasRole('user')) {
-                    session()->flash('success', [
-                        'title' => 'Reserva cancelada',
-                        'text' => 'La reserva del turno ha sido cancelada.',
-                        'icon' => 'success'
-                    ]);
-                    return redirect()->route('profile.historial');
-                }
-            } catch (\Exception $e) {
-                DB::rollBack();
-                throw $e;
-            }
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            Log::error('Reserva no encontrada', ['id' => $id, 'error' => $e->getMessage()]);
-            session()->flash('error', [
-                'title' => 'Error!',
-                'text' => 'Reserva no encontrada.',
-                'icon' => 'error'
-            ]);
-            return redirect()->route('reservations.index');
-        } catch (\Exception $e) {
-            Log::error('Error al cancelar reserva', ['id' => $id, 'error' => $e->getMessage()]);
-            session()->flash('error', [
-                'title' => 'Error!',
-                'text' => 'Ocurrió un error al cancelar la reserva: ' . $e->getMessage(),
-                'icon' => 'error'
-            ]);
-            return redirect()->route('reservations.index');
-        }
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        Log::error('Reserva no encontrada', ['id' => $id, 'error' => $e->getMessage()]);
+        $this->flashError('Error!', 'Reserva no encontrada.');
+        
+    } catch (\Exception $e) {
+        Log::error('Error al eliminar reserva', ['id' => $id, 'error' => $e->getMessage()]);
+        $this->flashError('Error!', 'Ocurrió un error al eliminar la reserva.');
     }
+
+    return redirect()->route('reservations.index');
+}
+
+/**
+ * Actualiza los cupos disponibles de la cita
+ */
+protected function updateAppointmentSpots(AvailableAppointment $availableAppointment): void
+{
+    $availableAppointment->available_spots++;
+    $availableAppointment->reserved_spots = max(0, $availableAppointment->reserved_spots - 1);
+    $availableAppointment->save();
+}
+
+/**
+ * Flash message de éxito
+ */
+protected function flashSuccess(string $title, string $text): void
+{
+    session()->flash('success', [
+        'title' => $title,
+        'text' => $text,
+        'icon' => 'success'
+    ]);
+}
+
+/**
+ * Flash message de error
+ */
+protected function flashError(string $title, string $text): void
+{
+    session()->flash('error', [
+        'title' => $title,
+        'text' => $text,
+        'icon' => 'error'
+    ]);
+}
 }

@@ -6,6 +6,7 @@ return [
     'view' => 'Ver',
     'edit' => 'Editar',
     'delete' => 'Eliminar',
+    'cancel' => 'Cancelar',
     'view_available_reservations' => 'Ver reservas disponibles',
     'search' => [
         'search' => 'Buscar',

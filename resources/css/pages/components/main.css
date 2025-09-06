@@ -1,4 +1,9 @@
 /* En tu CSS principal */
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 body, html {
     min-height: 100vh;
 }

@@ -10,6 +10,7 @@ return [
     'role' => 'Rol',
     'admin' => 'Admin',
     'doctor' => 'Doctor',
+    'dr' => 'Dr.',
     'user' => 'Usuario',
     'status' => 'Estado',
     'active' => 'Activo',
@@ -28,6 +29,7 @@ return [
     'profile' => 'Perfil',
     'none' => 'Ninguno',
     'unassisted_reservations' => 'Reservas no asistidas',
+    'no_appointments' => 'No hay turnos reservados.',
     
     'labels' => [
         'start_date' => 'Fecha inicio',

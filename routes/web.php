@@ -10,6 +10,7 @@ use App\Http\Controllers\AvailableAppointmentsController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\MyAppointmentsController;
 
 Route::view('/', 'home')->name('home');
 
@@ -21,6 +22,10 @@ Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     Route::get('/getAvailableReservationByDoctor/{appointment_name_id}', [ReservationController::class, 'getAvailableReservationByDoctor']);
     Route::post('/reservations/store', [ReservationController::class, 'store'])->name('reservations.store');
     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    ///My Appointments
+    Route::get('/myAppointments', [MyAppointmentsController::class, 'index'])->name('myAppointments.index');
+    Route::get('/myAppointment/show/{id}', [MyAppointmentsController::class, 'show'])->name('myAppointments.show');
+    Route::delete('/myAppointments/{id}', [MyAppointmentsController::class, 'destroy'])->name('myAppointments.destroy');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');

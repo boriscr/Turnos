@@ -93,7 +93,7 @@ class SettingSeeder extends Seeder
                     'desc' => 'Color de fondo de la aplicación'
                 ],
                 'light_application_background' => [
-                    'value' => '#FFFAFA', // Blanco nieve
+                    'value' => '#ebebeb', // Gris claro
                     'type' => 'string',
                     'desc' => 'Color de fondo de la aplicación'
                 ],

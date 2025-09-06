@@ -1,0 +1,127 @@
+.container-appointments {
+    width: auto;
+    border-radius: 20px;
+    padding: 10px 5px;
+    margin: 0 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    h6 {
+        font-weight: bold;
+    }
+
+    .my-appointments-box {
+        border-radius: 20px;
+        width: 250px;
+        flex-wrap: nowrap;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        border: 1px solid #ffffff00;
+        opacity: 0.7;
+
+        &:hover {
+            border: 1px solid color-mix(in srgb, var(--general_design_color) 80%, #000000 20%);
+            transform: scale(1.04);
+            opacity: 1;
+
+        }
+
+        .box-content {
+            display: flex;
+            flex-direction: row;
+            align-self: center;
+
+            .details-content {
+                width: 100%;
+                padding: 10px 2px 10px 10px;
+
+                .details {
+                    padding: 10px;
+                }
+            }
+
+            .details-icon {
+                .bi {
+                    font-size: 30px;
+                }
+            }
+        }
+
+        .date-time-status {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            opacity: 0.8;
+
+            .status {
+                padding: 3px 2px;
+                text-align: center;
+                border-radius: 3px;
+                font-size: 0.55rem;
+            }
+        }
+    }
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+    .my-appointments-box {
+        background-color: color-mix(in srgb, var(--dark_application_background) 90%, #000000 10%);
+        box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.1);
+        border: 1px solid color-mix(in srgb, var(--dark_text_color)50%, #ffffff00 50%);
+
+        &:hover {
+            box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.219);
+        }
+
+        .details-icon {
+            .bi {
+                color: var(--dark_text_color);
+            }
+        }
+    }
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+
+    .my-appointments-box {
+        background-color: color-mix(in srgb, var(--light_application_background) 60%, #fff 40%);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.116), 0 6px 20px 0 rgba(0, 0, 0, 0.108);
+        border: 1px solid color-mix(in srgb, var(--light_text_color) 70%, #000000 30%);
+
+        &:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .details-icon {
+            .bi {
+                color: var(--light_text_color);
+            }
+        }
+    }
+
+}
+
+@media (max-width: 600px) {
+    .container-appointments {
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        margin: 0 5px;
+
+        .my-appointments-box {
+            width: 100%;
+
+            .details-content {
+                width: 100%;
+            }
+        }
+    }
+}

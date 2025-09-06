@@ -6,6 +6,7 @@ return [
     'view' => 'View',
     'edit' => 'Edit',
     'delete' => 'Delete',
+    'cancel' => 'Cancel',
     'view_available_reservations' => 'View available reservations',
     'search' => [
         'search' => 'Search',

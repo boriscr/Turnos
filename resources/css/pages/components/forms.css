@@ -113,7 +113,7 @@ option {
     justify-content: space-between;
     text-align: center;
     margin: 2px 3px;
-    border: 1px solid var(--general_design_colorolor);
+    border: 1px solid var(--general_design_color);
     border-radius: 5px;
     padding: 5px;
 }
