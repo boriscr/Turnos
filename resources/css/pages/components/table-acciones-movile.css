@@ -1,4 +1,4 @@
-/* Movil Acciones - Estilos existentes mejorados */
+/* Movil Acciones */
 .box-accionesMovil {
     display: none;
     position: fixed;
@@ -25,15 +25,12 @@
     padding: 0px;
 }
 
-
-
 .box-accionesMovil.active {
     display: block;
 }
 
 .box-accionesMovil hr {
     margin: 10px 0;
-    border-color: #dee2e6;
 }
 
 .box-accionesMovil h1 {
@@ -71,8 +68,7 @@
 
 /* Nuevo estilo para el botón cuando está activo */
 .accionesMovilBtn.active {
-    background-color: #007bff;
-    color: white;
+    background-color: var(--general_design_color);
 }
 
 
@@ -86,19 +82,28 @@
         * {
             color: var(--dark_text_color);
         }
+
+        .accionesMovilBtn .bi {
+            color: var(--dark_text_color);
+        }
+
     }
 }
 
 /* Modo claro */
 @media (prefers-color-scheme: light) {
     .box-accionesMovil {
-        background-color: var(--background-light);
+        background-color: color-mix(in srgb, var(--light_application_background) 60%, #fff 40%);
         border: 1px solid #00000064;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.29);
 
         * {
-            color: var(--dark_text_color);
+            color: var(--light_text_color);
         }
+    }
+
+    .accionesMovilBtn .bi {
+        color: var(--light_text_color);
     }
 }
 

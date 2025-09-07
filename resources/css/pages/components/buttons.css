@@ -120,7 +120,7 @@
     /* Amarillo más intenso */
 }
 
-.btn-edit .bi {
+.btn-view .bi,.btn-edit .bi {
     color: #fff;
 }
 
