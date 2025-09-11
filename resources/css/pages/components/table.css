@@ -29,7 +29,6 @@ th {
 .main-table .container-form .acciones {
     gap: 3px;
     flex-wrap: wrap;
-    height: 100% !important;
 }
 
 .main-table .container-form form {

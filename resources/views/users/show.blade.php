@@ -35,7 +35,7 @@
             <div class="card">
                 <h2>{{ __('medical.titles.creation') }}</h2>
                 <p><b>{{ __('medical.role') }}:</b> {{ $user->getRoleNames()->first() }}</p>
-                <p><b>{{ __('medical.status') }}:
+                <p><b>{{ __('medical.status.title') }}:
                     </b>{{ $user->status ? __('medical.active') : __('medical.inactive') }}</p>
                 <p><b> {{ __('medical.creation_date') }}:
                     </b>{{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y H:i') }}</p>

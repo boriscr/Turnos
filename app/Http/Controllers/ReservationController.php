@@ -15,6 +15,7 @@ use App\Models\AvailableAppointment;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ReservationStoreRequest;
 use Illuminate\Http\RedirectResponse;
+use App\Models\AppointmentHistory;
 
 class ReservationController extends Controller
 {
@@ -143,10 +144,43 @@ class ReservationController extends Controller
             if ($reservation->user) {
                 $this->gestionarFaltas($reservation, $estadoAnterior, $nuevoEstado);
             }
+
+            // Obtener la cita disponible
+            $availableAppointment = AvailableAppointment::with(['appointment', 'doctor', 'specialty'])
+                ->find($reservation->available_appointment_id);
+
+            // Verificar si ya existe un historial para esta reservación
+            $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
+                ->first();
+            if (!$appointmentHistory) {
+                // Crear nuevo historial
+                AppointmentHistory::create([
+                    'appointment_id' => $availableAppointment->appointment_id ?? null,
+                    'appointment_name' => $availableAppointment->appointment->name ?? 'Desconocido',
+                    'reservation_id' => $reservation->id,
+                    'user_id' => $reservation->user_id,
+                    'doctor_name' => $availableAppointment ?
+                        ($availableAppointment->doctor->name . ' ' . $availableAppointment->doctor->surname) :
+                        'Doctor no disponible',
+                    'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
+                    'appointment_date' => $availableAppointment->date ?? $reservation->date,
+                    'appointment_time' => $availableAppointment->time ?? $reservation->time,
+                    'status' => $nuevoEstado ? 'assisted' : 'not_attendance',
+                    'cancelled_by' => null,
+                    'cancellation_reason' => null,
+                    'cancelled_at' => null,
+                ]);
+            } else {
+                // Actualizar status existente
+                $appointmentHistory->update([
+                    'status' => $nuevoEstado ? 'assisted' : 'not_attendance',
+                ]);
+            }
         });
 
         return back()->with('success', 'Estado de asistencia actualizado correctamente');
     }
+
     protected function gestionarFaltas(Reservation $reservation, $estadoAnterior, $nuevoEstado)
     {
         // Detectar si el estado anterior era null
@@ -198,6 +232,25 @@ class ReservationController extends Controller
                     $reservation->user->increment('faults');
                 }
             });
+            // Mover a appointment_histories si el estado es attended o missed
+            if ($reservation->asistencia !== null) {
+                $availableAppointment = AvailableAppointment::where('id', $reservation->available_appointment_id)
+                    ->first();
+                AppointmentHistory::create([
+                    'appointment_id' => $availableAppointment->appointment_id,
+                    'appointment_name' => $availableAppointment->appointment->name ?? 'Desconocido',
+                    'reservation_id' => $reservation->id,
+                    'user_id' => $reservation->user_id,
+                    'doctor_name' => $availableAppointment->doctor->name . ' ' . $availableAppointment->doctor->surname,
+                    'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
+                    'appointment_date' => $availableAppointment->date,
+                    'appointment_time' => $availableAppointment->time,
+                    'status' => $reservation->asistencia ? 'assisted' : 'not_attendance',
+                    'cancelled_by' => null,
+                    'cancellation_reason' => null,
+                    'cancelled_at' => null,
+                ]);
+            }
         }
 
         return response()->json([
@@ -387,7 +440,7 @@ class ReservationController extends Controller
     {
         try {
             // Simular procesamiento que podría causar condiciones de carrera
-            usleep(rand(2000000, 6000000)); // Retardo aleatorio entre 2-6 segundos
+            usleep(rand(2000000, 4000000)); // Retardo aleatorio entre 2-4 segundos
             return DB::transaction(function () use ($request) {
                 // 1. BLOQUEAR el registro para evitar acceso concurrente
                 $availableAppointment = AvailableAppointment::where('id', $request->appointment_id)
@@ -585,71 +638,102 @@ class ReservationController extends Controller
 
 
 
-/**
- * Elimina una reserva (solo para administradores)
- */
-public function destroy(int $id): RedirectResponse
-{
-    try {
-        $reservation = Reservation::with('availableAppointment')->findOrFail($id);
-        
-        if (!$reservation->availableAppointment) {
-            throw new \Exception('La cita disponible asociada no fue encontrada');
+    /**
+     * Elimina una reserva (solo para administradores)
+     */
+    public function destroy(int $id): RedirectResponse
+    {
+        try {
+            $reservation = Reservation::with('availableAppointment')->findOrFail($id);
+
+            if (!$reservation->availableAppointment) {
+                throw new \Exception('La cita disponible asociada no fue encontrada');
+            }
+
+            DB::transaction(function () use ($reservation) {
+                // Actualizar el estado en appointment_histories
+                $this->updateAppointmentHistoryStatus($reservation);
+                // Actualizar cupos y eliminar reserva
+                $this->updateAppointmentSpots($reservation->availableAppointment);
+                $reservation->delete();
+            });
+
+            $this->flashSuccess(
+                'Reserva eliminada',
+                'La reserva ha sido cancelada y los cupos se han actualizado correctamente.'
+            );
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            Log::error('Reserva no encontrada', ['id' => $id, 'error' => $e->getMessage()]);
+            $this->flashError('Error!', 'Reserva no encontrada.');
+        } catch (\Exception $e) {
+            Log::error('Error al eliminar reserva', ['id' => $id, 'error' => $e->getMessage()]);
+            $this->flashError('Error!', 'Ocurrió un error al eliminar la reserva.');
         }
 
-        DB::transaction(function () use ($reservation) {
-            $this->updateAppointmentSpots($reservation->availableAppointment);
-            $reservation->delete();
-        });
-
-        $this->flashSuccess(
-            'Reserva eliminada', 
-            'La reserva ha sido cancelada y los cupos se han actualizado correctamente.'
-        );
-
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        Log::error('Reserva no encontrada', ['id' => $id, 'error' => $e->getMessage()]);
-        $this->flashError('Error!', 'Reserva no encontrada.');
-        
-    } catch (\Exception $e) {
-        Log::error('Error al eliminar reserva', ['id' => $id, 'error' => $e->getMessage()]);
-        $this->flashError('Error!', 'Ocurrió un error al eliminar la reserva.');
+        return redirect()->route('reservations.index');
     }
 
-    return redirect()->route('reservations.index');
-}
+    /**
+     * Actualiza los cupos disponibles de la cita
+     */
+    protected function updateAppointmentSpots(AvailableAppointment $availableAppointment): void
+    {
+        $availableAppointment->available_spots++;
+        $availableAppointment->reserved_spots = max(0, $availableAppointment->reserved_spots - 1);
+        $availableAppointment->save();
+    }
+    /**
+     * Funcion para cambiar el status de historial de appointment
+     */
+    protected function updateAppointmentHistoryStatus($reservation): void
+    {
+        // Verificar si ya existe un historial para esta reservación
+        $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
+            ->first();
+        // Obtener la cita disponible
+        $availableAppointment = AvailableAppointment::with(['appointment', 'doctor', 'specialty'])
+            ->find($reservation->available_appointment_id);
+        if (!$appointmentHistory) {
+            // Crear nuevo historial
+            AppointmentHistory::create([
+                'appointment_id' => $availableAppointment->appointment_id ?? null,
+                'appointment_name' => $availableAppointment->appointment->name ?? 'Desconocido',
+                'reservation_id' => $reservation->id,
+                'user_id' => $reservation->user_id,
+                'doctor_name' => $availableAppointment ?
+                    ($availableAppointment->doctor->name . ' ' . $availableAppointment->doctor->surname) :
+                    'Doctor no disponible',
+                'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
+                'appointment_date' => $availableAppointment->date ?? $reservation->date,
+                'appointment_time' => $availableAppointment->time ?? $reservation->time,
+                'status' => 'cancelled_by_admin',
+                'cancelled_by' => Auth::id(),
+                'cancelled_at' => now(),
+            ]);
+        }
+    }
 
-/**
- * Actualiza los cupos disponibles de la cita
- */
-protected function updateAppointmentSpots(AvailableAppointment $availableAppointment): void
-{
-    $availableAppointment->available_spots++;
-    $availableAppointment->reserved_spots = max(0, $availableAppointment->reserved_spots - 1);
-    $availableAppointment->save();
-}
+    /**
+     * Flash message de éxito
+     */
+    protected function flashSuccess(string $title, string $text): void
+    {
+        session()->flash('success', [
+            'title' => $title,
+            'text' => $text,
+            'icon' => 'success'
+        ]);
+    }
 
-/**
- * Flash message de éxito
- */
-protected function flashSuccess(string $title, string $text): void
-{
-    session()->flash('success', [
-        'title' => $title,
-        'text' => $text,
-        'icon' => 'success'
-    ]);
-}
-
-/**
- * Flash message de error
- */
-protected function flashError(string $title, string $text): void
-{
-    session()->flash('error', [
-        'title' => $title,
-        'text' => $text,
-        'icon' => 'error'
-    ]);
-}
+    /**
+     * Flash message de error
+     */
+    protected function flashError(string $title, string $text): void
+    {
+        session()->flash('error', [
+            'title' => $title,
+            'text' => $text,
+            'icon' => 'error'
+        ]);
+    }
 }

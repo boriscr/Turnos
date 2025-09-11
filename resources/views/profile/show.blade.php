@@ -27,7 +27,7 @@
                         </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</p>
                     <p><b><i class="bi bi-calendar-check-fill"></i>{{ __('appointment.date.date') }}:
                         </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</p>
-                    <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status') }}: </b>
+                    <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status.title') }}: </b>
                         <span
                             class="{{ $reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia === true ? 'btn-success' : 'btn-danger') }}">
                             {{ $reservation->asistencia === null ? __('button.search.pending') : ($reservation->asistencia === true ? __('button.search.assisted') : __('button.search.not_attendance')) }}
@@ -43,7 +43,7 @@
                     </p>
                     <p><b><i class="bi bi-fingerprint"></i>{{ __('contact.idNumber') }}:
                         </b>{{ @Auth::user()->idNumber }}</p>
-                    <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status') }}:
+                    <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status.title') }}:
                         </b>
                         <spam class="{{ @Auth::user()->status ? 'btn-success' : 'btn-danger' }}">
                             {{ @Auth::user()->status ? __('medical.active') : __('medical.inactive') }}</spam>

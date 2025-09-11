@@ -95,7 +95,7 @@
                             {{ __('medical.admin') }}</option>
                     </x-form.select>
 
-                    <x-form.select name="status" :label="__('medical.status')" :required="true">
+                    <x-form.select name="status" :label="__('medical.status.title')" :required="true">
                         <option value="1" {{ $user->status == 1 ? 'selected' : '' }}>
                             {{ __('medical.active') }}
                         </option>

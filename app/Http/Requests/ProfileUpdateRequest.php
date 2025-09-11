@@ -27,7 +27,7 @@ class ProfileUpdateRequest extends FormRequest
 
         $rules = [
             'name' => ['required', 'string', 'min:3', 'max:40'],
-            'surname' => ['required', 'string', 'min:3', 'max:40'],
+            'surname' => ['required', 'string', 'min:3', 'max:15'],
             'birthdate' => ['required', 'date', 'before:today'],//'before:-18 years'
             'gender' => ['required', 'in:Masculino,Femenino,No binario,Otro,Prefiero no decir'],
             'country' => ['required', 'string', 'min:3', 'max:50'],

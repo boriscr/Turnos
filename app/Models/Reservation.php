@@ -20,7 +20,10 @@ class Reservation extends Model
     {
         return $this->belongsTo(AvailableAppointment::class);
     }
-
+    public function appointmentHistories()
+    {
+        return $this->hasOne(AvailableAppointment::class);
+    }
     public function user()
     {
         return $this->belongsTo(User::class);

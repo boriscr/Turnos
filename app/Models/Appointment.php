@@ -53,6 +53,11 @@ class Appointment extends Model
     {
         return $this->belongsTo(User::class);
     }
+    //metodo para relacionar con appointmentHistory
+    public function appointmentHistories()
+    {
+        return $this->hasMany(AppointmentHistory::class);
+    }
     // Usuario que creó el appointment
     public function createdBy()
     {

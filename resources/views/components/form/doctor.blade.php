@@ -45,7 +45,7 @@
     <x-form.select name="role" :label="__('medical.role')" :required="true">
         <option value="doctor" {{ $role == 'doctor' ? 'selected' : '' }}>{{ __('medical.doctor') }}</option>
     </x-form.select>
-    <x-form.select name="status" :label="__('medical.status')" :required="true">
+    <x-form.select name="status" :label="__('medical.status.title')" :required="true">
         <option value="1"{{ isset($edit) ? '' : 'selected' }}
             {{ isset($status) && $status == 1 ? 'selected' : '' }}>{{ __('medical.active') }}</option>
         <option value="0" {{ isset($status) && $status == 0 ? 'selected' : '' }}>

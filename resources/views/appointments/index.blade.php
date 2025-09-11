@@ -11,7 +11,7 @@
                         <th class="option-movil">{{ __('specialty.title') }}</th>
                         <th>{{ __('medical.doctor') }}</th>
                         <th class="option-movil">{{ __('appointment.shift.name') }}</th>
-                        <th>{{ __('medical.status') }}</th>
+                        <th>{{ __('medical.status.title') }}</th>
                         <th>{{ __('medical.actions') }}</th>
                     </tr>
                 </thead>

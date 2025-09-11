@@ -9,6 +9,8 @@ use App\Models\Appointment;
 use App\Models\Specialty;
 use App\Models\Doctor;
 use App\Models\AvailableAppointment;
+use App\Models\AppointmentHistory;
+use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -249,8 +251,36 @@ class AppointmentController extends Controller
                 return $nueva['date'] === $fechaDisponibilidad && $horaNueva === $horaDisponibilidad;
             });
 
+            // Esta disponibilidad ya no está en las nuevas, pero tiene reservas
             if (!$existeEnNuevas) {
-                // Esta disponibilidad ya no está en las nuevas, pero tiene reservas
+                // Obtener las reservas asociadas y actualizar su historial a "deleted_by_admin"
+                $reservations = Reservation::where('available_appointment_id', $disponibilidad->id)
+                    ->get();
+                foreach ($reservations as $reservation) {
+                    $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
+                        ->first();
+                    // Obtener la cita disponible
+                    $availableAppointment = AvailableAppointment::with(['appointment', 'doctor', 'specialty'])
+                        ->find($reservation->available_appointment_id);
+                    if (!$appointmentHistory) {
+                        // Crear nuevo historial
+                        AppointmentHistory::create([
+                            'appointment_id' => $availableAppointment->appointment_id ?? null,
+                            'appointment_name' => $availableAppointment->appointment->name ?? 'Desconocido',
+                            'reservation_id' => $reservation->id,
+                            'user_id' => $reservation->user_id,
+                            'doctor_name' => $availableAppointment ?
+                                ($availableAppointment->doctor->name . ' ' . $availableAppointment->doctor->surname) :
+                                'Doctor no disponible',
+                            'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
+                            'appointment_date' => $availableAppointment->date ?? $reservation->date,
+                            'appointment_time' => $availableAppointment->time ?? $reservation->time,
+                            'status' => 'deleted_by_admin',
+                            'cancelled_by' => Auth::id(),
+                            'cancelled_at' => now(),
+                        ]);
+                    }
+                }
                 Log::warning("Disponibilidad eliminada tenía reservas: {$fechaDisponibilidad} {$horaDisponibilidad}");
                 $disponibilidad->delete();
             }
@@ -264,11 +294,6 @@ class AppointmentController extends Controller
 
         return redirect()->route('appointments.index');
     }
-
-
-
-
-
 
     function destroy($id)
     {

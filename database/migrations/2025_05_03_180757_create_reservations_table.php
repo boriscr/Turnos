@@ -22,7 +22,8 @@ return new class extends Migration
 
             // EVITA que un usuario reserve el mismo turno múltiples veces
             $table->unique(['user_id', 'available_appointment_id']);
-
+            $table->index(['user_id', 'asistencia']);
+            $table->index('specialty_id');
             // EVITA que un turno sea reservado por múltiples usuarios (si es 1 spot)
             // $table->unique(['available_appointment_id']);
         });

@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Validaciones específicas para cada campo
         switch (field.id) {
             case 'name':
-            case 'surname':
                 if (!value) {
                     showError(field, 'Este campo es obligatorio');
                 } else if (value.length > 40) {
@@ -38,7 +37,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     showError(field, 'Mínimo 3 caracteres requeridos.');
                 }
                 break;
-
+            case 'surname':
+                if (!value) {
+                    showError(field, 'Este campo es obligatorio');
+                } else if (value.length > 15) {
+                    showError(field, 'Máximo 15 caracteres permitidos.');
+                } else if (value.length < 3) {
+                    showError(field, 'Mínimo 3 caracteres requeridos.');
+                }
+                break;
             case 'idNumber':
                 if (!value) {
                     showError(field, 'El DNI es obligatorio');

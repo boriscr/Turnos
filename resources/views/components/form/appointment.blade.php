@@ -109,7 +109,7 @@
             @include('layouts.calendario')
         </div>
 
-        <x-form.select name="status" :label="__('medical.status')" :required="true">
+        <x-form.select name="status" :label="__('medical.status.title')" :required="true">
             <option value="1" {{ !isset($create) ? ($appointment->status == true ? 'selected' : '') : '' }}>
                 {{ __('medical.active') }}</option>
             <option value="0" {{ !isset($create) ? ($appointment->status == false ? 'selected' : '') : '' }}>

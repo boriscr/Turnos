@@ -9,7 +9,7 @@
                         <th>{{ __('contact.name_and_surname') }}</th>
                         <th class="option-movil">{{ __('contact.idNumber') }}</th>
                         <th class="option-movil">{{ __('medical.role') }}</th>
-                        <th>{{ __('medical.status') }}</th>
+                        <th>{{ __('medical.status.title') }}</th>
                         <th>{{ __('medical.actions') }}</th>
                     </tr>
                 </thead>

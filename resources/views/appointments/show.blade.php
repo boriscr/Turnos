@@ -50,7 +50,7 @@
                             @php
                                 $number_of_reservations++;
                             @endphp
-                            <i class="bi bi-calendar-check"></i>{{ $item }}
+                            <i class="bi bi-calendar-check"></i> {{ Carbon\Carbon::parse($item)->format('d/m/Y') }}
                         @endforeach
                     </small>
                 </p>
@@ -66,7 +66,7 @@
                     {{ $appointment->number_of_reservations }} </p>
                 <p><b>{{ __('appointment.schedule.total_amount_of_reservations') }}:</b>
                     {{ $appointment->number_of_reservations * $number_of_reservations }}</p>
-                <p><b>{{ __('medical.status') }}:</b>
+                <p><b>{{ __('medical.status.title') }}:</b>
                     {{ $appointment->status ? __('medical.active') : __('medical.inactive') }}</p>
                 <p><b>{{ __('medical.created_by') }}:</b>
                     {{ $appointment->createdBy->name . ' ' . $appointment->createdBy->surname }} <a

@@ -9,7 +9,7 @@
                         <th>{{ __('specialty.title') }}</th>
                         <th>{{ __('appointment.date.date') }}</th>
                         <th>{{ __('appointment.schedule.time') }}</th>
-                        <th>{{ __('medical.status') }}</th>
+                        <th>{{ __('medical.status.title') }}</th>
                         <th>{{ __('medical.actions') }}</th>
                     </tr>
                 </thead>

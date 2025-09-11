@@ -12,7 +12,6 @@ return [
     'doctor' => 'Doctor',
     'dr' => 'Dr.',
     'user' => 'User',
-    'status' => 'Status',
     'active' => 'Active',
     'inactive' => 'Inactive',
     'actions' => 'Actions',
@@ -26,11 +25,24 @@ return [
     'update_date' => 'Update date',
     'no_data' => 'No data',
     'no_profile' => 'No user profile',
+    'no_actions' => 'No available actions',
     'profile' => 'Profile',
     'none' => 'None',
     'unassisted_reservations' => 'Unassisted reservations',
     'no_appointments' => 'No booked appointments.',
-    
+
+    'status' => [
+        'title' => 'Status',
+        'assisted' => 'Assisted',
+        'not_attendance' => 'Not attendance',
+        'pending' => 'Pending',
+        'canceled' => 'Canceled',
+        'cancelled_by_user' => 'Cancelled by user',
+        'cancelled_by_admin' => 'Cancelled by admin',
+        'deleted_by_admin' => 'Deleted by admin',
+        'unknown' => 'Unknown',
+        'scheduled' => 'Scheduled',
+    ],
     'labels' => [
         'start_date' => 'Start date',
         'end_date' => 'End date',

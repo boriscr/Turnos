@@ -27,7 +27,7 @@
                 <div class="card">
                     <h2>{{ __('medical.titles.creation') }}</h2>
                     <p><b> {{ __('medical.role') }}: </b>{{ $doctor->role }}</p>
-                    <p><b> {{ __('medical.status') }}:
+                    <p><b> {{ __('medical.status.title') }}:
                         </b>
                         <span class="{{ $doctor->status ? 'btn-success' : 'inactive' }}">
                             {{ $doctor->status ? __('medical.active') : __('medical.inactive') }}

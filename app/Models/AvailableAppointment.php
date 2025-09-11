@@ -21,7 +21,7 @@ class AvailableAppointment extends Model
     protected $casts = [
         'date' => 'date',
         'time' => 'datetime:H:i',
-        'disponible' => 'boolean'
+        //'disponible' => 'boolean'
     ];
     public function specialty()
     {

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Reservation;
 use App\Models\AvailableAppointment;
 use App\Models\Setting;
+use App\Models\AppointmentHistory;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
@@ -21,7 +22,12 @@ class MyAppointmentsController extends Controller
                 ->whereNull('asistencia') //mostrar solo las reservas con asistencia null
                 ->orderBy('id', 'desc')
                 ->paginate(8);
-            return view('myAppointments.index', compact('reservations'));
+            $appointmentHistory = AppointmentHistory::where('user_id', Auth::user()->id)
+                ->with('appointment') // Asegúrate de cargar la relación
+                ->orderBy('id', 'desc')
+                ->paginate(10);
+            $now = now(); // Fecha y time actual
+            return view('myAppointments.index', compact('reservations', 'appointmentHistory', 'now'));
         } else {
             return redirect()->route('login'); // Mejor redirigir que mostrar un mensaje
         }
@@ -61,6 +67,9 @@ class MyAppointmentsController extends Controller
             }
 
             DB::transaction(function () use ($reservation, $availableAppointment) {
+                // Actualizar el estado en appointment_histories
+                $this->updateAppointmentHistoryStatus($reservation);
+                // Actualizar cupos y eliminar reserva
                 $this->updateAppointmentSpots($availableAppointment);
                 $reservation->delete();
             });
@@ -133,7 +142,7 @@ class MyAppointmentsController extends Controller
     {
         return Setting::where('group', 'appointments')
             ->where('key', 'cancellation_hours')
-            ->value('value') ?? 24;
+            ->value('value') ?? 2;
     }
 
     /**
@@ -145,7 +154,43 @@ class MyAppointmentsController extends Controller
         $availableAppointment->reserved_spots = max(0, $availableAppointment->reserved_spots - 1);
         $availableAppointment->save();
     }
-
+    /**
+     * Funcion para cambiar el status de historial de appointment
+     */
+    protected function updateAppointmentHistoryStatus($reservation): void
+    {
+        // Verificar si ya existe un historial para esta reservación
+        $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
+            ->first();
+        // Obtener la cita disponible
+        $availableAppointment = AvailableAppointment::with(['appointment', 'doctor', 'specialty'])
+            ->find($reservation->available_appointment_id);
+        if (!$appointmentHistory) {
+            // Crear nuevo historial
+            AppointmentHistory::create([
+                'appointment_id' => $availableAppointment->appointment_id ?? null,
+                'appointment_name' => $availableAppointment->appointment->name ?? 'Desconocido',
+                'reservation_id' => $reservation->id,
+                'user_id' => $reservation->user_id,
+                'doctor_name' => $availableAppointment ?
+                    ($availableAppointment->doctor->name . ' ' . $availableAppointment->doctor->surname) :
+                    'Doctor no disponible',
+                'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
+                'appointment_date' => $availableAppointment->date ?? $reservation->date,
+                'appointment_time' => $availableAppointment->time ?? $reservation->time,
+                'status' => 'cancelled_by_user',
+                'cancelled_by' => Auth::id(),
+                'cancelled_at' => now(),
+            ]);
+        } else {
+            // Actualizar status existente
+            $appointmentHistory->update([
+                'status' => 'cancelled_by_user',
+                'cancelled_by' => Auth::id(),
+                'cancelled_at' => now(),
+            ]);
+        }
+    }
     /**
      * Flash message de éxito
      */

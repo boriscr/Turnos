@@ -32,7 +32,7 @@
             </div>
             <div class="mt-4">
                 <x-input-label for="surname" :value="__('contact.surname')" />
-                <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" minlength="3" maxlength="40" required />
+                <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" minlength="3" maxlength="15" required />
                 <x-input-error :messages="$errors->get('surname')" class="mt-2" />
             </div>
 

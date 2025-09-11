@@ -36,6 +36,98 @@
                 @endforelse
             </div>
             {{ $reservations->links() }}
+            <div class="container-form full-center">
+                <h1>{{ __('medical.titles.historical') }}</h1>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="option-movil">{{ __('reservation.title_name') }}</th>
+                            <th>{{ __('medical.doctor') }}</th>
+                            <th>{{ __('specialty.title') }}</th>
+                            <th>{{ __('appointment.date.date') }}</th>
+                            <th class="option-movil">{{ __('appointment.schedule.time') }}</th>
+                            <th>{{ __('medical.status.title') }}</th>
+                            <th>{{ __('medical.actions') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($appointmentHistory as $item)
+                            <tr>
+                                <td class="option-movil">{{ $item->appointment_name }}</td>
+                                <td>{{ $item->doctor_name }}</td>
+                                <td>{{ $item->specialty }}</td>
+                                <td>{{ Carbon\Carbon::parse($item->appointment_date)->format('d/m/Y') }}
+                                </td>
+                                <td class="option-movil">
+                                    {{ Carbon\Carbon::parse($item->appointment_time)->format('H:i') }}
+                                </td>
+                                <td>
+                                    @switch($item->status)
+                                        @case('assisted')
+                                            <i
+                                                class="bi bi-check-circle-fill btn-success">{{ __('button.search.assisted') }}</i>
+                                        @break
+
+                                        @case('not_attendance')
+                                            <i
+                                                class="bi bi-x-circle-fill btn-danger">{{ __('button.search.not_attendance') }}</i>
+                                        @break
+
+                                        @case('cancelled_by_user')
+                                            <i
+                                                class="bi bi-x-circle-fill btn-danger">{{ __('medical.status.cancelled_by_user') }}</i>
+                                        @break
+
+                                        @case('cancelled_by_admin')
+                                            <i
+                                                class="bi bi-x-circle-fill btn-danger">{{ __('medical.status.cancelled_by_admin') }}</i>
+                                        @break
+
+                                        @case('deleted_by_admin')
+                                            <i
+                                                class="bi bi-x-circle-fill btn-danger">{{ __('medical.status.deleted_by_admin') }}</i>
+                                        @break
+
+                                        @default
+                                            <i
+                                                class="bi bi-question-circle-fill btn-default">{{ __('medical.status.unknown') }}</i>
+                                    @endswitch
+                                </td>
+                                <td>
+                                    @php
+                                        // Combinar fecha y hora
+                                        $fechaHoraReserva = $item->appointment_date
+                                            ->copy()
+                                            ->setTimeFrom($item->appointment_time);
+                                        // Solo fecha de la reserva
+                                        $fechaReserva = $fechaHoraReserva->toDateString();
+                                        $hoy = $now->toDateString();
+                                    @endphp
+
+                                    @if ($fechaReserva < $hoy)
+                                        <form action="{{ route('appointmentHistory.destroy', $item->id) }}"
+                                            method="POST" style="display:inline;" class="delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-delete delete-btn">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <span>{{ __('medical.no_actions') }}</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">{{ __('medical.no_data') }}</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                    {{ $appointmentHistory->links() }}
+                </div>
+            </div>
         </div>
-    </div>
-</x-app-layout>
+    </x-app-layout>

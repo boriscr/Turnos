@@ -11,6 +11,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\MyAppointmentsController;
+use App\Http\Controllers\AppointmentHistoryController;
 
 Route::view('/', 'home')->name('home');
 
@@ -25,7 +26,11 @@ Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     ///My Appointments
     Route::get('/myAppointments', [MyAppointmentsController::class, 'index'])->name('myAppointments.index');
     Route::get('/myAppointment/show/{id}', [MyAppointmentsController::class, 'show'])->name('myAppointments.show');
-    Route::delete('/myAppointments/{id}', [MyAppointmentsController::class, 'destroy'])->name('myAppointments.destroy');
+    //Cancelar reserva (turno) - solo para usuarios / pacientes
+    Route::delete('/myAppointment/{id}/cancel', [MyAppointmentsController::class, 'destroy'])
+        ->name('myAppointments.destroy');
+    //Historial de Appointments
+    Route::delete('/appointmentHistory/{id}', [AppointmentHistoryController::class, 'destroy'])->name('appointmentHistory.destroy');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');

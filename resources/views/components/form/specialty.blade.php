@@ -15,7 +15,7 @@
         placeholder="{{ __('specialty.description_placeholder') }}" minlength="5" maxlength="500" required
         :value="$description" />
 
-    <x-form.select name="status" :label="__('medical.status')" :required="true">
+    <x-form.select name="status" :label="__('medical.status.title')" :required="true">
         <option value="1"{{ isset($edit) ? '' : 'selected' }}
             {{ isset($status) && $status == 1 ? 'selected' : '' }}>{{ __('medical.active') }}</option>
         <option value="0" {{ isset($status) && $status == 0 ? 'selected' : '' }}>{{ __('medical.inactive') }}
