@@ -15,4 +15,6 @@ return [
     'manage_booking' => 'Gestionar Reservas',
     'view_booking' => 'Ver Reservas',
     'settings' => 'Configuración',
+    'manage_records' => 'Gestionar Historial',
+    'view_records' => 'Ver Historial',
 ];

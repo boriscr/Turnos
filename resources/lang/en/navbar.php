@@ -15,4 +15,6 @@ return [
     'manage_booking' => 'Manage Booking',
     'view_booking' => 'View Booking',
     'settings' => 'Settings',
+    'manage_records' => 'Manage Records',
+    'view_records' => 'View Records',
 ];

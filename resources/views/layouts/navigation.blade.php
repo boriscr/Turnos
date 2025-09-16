@@ -86,10 +86,10 @@
                                             {{ __('navbar.view_booking') }}</span>{{-- Ver reservations --}}
                                     </x-dropdown-link>
                                     <!-- Sección Historial -->
-                                    <div class="subtitulo"> {{ __('navbar.manage_booking') }}</div>{{-- Gestionar Historiales --}}
+                                    <div class="subtitulo"> {{ __('navbar.manage_records') }}</div>{{-- Gestionar Historiales --}}
                                     <x-dropdown-link :href="route('appointmentHistory.index')">
                                         <i class="bi bi-eye"></i> <span>
-                                            {{ __('navbar.view_booking') }}</span>{{-- Ver historial --}}
+                                            {{ __('navbar.view_records') }}</span>{{-- Ver historial --}}
                                     </x-dropdown-link>
                                 </div>
                             </x-slot>
