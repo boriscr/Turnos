@@ -46,8 +46,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     //Edit users
     Route::patch('/registered/edit', [RegisteredUserController::class, 'edit'])->name('registered.edit');
     Route::patch('/registered/update', [RegisteredUserController::class, 'update'])->name('registered.update');
-    //Appointments disponibles "Reservations"
+    //Historial de Appointments
+    Route::get('/appointmentHistory', [AppointmentHistoryController::class, 'index'])->name('appointmentHistory.index');
+    Route::get('/appointmentHistory/show/{id}', [AppointmentHistoryController::class, 'show'])->name('appointmentHistory.show');
 
+    //Appointments disponibles "Reservations"
     //Reservations
     Route::get('/reservations/index', [ReservationController::class, 'index'])->name('reservations.index');
     //Route::post('/reservations/store', [ReservationController::class, 'store'])->name('reservations.store');

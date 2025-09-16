@@ -9,6 +9,23 @@ use Illuminate\Support\Facades\Auth;
 
 class AppointmentHistoryController extends Controller
 {
+public function index()
+    {
+        $user = Auth::user();
+        // Solo el admin puede ver todos los historiales
+        if (!$user->hasRole('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+        // Obtener todos los historiales de citas listados en 10 páginas
+
+        $appointmentHistory = AppointmentHistory::orderBy('appointment_date', 'desc')
+            ->orderBy('appointment_time', 'desc')
+            ->paginate(10);
+
+        return view('appointmentHistories.index', compact('appointmentHistory'));
+    }
+
+
     public function destroy($id)
     {
         $user = Auth::user();
@@ -20,12 +37,11 @@ class AppointmentHistoryController extends Controller
             return redirect()->back()->with('error', 'ID de cita no especificado.');
         }
 
-        $appointment = AppointmentHistory::where('user_id', $user->id)
-            ->where('id', $id)
+        $appointment = AppointmentHistory::where('id', $id)
             ->first();
 
         if (!$appointment) {
-            return redirect()->back()->with('error', 'Cita no encontrada o no pertenece al usuario.');
+            return redirect()->back()->with('error', 'Cita no encontrada.');
         }
 
         // 🔒 Verificación de fecha en el back
@@ -37,7 +53,7 @@ class AppointmentHistoryController extends Controller
             return redirect()->back()->with('error', 'Solo se pueden eliminar citas a partir del día siguiente.');
         }
 
-        // Autorización vía policy (si la tenés definida)
+        // Autorización vía policy. Elimina solo si es admin
         $this->authorize('delete', $appointment);
 
         DB::transaction(function () use ($appointment) {

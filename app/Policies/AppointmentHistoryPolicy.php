@@ -45,8 +45,10 @@ class AppointmentHistoryPolicy
      */
     public function delete(User $user, AppointmentHistory $appointmentHistory)
     {
-        // Solo el dueño puede eliminar
-        return $user->id === $appointmentHistory->user_id;
+        // Solo el admin puede eliminar
+        return $user->hasRole('admin')
+            ? Response::allow()
+            : Response::deny('No estás autorizado para eliminar este historial de citas.');
     }
 
     /**

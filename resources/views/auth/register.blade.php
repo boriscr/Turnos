@@ -27,20 +27,22 @@
             <h1>{{ __('Register') }}</h1>
             <div class="mt-4">
                 <x-input-label for="name" :value="__('contact.name')" />
-                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" minlength="3" maxlength="40"  required />
+                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" minlength="3"
+                    maxlength="40" required />
                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
             </div>
             <div class="mt-4">
                 <x-input-label for="surname" :value="__('contact.surname')" />
-                <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" minlength="3" maxlength="15" required />
+                <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" minlength="3"
+                    maxlength="15" required />
                 <x-input-error :messages="$errors->get('surname')" class="mt-2" />
             </div>
 
             <div class="mt-4">
                 {{-- idNumber --}}
                 <x-input-label for="idNumber" :value="__('contact.idNumber')" />
-                <x-text-input id="idNumber" name="idNumber" type="text" pattern="[a-zA-Z0-9]{7,8}" minlength="7" maxlength="8"
-                    autocomplete="off" required class="block mt-1 w-full" />
+                <x-text-input id="idNumber" name="idNumber" type="text" pattern="[a-zA-Z0-9]{7,8}" minlength="7"
+                    maxlength="8" autocomplete="off" required class="block mt-1 w-full" />
                 <x-input-error :messages="$errors->get('idNumber')" class="mt-2" />
             </div>
 
@@ -52,16 +54,15 @@
             </div>
 
             <div class="mt-4">
-                <x-input-label for="gender" :value="__('contact.gender')" />
-                <select name="gender" id="gender" class="w-full rounded p-2" required>
+                <x-form.select name="gender" :label="__('contact.gender')" :required="true">
                     <option value="">Selecciona...</option>
                     <option value="Femenino">Femenino</option>
                     <option value="Masculino">Masculino</option>
                     <option value="No binario">No binario</option>
                     <option value="Otro">Otro</option>
                     <option value="Prefiero no decir">Prefiero no decir</option>
-                </select>
-                <x-input-error :messages="$errors->get('gender')" class="mt-2" />
+                    </select>
+                </x-form.select>
             </div>
 
             <div class="mt-6 flex justify-end">
@@ -85,8 +86,7 @@
             <!-- Address -->
             <h1>{{ __('contact.address') }}</h1>
             <div class="mt-4">
-                <x-input-label for="country" :value="__('contact.country')" />
-                <select name="country" id="country">
+                <x-form.select name="country" :label="__('contact.country')" :required="true">
                     <option value="Argentina" selected>Argentina</option>
                     <!-- Países de América -->
                     <option value="Bolivia">Bolivia</option>
@@ -127,26 +127,28 @@
                     <option value="Tailandia">Tailandia</option>
                     <option value="Vietnam">Vietnam</option>
                     <option value="Otro">Otro</option>
-                </select>
-                <x-input-error :messages="$errors->get('country')" class="mt-2" />
+                </x-form.select>
             </div>
 
 
             <div class="mt-4">
                 <x-input-label for="province" :value="__('contact.province')" />
-                <x-text-input id="province" class="block mt-1 w-full" type="text" name="province" minlength="3" maxlength="50" required />
+                <x-text-input id="province" class="block mt-1 w-full" type="text" name="province"
+                    minlength="3" maxlength="50" required />
                 <x-input-error :messages="$errors->get('province')" class="mt-2" />
             </div>
 
             <div class="mt-4">
                 <x-input-label for="city" :value="__('contact.city')" />
-                <x-text-input id="city" class="block mt-1 w-full" type="text" name="city" minlength="3" maxlength="50" required />
+                <x-text-input id="city" class="block mt-1 w-full" type="text" name="city" minlength="3"
+                    maxlength="50" required />
                 <x-input-error :messages="$errors->get('city')" class="mt-2" />
             </div>
 
             <div class="mt-4">
                 <x-input-label for="address" :value="__('contact.address')" />
-                <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" minlength="10" maxlength="100" required />
+                <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" minlength="10"
+                    maxlength="100" required />
                 <x-input-error :messages="$errors->get('address')" class="mt-2" />
             </div>
 
@@ -163,12 +165,14 @@
             <h1>{{ __('contact.contact_and_access') }}</h1>
             <div class="mt-4">
                 <x-input-label for="phone" :value="__('contact.phone')" />
-                <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" minlength="9" maxlength="15" required />
+                <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" minlength="9"
+                    maxlength="15" required />
                 <x-input-error :messages="$errors->get('phone')" class="mt-2" />
             </div>
             <div class="mt-4">
                 <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" minlength="5" maxlength="60" required />
+                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" minlength="5"
+                    maxlength="60" required />
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
@@ -200,54 +204,54 @@
         </div>
     </form>
 
-<script>
-function registerForm() {
-    return {
-        step: 1,
+    <script>
+        function registerForm() {
+            return {
+                step: 1,
 
-        nextStep(stepNumber) {
-            let stepDiv = document.querySelectorAll('[x-show="step === ' + stepNumber + '"]')[0];
-            let inputs = stepDiv.querySelectorAll('input, select');
-            let valid = true;
+                nextStep(stepNumber) {
+                    let stepDiv = document.querySelectorAll('[x-show="step === ' + stepNumber + '"]')[0];
+                    let inputs = stepDiv.querySelectorAll('input, select');
+                    let valid = true;
 
-            inputs.forEach(input => {
-                if (input.hasAttribute('required') && !input.value) {
-                    valid = false;
-                    input.classList.add('border-red-500');
-                } else {
-                    input.classList.remove('border-red-500');
-                }
-            });
+                    inputs.forEach(input => {
+                        if (input.hasAttribute('required') && !input.value) {
+                            valid = false;
+                            input.classList.add('border-red-500');
+                        } else {
+                            input.classList.remove('border-red-500');
+                        }
+                    });
 
-            if (valid) {
-                this.step++;
-            } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Campos incompletos',
-                    text: 'Por favor completa todos los campos antes de continuar.'
-                });
-            }
-        },
+                    if (valid) {
+                        this.step++;
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Campos incompletos',
+                            text: 'Por favor completa todos los campos antes de continuar.'
+                        });
+                    }
+                },
 
-        confirmSubmit() {
-            let stepDiv = document.querySelectorAll('[x-show="step === 3"]')[0];
-            let inputs = stepDiv.querySelectorAll('input, select');
-            let valid = true;
+                confirmSubmit() {
+                    let stepDiv = document.querySelectorAll('[x-show="step === 3"]')[0];
+                    let inputs = stepDiv.querySelectorAll('input, select');
+                    let valid = true;
 
-            inputs.forEach(input => {
-                if (input.hasAttribute('required') && !input.value) {
-                    valid = false;
-                    input.classList.add('border-red-500');
-                } else {
-                    input.classList.remove('border-red-500');
-                }
-            });
+                    inputs.forEach(input => {
+                        if (input.hasAttribute('required') && !input.value) {
+                            valid = false;
+                            input.classList.add('border-red-500');
+                        } else {
+                            input.classList.remove('border-red-500');
+                        }
+                    });
 
-            if (valid) {
-                Swal.fire({
-                    title: '¿Confirmar registro?',
-                    html: `
+                    if (valid) {
+                        Swal.fire({
+                            title: '¿Confirmar registro?',
+                            html: `
                     <p class="text-left" style="color:black">
                         Los datos que estás por registrar serán utilizados para la reservation de turnos. 
                         <strong>Algunos datos no podrán ser editados posteriormente</strong>, ya que estarán asociados de forma exclusiva a esta cuenta.
@@ -259,37 +263,37 @@ function registerForm() {
                         Por favor, revisa cuidadosamente toda la información antes de continuar y asegúrate de que los datos ingresados coincidan exactamente con los que figuran en tu DNI.
                     </p>
                     `,
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#10B981',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí, registrar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // MOSTRAR EL LOADER antes de enviar el formulario
-                        if (typeof showLoader === 'function') {
-                            showLoader('Registrando cuenta...');
-                        } else {
-                            // Fallback si showLoader no está disponible
-                            console.log('Loader function not available');
-                        }
-                        
-                        // Enviar formulario después de un breve delay
-                        setTimeout(() => {
-                            this.$refs.registerForm.submit();
-                        }, 300);
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#10B981',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Sí, registrar',
+                            cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // MOSTRAR EL LOADER antes de enviar el formulario
+                                if (typeof showLoader === 'function') {
+                                    showLoader('Registrando cuenta...');
+                                } else {
+                                    // Fallback si showLoader no está disponible
+                                    console.log('Loader function not available');
+                                }
+
+                                // Enviar formulario después de un breve delay
+                                setTimeout(() => {
+                                    this.$refs.registerForm.submit();
+                                }, 300);
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Campos incompletos',
+                            text: 'Por favor completa todos los campos antes de continuar.'
+                        });
                     }
-                });
-            } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Campos incompletos',
-                    text: 'Por favor completa todos los campos antes de continuar.'
-                });
+                }
             }
         }
-    }
-}
-</script>
+    </script>
 </x-guest-layout>
