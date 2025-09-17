@@ -20,6 +20,8 @@ return [
     'section_title_add' => 'Add new',
     'section_title_edit' => 'Edit data',
     'created_by' => 'Created by',
+    'cancellation_date' => 'Cancellation date',
+    'deletion_date' => 'Deletion date',
     'creation_date' => 'Creation date',
     'updated_by' => 'Updated by',
     'update_date' => 'Update date',

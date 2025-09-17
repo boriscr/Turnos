@@ -7,6 +7,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th class="option-movil">{{ __('medical.id') }}</th>
                             <th class="option-movil">{{ __('reservation.title_name') }}</th>
                             <th>{{ __('medical.patient') }}</th>
                             <th>{{ __('medical.doctor') }}</th>
@@ -20,6 +21,7 @@
                     <tbody>
                         @forelse ($appointmentHistory as $item)
                             <tr>
+                                <td class="option-movil">{{ $item->id }}</td>
                                 <td class="option-movil">{{ $item->appointment_name }}</td>
                                 <td>{{ $item->user->idNumber }}</td>
                                 <td>{{ $item->doctor_name }}</td>

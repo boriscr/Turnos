@@ -20,6 +20,8 @@ return [
     'section_title_add' => 'Agregar nuevo',
     'section_title_edit' => 'Editar datos',
     'created_by' => 'Creado por',
+    'cancellation_date' => 'Fecha de cancelacion',
+    'deletion_date'=>'Fecha de eliminacion',
     'creation_date' => 'Fecha de creación',
     'updated_by' => 'Actualizado por',
     'update_date' => 'Fecha de actualizacion',

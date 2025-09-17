@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AppointmentHistoryController extends Controller
 {
-public function index()
+    public function index()
     {
         $user = Auth::user();
         // Solo el admin puede ver todos los historiales
@@ -25,6 +25,12 @@ public function index()
         return view('appointmentHistories.index', compact('appointmentHistory'));
     }
 
+    public function show($id)
+    {
+        $appointmentHistoryId = AppointmentHistory::findOrFail($id)
+            ;
+        return view('appointmentHistories.show', compact('appointmentHistoryId'));
+    }
 
     public function destroy($id)
     {
