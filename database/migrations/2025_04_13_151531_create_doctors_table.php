@@ -17,16 +17,18 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('name');
             $table->string('surname');
-            $table->string('idNumber');
+            $table->string('idNumber')->unique();
             $table->string('email');
             $table->string('phone');
             $table->foreignId('specialty_id')->nullable()->constrained('specialties')->onDelete('cascade');
-            $table->string('licenseNumber')->nullable();
+            $table->string('licenseNumber')->nullable()->unique();
             $table->string('role');
             $table->boolean('status')->default(true); // Valor por defecto true
             $table->foreignId('create_by')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('update_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
+            $table->index('specialty_id');
+            $table->index('status');
         });
     }
 

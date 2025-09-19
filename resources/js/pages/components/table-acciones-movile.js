@@ -27,10 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (window.location.pathname.includes('/doctors')) {
           var elemento = 'td:nth-child(2)'
           var editarLink = row.querySelector('.acciones a:nth-child(2)').outerHTML;
+        } else if (window.location.pathname.includes('/specialty')) {
+          var elemento = 'td:nth-child(2)'
+          var editarLink = row.querySelector('.acciones a:nth-child(2)').outerHTML;
         }
 
-        // Obtener el name del paciente
-        const pacienteNombre = row.querySelector(elemento).textContent;
+        // Obtener el name del titulo
+        const name = row.querySelector(elemento).textContent;
         // Obtener el enlace de ver detalles
         const verLink = row.querySelector('.acciones a').outerHTML;
         //Obtener el segundo enlace editar
@@ -39,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Construir el contenido del box
         box.innerHTML = `
-                    <h1> <a href="#" class="paciente-info">${pacienteNombre}</a></h1>
+                    <h1 class="paciente-info">${name}</h1>
                     <hr>
                     <hr>
                     <div class="contenido-accionesMovil">

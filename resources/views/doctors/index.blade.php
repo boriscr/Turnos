@@ -5,7 +5,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>{{__('medical.id')}}</th>
                         <th>{{ __('contact.name_and_surname') }}</th>
                         <th class="option-movil">{{ __('contact.idNumber') }}</th>
                         <th>{{ __('specialty.title') }}</th>
@@ -19,7 +19,7 @@
                             <td>{{ $doctor->id }}</td>
                             <td>{{ $doctor->name . ' ' . $doctor->surname }}</td>
                             <td class="option-movil">{{ $doctor->idNumber }}</td>
-                            <td>{{ $doctor->specialty->name ?? 'Sin datos' }}</td>
+                            <td>{{ $doctor->specialty->name ?? __('medical.no_data') }}</td>
                             <td class="option-movil">{{ $doctor->role }}</td>
                             <td class="acciones full-center">
                                 <a href="{{ route('doctor.show', $doctor->id) }}" class="btn btn-view"><i

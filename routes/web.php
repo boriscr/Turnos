@@ -29,9 +29,6 @@ Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     //Cancelar reserva (turno) - solo para usuarios / pacientes
     Route::delete('/myAppointment/{id}/cancel', [MyAppointmentsController::class, 'destroy'])
         ->name('myAppointments.destroy');
-    //Historial de Appointments
-    Route::delete('/appointmentHistory/{id}', [AppointmentHistoryController::class, 'destroy'])->name('appointmentHistory.destroy');
-
     // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/show/{id}', [ProfileController::class, 'show'])->name('profile.show');
@@ -49,6 +46,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     //Historial de Appointments
     Route::get('/appointmentHistory', [AppointmentHistoryController::class, 'index'])->name('appointmentHistory.index');
     Route::get('/appointmentHistory/show/{id}', [AppointmentHistoryController::class, 'show'])->name('appointmentHistory.show');
+    Route::delete('/appointmentHistory/{id}', [AppointmentHistoryController::class, 'destroy'])->name('appointmentHistory.destroy');
 
     //Appointments disponibles "Reservations"
     //Reservations

@@ -1,54 +1,56 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h1>Especialidades</h1>
+            <h1>{{ __('medical.titles.specialty_list') }}</h1>
             <div class="options full-center">
                 <button class="btn-add">
-                    <a href="{{ route('specialty.create') }}">Crear specialty</a>
+                    <a href="{{ route('specialty.create') }}">{{ __('specialty.btn_name') }}</a>
                 </button>
             </div>
             <table>
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Descripcion</th>
-                        <th>Doctor</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
+                        <th>{{ __('medical.id') }}</th>
+                        <th>{{ __('specialty.title') }}</th>
+                        <th>{{ __('medical.status.title') }}</th>
+                        <th>{{ __('medical.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($specialties as $specialties)
+                    @foreach ($specialties as $specialty)
                         <tr>
-                            <td>{{ $specialties->id }}</td>
-                            <td>{{ $specialties->name }}</td>
-                            <td>{{ $specialties->description ?? 'Sin datos' }}</td>
-                            <td> <a href="{{ route('lista.doctors', $specialties->id) }}" class="btn btn-view"><i
-                                        class="bi bi-eye"></i></a></td>
-
-                            <td class="option-movil">{{ $specialties->status ? 'Activo' : 'Inactivo' }}</td>
+                            <td>{{ $specialty->id }}</td>
+                            <td>{{ $specialty->name }}</td>
+                            <td>
+                                {{ $specialty->status ? __('medical.active') : __('medical.inactive') }}</td>
                             <td class="acciones full-center">
-                                <a href="{{ route('specialty.show', $specialties->id) }}" class="btn btn-view"><i
-                                        class="bi bi-eye"></i></a>
-                                <a href="{{ route('specialty.edit', $specialties->id) }}" class="btn btn-edit"><i
-                                        class="bi bi-pencil-fill"></i></a>
-
-                                <form action="{{ route('specialty.destroy', $specialties->id) }}" method="POST"
-                                    class="delete-form" style="display:inline;">
+                                <a href="{{ route('specialty.show', $specialty->id) }}" class="btn btn-view"><i
+                                        class="bi bi-eye"></i><b class="accionesMovil">{{ __('button.view') }}</b></a>
+                                <a href="{{ route('specialty.edit', $specialty->id) }}" class="btn btn-edit"><i
+                                        class="bi bi-pencil-fill"></i><b
+                                        class="accionesMovil">{{ __('button.edit') }}</b></a>
+                                <form action="{{ route('specialty.destroy', $specialty->id) }}" method="POST"
+                                    style="display:inline;" class="delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-delete delete-btn">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </button>
+                                    <button type="button" class="btn btn-delete delete-btn"><i
+                                            class="bi bi-trash-fill"></i><b
+                                            class="accionesMovil">{{ __('button.delete') }}</b></button>
                                 </form>
                             </td>
-                            <td class="accionesMovil"><button><i class="bi bi-gear"></i></button></td>
+                            <td class="accionesMovil">
+                                <button type="button" class="accionesMovilBtn">
+                                    <i class="bi bi-gear"></i>
+                                </button>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-
+            <br>
+            <div class="pagination full-center">
+                {{ $specialties->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>
