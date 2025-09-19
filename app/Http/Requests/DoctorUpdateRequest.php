@@ -30,9 +30,9 @@ class DoctorUpdateRequest extends FormRequest
 
         return [
             'name' => ['required', 'string', 'min:3', 'max:40'],
-            'surname' => ['required', 'string', 'min:3', 'max:15'],
+            'surname' => ['required', 'string', 'min:3', 'max:40'],
             'idNumber' => ['required', 'string', 'min:7', 'max:8', 'unique:' . Doctor::TABLE . ',idNumber,' . $doctor_id],
-            'email' => ['required', 'email', 'min:3', 'max:60', 'unique:' . Doctor::TABLE . ',email,' . $doctor_id],
+            'email' => ['required', 'email', 'min:3', 'max:100', 'unique:' . Doctor::TABLE . ',email,' . $doctor_id],
             'phone' => ['required', 'string', 'min:5', 'max:15'],
             'specialty_id' => ['required', 'exists:specialties,id'],
             'licenseNumber' => ['required', 'string', 'min:3', 'max:60'],

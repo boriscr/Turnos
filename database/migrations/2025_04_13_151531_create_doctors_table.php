@@ -15,13 +15,13 @@ return new class extends Migration
         Schema::create(Doctor::TABLE, function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->string('name');
-            $table->string('surname');
-            $table->string('idNumber')->unique();
-            $table->string('email');
-            $table->string('phone');
+            $table->string('name', 40);
+            $table->string('surname', 40);
+            $table->string('idNumber', 8)->unique();
+            $table->string('email', 100);
+            $table->string('phone', 15);
             $table->foreignId('specialty_id')->nullable()->constrained('specialties')->onDelete('cascade');
-            $table->string('licenseNumber')->nullable()->unique();
+            $table->string('licenseNumber', 60)->nullable()->unique();
             $table->string('role');
             $table->boolean('status')->default(true); // Valor por defecto true
             $table->foreignId('create_by')->nullable()->constrained('users')->onDelete('set null');

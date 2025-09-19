@@ -40,8 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
             case 'surname':
                 if (!value) {
                     showError(field, 'Este campo es obligatorio');
-                } else if (value.length > 15) {
-                    showError(field, 'Máximo 15 caracteres permitidos.');
+                } else if (value.length > 40) {
+                    showError(field, 'Máximo 40 caracteres permitidos.');
                 } else if (value.length < 3) {
                     showError(field, 'Mínimo 3 caracteres requeridos.');
                 }
@@ -122,8 +122,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     showError(field, 'El email es obligatorio');
                 } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
                     showError(field, 'Ingresa un email válido');
-                } else if (value.length > 60) {
-                    showError(field, 'Máximo 60 caracteres permitidos.');
+                } else if (value.length > 100) {
+                    showError(field, 'Máximo 100 caracteres permitidos.');
                 }
                 else if (value.length < 5) {
                     showError(field, 'Mínimo 5 caracteres requeridos.');

@@ -1,6 +1,5 @@
 import '../js/pages/register/register-validate.js';
 
-import '../js/layouts/loader.js';
 //pages***********************
 import '../js/pages/doctors/specialty.js';
 import '../js/pages/profiles/anular-btn.js';

@@ -24,7 +24,7 @@ class RegisteredStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3', 'max:40'],
-            'surname' => ['required', 'string', 'min:3', 'max:15'],
+            'surname' => ['required', 'string', 'min:3', 'max:40'],
             'idNumber' => ['required', 'string', 'min:7', 'max:8', 'unique:' . User::class],
             'birthdate' => ['required', 'date', 'before:today'],//'before:-18 years'
             'gender' => ['required', 'string', 'in:Masculino,Femenino,No binario,Otro,Prefiero no decir'],
@@ -33,7 +33,7 @@ class RegisteredStoreRequest extends FormRequest
             'city' => ['required', 'string', 'min:3', 'max:50'],
             'address' => ['required', 'string', 'min:10', 'max:100'],
             'phone' => ['required', 'string', 'min:9', 'max:15', 'unique:' . User::class],
-            'email' => ['required', 'string', 'email', 'min:5', 'max:60', 'unique:' . User::class],
+            'email' => ['required', 'string', 'email', 'min:5', 'max:100', 'unique:' . User::class],
             'password' => [
                 'required',
                 'confirmed',

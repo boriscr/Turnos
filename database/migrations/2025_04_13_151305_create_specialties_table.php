@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('specialties', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->text('description');
+            $table->string('name', 50)->unique();
+            $table->text('description', 500);
             $table->boolean('status')->default(true);;
             $table->timestamps();
             // Índice para búsquedas por status

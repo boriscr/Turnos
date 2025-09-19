@@ -22,7 +22,7 @@ return new class extends Migration
                 ->onDelete('set null');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('doctor_name', 56);
-            $table->string('specialty', 30);
+            $table->string('specialty', 50);
             $table->date('appointment_date');
             $table->time('appointment_time');
             $table->enum('status', [

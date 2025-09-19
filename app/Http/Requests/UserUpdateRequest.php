@@ -53,7 +53,7 @@ class UserUpdateRequest extends FormRequest
                 'string',
                 'email',
                 'min:5',
-                'max:60',
+                'max:100',
                 Rule::unique('users', 'email')->ignore($userId)
             ],
             'role' => ['required', 'string', 'in:user,admin,doctor'],
