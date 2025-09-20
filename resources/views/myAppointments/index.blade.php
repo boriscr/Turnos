@@ -31,11 +31,11 @@
                         </div>
                     </a>
                     <hr>
+                    {{ $reservations->links() }}
                 @empty
                     <p>{{ __('medical.no_appointments') }}</p>
                 @endforelse
             </div>
-            {{ $reservations->links() }}
             <div class="container-form full-center">
                 <h1>{{ __('medical.titles.historical') }}</h1>
 
@@ -63,8 +63,13 @@
                                 <td class="option-movil">
                                     {{ Carbon\Carbon::parse($item->appointment_time)->format('H:i') }}
                                 </td>
-                                <td class="{{ $item->status == 'assisted' ? 'btn-success' : 'btn-danger' }}">
+                                <td
+                                    class="{{ $item->status == 'pending' ? 'btn-default' : ($item->status == 'assisted' ? 'btn-success' : 'btn-danger') }}">
                                     @switch($item->status)
+                                        @case('pending')
+                                            <i class="bi bi-hourglass-split btn-default">{{ __('button.search.pending') }}</i>
+                                        @break
+
                                         @case('assisted')
                                             <i
                                                 class="bi bi-check-circle-fill btn-success">{{ __('button.search.assisted') }}</i>

@@ -257,27 +257,16 @@ class AppointmentController extends Controller
                 $reservations = Reservation::where('available_appointment_id', $disponibilidad->id)
                     ->get();
                 foreach ($reservations as $reservation) {
+                    // Verificar si ya existe un historial para esta reservación
                     $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
                         ->first();
-                    // Obtener la cita disponible
-                    $availableAppointment = AvailableAppointment::with(['appointment', 'doctor', 'specialty'])
-                        ->find($reservation->available_appointment_id);
-                    if (!$appointmentHistory) {
-                        // Crear nuevo historial
-                        AppointmentHistory::create([
-                            'appointment_id' => $availableAppointment->appointment_id ?? null,
-                            'appointment_name' => $availableAppointment->appointment->name ?? 'Desconocido',
-                            'reservation_id' => $reservation->id,
-                            'user_id' => $reservation->user_id,
-                            'doctor_name' => $availableAppointment ?
-                                ($availableAppointment->doctor->name . ' ' . $availableAppointment->doctor->surname) :
-                                'Doctor no disponible',
-                            'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
-                            'appointment_date' => $availableAppointment->date ?? $reservation->date,
-                            'appointment_time' => $availableAppointment->time ?? $reservation->time,
+                    if ($appointmentHistory) {
+                        // Actualizar status del historial
+                        $appointmentHistory->update([
                             'status' => 'deleted_by_admin',
                             'cancelled_by' => Auth::id(),
                             'cancelled_at' => now(),
+                            'updated_at' => now(),
                         ]);
                     }
                 }
@@ -294,7 +283,21 @@ class AppointmentController extends Controller
 
         return redirect()->route('appointments.index');
     }
-
+    /*protected function updateAppointmentHistoryStatus($reservation): void
+    {
+        // Verificar si ya existe un historial para esta reservación
+        $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
+            ->first();
+        if ($appointmentHistory) {
+            // Actualizar status del historial
+            $appointmentHistory->update([
+                'status' => 'deleted_by_admin',
+                'cancelled_by' => Auth::id(),
+                'cancelled_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    }*/
     function destroy($id)
     {
         $appointment = Appointment::findOrFail($id);

@@ -31,8 +31,13 @@
                                 <td class="option-movil">
                                     {{ Carbon\Carbon::parse($item->appointment_time)->format('H:i') }}
                                 </td>
-                                <td class="{{ $item->status == 'assisted' ? 'btn-success' : 'btn-danger' }}">
+                                <td
+                                    class="{{ $item->status == 'pending' ? 'btn-default' : ($item->status == 'assisted' ? 'btn-success' : 'btn-danger') }}">
                                     @switch($item->status)
+                                        @case('pending')
+                                            <i
+                                                class="bi bi-hourglass-split btn-default">{{ __('button.search.pending') }}</i>
+                                        @break
                                         @case('assisted')
                                             <i
                                                 class="bi bi-check-circle-fill btn-success">{{ __('button.search.assisted') }}</i>
@@ -78,9 +83,7 @@
                                 </td>
                             </tr>
                             @empty
-                                <tr>
-                                    <td colspan="7" class="text-center">{{ __('medical.no_data') }}</td>
-                                </tr>
+                                <h5 colspan="7" class="text-center">{{ __('medical.no_data') }}</h5>
                             @endforelse
                         </tbody>
                     </table>

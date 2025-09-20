@@ -145,35 +145,14 @@ class ReservationController extends Controller
                 $this->gestionarFaltas($reservation, $estadoAnterior, $nuevoEstado);
             }
 
-            // Obtener la cita disponible
-            $availableAppointment = AvailableAppointment::with(['appointment', 'doctor', 'specialty'])
-                ->find($reservation->available_appointment_id);
-
             // Verificar si ya existe un historial para esta reservación
             $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
                 ->first();
-            if (!$appointmentHistory) {
-                // Crear nuevo historial
-                AppointmentHistory::create([
-                    'appointment_id' => $availableAppointment->appointment_id ?? null,
-                    'appointment_name' => $availableAppointment->appointment->name ?? 'Desconocido',
-                    'reservation_id' => $reservation->id,
-                    'user_id' => $reservation->user_id,
-                    'doctor_name' => $availableAppointment ?
-                        ($availableAppointment->doctor->name . ' ' . $availableAppointment->doctor->surname) :
-                        'Doctor no disponible',
-                    'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
-                    'appointment_date' => $availableAppointment->date ?? $reservation->date,
-                    'appointment_time' => $availableAppointment->time ?? $reservation->time,
-                    'status' => $nuevoEstado ? 'assisted' : 'not_attendance',
-                    'cancelled_by' => null,
-                    'cancellation_reason' => null,
-                    'cancelled_at' => null,
-                ]);
-            } else {
+            if ($appointmentHistory) {
                 // Actualizar status existente
                 $appointmentHistory->update([
                     'status' => $nuevoEstado ? 'assisted' : 'not_attendance',
+                    'updated_at' => now(),
                 ]);
             }
         });
@@ -234,22 +213,17 @@ class ReservationController extends Controller
             });
             // Mover a appointment_histories si el estado es attended o missed
             if ($reservation->asistencia !== null) {
-                $availableAppointment = AvailableAppointment::where('id', $reservation->available_appointment_id)
+                // Verificar si ya existe un historial para esta reservación
+                $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
                     ->first();
-                AppointmentHistory::create([
-                    'appointment_id' => $availableAppointment->appointment_id,
-                    'appointment_name' => $availableAppointment->appointment->name ?? 'Desconocido',
-                    'reservation_id' => $reservation->id,
-                    'user_id' => $reservation->user_id,
-                    'doctor_name' => $availableAppointment->doctor->name . ' ' . $availableAppointment->doctor->surname,
-                    'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
-                    'appointment_date' => $availableAppointment->date,
-                    'appointment_time' => $availableAppointment->time,
-                    'status' => $reservation->asistencia ? 'assisted' : 'not_attendance',
-                    'cancelled_by' => null,
-                    'cancellation_reason' => null,
-                    'cancelled_at' => null,
-                ]);
+                $nuevoEstado = $appointmentHistory->status;
+                if ($appointmentHistory) {
+                    // Actualizar status existente
+                    $appointmentHistory->update([
+                        'status' => $nuevoEstado ? 'assisted' : 'not_attendance',
+                        'updated_at' => now(),
+                    ]);
+                }
             }
         }
 
@@ -496,14 +470,45 @@ class ReservationController extends Controller
                     'available_appointment_id' => $availableAppointment->id,
                     'specialty_id' => $request->specialty_id
                 ]);
-
+                $available = AvailableAppointment::where('id', $request->appointment_id)
+                    ->firstOrFail();
+                //$reservation = Reservation::with('availableAppointment')->findOrFail($available->id);
+                $reservation = Reservation::where('available_appointment_id', $available->id)->firstOrFail();
+                Log::info('available: ' . $available . '----Reservation:' . $reservation);
+                $this->storeAppointmentHistoryStatus($reservation);
                 return $this->successResponse('Reserva exitosa', 'Turno reservado correctamente.');
             });
         } catch (\Exception $e) {
             return $this->errorResponse('Error en la reserva', $e->getMessage());
         }
     }
+    protected function storeAppointmentHistoryStatus($reservation): void
+    {
+        // Verificar si ya existe un historial para esta reservación
+        $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
+            ->first();
 
+        // Obtener la cita disponible
+        $availableAppointment = AvailableAppointment::with(['appointment', 'doctor', 'specialty'])
+            ->find($reservation->available_appointment_id);
+
+        if (!$appointmentHistory) {
+            // Crear nuevo historial
+            AppointmentHistory::create([
+                'appointment_id' => $availableAppointment->appointment_id ?? null,
+                'appointment_name' => $availableAppointment->appointment->name ?? 'Desconocido',
+                'reservation_id' => $reservation->id,
+                'user_id' => $reservation->user_id,
+                'doctor_name' => $availableAppointment ?
+                    ($availableAppointment->doctor->name . ' ' . $availableAppointment->doctor->surname) :
+                    'Doctor no disponible',
+                'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
+                'appointment_date' => $availableAppointment->date ?? $reservation->date,
+                'appointment_time' => $availableAppointment->time ?? $reservation->time,
+                'status' => 'pending',
+            ]);
+        }
+    }
     // ==================== MÉTODOS PRIVADOS DE VALIDACIÓN ====================
 
     /**
@@ -690,25 +695,13 @@ class ReservationController extends Controller
         // Verificar si ya existe un historial para esta reservación
         $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
             ->first();
-        // Obtener la cita disponible
-        $availableAppointment = AvailableAppointment::with(['appointment', 'doctor', 'specialty'])
-            ->find($reservation->available_appointment_id);
-        if (!$appointmentHistory) {
-            // Crear nuevo historial
-            AppointmentHistory::create([
-                'appointment_id' => $availableAppointment->appointment_id ?? null,
-                'appointment_name' => $availableAppointment->appointment->name ?? 'Desconocido',
-                'reservation_id' => $reservation->id,
-                'user_id' => $reservation->user_id,
-                'doctor_name' => $availableAppointment ?
-                    ($availableAppointment->doctor->name . ' ' . $availableAppointment->doctor->surname) :
-                    'Doctor no disponible',
-                'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
-                'appointment_date' => $availableAppointment->date ?? $reservation->date,
-                'appointment_time' => $availableAppointment->time ?? $reservation->time,
+        if ($appointmentHistory) {
+            // Actualizar status del historial
+            $appointmentHistory->update([
                 'status' => 'cancelled_by_admin',
                 'cancelled_by' => Auth::id(),
                 'cancelled_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

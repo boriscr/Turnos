@@ -35,7 +35,7 @@ class DoctorUpdateRequest extends FormRequest
             'email' => ['required', 'email', 'min:3', 'max:100', 'unique:' . Doctor::TABLE . ',email,' . $doctor_id],
             'phone' => ['required', 'string', 'min:5', 'max:15'],
             'specialty_id' => ['required', 'exists:specialties,id'],
-            'licenseNumber' => ['required', 'string', 'min:3', 'max:60'],
+            'licenseNumber' => ['required', 'string', 'min:3', 'max:60', 'unique:' . Doctor::TABLE . ',licenseNumber'],
             'role' => ['required', 'string', 'in:doctor'],
             'status' => ['sometimes', 'boolean'],
         ];

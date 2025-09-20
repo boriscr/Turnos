@@ -19,7 +19,7 @@ class AppointmentHistoryController extends Controller
         // Obtener todos los historiales de citas listados en 10 páginas
 
         $appointmentHistory = AppointmentHistory::orderBy('appointment_date', 'desc')
-            ->orderBy('appointment_time', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->paginate(10);
 
         return view('appointmentHistories.index', compact('appointmentHistory'));

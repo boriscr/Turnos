@@ -162,27 +162,7 @@ class MyAppointmentsController extends Controller
         // Verificar si ya existe un historial para esta reservación
         $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
             ->first();
-        // Obtener la cita disponible
-        $availableAppointment = AvailableAppointment::with(['appointment', 'doctor', 'specialty'])
-            ->find($reservation->available_appointment_id);
-        if (!$appointmentHistory) {
-            // Crear nuevo historial
-            AppointmentHistory::create([
-                'appointment_id' => $availableAppointment->appointment_id ?? null,
-                'appointment_name' => $availableAppointment->appointment->name ?? 'Desconocido',
-                'reservation_id' => $reservation->id,
-                'user_id' => $reservation->user_id,
-                'doctor_name' => $availableAppointment ?
-                    ($availableAppointment->doctor->name . ' ' . $availableAppointment->doctor->surname) :
-                    'Doctor no disponible',
-                'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
-                'appointment_date' => $availableAppointment->date ?? $reservation->date,
-                'appointment_time' => $availableAppointment->time ?? $reservation->time,
-                'status' => 'cancelled_by_user',
-                'cancelled_by' => Auth::id(),
-                'cancelled_at' => now(),
-            ]);
-        } else {
+        if ($appointmentHistory) {
             // Actualizar status existente
             $appointmentHistory->update([
                 'status' => 'cancelled_by_user',
