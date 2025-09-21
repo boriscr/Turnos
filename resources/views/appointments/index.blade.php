@@ -53,6 +53,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="pagination">
+                {{ $appointments->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>

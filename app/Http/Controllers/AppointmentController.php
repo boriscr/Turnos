@@ -18,7 +18,13 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::all();
+        $appointments = Appointment::select('id', 'name', 'address', 'specialty_id', 'doctor_id', 'shift', 'status')
+            ->with(['specialty' => function ($query) {
+                $query->select('id', 'name');
+            }, 'doctor' => function ($query) {
+                $query->select('id', 'name');
+            }])
+            ->paginate(10);
         return view('appointments/index', compact('appointments'));
     }
     public function create()
@@ -35,7 +41,7 @@ class AppointmentController extends Controller
             Log::info('Fechas recibidas:', ['available_dates' => $request->selected_dates]);
             Log::info('Decodificadas:', ['decoded' => json_decode($request->selected_dates, true)]);
 
-            return back()->with('error', 'Debe seleccionar al menos una date');
+            return back()->with('error', 'Debe seleccionar al menos una fecha');
         }
 
         $appointment = Appointment::create([
@@ -79,7 +85,7 @@ class AppointmentController extends Controller
         }
         session()->flash('success', [
             'title' => 'Creado!',
-            'text' => 'El appointment ha sido creado correctamente.',
+            'text' => 'El turno ha sido creado correctamente.',
             'icon' => 'success'
         ]);
         return redirect()->route('appointments.index');
@@ -87,15 +93,8 @@ class AppointmentController extends Controller
 
     public function show($id)
     {
-        // Obtener el appointment específico
         $appointment = Appointment::findOrFail($id);
-        // Obtener el appointment disponible relacionado con el doctor de ese appointment
-        $turnoDisponibles = AvailableAppointment::where('doctor_id', $appointment->doctor_id)
-            ->orderByDesc('date')
-            ->orderByDesc('time')
-            ->paginate(10);
-
-        return view('appointments.show', compact('appointment', 'turnoDisponibles'));
+        return view('appointments.show', compact('appointment'));
     }
 
 
@@ -123,15 +122,6 @@ class AppointmentController extends Controller
             'availableTimeSlots' => $available_time_slots
         ]);
     }
-    //'turnoTipo' => $appointment->appointment,
-    //'specialty_id' => $appointment->specialty_id,
-    //'doctor_id' => $appointment->doctor_id,
-    //'medico_nombre' => $appointment->doctor->name ?? 'Doctor no disponible',
-    //'name' => $appointment->name,
-    //'address' => $appointment->address,
-    //'number_of_reservations' => $appointment->number_of_reservations,
-    //'inicio' => $appointment->start_time ? Carbon::parse($appointment->start_time)->format('H:i') : null,
-    //'fin' => $appointment->end_time ? Carbon::parse($appointment->end_time)->format('H:i') : null,
 
 
     public function update(AppointmentUpdateRequest $request, $id)
@@ -283,21 +273,7 @@ class AppointmentController extends Controller
 
         return redirect()->route('appointments.index');
     }
-    /*protected function updateAppointmentHistoryStatus($reservation): void
-    {
-        // Verificar si ya existe un historial para esta reservación
-        $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
-            ->first();
-        if ($appointmentHistory) {
-            // Actualizar status del historial
-            $appointmentHistory->update([
-                'status' => 'deleted_by_admin',
-                'cancelled_by' => Auth::id(),
-                'cancelled_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
-    }*/
+
     function destroy($id)
     {
         $appointment = Appointment::findOrFail($id);
@@ -305,7 +281,7 @@ class AppointmentController extends Controller
         $appointment->delete(); // Eliminar el appointment
         session()->flash('success', [
             'title' => 'Eliminado!',
-            'text' => 'El appointment ha sido eliminado correctamente.',
+            'text' => 'El turno ha sido eliminado correctamente.',
             'icon' => 'success'
         ]);
         return redirect()->route('appointments.index');
@@ -321,7 +297,7 @@ class AppointmentController extends Controller
 
             return response()->json($doctors);
         } catch (\Exception $e) {
-            Log::error('Error al obtener doctores por specialty', ['specialty_id' => $id, 'error' => $e->getMessage()]);
+            Log::error('Error al obtener doctores por especialidad', ['specialty_id' => $id, 'error' => $e->getMessage()]);
             return response()->json([], 500);
         }
     }

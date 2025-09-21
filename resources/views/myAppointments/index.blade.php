@@ -107,7 +107,9 @@
                             @endforelse
                         </tbody>
                     </table>
-                    {{ $appointmentHistory->links() }}
+                    <div class="pagination">
+                        {{ $appointmentHistory->links() }}
+                    </div>
                 </div>
             </div>
         </div>
