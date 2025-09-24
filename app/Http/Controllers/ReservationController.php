@@ -216,7 +216,7 @@ class ReservationController extends Controller
                 // Verificar si ya existe un historial para esta reservación
                 $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
                     ->first();
-                $nuevoEstado = $appointmentHistory->status;
+                $nuevoEstado = $appointmentHistory->status === 'assisted';
                 if ($appointmentHistory) {
                     // Actualizar status existente
                     $appointmentHistory->update([
@@ -474,7 +474,6 @@ class ReservationController extends Controller
                     ->firstOrFail();
                 //$reservation = Reservation::with('availableAppointment')->findOrFail($available->id);
                 $reservation = Reservation::where('available_appointment_id', $available->id)->firstOrFail();
-                Log::info('available: ' . $available . '----Reservation:' . $reservation);
                 $this->storeAppointmentHistoryStatus($reservation);
                 return $this->successResponse('Reserva exitosa', 'Turno reservado correctamente.');
             });

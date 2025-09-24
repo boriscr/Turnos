@@ -127,13 +127,14 @@ class AppointmentController extends Controller
     public function update(AppointmentUpdateRequest $request, $id)
     {
         // Decodificar available_dates seleccionadas
-        $timeSlots = json_decode($request->available_time_slots, true);        // Decodificar available_dates seleccionadas
+        $timeSlots = json_decode($request->available_time_slots, true);
         $available_dates = json_decode($request->selected_dates, true);
+
         if (empty($available_dates)) {
             return back()->with('error', 'Debe seleccionar al menos una fecha')->withInput();
         }
 
-        // Determinar el tipo de appointment basado en los radio buttons
+        // Determinar el tipo de appointment
         $tipoAppointment = $request->appointment_type ?? 'single_slot';
 
         // Validación específica para horarios
@@ -145,15 +146,8 @@ class AppointmentController extends Controller
 
         // Obtener el appointment a actualizar
         $appointment = Appointment::findOrFail($id);
-        $appointment->update([
-            ...$request->validated(), // Spread operator para los datos validados
-            'available_time_slots' => $timeSlots ? $timeSlots : null,
-            'available_dates' => $available_dates,
-            'status' => $request->status ?? $appointment->status,
-            'update_by' => Auth::id(), // Asignar el usuario que actualiza
-        ]);
 
-        // Preparar nuevas combinaciones fecha-hora basadas en el tipo de appointment
+        // PRIMERO: Construir las NUEVAS combinaciones ANTES de verificar
         $nuevasCombinaciones = [];
 
         foreach ($available_dates as $date) {
@@ -161,11 +155,10 @@ class AppointmentController extends Controller
                 // Appointment con división horaria
                 $horarios = json_decode($request->available_time_slots, true);
                 foreach ($horarios as $time) {
-                    // Normalizar formato de hora
                     $horaNormalizada = \Carbon\Carbon::parse($time)->format('H:i:s');
                     $nuevasCombinaciones[] = [
-                        'date' => $date,
-                        'time' => $time,
+                        'date' => \Carbon\Carbon::parse($date)->format('Y-m-d'), // Formatear igual que la BD
+                        'time' => $horaNormalizada,
                         'key' => $date . '_' . $horaNormalizada
                     ];
                 }
@@ -173,27 +166,104 @@ class AppointmentController extends Controller
                 // Appointment sin horarios específicos
                 $horaNormalizada = $request->start_time ? \Carbon\Carbon::parse($request->start_time)->format('H:i:s') : '';
                 $nuevasCombinaciones[] = [
-                    'date' => $date,
-                    'time' => $request->start_time ?? null,
+                    'date' => \Carbon\Carbon::parse($date)->format('Y-m-d'), // Formatear igual que la BD
+                    'time' => $horaNormalizada,
                     'key' => $date . '_' . $horaNormalizada
                 ];
             }
         }
 
-        // Enfoque más robusto: eliminar todas las disponibilidades existentes y recrear
-        // Solo si no tienen reservas, o manejar las reservas de manera inteligente
-
-        // Primero, obtener todas las disponibilidades con reservas
+        // SEGUNDO: Obtener disponibilidades existentes con reservas
         $disponibilidadesConReservas = AvailableAppointment::where('appointment_id', $appointment->id)
             ->where('reserved_spots', '>', 0)
             ->get();
 
-        // Eliminar solo las disponibilidades sin reservas
+        // TERCERO: Verificar solo las que se están ELIMINANDO
+        $conflictos = [];
+
+        foreach ($disponibilidadesConReservas as $disponibilidad) {
+            try {
+                $fechaDisponibilidad = \Carbon\Carbon::parse($disponibilidad->date)->format('Y-m-d');
+                $horaDisponibilidad = $disponibilidad->time ? \Carbon\Carbon::parse($disponibilidad->time)->format('H:i:s') : '';
+
+                // Verificar si esta disponibilidad existe en las NUEVAS combinaciones
+                $existeEnNuevas = collect($nuevasCombinaciones)->first(function ($nueva) use ($fechaDisponibilidad, $horaDisponibilidad) {
+                    $horaNueva = $nueva['time'] ?: '';
+                    return $nueva['date'] === $fechaDisponibilidad && $horaNueva === $horaDisponibilidad;
+                });
+
+                // Solo verificar conflictos si NO existe en las nuevas (se está eliminando)
+                if (!$existeEnNuevas) {
+                    $reservations = Reservation::where('available_appointment_id', $disponibilidad->id)
+                        ->whereNull('asistencia')
+                        ->get();
+
+                    // Si hay reservas pendientes, agregar a conflictos
+                    if ($reservations->count() > 0) {
+                        $fechaFormateada = \Carbon\Carbon::parse($disponibilidad->date)->format('d/m/Y');
+                        $horaFormateada = \Carbon\Carbon::parse($disponibilidad->time)->format('H:i');
+                        $conflictos[] = [
+                            'fecha' => $fechaFormateada,
+                            'hora' => $horaFormateada,
+                            'cantidad_reservas' => $reservations->count(),
+                            'disponibilidad_id' => $disponibilidad->id
+                        ];
+                    }
+                }
+            } catch (\Exception $e) {
+                Log::error('Error verificando disponibilidad: ' . $e->getMessage());
+                continue;
+            }
+        }
+
+        // CUARTO: Si hay conflictos, mostrar error
+        if (!empty($conflictos)) {
+            $html = '
+        <div class="text-left">
+            <p class="text-danger">No es posible eliminar fechas que contienen reservas pendientes.</p>
+            <div class="alert alert-warning mt-3">
+                <p><strong class="text-danger">Detalles del conflicto:</strong></p>
+                <ul>';
+
+            foreach ($conflictos as $conflicto) {
+                $html .= '<li><strong>Fecha:</strong> ' . $conflicto['fecha'] . ' ' . $conflicto['hora'] . ' - <strong>Reservas pendientes:</strong> ' . $conflicto['cantidad_reservas'] . '</li>';
+            }
+
+            $html .= '
+                </ul>
+                <p><strong class="text-danger">Recomendaciones:</strong></p>
+                <ul class="text-danger">
+                    <li>1. Cambie el estado de este turno como inactivo</li>
+                    <li>2. Cancele las reservas pendientes de este turno</li>
+                    <li>3. Vuelva a intentarlo</li>
+                    <li>Si no desea realizarlo, evite eliminar fechas/horarios con reservas pendientes</li>
+                </ul>
+            </div>
+        </div>';
+
+            session()->flash('error', [
+                'title' => 'Error!',
+                'html' => $html,
+                'icon' => 'error'
+            ]);
+            return back();
+        }
+
+        // QUINTO: Si NO hay conflictos, proceder con la actualización
+        $appointment->update([
+            ...$request->validated(),
+            'available_time_slots' => $timeSlots ? $timeSlots : null,
+            'available_dates' => $available_dates,
+            'status' => $request->status ?? $appointment->status,
+            'update_by' => Auth::id(),
+        ]);
+
+        // SEXTO: Eliminar solo las disponibilidades SIN reservas
         AvailableAppointment::where('appointment_id', $appointment->id)
             ->where('reserved_spots', 0)
             ->delete();
 
-        // Procesar cada nueva combinación
+        // SÉPTIMO: Procesar cada nueva combinación
         foreach ($nuevasCombinaciones as $combinacion) {
             $availableSpots = ($tipoAppointment === 'single_slot') ? intval($request->number_of_reservations) : 1;
 
@@ -201,7 +271,7 @@ class AppointmentController extends Controller
             $existenteConReservas = $disponibilidadesConReservas->first(function ($item) use ($combinacion) {
                 $fechaExistente = \Carbon\Carbon::parse($item->date)->format('Y-m-d');
                 $horaExistente = $item->time ? \Carbon\Carbon::parse($item->time)->format('H:i:s') : '';
-                $horaComparacion = $combinacion['time'] ? \Carbon\Carbon::parse($combinacion['time'])->format('H:i:s') : '';
+                $horaComparacion = $combinacion['time'] ?: '';
 
                 return $fechaExistente === $combinacion['date'] && $horaExistente === $horaComparacion;
             });
@@ -215,7 +285,6 @@ class AppointmentController extends Controller
                     'doctor_id' => $request->doctor_id,
                     'available_spots' => $newAvailableSpots,
                     'specialty_id' => $request->specialty_id,
-
                 ]);
             } else {
                 // Crear nueva disponibilidad
@@ -228,40 +297,6 @@ class AppointmentController extends Controller
                     'available_spots' => $availableSpots,
                     'reserved_spots' => 0
                 ]);
-            }
-        }
-
-        // Eliminar disponibilidades con reservas que ya no están en las nuevas combinaciones
-        foreach ($disponibilidadesConReservas as $disponibilidad) {
-            $fechaDisponibilidad = \Carbon\Carbon::parse($disponibilidad->date)->format('Y-m-d');
-            $horaDisponibilidad = $disponibilidad->time ? \Carbon\Carbon::parse($disponibilidad->time)->format('H:i:s') : '';
-
-            $existeEnNuevas = collect($nuevasCombinaciones)->first(function ($nueva) use ($fechaDisponibilidad, $horaDisponibilidad) {
-                $horaNueva = $nueva['time'] ? \Carbon\Carbon::parse($nueva['time'])->format('H:i:s') : '';
-                return $nueva['date'] === $fechaDisponibilidad && $horaNueva === $horaDisponibilidad;
-            });
-
-            // Esta disponibilidad ya no está en las nuevas, pero tiene reservas
-            if (!$existeEnNuevas) {
-                // Obtener las reservas asociadas y actualizar su historial a "deleted_by_admin"
-                $reservations = Reservation::where('available_appointment_id', $disponibilidad->id)
-                    ->get();
-                foreach ($reservations as $reservation) {
-                    // Verificar si ya existe un historial para esta reservación
-                    $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
-                        ->first();
-                    if ($appointmentHistory) {
-                        // Actualizar status del historial
-                        $appointmentHistory->update([
-                            'status' => 'deleted_by_admin',
-                            'cancelled_by' => Auth::id(),
-                            'cancelled_at' => now(),
-                            'updated_at' => now(),
-                        ]);
-                    }
-                }
-                Log::warning("Disponibilidad eliminada tenía reservas: {$fechaDisponibilidad} {$horaDisponibilidad}");
-                $disponibilidad->delete();
             }
         }
 
