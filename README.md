@@ -194,6 +194,18 @@
 
 <p>📈 Nota: El sistema está diseñado para promover la responsabilidad en la asistencia a consultas médicas, optimizando la disponibilidad de turnos para todos los pacientes.</p>
 
+###📖 Historial
+- Creación de registro en el historial al realizar una reserva con el estado "pendiente". 
+- Registro de cambios del estado del registro a "asistido" cuando el administrador lo confirma. 
+- Registro de cambios del estado del registro a "no asistido" cuando el administrador lo realiza manualmente o de forma automática. 
+- Registro de cambios del estado del registro a "cancelado por el usuario" o "cancelado por un administrador" dependiendo la situación. 
+- Registro de cambios del estado al eliminar la reserva o turno, con el estado "turno eliminado". 
+
+#### 📝 Historial archivado
+<p>
+Los registros del historial con fechas anteriores a un año, automáticamente son clonadas en la tabla de "historiales archivados". La verificación automática se realiza una vez al mes.
+El paciente no puede visualizar estos registros. 
+</p>
 
 ### ⚙️ Configuración del Sistema
 #### 📝 Información General
