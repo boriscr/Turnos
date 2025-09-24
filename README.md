@@ -194,7 +194,7 @@
 
 <p>📈 Nota: El sistema está diseñado para promover la responsabilidad en la asistencia a consultas médicas, optimizando la disponibilidad de turnos para todos los pacientes.</p>
 
-###📖 Historial
+### 📖 Historial
 - Creación de registro en el historial al realizar una reserva con el estado "pendiente". 
 - Registro de cambios del estado del registro a "asistido" cuando el administrador lo confirma. 
 - Registro de cambios del estado del registro a "no asistido" cuando el administrador lo realiza manualmente o de forma automática. 
