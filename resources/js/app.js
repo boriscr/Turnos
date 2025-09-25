@@ -10,10 +10,10 @@ import '../js/pages/reservations/create/filtro-appointments.js';
 import '../js/pages/reservations/create/formulario-3paso-reservation.js';
 
 import '../js/pages/appointments/components/formulario-3paso-appointment.js';
+import './pages/appointments/components/schedules.js';
+import './pages/appointments/components/calendar.js';
 
-import '../js/pages/appointments/create/calendario.js';
 import '../js/pages/appointments/create/specialties-create-appointments.js';
-import '../js/pages/appointments/create/horarios.js';
 
 //components
 import '../js/pages/components/cancel-btn.js';
