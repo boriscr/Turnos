@@ -15,7 +15,6 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                // Define tus variables CSS como colores personalizados
                 'texto-titulo': 'var(--title_text_color)',
                 'texto-light': 'var(--light_text_color)',
                 'texto-dark': 'var(--dark_text_color)',

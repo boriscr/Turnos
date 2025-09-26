@@ -61,6 +61,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     //Users
     Route::get('/users', [UserController::class, 'index'])->name('user.index');
+    Route::get('/users/search', [UserController::class, 'search'])->name('user.search');
     Route::get('/users/show/{id}', [UserController::class, 'show'])->name('user.show');
     Route::get('/users/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');

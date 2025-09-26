@@ -1,7 +1,12 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h1>{{__('medical.titles.user_index_title')}}</h1>
+            <h1>{{ __('medical.titles.user_index_title') }}</h1>
+            <div class="search-filters filter-box">
+                <form action="{{ route('user.search') }}" method="GET" class="rounded" id="filterForm">
+                    @include('components.form.search')
+                </form>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -20,7 +25,22 @@
                             <td>{{ $user->name . ' ' . $user->surname }}</td>
                             <td class="option-movil">{{ $user->idNumber }}</td>
                             <td class="option-movil">
-                                {{ $user->getRoleNames()->first() === 'user' ? __('medical.user') : ($user->getRoleNames()->first() === 'doctor' ? __('medical.doctor') : __('medical.admin')) }}
+                                @switch($user->getRoleNames()->first())
+                                    @case('user')
+                                        {{ __('medical.user') }}
+                                    @break
+
+                                    @case('doctor')
+                                        {{ __('medical.doctor') }}
+                                    @break
+
+                                    @case('admin')
+                                        {{ __('medical.admin') }}
+                                    @break
+
+                                    @default
+                                        {{ __('medical.status.unknown') }}
+                                @endswitch
                                 </p>
                             </td>
                             <td>{{ $user->status ? __('medical.active') : __('medical.inactive') }}</td>
@@ -48,6 +68,8 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="pagination">
+                {{ $users->links() }}
+            </div>
         </div>
-    </div>
 </x-app-layout>

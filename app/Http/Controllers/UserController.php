@@ -7,6 +7,7 @@ use App\Models\Doctor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use App\Http\Requests\UserUpdateRequest;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,18 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::select('id', 'name', 'surname', 'idNumber', 'status', 'created_at')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        return view('users/index', compact('users'));
+    }
+    //busqueda de usuarios por dni o email
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+        $users = User::where('idNumber', 'like', "%{$query}%")
+            ->orWhere('email', 'like', "%{$query}%")
+            ->get();
         return view('users/index', compact('users'));
     }
 
