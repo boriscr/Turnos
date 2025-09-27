@@ -37,6 +37,18 @@ class User extends Authenticatable
         'update_by'
     ];
 
+    public function getTranslatedRoleAttribute()
+    {
+        $role = $this->getRoleNames()->first();
+
+        return match ($role) {
+            'user' => __('medical.user'),
+            'doctor' => __('medical.doctor'),
+            'admin' => __('medical.admin'),
+            default => __('medical.status.unknown')
+        };
+    }
+    
     public function appointment()
     {
         return $this->hasMany(Appointment::class);

@@ -4,55 +4,46 @@
         <div class="section-container full-center">
             <div class="card">
                 <h2>{{ __('medical.titles.personal_data') }}</h2>
-                <p><b>{{ __('contact.name_and_surname') }}: </b>{{ $user->name . ' ' . $user->surname }}</p>
-                <p><b>{{ __('contact.idNumber') }}: </b>{{ $user->idNumber }}</p>
-                <p><b>{{ __('contact.birthdate') }}: </b>{{ \Carbon\Carbon::parse($user->birthdate)->format('d/m/Y') }}
-                </p>
-                <p><b>{{ __('contact.age') }}: </b>{{ \Carbon\Carbon::parse($user->birthdate)->age }}</p>
-                <p><b>{{ __('contact.gender') }}: </b> {{ $user->gender }}</p>
+                <x-field-with-icon icon="person" :label="__('contact.name_and_surname')" :value="$user->name . ' ' . $user->surname" />
+                <x-field-with-icon icon="credit-card" :label="__('contact.idNumber')" :value="$user->idNumber" />
+                <x-field-with-icon icon="gift" :label="__('contact.birthdate')" :value="\Carbon\Carbon::parse($user->birthdate)->format('d/m/Y') .
+                    ' (' .
+                    \Carbon\Carbon::parse($user->birthdate)->age .
+                    ' años)'" />
+                <x-field-with-icon icon="gender-ambiguous" :label="__('contact.gender')" :value="$user->gender" />
             </div>
 
             <div class="card">
                 <h2>{{ __('contact.address') }}</h2>
-                <p><b>{{ __('contact.country') }}: </b> {{ $user->country }}</p>
-                <p><b>{{ __('contact.province') }}: </b>{{ $user->province }}</p>
-                <p><b>{{ __('contact.city') }}: </b>{{ $user->city }}</p>
-                <p><b>{{ __('contact.address') }}: </b>{{ $user->address }}</p>
+                <x-field-with-icon icon="globe" :label="__('contact.country')" :value="$user->country" />
+                <x-field-with-icon icon="geo-alt" :label="__('contact.province')" :value="$user->province" />
+                <x-field-with-icon icon="building" :label="__('contact.city')" :value="$user->city" />
+                <x-field-with-icon icon="house-door" :label="__('contact.address')" :value="$user->address" />
             </div>
 
             <div class="card">
                 <h2>{{ __('medical.titles.contact_details') }}</h2>
-                <p><b>{{ __('contact.email') }}: </b>{{ $user->email }}</p>
-                <p><b>{{ __('contact.phone') }}: </b>{{ $user->phone }}</p>
+                <x-field-with-icon icon="envelope" :label="__('contact.email')" :value="$user->email" />
+                <x-field-with-icon icon="telephone" :label="__('contact.phone')" :value="$user->phone" />
             </div>
 
             <div class="card">
                 <h2>{{ __('medical.titles.reservations') }}</h2>
-                <p><b>{{ __('medical.unassisted_reservations') }}:
-                    </b>{{ $user->faults === 0 ? __('medical.none') : $user->faults }}</p>
+                <x-field-with-icon icon="x" :label="__('medical.unassisted_reservations')" :value="$user->faults === 0 ? __('medical.none') : $user->faults" />
             </div>
 
             <div class="card">
                 <h2>{{ __('medical.titles.creation') }}</h2>
-                <p><b>{{ __('medical.role') }}:</b> {{ $user->getRoleNames()->first() }}</p>
-                <p><b>{{ __('medical.status.title') }}:
-                    </b>{{ $user->status ? __('medical.active') : __('medical.inactive') }}</p>
-                <p><b> {{ __('medical.creation_date') }}:
-                    </b>{{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y H:i') }}</p>
+                <x-field-with-icon icon="person-badge" :label="__('medical.role')" :value="$user->translated_role" />
+                <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" :value="$user->status ? __('medical.active') : __('medical.inactive')" />
+                <x-field-with-icon icon="calendar-plus" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($user->created_at)->format('d/m/Y H:i')" />
+
                 @if (!empty($user->updatedBy->name))
-                    <p><b>{{ __('medical.updated_by') }}:
-                        </b>{{ $user->updatedBy->name . ' ' . $user->updatedBy->surname }}
-                        <a href="{{ route('user.show', $user->update_by) }}"><i
-                                class="bi bi-eye">{{ __('button.view') }}
-                            </i></a>
-                    </p>
+                    <x-field-with-icon icon="calendar-check" :label="__('medical.updated_by')" :value="$user->updatedBy->name . ' ' . $user->updatedBy->surname" :link="route('user.show', $user->update_by)" />
                 @else
-                    <p><b>{{ __('medical.updated_by') }}:
-                        </b>{{ __('medical.no_data') }}
-                    </p>
+                    <x-field-with-icon icon="calendar-check" :label="__('medical.updated_by')" :value="__('medical.no_data')" />
                 @endif
-                <p><b> {{ __('medical.update_date') }}:</b>
-                    {{ \Carbon\Carbon::parse($user->updated_at)->format('d/m/Y H:i') }}</p>
+                <x-field-with-icon icon="calendar-check" :label="__('medical.update_date')" :value="\Carbon\Carbon::parse($user->updated_at)->format('d/m/Y H:i')" />
             </div>
         </div>
 
