@@ -4,7 +4,6 @@ if (window.location.pathname.includes('/reservations/create') ||
     window.location.pathname.includes('/appointments/edit')) {
 
     document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('multiStepForm');
         const steps = document.querySelectorAll('.form-step');
         const stepIndicators = document.querySelectorAll('.step-indicator .step');
         let currentStep = 0;

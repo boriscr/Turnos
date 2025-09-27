@@ -18,19 +18,24 @@ return new class extends Migration
             $table->string('idNumber', 8)->unique();
             $table->date('birthdate');
             $table->string('gender');
-            $table->string('country');
-            $table->string('province');
-            $table->string('city');
+            $table->string('country', 50);
+            $table->string('province', 50);
+            $table->string('city', 50);
             $table->string('address', 100);
-            $table->string('phone', 15);
+            $table->string('phone', 15)->unique();
             $table->string('email', 100)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('status')->default(true);
-            $table->integer('faults')->nullable()->default(0);
+            $table->unsignedSmallInteger('faults')->default(0); // 0 a 65,535
             $table->string('password');
             $table->rememberToken();
-            $table->foreignId('update_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
+            $table->index(['surname', 'name']); // Búsquedas por nombre
+            $table->index('status'); // Usuarios activos/inactivos
+            $table->index('birthdate'); // Búsquedas por edad
+            $table->index(['country', 'province', 'city']); // Búsquedas geográficas
+            $table->index('created_at'); // Reportes por fecha
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

@@ -59,7 +59,7 @@ class UserController extends Controller
             // Actualizar campos del usuario
             $user->update([
                 ...Arr::except($validated, 'role'),
-                'update_by' => Auth::id()
+                'updated_by' => Auth::id()
             ]);
 
             // Manejar cambios de rol

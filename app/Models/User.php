@@ -34,7 +34,7 @@ class User extends Authenticatable
         'status',
         'password',
         'faults',
-        'update_by'
+        'updated_by'
     ];
 
     public function getTranslatedRoleAttribute()
@@ -61,9 +61,9 @@ class User extends Authenticatable
     }
 
     // Usuario que actualizó el appointment
-    public function updatedBy()
+    public function updatedById()
     {
-        return $this->belongsTo(User::class, 'update_by');
+        return $this->belongsTo(User::class, 'updated_by');
     }
     /**
      * The attributes that should be hidden for serialization.

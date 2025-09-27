@@ -6,19 +6,19 @@
                 <form action="{{ route('user.update', $user->id) }}" method="post">
                     @csrf
                     @method('PUT')
-                    <x-form.text-input type="text" name="name" label="{{ __('contact.name') }}"
+                    <x-form.text-input type="text" icon="person" name="name" label="{{ __('contact.name') }}"
                         placeholder="{{ __('placeholder.name') }}" minlength="3" maxlength="40"
                         value="{{ $user->name }}" :required="true" />
-                    <x-form.text-input type="text" name="surname" label="{{ __('contact.surname') }}"
+                    <x-form.text-input type="text" icon="person" name="surname" label="{{ __('contact.surname') }}"
                         placeholder="{{ __('placeholder.surname') }}" minlength="3" maxlength="40"
                         value="{{ $user->surname }}" :required="true" />
-                    <x-form.text-input type="text" name="idNumber" label="{{ __('contact.idNumber') }}"
-                        placeholder="{{ __('placeholder.id_number') }}" minlength="7" maxlength="8"
-                        value="{{ $user->idNumber }}" :required="true" />
-                    <x-form.text-input type="date" name="birthdate" label="{{ __('contact.birthdate') }}"
-                        value="{{ $user->birthdate }}" :required="true" />
+                    <x-form.text-input type="text" icon="credit-card" name="idNumber"
+                        label="{{ __('contact.idNumber') }}" placeholder="{{ __('placeholder.id_number') }}"
+                        minlength="7" maxlength="8" pattern="[a-zA-Z0-9]{7,8}" value="{{ $user->idNumber }}" :required="true" />
+                    <x-form.text-input type="date" icon="gift" name="birthdate"
+                        label="{{ __('contact.birthdate') }}" value="{{ $user->birthdate }}" :required="true" />
                     <small id="edad"></small>
-                    <x-form.select name="gender" :label="__('contact.gender')" :required="true">
+                    <x-form.select name="gender" icon="gender-ambiguous" :label="__('contact.gender')" :required="true">
                         <option value="Femenino" {{ $user->gender == 'Femenino' ? 'Selected' : '' }}>Femenino
                         </option>
                         <option value="Masculino" {{ $user->gender == 'Masculino' ? 'Selected' : '' }}>Masculino
@@ -32,7 +32,7 @@
                         </option>
                     </x-form.select>
 
-                    <x-form.select name="country" :label="__('contact.country')" :required="true">
+                    <x-form.select name="country" icon="globe" :label="__('contact.country')" :required="true">
                         <option value="Argentina" {{ $user->country == 'Argentina' ? 'Selected' : '' }}>Argentina
                         </option>
                         <!-- Países de América -->
@@ -75,18 +75,23 @@
                         <option value="Vietnam">Vietnam</option>
                         <option value="Otro">Otro</option>
                     </x-form.select>
-                    <x-form.text-input type="text" name="province" label="{{ __('contact.province') }}"
-                        value="{{ $user->province }}" :required="true" minlength="3" maxlength="50"/>
-                    <x-form.text-input type="text" name="city" label="{{ __('contact.city') }}"
-                        value="{{ $user->city }}" :required="true" minlength="3" maxlength="50"/>
-                    <x-form.text-input type="text" name="address" label="{{ __('contact.address') }}"
-                        value="{{ $user->address }}" :required="true" minlength="10" maxlength="100"/>
-                    <x-form.text-input type="tel" name="phone" label="{{ __('contact.phone') }}"
-                        value="{{ $user->phone }}" :required="true" minlength="9" maxlength="15"/>
-                    <x-form.text-input type="email" name="email" label="{{ __('contact.email') }}"
-                        value="{{ $user->email }}" :required="true" minlength="5" maxlength="100"/>
+                    <x-form.text-input type="text" icon="geo-alt" name="province"
+                        label="{{ __('contact.province') }}" value="{{ $user->province }}" :required="true"
+                        minlength="3" maxlength="50" />
+                    <x-form.text-input type="text" icon="building" name="city" label="{{ __('contact.city') }}"
+                        value="{{ $user->city }}" :required="true" minlength="3" maxlength="50" />
+                    <x-form.text-input type="text" icon="house-door" name="address"
+                        label="{{ __('contact.address') }}" value="{{ $user->address }}" :required="true"
+                        minlength="10" maxlength="100" />
 
-                    <x-form.select name="role" :label="__('medical.role')" :required="true">
+                    <x-form.text-input type="tel" icon="telephone" name="phone"
+                        label="{{ __('contact.phone') }}" value="{{ $user->phone }}" :required="true"
+                        minlength="9" maxlength="15" />
+                    <x-form.text-input type="email" icon="envelope" name="email"
+                        label="{{ __('contact.email') }}" value="{{ $user->email }}" :required="true"
+                        minlength="5" maxlength="100" />
+
+                    <x-form.select name="role" icon="person-badge" :label="__('medical.role')" :required="true">
                         <option value="user" {{ $user->getRoleNames()->first() == 'user' ? 'selected' : '' }}>
                             {{ __('medical.user') }}</option>
                         <option value="doctor" {{ $user->getRoleNames()->first() == 'doctor' ? 'selected' : '' }}>
@@ -95,7 +100,7 @@
                             {{ __('medical.admin') }}</option>
                     </x-form.select>
 
-                    <x-form.select name="status" :label="__('medical.status.title')" :required="true">
+                    <x-form.select name="status" icon="circle-fill" :label="__('medical.status.title')" :required="true">
                         <option value="1" {{ $user->status == 1 ? 'selected' : '' }}>
                             {{ __('medical.active') }}
                         </option>

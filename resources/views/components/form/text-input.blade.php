@@ -1,5 +1,6 @@
 @props([
     'type' => '',
+    'icon' => '',
     'name',
     'id',
     'label' => '',
@@ -14,7 +15,7 @@
 
 <div class="item">
     @if ($type !== 'radio' && $type !== 'color')
-        <x-input-label :for="$name" :value="$label" :required="$required" />
+        <x-input-label :for="$name" :icon="$icon" :value="$label" :required="$required" />
         @if (!empty($context))
             <small>{{ $context }}</small>
         @endif

@@ -23,8 +23,8 @@
 
             <div class="card">
                 <h2>{{ __('medical.titles.contact_details') }}</h2>
-                <x-field-with-icon icon="envelope" :label="__('contact.email')" :value="$user->email" />
                 <x-field-with-icon icon="telephone" :label="__('contact.phone')" :value="$user->phone" />
+                <x-field-with-icon icon="envelope" :label="__('contact.email')" :value="$user->email" />
             </div>
 
             <div class="card">
@@ -38,8 +38,8 @@
                 <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" :value="$user->status ? __('medical.active') : __('medical.inactive')" />
                 <x-field-with-icon icon="calendar-plus" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($user->created_at)->format('d/m/Y H:i')" />
 
-                @if (!empty($user->updatedBy->name))
-                    <x-field-with-icon icon="calendar-check" :label="__('medical.updated_by')" :value="$user->updatedBy->name . ' ' . $user->updatedBy->surname" :link="route('user.show', $user->update_by)" />
+                @if (!empty($user->updatedById->name))
+                    <x-field-with-icon icon="calendar-check" :label="__('medical.updated_by')" :value="$user->updatedById->name . ' ' . $user->updatedById->surname" :link="route('user.show', $user->updated_by)" />
                 @else
                     <x-field-with-icon icon="calendar-check" :label="__('medical.updated_by')" :value="__('medical.no_data')" />
                 @endif

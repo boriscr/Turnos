@@ -43,7 +43,7 @@ class UserFactory extends Factory
             'faults' => 0,
             'password' => bcrypt('passwordSegura123'), // contraseña por defecto
             'remember_token' => Str::random(10),
-            'update_by' => null,
+            'updated_by' => null,
         ];
     }
 

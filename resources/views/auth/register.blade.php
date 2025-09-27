@@ -26,35 +26,22 @@
         <div x-show="step === 1" x-transition>
             <h1>{{ __('Register') }}</h1>
             <div class="mt-4">
-                <x-input-label for="name" :value="__('contact.name')" />
-                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" minlength="3"
-                    maxlength="40" required />
-                <x-input-error :messages="$errors->get('name')" class="mt-2" />
-            </div>
-            <div class="mt-4">
-                <x-input-label for="surname" :value="__('contact.surname')" />
-                <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" minlength="3"
-                    maxlength="40" required />
-                <x-input-error :messages="$errors->get('surname')" class="mt-2" />
-            </div>
 
-            <div class="mt-4">
-                {{-- idNumber --}}
-                <x-input-label for="idNumber" :value="__('contact.idNumber')" />
-                <x-text-input id="idNumber" name="idNumber" type="text" pattern="[a-zA-Z0-9]{7,8}" minlength="7"
-                    maxlength="8" autocomplete="off" required class="block mt-1 w-full" />
-                <x-input-error :messages="$errors->get('idNumber')" class="mt-2" />
-            </div>
+                <x-form.text-input type="text" icon="person" name="name" label="{{ __('contact.name') }}"
+                    placeholder="{{ __('placeholder.name') }}" minlength="3" maxlength="40" :required="true" autofocus
+                    autocomplete="name" :value="old('name')" />
+                <x-form.text-input type="text" icon="person" name="surname" label="{{ __('contact.surname') }}"
+                    placeholder="{{ __('placeholder.surname') }}" minlength="3" maxlength="40" :required="true"
+                    autocomplete="surname" />
+                <x-form.text-input type="text" icon="credit-card" name="idNumber"
+                    label="{{ __('contact.idNumber') }}" placeholder="{{ __('placeholder.idNumber') }}"
+                    pattern="[a-zA-Z0-9]{7,8}" minlength="7" maxlength="8" :required="true" />
 
-            <div class="mt-4">
-                <x-input-label for="birthdate" :value="__('contact.birthdate')" />
-                <x-text-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" required />
-                <x-input-error :messages="$errors->get('birthdate')" class="mt-2" />
+                <x-form.text-input type="date" icon="gift" name="birthdate" label="{{ __('contact.birthdate') }}"
+                    placeholder="{{ __('placeholder.birthdate') }}" :required="true" />
                 <small id="edad"></small>
-            </div>
 
-            <div class="mt-4">
-                <x-form.select name="gender" :label="__('contact.gender')" :required="true">
+                <x-form.select icon="gender-ambiguous" name="gender" :label="__('contact.gender')" :required="true">
                     <option value="">Selecciona...</option>
                     <option value="Femenino">Femenino</option>
                     <option value="Masculino">Masculino</option>
@@ -74,10 +61,7 @@
             <br>
 
             <div class="flex items-center justify-center mt-4">
-                <span>{{ __('Already registered?') }}</span>
-                <x-secondary-button>
-                    <a href="{{ route('login') }}">{{ __('Login') }}</a>
-                </x-secondary-button>
+                <a href="{{ route('login') }}">{{ __('Already registered?') }}</a>
             </div>
         </div>
 
@@ -86,7 +70,7 @@
             <!-- Address -->
             <h1>{{ __('contact.address') }}</h1>
             <div class="mt-4">
-                <x-form.select name="country" :label="__('contact.country')" :required="true">
+                <x-form.select icon="globe" name="country" :label="__('contact.country')" :required="true">
                     <option value="Argentina" selected>Argentina</option>
                     <!-- Países de América -->
                     <option value="Bolivia">Bolivia</option>
@@ -128,28 +112,15 @@
                     <option value="Vietnam">Vietnam</option>
                     <option value="Otro">Otro</option>
                 </x-form.select>
-            </div>
-
-
-            <div class="mt-4">
-                <x-input-label for="province" :value="__('contact.province')" />
-                <x-text-input id="province" class="block mt-1 w-full" type="text" name="province"
-                    minlength="3" maxlength="50" required />
-                <x-input-error :messages="$errors->get('province')" class="mt-2" />
-            </div>
-
-            <div class="mt-4">
-                <x-input-label for="city" :value="__('contact.city')" />
-                <x-text-input id="city" class="block mt-1 w-full" type="text" name="city" minlength="3"
-                    maxlength="50" required />
-                <x-input-error :messages="$errors->get('city')" class="mt-2" />
-            </div>
-
-            <div class="mt-4">
-                <x-input-label for="address" :value="__('contact.address')" />
-                <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" minlength="10"
-                    maxlength="100" required />
-                <x-input-error :messages="$errors->get('address')" class="mt-2" />
+                <x-form.text-input type="text" icon="geo-alt" name="province" label="{{ __('contact.province') }}"
+                    placeholder="{{ __('placeholder.province') }}" minlength="3" maxlength="50" :required="true"
+                    autocomplete="province" />
+                <x-form.text-input type="text" icon="building" name="city" label="{{ __('contact.city') }}"
+                    placeholder="{{ __('placeholder.city') }}" minlength="3" maxlength="50" :required="true"
+                    autocomplete="city" />
+                <x-form.text-input type="text" icon="house-door" name="address"
+                    label="{{ __('contact.address') }}" placeholder="{{ __('placeholder.address') }}"
+                    minlength="10" maxlength="100" :required="true" autocomplete="address" />
             </div>
 
             <div class="mt-6 flex justify-between">
@@ -164,30 +135,20 @@
         <div x-show="step === 3" x-transition>
             <h1>{{ __('contact.contact_and_access') }}</h1>
             <div class="mt-4">
-                <x-input-label for="phone" :value="__('contact.phone')" />
-                <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" minlength="9"
-                    maxlength="15" required />
-                <x-input-error :messages="$errors->get('phone')" class="mt-2" />
-            </div>
-            <div class="mt-4">
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" minlength="5"
-                    maxlength="100" required />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                <x-form.text-input type="text" icon="telephone" name="phone" label="{{ __('contact.phone') }}"
+                    placeholder="{{ __('placeholder.phone') }}" minlength="9" maxlength="15" :required="true"
+                    autocomplete="phone" />
+                <x-form.text-input type="email" icon="envelope" name="email" label="{{ __('contact.email') }}"
+                    placeholder="{{ __('placeholder.email') }}" minlength="5" maxlength="100" :required="true"
+                    autocomplete="email" />
             </div>
 
             <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
-                <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required />
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                </p>
-            </div>
-
-            <div class="mt-4">
-                <x-input-label for="password_confirmation" :value="__('security.password_confirmation')" />
-                <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
-                    name="password_confirmation" required />
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                <x-form.text-input type="password" icon="key" name="password" label="{{ __('Password') }}"
+                    minlength="12" maxlength="72" :required="true" />
+                <x-form.text-input type="password" icon="key" name="password_confirmation"
+                    label="{{ __('security.password_confirmation') }}" minlength="12" maxlength="72"
+                    :required="true" />
             </div>
             <ul class="message-list-password">
                 <li>{{ __('security.min_length') }}</li>
@@ -257,7 +218,7 @@
                         <strong>Algunos datos no podrán ser editados posteriormente</strong>, ya que estarán asociados de forma exclusiva a esta cuenta.
                     </p>
                     <p class="text-left mt-2" style="color:black">
-                        Si los datos son incorrectos, podrías recibir la negación de appointments o no poder gestionarlos correctamente.
+                        Si los datos son incorrectos, podrías recibir la negación o no poder gestionarlos correctamente.
                     </p>
                     <p class="text-left mt-2 font-semibold" style="color:black">
                         Por favor, revisa cuidadosamente toda la información antes de continuar y asegúrate de que los datos ingresados coincidan exactamente con los que figuran en tu DNI.

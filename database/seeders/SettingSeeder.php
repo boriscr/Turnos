@@ -183,7 +183,7 @@ class SettingSeeder extends Seeder
                     'desc' => 'Color de letra de los elementos de los formularios en tema claro'
                 ],
                 'text_color_form_elements_light' => [
-                    'value' => '#00bcd4', //Seleste claro
+                    'value' => '#003B46',  //Verde Petroleo
                     'type' => 'string',
                     'desc' => 'Color de letra de los elementos de los formularios en tema claro'
                 ],
