@@ -4,7 +4,6 @@
             {{ __('Profile Information') }}
         </h1>
     </header>
-
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
     </form>
@@ -81,7 +80,7 @@
                         <option
                             {{ $user->country ==
                             'República
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Dominicana'
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Dominicana'
                                 ? 'selected'
                                 : '' }}
                             value="República

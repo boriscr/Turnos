@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Reservation;
+
 class ProfileController extends Controller
 {
     public function index()
@@ -20,27 +21,40 @@ class ProfileController extends Controller
 
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = $request->user()->select([
+            'id',
+            'name',
+            'surname',
+            'idNumber',
+            'birthdate',
+            'gender',
+            'country',
+            'province',
+            'city',
+            'address',
+            'phone',
+            'email'
+        ])->first();
+
+        return view('profile.edit', compact('user'));
     }
 
-public function historial()
-{
-    if (Auth::check()) {
-        $totalReservas = Reservation::where('user_id', Auth::user()->id)->count();
-        $reservations = Reservation::where('user_id', Auth::user()->id)
-                      ->with('availableAppointment') // Asegúrate de cargar la relación
-                      ->orderBy('id', 'desc')
-                      ->paginate(10);
-        
-        $now = now(); // Fecha y time actual
-        
-        return view('profile.historial', compact('reservations', 'totalReservas', 'now'));
-    } else {
-        return redirect()->route('login'); // Mejor redirigir que mostrar un mensaje
+    public function historial()
+    {
+        if (Auth::check()) {
+            $totalReservas = Reservation::where('user_id', Auth::user()->id)->count();
+            $reservations = Reservation::where('user_id', Auth::user()->id)
+                ->with('availableAppointment') // Asegúrate de cargar la relación
+                ->orderBy('id', 'desc')
+                ->paginate(10);
+
+            $now = now(); // Fecha y time actual
+
+            return view('profile.historial', compact('reservations', 'totalReservas', 'now'));
+        } else {
+            return redirect()->route('login'); // Mejor redirigir que mostrar un mensaje
+        }
     }
-}
 
     public function show($id)
     {
