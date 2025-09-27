@@ -37,6 +37,8 @@ class RegisteredUserController extends Controller
      */
     public function store(RegisteredStoreRequest $request): RedirectResponse
     {
+        // Pequeño delay anti-bot (0.5 - 1 segundo)
+        usleep(500000); // 500,000 microsegundos = 0.5 segundos
         // Los datos ya vienen validados y limpios desde el FormRequest
         $user = User::create([
             'name' => $request->validated()['name'],
