@@ -28,7 +28,7 @@
 
             <div>
                 <x-input-label for="surname" :value="__('contact.surname')" />
-                <x-text-input id="surname" name="surname" type="text" minlength="3" maxlength="15"
+                <x-text-input id="surname" name="surname" type="text" minlength="3" maxlength="40"
                     class="mt-1 block w-full" :value="old('surname', $user->surname)" required autofocus autocomplete="surname" />
                 <x-input-error class="mt-2" :messages="$errors->get('surname')" />
             </div>
@@ -160,7 +160,7 @@
 
             <div>
                 <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" name="email" type="email" minlength="5" maxlength="60"
+                <x-text-input id="email" name="email" type="email" minlength="5" maxlength="100"
                     class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
                 <x-input-error class="mt-2" :messages="$errors->get('email')" />
 

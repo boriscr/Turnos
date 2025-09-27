@@ -34,7 +34,7 @@
             <div class="mt-4">
                 <x-input-label for="surname" :value="__('contact.surname')" />
                 <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" minlength="3"
-                    maxlength="15" required />
+                    maxlength="40" required />
                 <x-input-error :messages="$errors->get('surname')" class="mt-2" />
             </div>
 
@@ -172,7 +172,7 @@
             <div class="mt-4">
                 <x-input-label for="email" :value="__('Email')" />
                 <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" minlength="5"
-                    maxlength="60" required />
+                    maxlength="100" required />
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
