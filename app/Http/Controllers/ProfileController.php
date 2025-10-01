@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
@@ -20,28 +21,19 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function edit(Request $request): View
+    //verificar si el usuario esta autenticado y pertenese al mismo usuario
+    public function edit(Request $request, $id): View
     {
-        $user = $request->user()->select([
-            'id',
-            'name',
-            'surname',
-            'idNumber',
-            'birthdate',
-            'gender',
-            'country_id',
-            'state_id',
-            'city_id',
-            'address',
-            'phone',
-            'email'
-        ])->first();
-        // Cargar datos para los selects
-        $countries = DB::table('countries')->orderBy('name')->get();
-        $states = DB::table('states')->where('country_id', $user->country_id)->orderBy('name')->get();
-        $cities = DB::table('cities')->where('state_id', $user->state_id)->orderBy('name')->get();
-
-        return view('profile.edit', compact('user', 'countries', 'states', 'cities'));
+        $user = $request->user();
+        if (Auth::check() && $user->id == $id) {
+            // Cargar datos para los selects
+            $countries = DB::table('countries')->orderBy('name')->get();
+            $states = DB::table('states')->where('country_id', $user->country_id)->orderBy('name')->get();
+            $cities = DB::table('cities')->where('state_id', $user->state_id)->orderBy('name')->get();
+            return view('profile.edit', compact('user', 'countries', 'states', 'cities'));
+        } else {
+            abort(403, 'No tienes permiso para editar este perfil.');
+        }
     }
 
     public function historial()
@@ -78,36 +70,39 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request, $id): RedirectResponse
     {
-        $user = $request->user();
+        $user = User::findOrFail($id);
+        if (Auth::check() && $user->id == $id) {
+            // Actualizar campos editables (excluyendo idNumber)
+            $user->fill($request->only([
+                'name',
+                'surname',
+                'birthdate',
+                'gender',
+                'country_id',
+                'state_id',
+                'city_id',
+                'address',
+                'phone'
+            ]));
 
-        // Actualizar campos editables (excluyendo idNumber)
-        $user->fill($request->only([
-            'name',
-            'surname',
-            'birthdate',
-            'gender',
-            'country_id',
-            'state_id',
-            'city_id',
-            'address',
-            'phone'
-        ]));
+            // Validación adicional para email
+            if ($user->isDirty('email')) {
+                $user->email_verified_at = null;
+            }
 
-        // Validación adicional para email
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
+            // Guardar los cambios
+            $user->save();
+            session()->flash('success', [
+                'title' => 'Tus datos han sido actualizados',
+                'text' => 'Los cambios se han guardado correctamente',
+                'icon' => 'success',
+            ]);
+            return Redirect::route('profile.edit', $user->id);
+        } else {
+            abort(403, 'No tienes permiso para editar este perfil.');
         }
-
-        // Guardar los cambios
-        $user->save();
-        session()->flash('success', [
-            'title' => 'Tus datos han sido actualizados',
-            'text' => 'Los cambios se han guardado correctamente',
-            'icon' => 'success',
-        ]);
-        return Redirect::route('profile.edit');
     }
 
     /**
