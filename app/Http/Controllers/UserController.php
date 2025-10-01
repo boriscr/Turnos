@@ -42,10 +42,14 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+        // Cargar datos para los selects
+        $countries = DB::table('countries')->orderBy('name')->get();
+        $states = DB::table('states')->where('country_id', $user->country_id)->orderBy('name')->get();
+        $cities = DB::table('cities')->where('state_id', $user->state_id)->orderBy('name')->get();
         if (!$user) {
             return redirect()->route('users.index')->with('error', 'Usuario no encontrado.');
         };
-        return view('users/edit', compact('user'));
+        return view('users/edit', compact('user', 'countries', 'states', 'cities'));
     }
 
     public function update(UserUpdateRequest $request, $id)
@@ -59,6 +63,9 @@ class UserController extends Controller
             // Actualizar campos del usuario
             $user->update([
                 ...Arr::except($validated, 'role'),
+                'country_id' => $validated['country_id'],
+                'state_id' => $validated['state_id'],
+                'city_id' => $validated['city_id'],
                 'updated_by' => Auth::id()
             ]);
 

@@ -12,6 +12,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\MyAppointmentsController;
 use App\Http\Controllers\AppointmentHistoryController;
+use Nnjeim\World\World;
 
 Route::view('/', 'home')->name('home');
 
@@ -112,3 +113,24 @@ Route::get('/dashboard', function () {
 
 
 require __DIR__ . '/auth.php';
+
+
+
+// Rutas para cargar datos directamente desde las tablas
+Route::get('/get-states/{countryId}', function ($countryId) {
+    $states = DB::table('states')
+        ->where('country_id', $countryId)
+        ->orderBy('name')
+        ->get(['id', 'name']);
+    
+    return response()->json($states);
+});
+
+Route::get('/get-cities/{stateId}', function ($stateId) {
+    $cities = DB::table('cities')
+        ->where('state_id', $stateId)
+        ->orderBy('name')
+        ->get(['id', 'name']);
+    
+    return response()->json($cities);
+});

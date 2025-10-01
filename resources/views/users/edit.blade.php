@@ -14,7 +14,8 @@
                         value="{{ $user->surname }}" :required="true" />
                     <x-form.text-input type="text" icon="credit-card" name="idNumber"
                         label="{{ __('contact.idNumber') }}" placeholder="{{ __('placeholder.id_number') }}"
-                        minlength="7" maxlength="8" pattern="[a-zA-Z0-9]{7,8}" value="{{ $user->idNumber }}" :required="true" />
+                        minlength="7" maxlength="8" pattern="[a-zA-Z0-9]{7,8}" value="{{ $user->idNumber }}"
+                        :required="true" />
                     <x-form.text-input type="date" icon="gift" name="birthdate"
                         label="{{ __('contact.birthdate') }}" value="{{ $user->birthdate }}" :required="true" />
                     <small id="edad"></small>
@@ -32,64 +33,44 @@
                         </option>
                     </x-form.select>
 
-                    <x-form.select name="country" icon="globe" :label="__('contact.country')" :required="true">
-                        <option value="Argentina" {{ $user->country == 'Argentina' ? 'Selected' : '' }}>Argentina
-                        </option>
-                        <!-- Países de América -->
-                        <option value="Bolivia">Bolivia</option>
-                        <option value="Brasil">Brasil</option>
-                        <option value="Chile">Chile</option>
-                        <option value="Colombia">Colombia</option>
-                        <option value="Costa Rica">Costa Rica</option>
-                        <option value="Cuba">Cuba</option>
-                        <option value="Ecuador">Ecuador</option>
-                        <option value="El Salvador">El Salvador</option>
-                        <option value="Guatemala">Guatemala</option>
-                        <option value="Honduras">Honduras</option>
-                        <option value="México">México</option>
-                        <option value="Nicaragua">Nicaragua</option>
-                        <option value="Panamá">Panamá</option>
-                        <option value="Paraguay">Paraguay</option>
-                        <option value="Perú">Perú</option>
-                        <option value="Puerto Rico">Puerto Rico</option>
-                        <option value="República Dominicana">República Dominicana</option>
-                        <option value="Uruguay">Uruguay</option>
-                        <option value="Venezuela">Venezuela</option>
+                    <div class="mt-4">
+                        <x-form.select icon="globe" name="country_id" :label="__('contact.country')" :required="true">
+                            <option value="">Selecciona un país</option>
+                            @foreach ($countries as $country)
+                                <option value="{{ $country->id }}"
+                                    {{ old('country_id', $user->country_id) == $country->id ? 'selected' : '' }}>
+                                    {!! $country->name !!}
+                                </option>
+                            @endforeach
+                        </x-form.select>
+                        <x-form.select icon="geo-alt" name="state_id" :label="__('contact.state')" :required="true">
+                            <option value="">Selecciona una provincia</option>
+                            @foreach ($states as $state)
+                                <option value="{{ $state->id }}"
+                                    {{ old('state_id', $user->state_id) == $state->id ? 'selected' : '' }}>
+                                    {!! $state->name !!}
+                                </option>
+                            @endforeach
+                        </x-form.select>
+                        <x-form.select icon="building" name="city_id" :label="__('contact.city')" :required="true">
+                            <option value="">Selecciona una ciudad</option>
+                            @foreach ($cities as $city)
+                                <option value="{{ $city->id }}"
+                                    {{ old('city_id', $user->city_id) == $city->id ? 'selected' : '' }}>
+                                    {!! $city->name !!}
+                                </option>
+                            @endforeach
+                        </x-form.select>
+                        <x-form.text-input type="text" icon="house-door" name="address"
+                            label="{{ __('contact.address') }}" placeholder="{{ __('placeholder.address') }}"
+                            minlength="10" maxlength="100" value="{{ $user->address }}" :required="true" autofocus
+                            autocomplete="address" />
+                    </div>
 
-                        <!-- Países populares de Europa -->
-                        <option value="Alemania">Alemania</option>
-                        <option value="España">España</option>
-                        <option value="Francia">Francia</option>
-                        <option value="Italia">Italia</option>
-                        <option value="Países Bajos">Países Bajos</option>
-                        <option value="Portugal">Portugal</option>
-                        <option value="Reino Unido">Reino Unido</option>
-                        <option value="Suiza">Suiza</option>
-
-                        <!-- Países populares de Asia -->
-                        <option value="China">China</option>
-                        <option value="Corea del Sur">Corea del Sur</option>
-                        <option value="India">India</option>
-                        <option value="Japón">Japón</option>
-                        <option value="Tailandia">Tailandia</option>
-                        <option value="Vietnam">Vietnam</option>
-                        <option value="Otro">Otro</option>
-                    </x-form.select>
-                    <x-form.text-input type="text" icon="geo-alt" name="province"
-                        label="{{ __('contact.province') }}" value="{{ $user->province }}" :required="true"
-                        minlength="3" maxlength="50" />
-                    <x-form.text-input type="text" icon="building" name="city" label="{{ __('contact.city') }}"
-                        value="{{ $user->city }}" :required="true" minlength="3" maxlength="50" />
-                    <x-form.text-input type="text" icon="house-door" name="address"
-                        label="{{ __('contact.address') }}" value="{{ $user->address }}" :required="true"
-                        minlength="10" maxlength="100" />
-
-                    <x-form.text-input type="tel" icon="telephone" name="phone"
-                        label="{{ __('contact.phone') }}" value="{{ $user->phone }}" :required="true"
-                        minlength="9" maxlength="15" />
-                    <x-form.text-input type="email" icon="envelope" name="email"
-                        label="{{ __('contact.email') }}" value="{{ $user->email }}" :required="true"
-                        minlength="5" maxlength="100" />
+                    <x-form.text-input type="tel" icon="telephone" name="phone" label="{{ __('contact.phone') }}"
+                        value="{{ $user->phone }}" :required="true" minlength="9" maxlength="15" />
+                    <x-form.text-input type="email" icon="envelope" name="email" label="{{ __('contact.email') }}"
+                        value="{{ $user->email }}" :required="true" minlength="5" maxlength="100" />
 
                     <x-form.select name="role" icon="person-badge" :label="__('medical.role')" :required="true">
                         <option value="user" {{ $user->getRoleNames()->first() == 'user' ? 'selected' : '' }}>

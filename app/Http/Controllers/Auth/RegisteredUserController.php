@@ -9,7 +9,9 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Nnjeim\World\World;
 
 class RegisteredUserController extends Controller
 {
@@ -24,11 +26,25 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
+
+
+public function create(): View
     {
+        // Cargar países directamente desde la tabla
+        $countries = DB::table('countries')
+            ->orderBy('name')
+            ->get();
+        
+        // Encontrar Argentina
+        $argentinaId = DB::table('countries')
+            ->where('name', 'Argentina')
+            ->value('id');
+        
         $disabledNav = true;
-        return view('auth.register', compact('disabledNav'));
+        
+        return view('auth.register', compact('disabledNav', 'countries', 'argentinaId'));
     }
+
 
     /**
      * Handle an incoming registration request.
@@ -46,9 +62,9 @@ class RegisteredUserController extends Controller
             'idNumber' => $request->validated()['idNumber'],
             'birthdate' => $request->validated()['birthdate'],
             'gender' => $request->validated()['gender'],
-            'country' => $request->validated()['country'],
-            'province' => $request->validated()['province'],
-            'city' => $request->validated()['city'],
+            'country_id' => $request->validated()['country_id'],
+            'state_id' => $request->validated()['state_id'],
+            'city_id' => $request->validated()['city_id'],
             'address' => $request->validated()['address'],
             'phone' => $request->validated()['phone'],
             'email' => $request->validated()['email'],

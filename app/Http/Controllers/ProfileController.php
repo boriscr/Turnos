@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Reservation;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -28,15 +29,19 @@ class ProfileController extends Controller
             'idNumber',
             'birthdate',
             'gender',
-            'country',
-            'province',
-            'city',
+            'country_id',
+            'state_id',
+            'city_id',
             'address',
             'phone',
             'email'
         ])->first();
+        // Cargar datos para los selects
+        $countries = DB::table('countries')->orderBy('name')->get();
+        $states = DB::table('states')->where('country_id', $user->country_id)->orderBy('name')->get();
+        $cities = DB::table('cities')->where('state_id', $user->state_id)->orderBy('name')->get();
 
-        return view('profile.edit', compact('user'));
+        return view('profile.edit', compact('user', 'countries', 'states', 'cities'));
     }
 
     public function historial()
@@ -83,9 +88,9 @@ class ProfileController extends Controller
             'surname',
             'birthdate',
             'gender',
-            'country',
-            'province',
-            'city',
+            'country_id',
+            'state_id',
+            'city_id',
             'address',
             'phone'
         ]));

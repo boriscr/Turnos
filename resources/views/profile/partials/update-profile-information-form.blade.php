@@ -52,127 +52,77 @@
                 <!-- Address -->
                 <h1>{{ __('contact.address') }}</h1>
                 <div class="mt-4">
-                    <x-form.select icon="globe" name="country" :label="__('contact.country')" :required="true">
-                        <option {{ $user->country == 'Argentina' ? 'selected' : '' }} value="Argentina">Argentina
-                        </option>
-                        <!-- Países de América -->
-                        <option {{ $user->country == 'Bolivia' ? 'selected' : '' }} value="Bolivia">Bolivia</option>
-                        <option {{ $user->country == 'Brasil' ? 'selected' : '' }} value="Brasil">Brasil</option>
-                        <option {{ $user->country == 'Chile' ? 'selected' : '' }} value="Chile">Chile</option>
-                        <option {{ $user->country == 'Colombia' ? 'selected' : '' }} value="Colombia">Colombia</option>
-                        <option {{ $user->country == 'Costa Rica' ? 'selected' : '' }} value="Costa Rica">Costa Rica
-                        </option>
-                        <option {{ $user->country == 'Cuba' ? 'selected' : '' }} value="Cuba">Cuba</option>
-                        <option {{ $user->country == 'Ecuador' ? 'selected' : '' }} value="Ecuador">Ecuador</option>
-                        <option {{ $user->country == 'El Salvador' ? 'selected' : '' }} value="El Salvador">El Salvador
-                        </option>
-                        <option {{ $user->country == 'Guatemala' ? 'selected' : '' }} value="Guatemala">Guatemala
-                        </option>
-                        <option {{ $user->country == 'Honduras' ? 'selected' : '' }} value="Honduras">Honduras</option>
-                        <option {{ $user->country == 'México' ? 'selected' : '' }} value="México">México</option>
-                        <option {{ $user->country == 'Nicaragua' ? 'selected' : '' }} value="Nicaragua">Nicaragua
-                        </option>
-                        <option {{ $user->country == 'Panamá' ? 'selected' : '' }} value="Panamá">Panamá</option>
-                        <option {{ $user->country == 'Paraguay' ? 'selected' : '' }} value="Paraguay">Paraguay</option>
-                        <option {{ $user->country == 'Perú' ? 'selected' : '' }} value="Perú">Perú</option>
-                        <option {{ $user->country == 'Puerto Rico' ? 'selected' : '' }} value="Puerto Rico">Puerto Rico
-                        </option>
-                        <option
-                            {{ $user->country ==
-                            'República
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Dominicana'
-                                ? 'selected'
-                                : '' }}
-                            value="República
-                    Dominicana">República
-                            Dominicana</option>
-                        <option {{ $user->country == 'Uruguay' ? 'selected' : '' }} value="Uruguay">Uruguay</option>
-                        <option {{ $user->country == 'Venezuela' ? 'selected' : '' }} value="Venezuela">Venezuela
-                        </option>
-
-                        <!-- Países populares de Europa -->
-                        <option {{ $user->country == 'Alemania' ? 'selected' : '' }} value="Alemania">Alemania</option>
-                        <option {{ $user->country == 'España' ? 'selected' : '' }} value="España">España</option>
-                        <option {{ $user->country == 'Francia' ? 'selected' : '' }} value="Francia">Francia</option>
-                        <option {{ $user->country == 'Italia' ? 'selected' : '' }} value="Italia">Italia</option>
-                        <option {{ $user->country == 'Países Bajos' ? 'selected' : '' }} value="Países Bajos">Países
-                            Bajos
-                        </option>
-                        <option {{ $user->country == 'Portugal' ? 'selected' : '' }} value="Portugal">Portugal</option>
-                        <option {{ $user->country == 'Reino Unido' ? 'selected' : '' }} value="Reino Unido">Reino Unido
-                        </option>
-                        <option {{ $user->country == 'Suiza' ? 'selected' : '' }} value="Suiza">Suiza</option>
-
-                        <!-- Países populares de Asia -->
-                        <option {{ $user->country == 'China' ? 'selected' : '' }} value="China">China</option>
-                        <option {{ $user->country == 'Corea del Sur' ? 'selected' : '' }} value="Corea del Sur">Corea
-                            del
-                            Sur
-                        </option>
-                        <option {{ $user->country == 'India' ? 'selected' : '' }} value="India">India</option>
-                        <option {{ $user->country == 'Japón' ? 'selected' : '' }} value="Japón">Japón</option>
-                        <option {{ $user->country == 'Tailandia' ? 'selected' : '' }} value="Tailandia">Tailandia
-                        </option>
-                        <option {{ $user->country == 'Vietnam' ? 'selected' : '' }} value="Vietnam">Vietnam</option>
-                        <option {{ $user->country == 'Otro' ? 'selected' : '' }} value="Otro">Otro</option>
+                    <x-form.select icon="globe" name="country_id" :label="__('contact.country')" :required="true">
+                        <option value="">Selecciona un país</option>
+                        @foreach ($countries as $country)
+                            <option value="{{ $country->id }}"
+                                {{ old('country_id', $user->country_id) == $country->id ? 'selected' : '' }}>
+                                {!! $country->name !!}
+                            </option>
+                        @endforeach
                     </x-form.select>
-
-                    <x-form.text-input type="text" icon="geo-alt" name="province"
-                        label="{{ __('contact.province') }}" placeholder="{{ __('placeholder.province') }}"
-                        minlength="3" maxlength="50" value="{{ $user->province }}" :required="true" autofocus
-                        autocomplete="province" />
-
-                    <x-form.text-input type="text" icon="building" name="city" label="{{ __('contact.city') }}"
-                        placeholder="{{ __('placeholder.city') }}" minlength="3" maxlength="50"
-                        value="{{ $user->city }}" :required="true" autofocus autocomplete="city" />
-
-                    <x-form.text-input type="text" icon="house-door" name="address"
-                        label="{{ __('contact.address') }}" placeholder="{{ __('placeholder.address') }}"
-                        minlength="10" maxlength="100" value="{{ $user->address }}" :required="true" autofocus
-                        autocomplete="address" />
+                    <x-form.select icon="geo-alt" name="state_id" :label="__('contact.state')" :required="true">
+                        <option value="">Selecciona una provincia</option>
+                        @foreach ($states as $state)
+                            <option value="{{ $state->id }}"
+                                {{ old('state_id', $user->state_id) == $state->id ? 'selected' : '' }}>
+                                {!! $state->name !!}
+                            </option>
+                        @endforeach
+                    </x-form.select>
+                    <x-form.select icon="building" name="city_id" :label="__('contact.city')" :required="true">
+                        <option value="">Selecciona una ciudad</option>
+                        @foreach ($cities as $city)
+                            <option value="{{ $city->id }}"
+                                {{ old('city_id', $user->city_id) == $city->id ? 'selected' : '' }}>
+                                {!! $city->name !!}
+                            </option>
+                        @endforeach
+                    </x-form.select>
                 </div>
+
+                <x-form.text-input type="text" icon="house-door" name="address" label="{{ __('contact.address') }}"
+                    placeholder="{{ __('placeholder.address') }}" minlength="10" maxlength="100"
+                    value="{{ $user->address }}" :required="true" autofocus autocomplete="address" />
             </div>
-            <!-- Paso 3 -->
-            <div x-show="step === 3" x-transition>
-                <h1>{{ __('contact.contact_and_access') }}</h1>
-                <div class="mt-4">
-                    <x-form.text-input type="tel" icon="telephone" name="phone"
-                        label="{{ __('contact.phone') }}" placeholder="{{ __('placeholder.phone') }}"
-                        minlength="9" maxlength="15" value="{{ $user->phone }}" :required="true" autofocus
-                        autocomplete="phone" />
-                    <x-form.text-input type="email" icon="envelope" name="email"
-                        label="{{ __('contact.email') }}" placeholder="{{ __('placeholder.email') }}"
-                        minlength="5" maxlength="100" value="{{ $user->email }}" :required="true" autofocus
-                        autocomplete="email" />
+        </div>
+        <!-- Paso 3 -->
+        <div x-show="step === 3" x-transition>
+            <h1>{{ __('contact.contact_and_access') }}</h1>
+            <div class="mt-4">
+                <x-form.text-input type="tel" icon="telephone" name="phone" label="{{ __('contact.phone') }}"
+                    placeholder="{{ __('placeholder.phone') }}" minlength="9" maxlength="15"
+                    value="{{ $user->phone }}" :required="true" autofocus autocomplete="phone" />
+                <x-form.text-input type="email" icon="envelope" name="email" label="{{ __('contact.email') }}"
+                    placeholder="{{ __('placeholder.email') }}" minlength="5" maxlength="100"
+                    value="{{ $user->email }}" :required="true" autofocus autocomplete="email" />
 
-                    @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
-                        <div>
-                            <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                                {{ __('Your email address is unverified.') }}
+                @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
+                    <div>
+                        <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
+                            {{ __('Your email address is unverified.') }}
 
-                                <button form="send-verification"
-                                    class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                                    {{ __('Click here to re-send the verification email.') }}
-                                </button>
+                            <button form="send-verification"
+                                class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                                {{ __('Click here to re-send the verification email.') }}
+                            </button>
+                        </p>
+
+                        @if (session('status') === 'verification-link-sent')
+                            <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
+                                {{ __('A new verification link has been sent to your email address.') }}
                             </p>
-
-                            @if (session('status') === 'verification-link-sent')
-                                <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                                    {{ __('A new verification link has been sent to your email address.') }}
-                                </p>
-                            @endif
-                        </div>
-                    @endif
-                </div>
-            </div>
-
-
-            <div class="buttonSend gap-4 mt-4">
-                <x-primary-button>{{ __('Save') }}</x-primary-button>
-                @if (session('status') === 'profile-updated')
-                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                        class="text-sm text-gray-600 dark:text-gray-400">{{ __('Saved.') }}</p>
+                        @endif
+                    </div>
                 @endif
             </div>
+        </div>
+        <div class="buttonSend gap-4 mt-4">
+            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            @if (session('status') === 'profile-updated')
+                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Saved.') }}</p>
+            @endif
+        </div>
     </form>
 </section>

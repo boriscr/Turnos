@@ -15,9 +15,9 @@
 
             <div class="card">
                 <h2>{{ __('contact.address') }}</h2>
-                <x-field-with-icon icon="globe" :label="__('contact.country')" :value="$user->country" />
-                <x-field-with-icon icon="geo-alt" :label="__('contact.province')" :value="$user->province" />
-                <x-field-with-icon icon="building" :label="__('contact.city')" :value="$user->city" />
+                <x-field-with-icon icon="globe" :label="__('contact.country')" :value="$user->country_id" />
+                <x-field-with-icon icon="geo-alt" :label="__('contact.state')" :value="$user->state_id" />
+                <x-field-with-icon icon="building" :label="__('contact.city')" :value="$user->city_id" />
                 <x-field-with-icon icon="house-door" :label="__('contact.address')" :value="$user->address" />
             </div>
 

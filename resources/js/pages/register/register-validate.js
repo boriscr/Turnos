@@ -83,18 +83,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 break;
 
-            case 'province':
-            case 'city':
-                if (!value) {
-                    showError(field, 'Este campo es obligatorio');
-                } else if (value.length > 50) {
-                    showError(field, 'Máximo 50 caracteres permitidos.');
-                }
-                else if (value.length < 3) {
-                    showError(field, 'Mínimo 3 caracteres requeridos.');
-                }
-                break;
-
             case 'address':
                 if (!value) {
                     showError(field, 'Este campo es obligatorio');

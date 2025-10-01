@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('idNumber', 8)->unique();
             $table->date('birthdate');
             $table->string('gender');
-            $table->string('country', 50);
-            $table->string('province', 50);
-            $table->string('city', 50);
+            $table->unsignedBigInteger('country_id')->nullable();
+            $table->unsignedBigInteger('state_id')->nullable();
+            $table->unsignedBigInteger('city_id')->nullable();
             $table->string('address', 100);
             $table->string('phone', 15)->unique();
             $table->string('email', 100)->unique();
@@ -31,11 +31,16 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
+            // Índices para optimizar búsquedas comunes
             $table->index(['surname', 'name']); // Búsquedas por nombre
             $table->index('status'); // Usuarios activos/inactivos
             $table->index('birthdate'); // Búsquedas por edad
-            $table->index(['country', 'province', 'city']); // Búsquedas geográficas
+            $table->index(['country_id', 'state_id', 'city_id']); // Búsquedas geográficas
             $table->index('created_at'); // Reportes por fecha
+
+            $table->index('country_id');
+            $table->index('state_id');
+            $table->index('city_id');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -57,10 +62,10 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+   public function down(): void
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('users');
     }
 };

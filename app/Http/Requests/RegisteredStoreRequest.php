@@ -33,9 +33,9 @@ class RegisteredStoreRequest extends FormRequest
                 'after:-120 years' // 👈 Menor de 120 años
             ], //'before:-18 years'
             'gender' => ['required', 'string', 'in:Masculino,Femenino,No binario,Otro,Prefiero no decir'],
-            'country' => ['required', 'string', 'min:3', 'max:50'],
-            'province' => ['required', 'string', 'min:3', 'max:50'],
-            'city' => ['required', 'string', 'min:3', 'max:50'],
+            'country_id' => ['required', 'integer', 'exists:countries,id'],
+            'state_id' => ['required', 'integer', 'exists:states,id'],
+            'city_id' => ['required', 'integer', 'exists:cities,id'],
             'address' => ['required', 'string', 'min:10', 'max:100'],
             'phone' => ['required', 'string', 'min:9', 'max:15', 'regex:/^(\+?\d{1,3}[-.\s]?)?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/', 'unique:' . User::class],
             'email' => ['required', 'string', 'email', 'min:5', 'max:100', 'unique:' . User::class],
@@ -78,15 +78,15 @@ class RegisteredStoreRequest extends FormRequest
             'gender.required' => 'El género es obligatorio',
             'gender.in' => 'El género seleccionado no es válido',
 
-            'country.required' => 'El país es obligatorio',
+            'country_id.required' => 'El país es obligatorio',
 
-            'province.required' => 'La provincia es obligatoria',
-            'province.min' => 'La provincia debe tener al menos :min caracteres',
-            'province.max' => 'La provincia no puede exceder los :max caracteres',
+            'state_id.required' => 'La provincia es obligatoria',
+            'state_id.min' => 'La provincia debe tener al menos :min caracteres',
+            'state_id.max' => 'La provincia no puede exceder los :max caracteres',
 
-            'city.required' => 'La ciudad es obligatoria',
-            'city.min' => 'La ciudad debe tener al menos :min caracteres',
-            'city.max' => 'La ciudad no puede exceder los :max caracteres',
+            'city_id.required' => 'La ciudad es obligatoria',
+            'city_id.min' => 'La ciudad debe tener al menos :min caracteres',
+            'city_id.max' => 'La ciudad no puede exceder los :max caracteres',
 
             'address.required' => 'La dirección es obligatoria',
             'address.min' => 'La dirección debe tener al menos :min caracteres',
@@ -124,8 +124,6 @@ class RegisteredStoreRequest extends FormRequest
             'name' => $this->name ? trim($this->name) : null,
             'surname' => $this->surname ? trim($this->surname) : null,
             'idNumber' => $this->idNumber ? trim($this->idNumber) : null,
-            'province' => $this->province ? trim($this->province) : null,
-            'city' => $this->city ? trim($this->city) : null,
             'address' => $this->address ? trim($this->address) : null,
             'phone' => $this->phone ? trim($this->phone) : null,
             'email' => $this->email ? trim(strtolower($this->email)) : null,

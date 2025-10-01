@@ -28,11 +28,11 @@ class ProfileUpdateRequest extends FormRequest
         $rules = [
             'name' => ['required', 'string', 'min:3', 'max:40'],
             'surname' => ['required', 'string', 'min:3', 'max:40'],
-            'birthdate' => ['required', 'date', 'before:today'],//'before:-18 years'
+            'birthdate' => ['required', 'date', 'before:today'], //'before:-18 years'
             'gender' => ['required', 'in:Masculino,Femenino,No binario,Otro,Prefiero no decir'],
-            'country' => ['required', 'string', 'min:3', 'max:50'],
-            'province' => ['required', 'string', 'min:3', 'max:50'],
-            'city' => ['required', 'string', 'min:2', 'max:50'],
+            'country_id' => ['required', 'integer', 'exists:countries,id'],
+            'state_id' => ['required', 'integer', 'exists:states,id'],
+            'city_id' => ['required', 'integer', 'exists:cities,id'],
             'address' => ['required', 'string', 'min:10', 'max:100'],
             'phone' => [
                 'required',
@@ -82,9 +82,9 @@ class ProfileUpdateRequest extends FormRequest
             'birthdate.required' => 'La date de nacimiento es obligatoria',
             'birthdate.before' => 'Debes ser mayor de 18 años',
             'gender.required' => 'El género es obligatorio',
-            'country.required' => 'El país es obligatorio',
-            'province.required' => 'La provincia es obligatoria',
-            'city.required' => 'La ciudad es obligatoria',
+            'country_id.required' => 'El país es obligatorio',
+            'province_id.required' => 'La provincia es obligatoria',
+            'city_id.required' => 'La ciudad es obligatoria',
             'address.required' => 'La dirección es obligatoria',
             'phone.required' => 'El teléfono es obligatorio',
             'phone.unique' => 'Este teléfono ya está registrado',
@@ -100,8 +100,6 @@ class ProfileUpdateRequest extends FormRequest
         $this->merge(array_filter([
             'name' => $this->name ? trim($this->name) : null,
             'surname' => $this->surname ? trim($this->surname) : null,
-            'province' => $this->province ? trim($this->province) : null,
-            'city' => $this->city ? trim($this->city) : null,
             'address' => $this->address ? trim($this->address) : null,
             'phone' => $this->phone ? trim($this->phone) : null,
             'email' => $this->email ? trim(strtolower($this->email)) : null,

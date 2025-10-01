@@ -26,7 +26,6 @@
         <div x-show="step === 1" x-transition>
             <h1>{{ __('Register') }}</h1>
             <div class="mt-4">
-
                 <x-form.text-input type="text" icon="person" name="name" label="{{ __('contact.name') }}"
                     placeholder="{{ __('placeholder.name') }}" minlength="3" maxlength="40" :required="true" autofocus
                     autocomplete="name" :value="old('name')" />
@@ -70,57 +69,24 @@
             <!-- Address -->
             <h1>{{ __('contact.address') }}</h1>
             <div class="mt-4">
-                <x-form.select icon="globe" name="country" :label="__('contact.country')" :required="true">
-                    <option value="Argentina" selected>Argentina</option>
-                    <!-- Países de América -->
-                    <option value="Bolivia">Bolivia</option>
-                    <option value="Brasil">Brasil</option>
-                    <option value="Chile">Chile</option>
-                    <option value="Colombia">Colombia</option>
-                    <option value="Costa Rica">Costa Rica</option>
-                    <option value="Cuba">Cuba</option>
-                    <option value="Ecuador">Ecuador</option>
-                    <option value="El Salvador">El Salvador</option>
-                    <option value="Guatemala">Guatemala</option>
-                    <option value="Honduras">Honduras</option>
-                    <option value="México">México</option>
-                    <option value="Nicaragua">Nicaragua</option>
-                    <option value="Panamá">Panamá</option>
-                    <option value="Paraguay">Paraguay</option>
-                    <option value="Perú">Perú</option>
-                    <option value="Puerto Rico">Puerto Rico</option>
-                    <option value="República Dominicana">República Dominicana</option>
-                    <option value="Uruguay">Uruguay</option>
-                    <option value="Venezuela">Venezuela</option>
-
-                    <!-- Países populares de Europa -->
-                    <option value="Alemania">Alemania</option>
-                    <option value="España">España</option>
-                    <option value="Francia">Francia</option>
-                    <option value="Italia">Italia</option>
-                    <option value="Países Bajos">Países Bajos</option>
-                    <option value="Portugal">Portugal</option>
-                    <option value="Reino Unido">Reino Unido</option>
-                    <option value="Suiza">Suiza</option>
-
-                    <!-- Países populares de Asia -->
-                    <option value="China">China</option>
-                    <option value="Corea del Sur">Corea del Sur</option>
-                    <option value="India">India</option>
-                    <option value="Japón">Japón</option>
-                    <option value="Tailandia">Tailandia</option>
-                    <option value="Vietnam">Vietnam</option>
-                    <option value="Otro">Otro</option>
+                <x-form.select icon="globe" name="country_id" :label="__('contact.country')" :required="true">
+                    <option value="">Selecciona un país</option>
+                    @foreach ($countries as $country)
+                        <option value="{{ $country->id }}"
+                            {{ old('country_id', $argentinaId) == $country->id ? 'selected' : '' }}>
+                            {!! $country->name !!}
+                        </option>
+                    @endforeach
                 </x-form.select>
-                <x-form.text-input type="text" icon="geo-alt" name="province" label="{{ __('contact.province') }}"
-                    placeholder="{{ __('placeholder.province') }}" minlength="3" maxlength="50" :required="true"
-                    autocomplete="province" />
-                <x-form.text-input type="text" icon="building" name="city" label="{{ __('contact.city') }}"
-                    placeholder="{{ __('placeholder.city') }}" minlength="3" maxlength="50" :required="true"
-                    autocomplete="city" />
-                <x-form.text-input type="text" icon="house-door" name="address"
-                    label="{{ __('contact.address') }}" placeholder="{{ __('placeholder.address') }}"
-                    minlength="10" maxlength="100" :required="true" autocomplete="address" />
+                <x-form.select icon="geo-alt" name="state_id" :label="__('contact.state')" :required="true">
+                    <option value="">Selecciona una provincia</option>
+                </x-form.select>
+                <x-form.select icon="building" name="city_id" :label="__('contact.city')" :required="true">
+                    <option value="">Selecciona una ciudad</option>
+                </x-form.select>
+                <x-form.text-input type="text" icon="house-door" name="address" label="{{ __('contact.address') }}"
+                    placeholder="{{ __('placeholder.address') }}" minlength="10" maxlength="100" :required="true"
+                    autocomplete="address" />
             </div>
 
             <div class="mt-6 flex justify-between">

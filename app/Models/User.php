@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
@@ -25,9 +26,9 @@ class User extends Authenticatable
         'idNumber',
         'birthdate',
         'gender',
-        'country',
-        'province',
-        'city',
+        'country_id',
+        'state_id',
+        'city_id',
         'address',
         'phone',
         'email',
@@ -37,6 +38,38 @@ class User extends Authenticatable
         'updated_by'
     ];
 
+    // Métodos para obtener los nombres (sin relaciones Eloquent)
+    public function getCountryNameAttribute()
+    {
+        return \DB::table('countries')->where('id', $this->country_id)->value('name');
+    }
+
+    public function getStateNameAttribute()
+    {
+        return \DB::table('states')->where('id', $this->state_id)->value('name');
+    }
+
+    public function getCityNameAttribute()
+    {
+        return \DB::table('cities')->where('id', $this->city_id)->value('name');
+    }
+
+    // Scope para búsquedas por ubicación
+    public function scopeByLocation($query, $countryId = null, $stateId = null, $cityId = null)
+    {
+        if ($countryId) {
+            $query->where('country_id', $countryId);
+        }
+        if ($stateId) {
+            $query->where('state_id', $stateId);
+        }
+        if ($cityId) {
+            $query->where('city_id', $cityId);
+        }
+        return $query;
+    }
+
+    // Obtener el rol traducido
     public function getTranslatedRoleAttribute()
     {
         $role = $this->getRoleNames()->first();

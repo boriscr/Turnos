@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
             'idNumber' => '12345678',
             'birthdate' => '1990-01-01',
             'gender' => 'Otro',
-            'country' => 'Argentina',
-            'province' => 'Buenos Aires',
-            'city' => 'La Plata',
+            'country_id' => 11, // Argentina
+            'state_id' => 180, // Jujuy
+            'city_id' => 1085, // Abra Pampa
             'address' => 'Calle Falsa 123',
             'phone' => '2211234567',
             'email' => 'admin@admin.com',

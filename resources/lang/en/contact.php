@@ -10,7 +10,7 @@ return [
     'age' => 'Age',
     'gender' => 'Gender',
     'country' => 'Country',
-    'province' => 'Province',
+    'state' => 'State',
     'city' => 'City',
     'address' => 'Address',
     'phone' => 'Phone',
