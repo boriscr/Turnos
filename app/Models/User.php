@@ -53,7 +53,20 @@ class User extends Authenticatable
     {
         return \DB::table('cities')->where('id', $this->city_id)->value('name');
     }
+    public function country()
+    {
+        return $this->belongsTo(\Nnjeim\World\Models\Country::class);
+    }
 
+    public function state()
+    {
+        return $this->belongsTo(\Nnjeim\World\Models\State::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(\Nnjeim\World\Models\City::class);
+    }
     // Scope para búsquedas por ubicación
     public function scopeByLocation($query, $countryId = null, $stateId = null, $cityId = null)
     {
@@ -81,7 +94,7 @@ class User extends Authenticatable
             default => __('medical.status.unknown')
         };
     }
-    
+
     public function appointment()
     {
         return $this->hasMany(Appointment::class);

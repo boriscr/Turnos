@@ -8,7 +8,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update',$user->id) }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update', $user->id) }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
         <!-- Paso 1 -->
@@ -53,7 +53,7 @@
                 <h1>{{ __('contact.address') }}</h1>
                 <div class="mt-4">
                     <x-form.select icon="globe" name="country_id" :label="__('contact.country')" :required="true">
-                        <option value="">Selecciona un país</option>
+                        <option value="">{{ __('medical.select_default') }}</option>
                         @foreach ($countries as $country)
                             <option value="{{ $country->id }}"
                                 {{ old('country_id', $user->country_id) == $country->id ? 'selected' : '' }}>
@@ -62,7 +62,7 @@
                         @endforeach
                     </x-form.select>
                     <x-form.select icon="geo-alt" name="state_id" :label="__('contact.state')" :required="true">
-                        <option value="">Selecciona una provincia</option>
+                        <option value="">{{ __('medical.select_default') }}</option>
                         @foreach ($states as $state)
                             <option value="{{ $state->id }}"
                                 {{ old('state_id', $user->state_id) == $state->id ? 'selected' : '' }}>
@@ -71,7 +71,7 @@
                         @endforeach
                     </x-form.select>
                     <x-form.select icon="building" name="city_id" :label="__('contact.city')" :required="true">
-                        <option value="">Selecciona una ciudad</option>
+                        <option value="">{{ __('medical.select_default') }}</option>
                         @foreach ($cities as $city)
                             <option value="{{ $city->id }}"
                                 {{ old('city_id', $user->city_id) == $city->id ? 'selected' : '' }}>

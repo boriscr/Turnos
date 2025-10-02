@@ -33,6 +33,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
+        $user = User::with(['country', 'state', 'city'])->find($id);
         if (!$user) {
             return redirect()->route('user.index')->with('error', 'Usuario no encontrado.');
         };
