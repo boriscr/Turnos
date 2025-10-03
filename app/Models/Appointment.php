@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\TracksUserActions;
 
 class Appointment extends Model
 {
     use HasFactory;
-
+    use TracksUserActions;
+    
     protected $fillable = [
         'name',
         'address',
@@ -20,9 +22,7 @@ class Appointment extends Model
         'end_time',
         'available_dates',
         'available_time_slots',
-        'status',
-        'create_by',
-        'update_by'
+        'status'
     ];
 
     protected $casts = [
@@ -61,12 +61,12 @@ class Appointment extends Model
     // Usuario que creó el appointment
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'create_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     // Usuario que actualizó el appointment
     public function updatedBy()
     {
-        return $this->belongsTo(User::class, 'update_by');
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

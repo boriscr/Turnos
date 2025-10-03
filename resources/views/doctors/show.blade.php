@@ -21,9 +21,9 @@
                     <h2>{{ __('medical.titles.creation') }}</h2>
                     <x-field-with-icon icon="person-badge" :label="__('medical.role')" :value="$doctor->role" />
                     <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" :value="$doctor->status ? __('medical.active') : __('medical.inactive')" />
-                    <x-field-with-icon icon="calendar-plus" :label="__('medical.created_by')" :value="$doctor->createdBy->name . ' ' . $doctor->createdBy->surname" :link="route('user.show', $doctor->create_by)" />
+                    <x-field-with-icon icon="calendar-plus" :label="__('medical.created_by')" :value="$doctor->createdBy->name . ' ' . $doctor->createdBy->surname" :link="route('user.show', $doctor->created_by)" />
                     <x-field-with-icon icon="calendar-plus" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($doctor->created_at)->format('d/m/Y H:i')" />
-                    <x-field-with-icon icon="calendar-check" :label="__('medical.updated_by')" :value="$doctor->updatedBy->name . ' ' . $doctor->updatedBy->surname" :link="route('user.show', $doctor->update_by)" />
+                    <x-field-with-icon icon="calendar-check" :label="__('medical.updated_by')" :value="$doctor->updatedBy->name . ' ' . $doctor->updatedBy->surname" :link="route('user.show', $doctor->updated_by)" />
                     <x-field-with-icon icon="calendar-check" :label="__('medical.update_date')" :value="\Carbon\Carbon::parse($doctor->updated_at)->format('d/m/Y H:i')" />
                 </div>
             </div>

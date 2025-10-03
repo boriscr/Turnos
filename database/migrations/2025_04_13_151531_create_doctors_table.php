@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('licenseNumber', 60)->nullable()->unique();
             $table->string('role');
             $table->boolean('status')->default(true); // Valor por defecto true
-            $table->foreignId('create_by')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('update_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
             $table->index('specialty_id');
             $table->index('status');

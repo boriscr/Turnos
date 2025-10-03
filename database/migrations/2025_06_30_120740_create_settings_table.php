@@ -16,7 +16,6 @@ return new class extends Migration
             $table->text('value');
             $table->string('type')->default('string'); // Tipo de dato: string, integer, boolean, json
             $table->string('group')->default('general'); // Agrupación: app, appointments, users, etc.
-            $table->timestamps();
         });
     }
 

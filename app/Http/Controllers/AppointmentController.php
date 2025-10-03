@@ -78,8 +78,6 @@ class AppointmentController extends Controller
         // Crear el appointment
         $appointment = Appointment::create([
             ...$request->validated(),
-            'create_by' => Auth::id(),
-            'update_by' => Auth::id(),
             'available_time_slots' => $timeSlots,
             'available_dates' => $available_dates,
         ]);
@@ -104,7 +102,6 @@ class AppointmentController extends Controller
                     ]);
                 }
             } else {
-                // Caso SIN horarios (por día)
                 AvailableAppointment::create([
                     'appointment_id' => $appointment->id,
                     'doctor_id' => $request->doctor_id,
@@ -287,7 +284,6 @@ class AppointmentController extends Controller
             'available_time_slots' => $timeSlots ? $timeSlots : null,
             'available_dates' => $available_dates,
             'status' => $request->status ?? $appointment->status,
-            'update_by' => Auth::id(),
         ]);
 
         // SEXTO: Eliminar solo las disponibilidades SIN reservas

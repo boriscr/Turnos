@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\TracksUserActions;
 
 class Doctor extends Model
 {
+    use TracksUserActions;
     // Definimos constante para name de tabla
     public const TABLE = 'doctors';
     protected $table = 'doctors';
@@ -20,8 +22,6 @@ class Doctor extends Model
         'licenseNumber',
         'status',
         'role',
-        'create_by',
-        'update_by'
     ];
 
     // Relación inversa (pertenece a un User)
@@ -45,12 +45,12 @@ class Doctor extends Model
     // Usuario que creó el doctor
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'create_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     // Usuario que actualizó el doctor
     public function updatedBy()
     {
-        return $this->belongsTo(User::class, 'update_by');
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

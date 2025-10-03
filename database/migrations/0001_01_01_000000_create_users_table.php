@@ -28,8 +28,8 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->unsignedSmallInteger('faults')->default(0); // 0 a 65,535
             $table->string('password');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->rememberToken();
-            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
             // Índices para optimizar búsquedas comunes
             $table->index(['surname', 'name']); // Búsquedas por nombre

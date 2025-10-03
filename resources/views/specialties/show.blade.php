@@ -4,13 +4,13 @@
             <h1>{{ __('medical.titles.details') }}</h1>
             <div class="section-container full-center">
                 <div class="card">
-                    <p><b>{{ __('specialty.title') }}: </b>{{ $specialty->name }}</p>
-                    <p><b>{{ __('specialty.description') }}:</b> {{ $specialty->description ?? __('medical.no_data') }}
-                    </p>
-                    <p><b>{{ __('medical.status.title') }}:</b>
-                        {{ $specialty->status ? __('medical.active') : __('medical.inactive') }}</p>
-                    <p><b>{{ __('medical.creation_date') }}:</b> {{ $specialty->created_at }}</p>
-                    <p><b>{{ __('medical.update_date') }}:</b> {{ $specialty->updated_at }}</p>
+                    <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$specialty->name" />
+                    <x-field-with-icon icon="book-fill" :label="__('specialty.description')" :value="$specialty->description ?? __('medical.no_data')" />
+                    <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" :value="$specialty->status ? __('medical.active') : __('medical.inactive')" />
+
+                    <x-field-with-icon icon="calendar-plus" :label="__('medical.creation_date')" :value="$specialty->created_at" />
+                    <x-field-with-icon icon="calendar-check" :label="__('medical.update_date')" :value="$specialty->updated_at" />
+
 
                     <div class="options full-center">
                         <a href="{{ route('specialty.edit', $specialty->id) }}" class="btn-edit"><i
@@ -49,7 +49,7 @@
                                 <td>{{ $doctor->name . ' ' . $doctor->surname }}</td>
                                 <td>{{ $doctor->idNumber }}</td>
                                 <td>{{ $doctor->licenseNumber }}</td>
-                                <td>
+                                <td class="{{ $doctor->status ? 'existing' : 'no_data' }}">
                                     {{ $doctor->status ? __('medical.active') : __('medical.inactive') }}</td>
                                 <td> <a href="{{ route('doctor.show', $doctor->id) }}" class="btn btn-view"><i
                                             class="bi bi-eye"></i></a></td>

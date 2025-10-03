@@ -34,9 +34,7 @@ class DoctorController extends Controller
         try {
 
             Doctor::create([
-                ...$request->validated(),
-                'create_by' => Auth::id(),
-                'update_by' => Auth::id(),
+                ...$request->validated()
             ]);
             session()->flash('success', [
                 'title' => 'Creado!',
@@ -103,8 +101,7 @@ class DoctorController extends Controller
         try {
             $doctor = Doctor::findOrFail($id);
             $doctor->update([
-                ...$request->validated(), // Spread operator para los datos validados
-                'update_by' => Auth::id(), // Asignar el usuario que actualiza
+                ...$request->validated() // Spread operator para los datos validados
             ]);
             session()->flash('success', [
                 'title' => 'Actualizado!',

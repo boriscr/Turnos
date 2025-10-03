@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50)->unique();
             $table->text('description', 500);
-            $table->boolean('status')->default(true);;
+            $table->boolean('status')->default(true);
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
             // Índice para búsquedas por status
             $table->index('status');

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\TracksUserActions;
 
 class Specialty extends Model
 {
+    use TracksUserActions;
+
     protected $table = 'specialties';
 
     protected $fillable = [

@@ -8,13 +8,14 @@ use App\Http\Requests\SpecialtyStoreRequest;
 use App\Http\Requests\SpecialtyUpdateRequest;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 
 class SpecialtyController extends Controller
 {
     public function index()
     {
-        $specialties = Specialty::select('id','name','description','status')
-        ->paginate(10);
+        $specialties = Specialty::select('id', 'name', 'description', 'status')
+            ->paginate(10);
         return view('specialties/index', compact('specialties'));
     }
     public function create()
@@ -24,8 +25,11 @@ class SpecialtyController extends Controller
     public function store(SpecialtyStoreRequest $request)
     {
         try {
-            Specialty::create($request->validated());
-
+            Specialty::create([
+                ...$request->validated()
+                //'created_by' => Auth::id(),
+                //'updated_by' => Auth::id(),
+            ]);
             session()->flash('success', [
                 'title' => 'Creado!',
                 'text' => 'Nueva especialidad creada con éxito.',
@@ -42,10 +46,10 @@ class SpecialtyController extends Controller
     {
         try {
             $specialty = Specialty::findOrFail($id);
-            $doctors = Doctor::select('id','name','surname','idNumber','licenseNumber','status')
-            ->where('specialty_id', $id)
-            ->orderBy('updated_at', 'desc')
-            ->paginate(10);
+            $doctors = Doctor::select('id', 'name', 'surname', 'idNumber', 'licenseNumber', 'status')
+                ->where('specialty_id', $id)
+                ->orderBy('updated_at', 'desc')
+                ->paginate(10);
             return view('specialties/show', compact('specialty', 'doctors'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
@@ -65,6 +69,10 @@ class SpecialtyController extends Controller
     {
         try {
             $specialty = Specialty::findOrFail($id);
+            $specialty->update([
+                ...$request->validated(),
+                'update_by' => Auth::id(),
+            ]);
             $specialty->update($request->validated());
 
             session()->flash('success', [

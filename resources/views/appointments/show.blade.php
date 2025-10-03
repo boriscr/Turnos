@@ -70,14 +70,14 @@
                     {{ $appointment->status ? __('medical.active') : __('medical.inactive') }}</p>
                 <p><b>{{ __('medical.created_by') }}:</b>
                     {{ $appointment->createdBy->name . ' ' . $appointment->createdBy->surname }} <a
-                        href="{{ route('user.show', $appointment->create_by) }}"><i
+                        href="{{ route('user.show', $appointment->created_by) }}"><i
                             class="bi bi-eye">{{ __('button.view') }}</i></a></p>
                 <p><b>{{ __('medical.creation_date') }}:</b>
                     {{ \Carbon\Carbon::parse($appointment->created_at)->format('d/m/Y H:i') }}
                 </p>
                 <p><b>{{ __('medical.updated_by') }}:</b>
                     {{ $appointment->updatedBy->name . ' ' . $appointment->updatedBy->surname }} <a
-                        href="{{ route('user.show', $appointment->update_by) }}"><i
+                        href="{{ route('user.show', $appointment->updated_by) }}"><i
                             class="bi bi-eye">{{ __('button.view') }}</i></a></p>
                 <p><b>{{ __('medical.update_date') }}:</b>
                     {{ \Carbon\Carbon::parse($appointment->updated_at)->format('d/m/Y H:i') }}
@@ -98,8 +98,8 @@
         <br>
         <div class="full-center mt-4">
             <x-secondary-button>
-                <a
-                    href="{{ route('availableAppointments.index', $appointment->doctor_id) }}">{{ __('button.view_available_reservations') }}</a>
+                <a href="{{ route('availableAppointments.index', $appointment->doctor_id) }}">
+                    {{ __('button.view_available_reservations') }}</a>
             </x-secondary-button>
         </div>
 </x-app-layout>

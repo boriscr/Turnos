@@ -25,8 +25,8 @@ return new class extends Migration
             $table->json('available_dates');
             $table->boolean('status')->default(true);
             // Modificado: sin onDelete('cascade') para users
-            $table->foreignId('create_by')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('update_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }
