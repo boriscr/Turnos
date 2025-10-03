@@ -43,7 +43,8 @@
                                 @endswitch
                                 </p>
                             </td>
-                            <td>{{ $user->status ? __('medical.active') : __('medical.inactive') }}</td>
+                            <td class="{{ $user->status ? 'existing' : 'no_data' }}">
+                                {{ $user->status ? __('medical.active') : __('medical.inactive') }}</td>
                             <td class="acciones full-center">
                                 <a href="{{ route('user.show', $user->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">{{ __('button.view') }}</b></a>

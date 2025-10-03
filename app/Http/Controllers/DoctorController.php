@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Doctor;
 use App\Models\Specialty;
+use App\Models\User;
+use App\Models\Appointment;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\DoctorStoreRequest;
 use App\Http\Requests\DoctorUpdateRequest;
@@ -14,13 +16,16 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        $doctors = Doctor::all();
+        $doctors = Doctor::with('specialty')
+        ->select('id', 'name', 'surname', 'idNumber', 'specialty_id', 'role', 'status')
+        ->orderBy('updated_at', 'desc')
+        ->paginate(10);
         return view('doctors.index', compact('doctors'));
     }
 
     public function create()
     {
-        $specialties = Specialty::all();
+        $specialties = Specialty::select('id', 'name')->where('status', true)->get();
         return view('doctors.create', compact('specialties'));
     }
 
@@ -131,13 +136,30 @@ class DoctorController extends Controller
     {
         try {
             $doctor = Doctor::findOrFail($id);
+            $user = User::select('id')->where('id', $doctor->user_id)->first();
+            //Verificar si existen turnos asociados al doctor antes de eliminar
+            $appointment = Appointment::select('doctor_id')->where('doctor_id', $id)->exists();
+            if ($appointment) {
+                session()->flash('error', [
+                    'title' => 'Error!',
+                    'text'  => 'No se puede eliminar el médico porque tiene turnos asociados.',
+                    'icon'  => 'error',
+                ]);
+                return redirect()->route('doctor.index');
+            }
+            // Si el doctor tiene un user asociado, cambiar su rol a 'user'
+            if ($user) {
+                //cambiar el rol del user a user
+                $user->removeRole('doctor');
+                $user->assignRole('user');
+            }
+            // Eliminar el doctor
             $doctor->delete();
             session()->flash('success', [
                 'title' => 'Eliminado!',
                 'text'  => 'Médico eliminado con éxito.',
                 'icon'  => 'success',
             ]);
-            Log::info('Médico eliminado', ['id' => $id]);
             return redirect()->route('doctor.index');
         } catch (ModelNotFoundException $e) {
             Log::error('Médico no encontrado', ['id' => $id]);

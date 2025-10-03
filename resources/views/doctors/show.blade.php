@@ -5,46 +5,26 @@
             <div class="section-container full-center">
                 <div class="card">
                     <h2>{{ __('medical.titles.personal_data') }}</h2>
-                    <p><b> {{ __('contact.name_and_surname') }}: </b>{{ $doctor->name . ' ' . $doctor->surname }}</p>
-                    <p><b> {{ __('contact.idNumber') }}: </b>{{ $doctor->idNumber }}</p>
-                    <p><b>{{ __('medical.profile') }}:</b>
-                        @if ($doctor->user_id)
-                            <a href="{{ route('user.show', $doctor->user_id) }}"> <i
-                                    class="bi bi-eye">{{ __('button.view') }} </i>
-                            </a>
-                        @else
-                            {{ __('medical.no_profile') }}
-                        @endif
-                    </p>
-                    <p><b> {{ __('medical.license_number') }}:
-                        </b>{{ $doctor->licenseNumber ?? __('medical.no_data') }}
-                    </p>
-                    <p><b> {{ __('specialty.title') }}: </b>{{ $doctor->specialty->name ?? __('medical.no_data') }}
-                    </p>
-                    <p><b> {{ __('contact.email') }}: </b>{{ $doctor->email }}</p>
-                    <p><b> {{ __('contact.phone') }}: </b>{{ $doctor->phone }}</p>
+                    <x-field-with-icon icon="person" :label="__('contact.name_and_surname')" :value="$doctor->name . ' ' . $doctor->surname" />
+                    <x-field-with-icon icon="credit-card" :label="__('contact.idNumber')" :value="$doctor->idNumber" />
+                    @if ($doctor->user_id)
+                        <x-field-with-icon icon="person-circle" :label="__('medical.profile')" :value="__('medical.existing')" :link="route('user.show', $doctor->user_id)" />
+                    @else
+                        <x-field-with-icon icon="person-circle" :label="__('medical.profile')" :value="__('medical.no_data')" />
+                    @endif
+                    <x-field-with-icon icon="credit-card" :label="__('medical.license_number')" :value="$doctor->licenseNumber ?? __('medical.no_data')" />
+                    <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$doctor->specialty->name ?? __('medical.no_data')" />
+                    <x-field-with-icon icon="telephone" :label="__('contact.phone')" :value="$doctor->phone" />
+                    <x-field-with-icon icon="envelope" :label="__('contact.email')" :value="$doctor->email" />
                 </div>
                 <div class="card">
                     <h2>{{ __('medical.titles.creation') }}</h2>
-                    <p><b> {{ __('medical.role') }}: </b>{{ $doctor->role }}</p>
-                    <p><b> {{ __('medical.status.title') }}:
-                        </b>
-                        <span class="{{ $doctor->status ? 'btn-success' : 'inactive' }}">
-                            {{ $doctor->status ? __('medical.active') : __('medical.inactive') }}
-                        </span>
-                    </p>
-                    <p><b>{{ __('medical.created_by') }}:
-                        </b>{{ $doctor->createdBy->name . ' ' . $doctor->createdBy->surname }}
-                        <a href="{{ route('user.show', $doctor->create_by) }}"><i
-                                class="bi bi-eye">{{ __('button.view') }} </i></a>
-                    </p>
-                    <p><b> {{ __('medical.creation_date') }}: </b>{{ $doctor->created_at }}</p>
-                    <p><b>{{ __('medical.updated_by') }}:
-                        </b>{{ $doctor->updatedBy->name . ' ' . $doctor->updatedBy->surname }}
-                        <a href="{{ route('user.show', $doctor->update_by) }}"><i
-                                class="bi bi-eye">{{ __('button.view') }} </i></a>
-                    </p>
-                    <p><b> {{ __('medical.update_date') }}: </b>{{ $doctor->updated_at }}</p>
+                    <x-field-with-icon icon="person-badge" :label="__('medical.role')" :value="$doctor->role" />
+                    <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" :value="$doctor->status ? __('medical.active') : __('medical.inactive')" />
+                    <x-field-with-icon icon="calendar-plus" :label="__('medical.created_by')" :value="$doctor->createdBy->name . ' ' . $doctor->createdBy->surname" :link="route('user.show', $doctor->create_by)" />
+                    <x-field-with-icon icon="calendar-plus" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($doctor->created_at)->format('d/m/Y H:i')" />
+                    <x-field-with-icon icon="calendar-check" :label="__('medical.updated_by')" :value="$doctor->updatedBy->name . ' ' . $doctor->updatedBy->surname" :link="route('user.show', $doctor->update_by)" />
+                    <x-field-with-icon icon="calendar-check" :label="__('medical.update_date')" :value="\Carbon\Carbon::parse($doctor->updated_at)->format('d/m/Y H:i')" />
                 </div>
             </div>
             <div class="options full-center">

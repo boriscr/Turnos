@@ -21,7 +21,7 @@
                         <tr>
                             <td>{{ $specialty->id }}</td>
                             <td>{{ $specialty->name }}</td>
-                            <td>
+                            <td class="{{ $specialty->status ? 'existing' : 'no_data' }}">
                                 {{ $specialty->status ? __('medical.active') : __('medical.inactive') }}</td>
                             <td class="acciones full-center">
                                 <a href="{{ route('specialty.show', $specialty->id) }}" class="btn btn-view"><i

@@ -3,7 +3,7 @@
 if (window.location.pathname.includes('/appointments/create') || window.location.pathname.includes('/appointments/edit')) {
 
     function cargarMedicosPorEspecialidad(especialidadId) {
-        fetch(`/doctors-por-specialty/${especialidadId}`)
+        fetch(`/getBySpecialty/${especialidadId}`)
             .then(response => response.json())
             .then(data => {
                 let medicoSelect = document.getElementById("doctor_id");

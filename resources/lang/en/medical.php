@@ -23,6 +23,7 @@ return [
     'creation_date' => 'Creation date',
     'updated_by' => 'Updated by',
     'update_date' => 'Update date',
+    'existing' => 'Existing',
     'no_data' => 'No data',
     'no_profile' => 'No user profile',
     'no_actions' => 'No available actions',

@@ -20,9 +20,6 @@ body, html {
 .item{
     margin-top: 10px;
 }
-.error {
-    color: red;
-}
 
 .form-grid H3,
 .calendario-box H3 {

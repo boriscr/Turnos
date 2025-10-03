@@ -30,6 +30,26 @@ button .bi {
     color: var(--btn_text_color);
 }
 
+.no_data {
+    color: rgb(255, 0, 0);
+    background-color: rgb(255, 166, 166);
+}
+
+.existing {
+    color: rgb(0, 128, 0);
+    background-color: rgb(166, 255, 166);
+}
+
+.error {
+    color: red;
+}
+
+.inactive,
+.no_data {
+    font-weight: bold;
+    padding: 1px 2px;
+}
+
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     body {

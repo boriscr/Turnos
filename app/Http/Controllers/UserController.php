@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::select('id', 'name', 'surname', 'idNumber', 'status', 'created_at')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->paginate(10);
         return view('users/index', compact('users'));
     }
@@ -120,6 +120,8 @@ class UserController extends Controller
             'phone' => $user->phone,
             'status' => $user->status,
             'role' => 'doctor',
+            'create_by' => Auth::id(),
+            'update_by' => Auth::id(),
         ]);
     }
 

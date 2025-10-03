@@ -26,7 +26,8 @@
                             <td class="option-movil">
                                 {{ $appointment->shift === 'morning' ? __('appointment.shift.morning_shift') : ($appointment->shift === 'afternoon' ? __('appointment.shift.afternoon_shift') : __('appointment.shift.night_shift')) }}
                             </td>
-                            <td>{{ $appointment->status ? __('medical.active') : __('medical.inactive') }}</td>
+                            <td class="{{ $appointment->status ? 'existing' : 'no_data' }}">
+                                {{ $appointment->status ? __('medical.active') : __('medical.inactive') }}</td>
                             <td class="acciones full-center">
                                 <a href="{{ route('appointments.show', $appointment->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">{{ __('button.view') }}</b></a>

@@ -9,7 +9,6 @@ use App\Models\Appointment;
 use App\Models\Specialty;
 use App\Models\Doctor;
 use App\Models\AvailableAppointment;
-use App\Models\AppointmentHistory;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -24,14 +23,36 @@ class AppointmentController extends Controller
             }, 'doctor' => function ($query) {
                 $query->select('id', 'name');
             }])
+            ->orderBy('updated_at', 'desc')
             ->paginate(10);
         return view('appointments/index', compact('appointments'));
     }
     public function create()
     {
-        $specialties = Specialty::all();
+        $specialties = Specialty::select('id', 'name', 'status')
+            ->where('status', 1)
+            ->orderBy('name')
+            ->get();
         return view('appointments/create', compact('specialties'));
     }
+
+    //Usado desde el formulario Create Appointments para cargar especialidad seleccionada (fetch API) segun los doctores
+    public function getBySpecialty($id)
+    {
+        try {
+            $doctors = Doctor::where('specialty_id', $id)
+                ->select('id', 'name', 'surname')
+                ->where('status', 1)
+                ->orderBy('name')
+                ->get();
+
+            return response()->json($doctors);
+        } catch (\Exception $e) {
+            Log::error('Error al obtener doctores por especialidad', ['specialty_id' => $id, 'error' => $e->getMessage()]);
+            return response()->json([], 500);
+        }
+    }
+
     public function store(AppointmentStoreRequest $request)
     {
         $timeSlots = json_decode($request->available_time_slots, true);        // Decodificar available_dates seleccionadas
@@ -43,7 +64,18 @@ class AppointmentController extends Controller
 
             return back()->with('error', 'Debe seleccionar al menos una fecha');
         }
-
+        // Crear el appointment solo si las especialidades y doctor tienen el status activo
+        $specialty = Specialty::where('id', $request->specialty_id)->where('status', 1)->first();
+        $doctor = Doctor::where('id', $request->doctor_id)->where('status', 1)->first();
+        if (!$specialty || !$doctor) {
+            session()->flash('error', [
+                'title' => 'Inactivos!',
+                'text' => 'La especialidad o el médico seleccionado no están activos.',
+                'icon' => 'error'
+            ]);
+            return back()->withInput();
+        }
+        // Crear el appointment
         $appointment = Appointment::create([
             ...$request->validated(),
             'create_by' => Auth::id(),
@@ -311,6 +343,22 @@ class AppointmentController extends Controller
 
     function destroy($id)
     {
+        $availableAppointments = AvailableAppointment::where('appointment_id', $id)->get();
+        //Verificar si existen reservas asociadas a las disponibilidades del appointment en la tabla reservations con asistencia null
+        foreach ($availableAppointments as $disponibilidad) {
+            $tieneReservas = Reservation::where('available_appointment_id', $disponibilidad->id)
+                ->whereNull('asistencia')
+                ->exists();
+            if ($tieneReservas) {
+                session()->flash('error', [
+                    'title' => 'Error!',
+                    'text' => 'No se puede eliminar el turno porque tiene reservas pendientes.',
+                    'icon' => 'error',
+                ]);
+                return redirect()->route('appointments.index');
+            }
+        }
+        // Si no hay reservas pendientes, proceder a eliminar
         $appointment = Appointment::findOrFail($id);
         $appointment->disponibilidades()->delete(); // Eliminar disponibilidades asociadas
         $appointment->delete(); // Eliminar el appointment
@@ -320,20 +368,5 @@ class AppointmentController extends Controller
             'icon' => 'success'
         ]);
         return redirect()->route('appointments.index');
-    }
-
-    //Usado desde el formulario Create Appointments
-    public function getPorEspecialidad($id)
-    {
-        try {
-            $doctors = Doctor::where('specialty_id', $id)
-                ->where('status', 1)
-                ->get();
-
-            return response()->json($doctors);
-        } catch (\Exception $e) {
-            Log::error('Error al obtener doctores por especialidad', ['specialty_id' => $id, 'error' => $e->getMessage()]);
-            return response()->json([], 500);
-        }
     }
 }

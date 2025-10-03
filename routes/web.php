@@ -87,6 +87,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/specialty/doctors/{id}', [SpecialtyController::class, 'listaEquipo'])->name('lista.doctors');
 
     //Appointments
+    Route::get('/getBySpecialty/{id}', [AppointmentController::class, 'getBySpecialty']); //Selects decargar especialidad seleccionada (fetch API) segun los doctores
     Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
@@ -94,7 +95,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/appointments/edit/{id}', [AppointmentController::class, 'edit'])->name('appointments.edit');
     Route::patch('/appointments/{id}', [AppointmentController::class, 'update'])->name('appointments.update');
     Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
-    Route::get('/doctors-por-specialty/{id}', [AppointmentController::class, 'getPorEspecialidad']); //En controlador Doctors
 
     //Appointments disponibles creados
     Route::get('/availableAppointments/{doctor_id?}', [AvailableAppointmentsController::class, 'index'])->name('availableAppointments.index');
