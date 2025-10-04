@@ -7,11 +7,8 @@
                     <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$specialty->name" />
                     <x-field-with-icon icon="book-fill" :label="__('specialty.description')" :value="$specialty->description ?? __('medical.no_data')" />
                     <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" :value="$specialty->status ? __('medical.active') : __('medical.inactive')" />
-
                     <x-field-with-icon icon="calendar-plus" :label="__('medical.creation_date')" :value="$specialty->created_at" />
                     <x-field-with-icon icon="calendar-check" :label="__('medical.update_date')" :value="$specialty->updated_at" />
-
-
                     <div class="options full-center">
                         <a href="{{ route('specialty.edit', $specialty->id) }}" class="btn-edit"><i
                                 class="bi bi-pencil-fill">{{ __('button.edit') }}</i></a>

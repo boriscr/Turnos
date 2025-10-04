@@ -5,13 +5,12 @@
             <div class="section-container full-center">
                 <div class="card">
                     <h2>{{ __('medical.titles.personal_data') }}</h2>
-                    <x-field-with-icon icon="person" :label="__('contact.name_and_surname')" :value="$doctor->name . ' ' . $doctor->surname" />
-                    <x-field-with-icon icon="credit-card" :label="__('contact.idNumber')" :value="$doctor->idNumber" />
                     @if ($doctor->user_id)
-                        <x-field-with-icon icon="person-circle" :label="__('medical.profile')" :value="__('medical.existing')" :link="route('user.show', $doctor->user_id)" />
+                        <x-field-with-icon icon="person-check-fill" :label="__('medical.doctor')" :value="$doctor->name . ' ' . $doctor->surname" :link="route('user.show', $doctor->user_id)" />
                     @else
-                        <x-field-with-icon icon="person-circle" :label="__('medical.profile')" :value="__('medical.no_data')" />
+                        <x-field-with-icon icon="person-check-fill" :label="__('medical.doctor')" :value="$doctor->name . ' ' . $doctor->surname" />
                     @endif
+                    <x-field-with-icon icon="credit-card" :label="__('contact.idNumber')" :value="$doctor->idNumber" />
                     <x-field-with-icon icon="credit-card" :label="__('medical.license_number')" :value="$doctor->licenseNumber ?? __('medical.no_data')" />
                     <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$doctor->specialty->name ?? __('medical.no_data')" />
                     <x-field-with-icon icon="telephone" :label="__('contact.phone')" :value="$doctor->phone" />

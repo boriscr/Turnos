@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Doctor;
+use App\Models\Appointment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use App\Http\Requests\UserUpdateRequest;
@@ -67,7 +68,6 @@ class UserController extends Controller
                 'country_id' => $validated['country_id'],
                 'state_id' => $validated['state_id'],
                 'city_id' => $validated['city_id'],
-                'updated_by' => Auth::id()
             ]);
 
             // Manejar cambios de rol
@@ -87,23 +87,40 @@ class UserController extends Controller
      */
     private function handleRoleChange(User $user, ?string $originalRole, string $newRole): void
     {
-        // Si no hay cambio de rol, no hacer nada
-        if ($originalRole === $newRole) {
+        if ($originalRole === $newRole) return;
+
+        $doctor = Doctor::where('user_id', $user->id)->first();
+
+        if ($newRole === 'doctor' && Doctor::where('idNumber', $user->idNumber)->exists()) {
+            $this->flashError('Ya existe un doctor registrado con un DNI similar.');
             return;
         }
 
-        // Actualizar rol
+        if ($doctor && $originalRole === 'doctor' && $newRole !== 'doctor') {
+            if (Appointment::where('doctor_id', $doctor->id)->exists()) {
+                $this->flashError('No se puede cambiar el rol. El doctor tiene turnos asociados.');
+                return;
+            }
+        }
+
         $user->syncRoles([$newRole]);
 
-        // Manejar transición a doctor
-        if ($newRole === 'doctor' && !$user->doctor) {
+        if ($newRole === 'doctor' && !$doctor) {
             $this->createDoctorProfile($user);
         }
 
-        // Manejar transición desde doctor
-        if ($originalRole === 'doctor' && $newRole !== 'doctor') {
-            $user->doctor()->delete();
+        if ($doctor && $originalRole === 'doctor' && $newRole !== 'doctor') {
+            $doctor->delete();
         }
+    }
+
+    private function flashError(string $message): void
+    {
+        session()->flash('error', [
+            'title' => 'Cambio de rol inválido',
+            'text'  => $message,
+            'icon'  => 'error',
+        ]);
     }
 
     /**
@@ -119,9 +136,7 @@ class UserController extends Controller
             'email' => $user->email,
             'phone' => $user->phone,
             'status' => $user->status,
-            'role' => 'doctor',
-            'create_by' => Auth::id(),
-            'update_by' => Auth::id(),
+            'role' => 'doctor'
         ]);
     }
 
@@ -148,11 +163,37 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $usuario = User::find($id);
-        if (!$usuario) {
+        $user = User::find($id);
+        if (!$user) {
             return redirect()->route('user.index')->with('error', 'Usuario no encontrado.');
         };
-        $usuario->delete();
-        return redirect()->route('user.index')->with('success', 'Usuario eliminado correctamente.');
+        $originalRole = $user->getRoleNames()->first();
+        // Verificar si el usuario es un doctor con citas asociadas
+        if ($originalRole === 'doctor') {
+            $doctor = Doctor::where('user_id', $user->id)->first();
+            if ($doctor && Appointment::where('doctor_id', $doctor->id)->exists()) {
+                session()->flash('error', [
+                    'title' => 'Eliminación inválida',
+                    'text'  => 'No se puede eliminar el usuario. El doctor tiene turnos asociados.',
+                    'icon'  => 'error',
+                ]);
+                return redirect()->route('user.index');
+            }
+            // Eliminar perfil de doctor si existe
+            if ($doctor) {
+                $doctor->delete();
+            }
+        }
+        // Eliminar el usuario
+        if (Auth::id() == $user->id) {
+            Auth::logout();
+        }
+        $user->delete();
+        session()->flash('success', [
+            'title' => 'Usuario eliminado',
+            'text'  => 'El usuario ha sido eliminado correctamente.',
+            'icon'  => 'success',
+        ]);
+        return redirect()->route('user.index');
     }
 }

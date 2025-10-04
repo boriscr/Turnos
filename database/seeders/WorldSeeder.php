@@ -9,7 +9,6 @@ class WorldSeeder extends Seeder
 {
 	public function run()
 	{
-		//php -d memory_limit=512M artisan world:install
 		$this->call([
 			SeedAction::class,
 		]);

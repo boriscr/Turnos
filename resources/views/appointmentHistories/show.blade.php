@@ -40,6 +40,10 @@
                         </b>
                         <span
                             @switch($appointmentHistoryId->status)
+                                        @case('pending')
+                                            <i class="bi bi-hourglass-split btn-default">{{ __('button.search.pending') }}</i>
+                                        @break
+                                        
                                         @case('assisted')
                                             <i class="bi bi-check-circle-fill btn-success">{{ __('button.search.assisted') }}</i>
                                         @break

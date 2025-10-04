@@ -34,6 +34,7 @@ class User extends Authenticatable
         'phone',
         'email',
         'password',
+        'status',
     ];
 
     // Métodos para obtener los nombres (sin relaciones Eloquent)
@@ -81,7 +82,7 @@ class User extends Authenticatable
     }
 
     // Obtener el rol traducido
-    public function getTranslatedRoleAttribute()
+    /*public function getTranslatedRoleAttribute()
     {
         $role = $this->getRoleNames()->first();
 
@@ -91,7 +92,7 @@ class User extends Authenticatable
             'admin' => __('medical.admin'),
             default => __('medical.status.unknown')
         };
-    }
+    }*/
 
     public function appointment()
     {
@@ -101,7 +102,6 @@ class User extends Authenticatable
     public function doctor()
     {
         return $this->hasOne(Doctor::class, 'user_id');
-        // 'user_id' es la FK en la tabla doctors
     }
 
     // Usuario que actualizó el appointment
