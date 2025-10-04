@@ -36,6 +36,8 @@ return [
         'we' => 'Mi',
         'th' => 'Ju',
         'fr' => 'Vi',
-        'sa' => 'Sá'
+        'sa' => 'Sá',
+        'start_date' => 'Fecha de Inicio',
+        'end_date' => 'Fecha de Fin',
     ],
 ];

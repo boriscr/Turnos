@@ -38,5 +38,7 @@ return [
         'th' => 'Th',
         'fr' => 'Fr',
         'sa' => 'Sa',
+        'start_date' => 'Start date',
+        'end_date' => 'End date',
     ],
 ];

@@ -30,12 +30,14 @@ button .bi {
     color: var(--btn_text_color);
 }
 
-.no_data {
+.no_data,
+.status-inactive {
     color: rgb(255, 0, 0);
     background-color: rgb(255, 166, 166);
 }
 
-.existing {
+.existing,
+.status-active {
     color: rgb(0, 128, 0);
     background-color: rgb(166, 255, 166);
 }
@@ -44,10 +46,8 @@ button .bi {
     color: red;
 }
 
-.inactive,
-.no_data {
-    font-weight: bold;
-    padding: 1px 2px;
+small {
+    color: #ffffff79;
 }
 
 /* Modo oscuro */

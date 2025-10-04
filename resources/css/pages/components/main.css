@@ -1,13 +1,17 @@
 /* En tu CSS principal */
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-body, html {
+
+body,
+html {
     min-height: 100vh;
 }
-
+a{
+    display: inline-block;
+}
 .main-content {
     flex: 1;
 }
@@ -17,7 +21,8 @@ body, html {
     justify-content: center;
     align-items: center;
 }
-.item{
+
+.item {
     margin-top: 10px;
 }
 
@@ -30,14 +35,15 @@ body, html {
 .content-wrapper {
     margin-top: 10px;
     width: 100%;
-    padding: 0px 20px;
 }
 
 .section-container {
     align-items: start;
-    box-shadow: 0px 0px 10px rgba(150, 150, 150, 0.5);
+    /*box-shadow: 0px 0px 10px rgba(150, 150, 150, 0.5);*/
     border-radius: 10px;
     flex-wrap: wrap;
+    padding: 15px;
+
 }
 
 .section-title {
@@ -46,10 +52,13 @@ body, html {
 }
 
 .card {
-    border: none;
+    position: relative;
+    border: 1px solid rgba(194, 194, 194, 0.361);
+    box-shadow: 0px 0px 10px rgba(150, 150, 150, 0.5);
     background-color: transparent;
-    width: 400px;
+    width: 30%;
     padding: 10px;
+    margin: 5px;
     border-radius: 10px;
 }
 
@@ -61,10 +70,31 @@ body, html {
     margin-bottom: 10px;
 }
 
-small {
-    color: #ffffff79;
+.status-box {
+    position: absolute;
+    text-align: right;
+    font-weight: bold;
+    width: 120px;
+    top: 120px;
+    left: 0px;
+    border-radius: 0px 40px 5px 0px;
+    padding: 5px 10px;
+    border: 1px solid;
 }
 
+.inactive,
+.no_data {
+    font-weight: bold;
+    padding: 1px 2px;
+}
+
+.datetime {
+    font-weight: bolder;
+    margin: 1px;
+    border-radius: 5px;
+    padding: 2px;
+    display: inline-block;
+}
 
 /*adaptar el tamaño de la pantalla*/
 @media (max-width: 670px) {
@@ -74,7 +104,7 @@ small {
     }
 
     .card {
-        width: 90%;
-        margin: 10px 0;
+        width: 100%;
+        margin: 5px 0;
     }
 }
