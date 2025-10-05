@@ -6,6 +6,7 @@
 @import 'layouts/footer.css';
 
 /*Components*/
+@import 'pages/components/navbar.css';
 @import 'pages/components/main.css';
 @import 'pages/components/buttons.css';
 @import 'pages/components/table.css';

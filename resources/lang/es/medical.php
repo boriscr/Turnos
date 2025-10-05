@@ -129,7 +129,7 @@ return [
         'application_background' => 'Color de fondo de la aplicación',
         'text_color' => 'Color del texto principal',
         'text_color_small' => 'Color del texto secundario',
-        'background_navbar' => 'Color de fondo de la barra de navegación',
+        'background_navbar' => 'Color de fondo de las barras de navegación',
         'background_login_and_register' => 'Color de fondo para inicio de sesión y registro',
         'text_color_form_elements' => 'Color del texto en elementos de formulario',
     ]

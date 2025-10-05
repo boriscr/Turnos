@@ -131,7 +131,7 @@ return [
         'application_background' => 'Application Background Color',
         'text_color' => 'Main Text Color',
         'text_color_small' => 'Secondary Text Color',
-        'background_navbar' => 'Navigation Bar Background',
+        'background_navbar' => 'Navigation Bars Background Color',
         'background_login_and_register' => 'Login/Register Background',
         'text_color_form_elements' => 'Form Elements Text Color',
     ]

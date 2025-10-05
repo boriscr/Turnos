@@ -1,16 +1,20 @@
 <x-app-layout>
     <div class="content-wrapper">
         <h1>{{ __('medical.titles.details') }}</h1>
+        <div class="status-box {{ $user->status ? 'status-active' : 'status-inactive' }}">
+            <span> {{ $user->status ? __('medical.active') : __('medical.inactive') }}</span>
+        </div>
         <div class="section-container full-center">
             <div class="card">
                 <h2>{{ __('medical.titles.personal_data') }}</h2>
                 <x-field-with-icon icon="person" :label="__('contact.name_and_surname')" :value="$user->name . ' ' . $user->surname" />
-                <x-field-with-icon icon="credit-card" :label="__('contact.idNumber')" :value="$user->idNumber" />
+                <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="$user->idNumber" />
                 <x-field-with-icon icon="gift" :label="__('contact.birthdate')" :value="\Carbon\Carbon::parse($user->birthdate)->format('d/m/Y') .
                     ' (' .
                     \Carbon\Carbon::parse($user->birthdate)->age .
                     ' años)'" />
                 <x-field-with-icon icon="gender-ambiguous" :label="__('contact.gender')" :value="$user->gender" />
+                <x-field-with-icon icon="person-badge" :label="__('medical.role')" :value="$user->translated_role" />
             </div>
 
             <div class="card">
@@ -34,8 +38,6 @@
 
             <div class="card">
                 <h2>{{ __('medical.titles.creation') }}</h2>
-                <x-field-with-icon icon="person-badge" :label="__('medical.role')" :value="$user->translated_role" />
-                <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" :value="$user->status ? __('medical.active') : __('medical.inactive')" />
                 <x-field-with-icon icon="calendar-plus" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($user->created_at)->format('d/m/Y H:i')" />
 
                 @if (!empty($user->updatedById->name))

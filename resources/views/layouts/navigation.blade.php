@@ -15,11 +15,6 @@
                     <i class="bi bi-house"></i><span>{{ __('navbar.home') }}</span>
                 </x-nav-link-active>
 
-                <x-nav-link-active href="{{ route('reservations.create') }}" route="reservations.create">
-                    <i
-                        class="bi bi-calendar-plus"></i><span>{{ __('navbar.book_appointment') }}</span>{{-- Reservar Appointment --}}
-                </x-nav-link-active>
-
                 <!-- Settings Dropdown -->
                 @role('admin')
                     <div class="hidden sm:flex sm:items-center sm:ms-0">
@@ -135,16 +130,12 @@
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <x-primary-button class="btn-salir">
-                                    <i class="bi bi-box-arrow-left"></i><span>{{ __('logout') }}</span>
-                                </x-primary-button>
-                                {{--
                                 <x-dropdown-link class="btn-salir" :href="route('logout')"
-                                onclick="event.preventDefault();
+                                    onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                     <i class="bi bi-box-arrow-left"></i><span>{{ __('Logout') }}</span>
                                 </x-dropdown-link>
-                                --}}
+
                             </form>
                         </x-slot>
                     </x-dropdown>
@@ -180,7 +171,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
+    <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden responsive-menu">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 <i class="bi bi-house"></i><span>{{ __('navbar.home') }}</span>
@@ -279,16 +270,12 @@
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <x-primary-button class="btn-salir">
-                                    <i class="bi bi-box-arrow-left"></i><span>{{ __('logout') }}</span>
-                                </x-primary-button>
-                                {{--
                                 <x-responsive-nav-link class="btn-salir" :href="route('logout')"
                                     onclick="event.preventDefault();
                                         this.closest('form').submit();">
                                     <i class="bi bi-box-arrow-left"></i><span>{{ __('Logout') }}</span>
                                 </x-responsive-nav-link>
-                                --}}
+
                             </form>
                         </div>
                     </div>
@@ -307,4 +294,5 @@
                         </x-responsive-nav-link>
                 @endif
             </div>
+
 </nav>

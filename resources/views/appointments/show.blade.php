@@ -10,15 +10,15 @@
                 <x-field-with-icon icon="activity" :label="__('reservation.title_name')" :value="$appointment->name" />
                 <x-field-with-icon icon="geo-alt-fill" :label="__('contact.address')" :value="$appointment->address" />
                 <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$appointment->specialty->name" :link="route('specialty.show', $appointment->specialty->id)" />
-                <x-field-with-icon icon="person-vcard-fill" :label="__('medical.doctor')" :value="$appointment->doctor->name . ' ' . $appointment->doctor->surname" :link="route('doctor.show', $appointment->doctor->id)" />
+                <x-field-with-icon icon="person-fill" :label="__('medical.doctor')" :value="$appointment->doctor->name . ' ' . $appointment->doctor->surname" :link="route('doctor.show', $appointment->doctor->id)" />
                 <x-field-with-icon icon="brightness-high-fill" :label="__('appointment.shift.name')" :value="$appointment->shift === 'morning' ? __('appointment.shift.morning_shift') : ($appointment->shift === 'afternoon' ? __('appointment.shift.afternoon_shift') : __('appointment.shift.night_shift'))" />
                 <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.start_time')" :value="\Carbon\Carbon::parse($appointment->start_time)->format('H:i')" />
                 <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.end_time')" :value="\Carbon\Carbon::parse($appointment->end_time)->format('H:i')" />
                 @php
                     $dates = collect($appointment->available_dates);
                 @endphp
-                <x-field-with-icon icon="calendar-check" :label="__('appointment.date.start_date')" :value="\Carbon\Carbon::parse($dates->first())->format('d/m/Y')" />
-                <x-field-with-icon icon="calendar-check" :label="__('appointment.date.end_date')" :value="\Carbon\Carbon::parse($dates->last())->format('d/m/Y')" />
+                <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.start_date')" :value="\Carbon\Carbon::parse($dates->first())->format('d/m/Y')" />
+                <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.end_date')" :value="\Carbon\Carbon::parse($dates->last())->format('d/m/Y')" />
             </div>
             <hr>
             <div class="card">
@@ -48,7 +48,7 @@
             </div>
             <div class="card">
                 <p>
-                    <x-field-with-icon icon="calendar-check" :label="__('appointment.date.title')" />
+                    <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.title')" />
                     <small>
                         @foreach ($appointment->available_dates as $item)
                             @php

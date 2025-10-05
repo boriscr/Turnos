@@ -9,9 +9,11 @@ body,
 html {
     min-height: 100vh;
 }
-a{
+
+a {
     display: inline-block;
 }
+
 .main-content {
     flex: 1;
 }
@@ -72,6 +74,7 @@ a{
 
 .status-box {
     position: absolute;
+    z-index: 1 !important;
     text-align: right;
     font-weight: bold;
     width: 120px;
@@ -95,6 +98,8 @@ a{
     padding: 2px;
     display: inline-block;
 }
+
+
 
 /*adaptar el tamaño de la pantalla*/
 @media (max-width: 670px) {

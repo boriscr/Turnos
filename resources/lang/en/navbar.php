@@ -1,7 +1,9 @@
 <?php
 return [
     'home' => 'Home',
+    'appointment' => 'Appointment',
     'book_appointment' => 'Book Appointment',
+    'my_appointments' => 'My Appointments',
     'administration' => 'Administration',
     'manage_users' => 'Manage Users',
     'view_users' => 'View Users',

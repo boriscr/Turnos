@@ -1,7 +1,9 @@
 <?php
 return [
     'home' => 'Inicio',
+    'appointment' => 'Turno',
     'book_appointment' => 'Reservar Turno',
+    'my_appointments' => 'Mis Turnos',
     'administration' => 'Administración',
     'manage_users' => 'Gestionar Usuarios',
     'view_users' => 'Ver Usuarios',

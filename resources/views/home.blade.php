@@ -10,9 +10,8 @@
                 @auth
                     <div class="full-center">
                         <button type="button" class="primary-btn">
-                            <a class="nav-link" href="{{ route('reservations.create') }}">Reservar Appointment</a>
+                            <a class="nav-link" href="{{ route('reservations.create') }}">Reservar Turno</a>
                         </button>
-
                     </div>
                 @endauth
             @else
