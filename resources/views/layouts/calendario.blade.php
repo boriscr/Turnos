@@ -1,10 +1,17 @@
 <!-- CALENDARIO -->
 <!-- npm install alpinejs @floating-ui/dom date-fns -->
+<!-- CALENDARIO -->
 <div class="calendario-box">
     <h3>{{ __('appointment.date.title') }}</h3>
+    
+    <!-- Contador de combinaciones -->
+    <div class="combinations-counter" 
+         :class="currentCombinations > MAX_COMBINATIONS ? 'exceeded' : 'within-limit'"
+         x-text="`Combinaciones: ${currentCombinations.toLocaleString()} / ${MAX_COMBINATIONS.toLocaleString()}`">
+    </div>
+
     <div class="calendar-container">
         <!-- Selector de modo -->
-
         <div class="mode-selector">
             <button type="button" @click="mode = 'single'"
                 :class="{ 'active': mode === 'single' }">{{ __('appointment.date.single_day') }}</button>
@@ -42,23 +49,24 @@
             <div>{{ __('appointment.date.sa') }}</div>
         </div>
 
-        <!-- Días del month -->
+        <!-- Días del mes -->
         <div class="days-grid">
             <template x-for="(day, index) in days" :key="index">
-                <button @click="selectDate(day)" :disabled="day === null || (skipWeekends && isWeekend(day))"
-                    :class="{
-                        'selected': isSelected(day),
-                        'range': isInRange(day),
-                        'disabled': day === null || (skipWeekends && isWeekend(day)),
-                        'today': isToday(day) && !isSelected(day),
-                        'weekend': isWeekend(day)
-                    }"
-                    type="button">
+                <button @click="selectDate(day)" 
+                        :disabled="day === null || (skipWeekends && isWeekend(day))"
+                        :class="{
+                            'selected': isSelected(day) && !isExceeded(day),
+                            'exceeded': isExceeded(day),
+                            'range': isInRange(day),
+                            'disabled': day === null || (skipWeekends && isWeekend(day)),
+                            'today': isToday(day) && !isSelected(day) && !isExceeded(day),
+                            'weekend': isWeekend(day)
+                        }"
+                        type="button">
                     <span x-text="day ? day.getDate() : ''"></span>
                 </button>
             </template>
         </div>
-
     </div>
 </div>
 <input type="hidden" name="selected_dates" x-ref="selectedDatesInput">

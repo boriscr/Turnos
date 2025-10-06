@@ -12,6 +12,7 @@ use App\Models\AvailableAppointment;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends Controller
 {
@@ -55,18 +56,21 @@ class AppointmentController extends Controller
 
     public function store(AppointmentStoreRequest $request)
     {
-        $timeSlots = json_decode($request->available_time_slots, true);        // Decodificar available_dates seleccionadas
-        $available_dates = json_decode($request->selected_dates, true);
+        // Aumentar temporalmente el tiempo de ejecución
+        set_time_limit(60);
+
+        // Decodificar datos una sola vez
+        $timeSlots = json_decode($request->available_time_slots, true) ?? [];
+        $available_dates = json_decode($request->selected_dates, true) ?? [];
 
         if (empty($available_dates)) {
-            Log::info('Fechas recibidas:', ['available_dates' => $request->selected_dates]);
-            Log::info('Decodificadas:', ['decoded' => json_decode($request->selected_dates, true)]);
-
             return back()->with('error', 'Debe seleccionar al menos una fecha');
         }
-        // Crear el appointment solo si las especialidades y doctor tienen el status activo
+
+        // Verificar especialidad y doctor activos
         $specialty = Specialty::where('id', $request->specialty_id)->where('status', 1)->first();
         $doctor = Doctor::where('id', $request->doctor_id)->where('status', 1)->first();
+
         if (!$specialty || !$doctor) {
             session()->flash('error', [
                 'title' => 'Inactivos!',
@@ -75,49 +79,183 @@ class AppointmentController extends Controller
             ]);
             return back()->withInput();
         }
-        // Crear el appointment
+
+        // Determinar el tipo de appointment
+        $tipoAppointment = $request->appointment_type ?? 'single_slot';
+
+        // Filtrar fechas que están dentro del límite
+        $resultadoFiltrado = $this->filtrarFechasDentroDeLimite($available_dates, $timeSlots, $tipoAppointment);
+
+        $fechasParaCrear = $resultadoFiltrado['fechas_crear'];
+        $fechasExcluidas = $resultadoFiltrado['fechas_excluir'];
+        $totalCombinaciones = $resultadoFiltrado['total_combinaciones'];
+
+        // Si no hay fechas para crear después del filtro
+        if (empty($fechasParaCrear)) {
+            return back()->with(
+                'error',
+                "Todas las fechas seleccionadas exceden el límite. " .
+                    "Máximo permitido: 10,000 combinaciones.\n" .
+                    "Seleccionaste: " . count($available_dates) . " fechas × " .
+                    (empty($timeSlots) ? 1 : count($timeSlots)) . " horarios = " .
+                    number_format(count($available_dates) * (empty($timeSlots) ? 1 : count($timeSlots))) . " registros."
+            );
+        }
+
+        // Crear el appointment con solo las fechas que están dentro del límite
         $appointment = Appointment::create([
             ...$request->validated(),
-            'available_time_slots' => $timeSlots,
-            'available_dates' => $available_dates,
+            'available_time_slots' => !empty($timeSlots) ? $timeSlots : null,
+            'available_dates' => $fechasParaCrear, // Solo las fechas que se crearán
         ]);
 
-        // Crear los appointments disponibles para cada date
+        // Crear disponibilidades en lote solo con las fechas permitidas
+        $this->crearDisponibilidadesEnLote($appointment, $fechasParaCrear, $tipoAppointment, $request, $timeSlots);
 
-        // Crear disponibilidad por date y horario
+        // Mostrar mensaje informativo si se excluyeron algunas fechas
+        if (!empty($fechasExcluidas)) {
+            session()->flash('info', [
+                'title' => 'Creación parcial',
+                'html' => $this->generarMensajeFechasExcluidas($fechasParaCrear, $fechasExcluidas, $timeSlots, $totalCombinaciones),
+                'icon' => 'info'
+            ]);
+        } else {
+            session()->flash('success', [
+                'title' => 'Creado!',
+                'text' => 'El turno ha sido creado correctamente.',
+                'icon' => 'success'
+            ]);
+        }
+
+        return redirect()->route('appointments.index');
+    }
+
+    private function filtrarFechasDentroDeLimite($available_dates, $timeSlots, $tipoAppointment)
+    {
+        $limiteMaximo = 10000;
+        $timeSlotsCount = ($tipoAppointment === 'multi_slot' && !empty($timeSlots)) ? count($timeSlots) : 1;
+
+        // Calcular cuántas fechas podemos aceptar
+        $fechasPermitidas = min(count($available_dates), floor($limiteMaximo / $timeSlotsCount));
+
+        // Tomar solo las primeras fechas permitidas
+        $fechasParaCrear = array_slice($available_dates, 0, $fechasPermitidas);
+        $fechasExcluidas = array_slice($available_dates, $fechasPermitidas);
+
+        $totalCombinaciones = count($available_dates) * $timeSlotsCount;
+
+        return [
+            'fechas_crear' => $fechasParaCrear,
+            'fechas_excluir' => $fechasExcluidas,
+            'total_combinaciones' => $totalCombinaciones,
+            'fechas_permitidas' => $fechasPermitidas,
+            'fechas_excluidas_count' => count($fechasExcluidas)
+        ];
+    }
+
+    private function generarMensajeFechasExcluidas($fechasParaCrear, $fechasExcluidas, $timeSlots, $totalCombinaciones)
+    {
+        $timeSlotsCount = empty($timeSlots) ? 1 : count($timeSlots);
+        $fechasCreadasCount = count($fechasParaCrear);
+        $fechasExcluidasCount = count($fechasExcluidas);
+
+        // Formatear algunas fechas excluidas para mostrar (máximo 5)
+        $fechasEjemplo = array_slice($fechasExcluidas, 0, 5);
+        $fechasFormateadas = array_map(function ($fecha) {
+            return \Carbon\Carbon::parse($fecha)->format('d/m/Y');
+        }, $fechasEjemplo);
+
+        $masFechas = $fechasExcluidasCount > 5 ? " y " . ($fechasExcluidasCount - 5) . " fechas más" : "";
+
+        return "
+    <div class='text-left'>
+        <p><strong>Se creó el turno parcialmente:</strong></p>
+        <ul>
+            <li><strong>Fechas creadas:</strong> {$fechasCreadasCount}</li>
+            <li><strong>Fechas excluidas:</strong> {$fechasExcluidasCount}</li>
+            <li><strong>Combinaciones totales:</strong> " . number_format($totalCombinaciones) . "</li>
+        </ul>
+        <p><strong>Fechas que no se crearon:</strong> " . implode(', ', $fechasFormateadas) . "{$masFechas}</p>
+        <p class='text-sm text-muted'>Solo se crearon las primeras {$fechasCreadasCount} fechas para no exceder el límite de 10,000 combinaciones.</p>
+    </div>";
+    }
+
+    private function calcularTotalRegistros($available_dates, $timeSlots, $appointmentType)
+    {
+        $totalFechas = count($available_dates);
+
+        if ($appointmentType === 'multi_slot' && !empty($timeSlots)) {
+            return $totalFechas * count($timeSlots);
+        }
+
+        return $totalFechas;
+    }
+
+    private function crearDisponibilidadesEnLote($appointment, $available_dates, $tipoAppointment, $request, $timeSlots = [])
+    {
+        $lotes = [];
+        $now = now();
+        $doctor_id = $request->doctor_id;
+        $specialty_id = $request->specialty_id;
+        $appointment_id = $appointment->id;
+
+        // Pre-calcular valores comunes
+        $isMultiSlot = ($tipoAppointment === 'multi_slot' && !empty($timeSlots));
+        $availableSpotsSingle = intval($request->number_of_reservations);
+        $startTimeNormalized = $request->start_time ? \Carbon\Carbon::parse($request->start_time)->format('H:i:s') : null;
+
         foreach ($available_dates as $date) {
+            $fechaFormateada = \Carbon\Carbon::parse($date)->format('Y-m-d');
 
-            if ($request->available_time_slots) {
-                // Caso CON horarios (vienen en JSON)
-                $horarios = json_decode($request->available_time_slots, true);
+            if ($isMultiSlot) {
+                // Multi slot: crear un registro por cada horario
+                foreach ($timeSlots as $time) {
+                    $horaNormalizada = \Carbon\Carbon::parse($time)->format('H:i:s');
 
-                foreach ($horarios as $time) {
-                    AvailableAppointment::create([
-                        'appointment_id' => $appointment->id,
-                        'doctor_id' => $request->doctor_id,
-                        'specialty_id' => $request->specialty_id,
-                        'date' => $date,
-                        'time' => $time,
-                        'available_spots' => 1, // 1 cupo por horario individual
-                    ]);
+                    $lotes[] = [
+                        'appointment_id' => $appointment_id,
+                        'doctor_id' => $doctor_id,
+                        'specialty_id' => $specialty_id,
+                        'date' => $fechaFormateada,
+                        'time' => $horaNormalizada,
+                        'available_spots' => 1,
+                        'reserved_spots' => 0,
+                        'created_at' => $now,
+                        'updated_at' => $now
+                    ];
+
+                    // Insertar en chunks de 100
+                    if (count($lotes) >= 100) {
+                        AvailableAppointment::insert($lotes);
+                        $lotes = [];
+                    }
                 }
             } else {
-                AvailableAppointment::create([
-                    'appointment_id' => $appointment->id,
-                    'doctor_id' => $request->doctor_id,
-                    'specialty_id' => $request->specialty_id,
-                    'date' => $date,
-                    'time' => $request->start_time, // sin time específica
-                    'available_spots' => $request->number_of_reservations, // cupo total por date
-                ]);
+                // Single slot: un solo registro por fecha
+                $lotes[] = [
+                    'appointment_id' => $appointment_id,
+                    'doctor_id' => $doctor_id,
+                    'specialty_id' => $specialty_id,
+                    'date' => $fechaFormateada,
+                    'time' => $startTimeNormalized,
+                    'available_spots' => $availableSpotsSingle,
+                    'reserved_spots' => 0,
+                    'created_at' => $now,
+                    'updated_at' => $now
+                ];
+
+                // Insertar en chunks de 100
+                if (count($lotes) >= 100) {
+                    AvailableAppointment::insert($lotes);
+                    $lotes = [];
+                }
             }
         }
-        session()->flash('success', [
-            'title' => 'Creado!',
-            'text' => 'El turno ha sido creado correctamente.',
-            'icon' => 'success'
-        ]);
-        return redirect()->route('appointments.index');
+
+        // Insertar lotes restantes
+        if (!empty($lotes)) {
+            AvailableAppointment::insert($lotes);
+        }
     }
 
     public function show($id)
@@ -155,82 +293,200 @@ class AppointmentController extends Controller
 
     public function update(AppointmentUpdateRequest $request, $id)
     {
-        // Decodificar available_dates seleccionadas
-        $timeSlots = json_decode($request->available_time_slots, true);
-        $available_dates = json_decode($request->selected_dates, true);
+        // Aumentar temporalmente el tiempo de ejecución
+        set_time_limit(60);
+
+        // Decodificar datos una sola vez
+        $timeSlots = json_decode($request->available_time_slots, true) ?? [];
+        $available_dates = json_decode($request->selected_dates, true) ?? [];
 
         if (empty($available_dates)) {
             return back()->with('error', 'Debe seleccionar al menos una fecha')->withInput();
         }
 
-        // Determinar el tipo de appointment
         $tipoAppointment = $request->appointment_type ?? 'single_slot';
 
         // Validación específica para horarios
         if ($tipoAppointment === 'multi_slot') {
-            if (empty($request->available_time_slots) || !json_decode($request->available_time_slots)) {
+            if (empty($timeSlots)) {
                 return back()->withErrors(['available_time_slots' => 'Para reservas por hora, debe seleccionar al menos un horario'])->withInput();
             }
         }
 
-        // Obtener el appointment a actualizar
         $appointment = Appointment::findOrFail($id);
 
-        // PRIMERO: Construir las NUEVAS combinaciones ANTES de verificar
-        $nuevasCombinaciones = [];
+        // FILTRAR FECHAS: Aplicar límites como en el store
+        $resultadoFiltrado = $this->filtrarFechasDentroDeLimite($available_dates, $timeSlots, $tipoAppointment);
 
-        foreach ($available_dates as $date) {
-            if ($tipoAppointment === 'multi_slot' && $request->available_time_slots) {
-                // Appointment con división horaria
-                $horarios = json_decode($request->available_time_slots, true);
-                foreach ($horarios as $time) {
-                    $horaNormalizada = \Carbon\Carbon::parse($time)->format('H:i:s');
-                    $nuevasCombinaciones[] = [
-                        'date' => \Carbon\Carbon::parse($date)->format('Y-m-d'), // Formatear igual que la BD
-                        'time' => $horaNormalizada,
-                        'key' => $date . '_' . $horaNormalizada
-                    ];
-                }
-            } else {
-                // Appointment sin horarios específicos
-                $horaNormalizada = $request->start_time ? \Carbon\Carbon::parse($request->start_time)->format('H:i:s') : '';
-                $nuevasCombinaciones[] = [
-                    'date' => \Carbon\Carbon::parse($date)->format('Y-m-d'), // Formatear igual que la BD
-                    'time' => $horaNormalizada,
-                    'key' => $date . '_' . $horaNormalizada
-                ];
-            }
+        $fechasParaActualizar = $resultadoFiltrado['fechas_crear'];
+        $fechasExcluidas = $resultadoFiltrado['fechas_excluir'];
+        $totalCombinaciones = $resultadoFiltrado['total_combinaciones'];
+
+        // Si no hay fechas para actualizar después del filtro
+        if (empty($fechasParaActualizar)) {
+            return back()->with(
+                'error',
+                "Todas las fechas seleccionadas exceden el límite. " .
+                    "Máximo permitido: 10,000 combinaciones.\n" .
+                    "Seleccionaste: " . count($available_dates) . " fechas × " .
+                    (empty($timeSlots) ? 1 : count($timeSlots)) . " horarios = " .
+                    number_format($totalCombinaciones) . " registros."
+            );
         }
 
-        // SEGUNDO: Obtener disponibilidades existentes con reservas
+        // 1. Construir nuevas combinaciones solo con fechas permitidas
+        $nuevasCombinaciones = $this->construirCombinaciones(
+            $fechasParaActualizar, // Solo fechas permitidas
+            $tipoAppointment,
+            $timeSlots,
+            $request->start_time
+        );
+
+        // 2. Obtener IDs de disponibilidades con reservas en una sola consulta
         $disponibilidadesConReservas = AvailableAppointment::where('appointment_id', $appointment->id)
             ->where('reserved_spots', '>', 0)
             ->get();
 
-        // TERCERO: Verificar solo las que se están ELIMINANDO
+        // 3. Verificar conflictos de forma optimizada (con fechas filtradas)
+        $conflictos = $this->verificarConflictosOptimizado(
+            $disponibilidadesConReservas,
+            $nuevasCombinaciones
+        );
+
+        if (!empty($conflictos)) {
+            return $this->mostrarErrorConflictos($conflictos);
+        }
+
+        // 4. Actualizar el appointment principal con solo fechas permitidas
+        $appointment->update([
+            ...$request->validated(),
+            'available_time_slots' => !empty($timeSlots) ? $timeSlots : null,
+            'available_dates' => $fechasParaActualizar, // Solo fechas permitidas
+            'status' => $request->status ?? $appointment->status,
+        ]);
+
+        // 5. Procesar disponibilidades de forma optimizada
+        $this->procesarDisponibilidades(
+            $appointment,
+            $nuevasCombinaciones,
+            $disponibilidadesConReservas,
+            $tipoAppointment,
+            $request
+        );
+
+        // Mostrar mensaje informativo si se excluyeron algunas fechas
+        if (!empty($fechasExcluidas)) {
+            session()->flash('info', [
+                'title' => 'Actualización parcial',
+                'html' => $this->generarMensajeFechasExcluidasUpdate($fechasParaActualizar, $fechasExcluidas, $timeSlots, $totalCombinaciones),
+                'icon' => 'info'
+            ]);
+        } else {
+            session()->flash('success', [
+                'title' => 'Actualizado!',
+                'text' => 'El turno ha sido actualizado correctamente.',
+                'icon' => 'success'
+            ]);
+        }
+
+        return redirect()->route('appointments.index');
+    }
+
+
+
+    private function generarMensajeFechasExcluidasUpdate($fechasParaActualizar, $fechasExcluidas, $timeSlots, $totalCombinaciones)
+    {
+        $timeSlotsCount = empty($timeSlots) ? 1 : count($timeSlots);
+        $fechasActualizadasCount = count($fechasParaActualizar);
+        $fechasExcluidasCount = count($fechasExcluidas);
+
+        // Formatear algunas fechas excluidas para mostrar (máximo 5)
+        $fechasEjemplo = array_slice($fechasExcluidas, 0, 5);
+        $fechasFormateadas = array_map(function ($fecha) {
+            return \Carbon\Carbon::parse($fecha)->format('d/m/Y');
+        }, $fechasEjemplo);
+
+        $masFechas = $fechasExcluidasCount > 5 ? " y " . ($fechasExcluidasCount - 5) . " fechas más" : "";
+
+        return "
+    <div class='text-left'>
+        <p><strong>Se actualizó el turno parcialmente:</strong></p>
+        <ul>
+            <li><strong>Fechas actualizadas:</strong> {$fechasActualizadasCount}</li>
+            <li><strong>Fechas excluidas:</strong> {$fechasExcluidasCount}</li>
+            <li><strong>Combinaciones totales seleccionadas:</strong> " . number_format($totalCombinaciones) . "</li>
+        </ul>
+        <p><strong>Fechas que no se actualizaron:</strong> " . implode(', ', $fechasFormateadas) . "{$masFechas}</p>
+        <p class='text-sm text-muted'>Solo se actualizaron las primeras {$fechasActualizadasCount} fechas para no exceder el límite de 10,000 combinaciones.</p>
+    </div>";
+    }
+
+    private function construirCombinaciones($available_dates, $tipoAppointment, $timeSlots, $start_time)
+    {
+        $combinaciones = [];
+
+        foreach ($available_dates as $date) {
+            $fechaFormateada = \Carbon\Carbon::parse($date)->format('Y-m-d');
+
+            if ($tipoAppointment === 'multi_slot' && !empty($timeSlots)) {
+                foreach ($timeSlots as $time) {
+                    $horaNormalizada = \Carbon\Carbon::parse($time)->format('H:i:s');
+                    $combinaciones[] = [
+                        'date' => $fechaFormateada,
+                        'time' => $horaNormalizada,
+                        'key' => $fechaFormateada . '_' . $horaNormalizada
+                    ];
+                }
+            } else {
+                $horaNormalizada = $start_time ? \Carbon\Carbon::parse($start_time)->format('H:i:s') : '';
+                $combinaciones[] = [
+                    'date' => $fechaFormateada,
+                    'time' => $horaNormalizada,
+                    'key' => $fechaFormateada . '_' . $horaNormalizada
+                ];
+            }
+        }
+
+        return $combinaciones;
+    }
+
+    private function verificarConflictosOptimizado($disponibilidadesConReservas, $nuevasCombinaciones)
+    {
+        if ($disponibilidadesConReservas->isEmpty()) {
+            return [];
+        }
+
+        // Crear mapa de nuevas combinaciones para búsqueda rápida
+        $mapaNuevasCombinaciones = [];
+        foreach ($nuevasCombinaciones as $combinacion) {
+            $mapaNuevasCombinaciones[$combinacion['key']] = true;
+        }
+
+        // Obtener todos los IDs de disponibilidades que podrían tener conflictos
+        $idsDisponibilidades = $disponibilidadesConReservas->pluck('id')->toArray();
+
+        // Una sola consulta para todas las reservas pendientes
+        $reservasPendientes = Reservation::whereIn('available_appointment_id', $idsDisponibilidades)
+            ->whereNull('asistencia')
+            ->get()
+            ->groupBy('available_appointment_id');
+
         $conflictos = [];
 
         foreach ($disponibilidadesConReservas as $disponibilidad) {
             try {
                 $fechaDisponibilidad = \Carbon\Carbon::parse($disponibilidad->date)->format('Y-m-d');
                 $horaDisponibilidad = $disponibilidad->time ? \Carbon\Carbon::parse($disponibilidad->time)->format('H:i:s') : '';
+                $key = $fechaDisponibilidad . '_' . $horaDisponibilidad;
 
-                // Verificar si esta disponibilidad existe en las NUEVAS combinaciones
-                $existeEnNuevas = collect($nuevasCombinaciones)->first(function ($nueva) use ($fechaDisponibilidad, $horaDisponibilidad) {
-                    $horaNueva = $nueva['time'] ?: '';
-                    return $nueva['date'] === $fechaDisponibilidad && $horaNueva === $horaDisponibilidad;
-                });
+                // Verificar si se está eliminando esta disponibilidad
+                if (!isset($mapaNuevasCombinaciones[$key])) {
+                    $reservations = $reservasPendientes->get($disponibilidad->id, collect());
 
-                // Solo verificar conflictos si NO existe en las nuevas (se está eliminando)
-                if (!$existeEnNuevas) {
-                    $reservations = Reservation::where('available_appointment_id', $disponibilidad->id)
-                        ->whereNull('asistencia')
-                        ->get();
-
-                    // Si hay reservas pendientes, agregar a conflictos
                     if ($reservations->count() > 0) {
                         $fechaFormateada = \Carbon\Carbon::parse($disponibilidad->date)->format('d/m/Y');
-                        $horaFormateada = \Carbon\Carbon::parse($disponibilidad->time)->format('H:i');
+                        $horaFormateada = $disponibilidad->time ? \Carbon\Carbon::parse($disponibilidad->time)->format('H:i') : 'Todo el día';
+
                         $conflictos[] = [
                             'fecha' => $fechaFormateada,
                             'hora' => $horaFormateada,
@@ -245,107 +501,111 @@ class AppointmentController extends Controller
             }
         }
 
-        // CUARTO: Si hay conflictos, mostrar error
-        if (!empty($conflictos)) {
-            $html = '
-        <div class="text-left">
-            <p class="text-danger">No es posible eliminar fechas que contienen reservas pendientes.</p>
-            <div class="alert alert-warning mt-3">
-                <p><strong class="text-danger">Detalles del conflicto:</strong></p>
-                <ul>';
+        return $conflictos;
+    }
 
-            foreach ($conflictos as $conflicto) {
-                $html .= '<li><strong>Fecha:</strong> ' . $conflicto['fecha'] . ' ' . $conflicto['hora'] . ' - <strong>Reservas pendientes:</strong> ' . $conflicto['cantidad_reservas'] . '</li>';
-            }
+    private function mostrarErrorConflictos($conflictos)
+    {
+        $html = '
+    <div class="text-left">
+        <p class="text-danger">No es posible eliminar fechas que contienen reservas pendientes.</p>
+        <div class="alert alert-warning mt-3">
+            <p><strong class="text-danger">Detalles del conflicto:</strong></p>
+            <ul>';
 
-            $html .= '
-                </ul>
-                <p><strong class="text-danger">Recomendaciones:</strong></p>
-                <ul class="text-danger">
-                    <li>1. Cambie el estado de este turno como inactivo</li>
-                    <li>2. Cancele las reservas pendientes de este turno</li>
-                    <li>3. Vuelva a intentarlo</li>
-                    <li>Si no desea realizarlo, evite eliminar fechas/horarios con reservas pendientes</li>
-                </ul>
-            </div>
-        </div>';
-
-            session()->flash('error', [
-                'title' => 'Error!',
-                'html' => $html,
-                'icon' => 'error'
-            ]);
-            return back();
+        foreach ($conflictos as $conflicto) {
+            $html .= '<li><strong>Fecha:</strong> ' . $conflicto['fecha'] . ' ' . $conflicto['hora'] . ' - <strong>Reservas pendientes:</strong> ' . $conflicto['cantidad_reservas'] . '</li>';
         }
 
-        // QUINTO: Si NO hay conflictos, proceder con la actualización
-        $appointment->update([
-            ...$request->validated(),
-            'available_time_slots' => $timeSlots ? $timeSlots : null,
-            'available_dates' => $available_dates,
-            'status' => $request->status ?? $appointment->status,
-        ]);
+        $html .= '
+            </ul>
+            <p><strong class="text-danger">Recomendaciones:</strong></p>
+            <ul class="text-danger">
+                <li>1. Cambie el estado de este turno como inactivo</li>
+                <li>2. Cancele las reservas pendientes de este turno</li>
+                <li>3. Vuelva a intentarlo</li>
+                <li>Si no desea realizarlo, evite eliminar fechas/horarios con reservas pendientes</li>
+            </ul>
+        </div>
+    </div>';
 
-        // SEXTO: Eliminar solo las disponibilidades SIN reservas
+        session()->flash('error', [
+            'title' => 'Error!',
+            'html' => $html,
+            'icon' => 'error'
+        ]);
+        return back();
+    }
+
+    private function procesarDisponibilidades($appointment, $nuevasCombinaciones, $disponibilidadesConReservas, $tipoAppointment, $request)
+    {
+        // Eliminar solo disponibilidades sin reservas
         AvailableAppointment::where('appointment_id', $appointment->id)
             ->where('reserved_spots', 0)
             ->delete();
 
-        // SÉPTIMO: Procesar cada nueva combinación
+        // Crear mapa de existentes con reservas para búsqueda rápida
+        $mapaExistentesConReservas = [];
+        foreach ($disponibilidadesConReservas as $existente) {
+            $fechaExistente = \Carbon\Carbon::parse($existente->date)->format('Y-m-d');
+            $horaExistente = $existente->time ? \Carbon\Carbon::parse($existente->time)->format('H:i:s') : '';
+            $mapaExistentesConReservas[$fechaExistente . '_' . $horaExistente] = $existente;
+        }
+
+        // Procesar en lotes para mejor performance
+        $lotes = [];
         foreach ($nuevasCombinaciones as $combinacion) {
             $availableSpots = ($tipoAppointment === 'single_slot') ? intval($request->number_of_reservations) : 1;
+            $key = $combinacion['date'] . '_' . ($combinacion['time'] ?: '');
 
-            // Buscar si ya existe una disponibilidad con reservas para esta combinación
-            $existenteConReservas = $disponibilidadesConReservas->first(function ($item) use ($combinacion) {
-                $fechaExistente = \Carbon\Carbon::parse($item->date)->format('Y-m-d');
-                $horaExistente = $item->time ? \Carbon\Carbon::parse($item->time)->format('H:i:s') : '';
-                $horaComparacion = $combinacion['time'] ?: '';
+            if (isset($mapaExistentesConReservas[$key])) {
+                // Actualizar existente
+                $existente = $mapaExistentesConReservas[$key];
+                $newAvailableSpots = max($availableSpots - $existente->reserved_spots, 0);
 
-                return $fechaExistente === $combinacion['date'] && $horaExistente === $horaComparacion;
-            });
-
-            if ($existenteConReservas) {
-                // Actualizar la existente que tiene reservas
-                $reservedSpots = $existenteConReservas->reserved_spots;
-                $newAvailableSpots = max($availableSpots - $reservedSpots, 0);
-
-                $existenteConReservas->update([
+                $existente->update([
                     'doctor_id' => $request->doctor_id,
                     'available_spots' => $newAvailableSpots,
                     'specialty_id' => $request->specialty_id,
                 ]);
             } else {
-                // Crear nueva disponibilidad
-                AvailableAppointment::create([
+                // Crear nueva para insertar en lote
+                $lotes[] = [
                     'appointment_id' => $appointment->id,
                     'doctor_id' => $request->doctor_id,
                     'specialty_id' => $request->specialty_id,
                     'date' => $combinacion['date'],
                     'time' => $combinacion['time'],
                     'available_spots' => $availableSpots,
-                    'reserved_spots' => 0
-                ]);
+                    'reserved_spots' => 0,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
             }
         }
 
-        session()->flash('success', [
-            'title' => 'Actualizado!',
-            'text' => 'El turno ha sido actualizado correctamente.',
-            'icon' => 'success'
-        ]);
-
-        return redirect()->route('appointments.index');
+        // Insertar en lote para mejor performance
+        if (!empty($lotes)) {
+            // Insertar en chunks para evitar límites de MySQL
+            foreach (array_chunk($lotes, 100) as $chunk) {
+                AvailableAppointment::insert($chunk);
+            }
+        }
     }
 
-    function destroy($id)
+    public function destroy($id)
     {
-        $availableAppointments = AvailableAppointment::where('appointment_id', $id)->get();
-        //Verificar si existen reservas asociadas a las disponibilidades del appointment en la tabla reservations con asistencia null
-        foreach ($availableAppointments as $disponibilidad) {
-            $tieneReservas = Reservation::where('available_appointment_id', $disponibilidad->id)
-                ->whereNull('asistencia')
+        set_time_limit(30);
+
+        try {
+            // 1. Verificar reservas pendientes en una sola consulta optimizada
+            $tieneReservasPendientes = DB::table('reservations')
+                ->join('available_appointments', 'reservations.available_appointment_id', '=', 'available_appointments.id')
+                ->where('available_appointments.appointment_id', $id)
+                ->whereNull('reservations.asistencia')
                 ->exists();
-            if ($tieneReservas) {
+
+            if ($tieneReservasPendientes) {
                 session()->flash('error', [
                     'title' => 'Error!',
                     'text' => 'No se puede eliminar el turno porque tiene reservas pendientes.',
@@ -353,16 +613,31 @@ class AppointmentController extends Controller
                 ]);
                 return redirect()->route('appointments.index');
             }
+
+            // 2. Usar transacción para atomicidad
+            DB::transaction(function () use ($id) {
+                // 3. Eliminar disponibilidades con DELETE directo (más rápido que Eloquent)
+                AvailableAppointment::where('appointment_id', $id)->delete();
+
+                // 4. Eliminar el appointment
+                Appointment::where('id', $id)->delete();
+            });
+
+            session()->flash('success', [
+                'title' => 'Eliminado!',
+                'text' => 'El turno ha sido eliminado correctamente.',
+                'icon' => 'success'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error eliminando appointment ' . $id . ': ' . $e->getMessage());
+
+            session()->flash('error', [
+                'title' => 'Error!',
+                'text' => 'Ocurrió un error al eliminar el turno.',
+                'icon' => 'error',
+            ]);
         }
-        // Si no hay reservas pendientes, proceder a eliminar
-        $appointment = Appointment::findOrFail($id);
-        $appointment->disponibilidades()->delete(); // Eliminar disponibilidades asociadas
-        $appointment->delete(); // Eliminar el appointment
-        session()->flash('success', [
-            'title' => 'Eliminado!',
-            'text' => 'El turno ha sido eliminado correctamente.',
-            'icon' => 'success'
-        ]);
+
         return redirect()->route('appointments.index');
     }
 }
