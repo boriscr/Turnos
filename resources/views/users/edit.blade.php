@@ -1,4 +1,5 @@
 <x-app-layout>
+    
     <div class="main full-center">
         <div class="container-form full-center">
             <h1>{{ __('medical.titles.section_title_edit') }}</h1>

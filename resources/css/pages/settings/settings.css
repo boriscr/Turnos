@@ -3,3 +3,17 @@
     border-radius: 10px;
     padding: 10px;
 }
+
+.light-card {
+    background-color: var(--light_application_background);
+    color: var(--light_text_color) !important;
+}
+
+.light-card small {
+    color: var(--text_color_small_light);
+}
+
+.dark-card {
+    background-color: var(--dark_application_background);
+    color: var(--dark_text_color) !important;
+}

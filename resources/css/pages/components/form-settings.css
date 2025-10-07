@@ -17,34 +17,3 @@
 .main .container-form .item-colores .card .item label {
     width: 70%;
 }
-
-.light-card {
-    background-color: var(--light_application_background);
-    color: var(--light_text_color)!important;
-}
-
-.light-card small {
-    color: var(--text_color_small_light);
-}
-
-.dark-card {
-    background-color: var(--dark_application_background);
-    color: var(--dark_text_color)!important;
-}
-
-
-/* Modo oscuro */
-@media (prefers-color-scheme: dark) {
-    .card {
-        color: var(--dark_text_color);
-    }
-}
-
-/* Modo claro */
-@media (prefers-color-scheme: light) {
-
-    .card {
-        color: var(--light_text_color);
-    }
-
-}

@@ -2,9 +2,10 @@
 @import 'layouts/loader.css';
 @import 'layouts/navbar.css';
 @import 'layouts/icon.css';
-@import 'layouts/color.css';
 @import 'layouts/footer.css';
-
+/*Pages*/
+@import 'pages/index.css';
+@import 'pages/show.css';
 /*Components*/
 @import 'pages/components/navbar.css';
 @import 'pages/components/main.css';

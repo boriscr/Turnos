@@ -20,12 +20,29 @@
                 <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.start_date')" :value="\Carbon\Carbon::parse($dates->first())->format('d/m/Y')" />
                 <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.end_date')" :value="\Carbon\Carbon::parse($dates->last())->format('d/m/Y')" />
             </div>
-            <hr>
             <div class="card">
+                @php
+                    $number_of_hours_available = 0;
+                    $number_of_reservations = 0;
+                @endphp
+                <x-field-with-icon icon="clipboard2-data-fill" :label="__('appointment.schedule.number_of_reservations')" :value="$appointment->number_of_reservations" />
+                <x-field-with-icon icon="clipboard2-data-fill" :label="__('appointment.schedule.total_amount_of_reservations')" :value="$appointment->number_of_reservations * $number_of_reservations" />
+                <x-field-with-icon icon="clipboard2-data-fill" :label="__('appointment.schedule.number_of_available_schedules')" :value="$number_of_hours_available ?? '1'" />
+                <x-field-with-icon icon="clipboard2-data-fill" :label="__('appointment.schedule.number_of_dates')" :value="$number_of_reservations" />
+            </div>
+            <div class="card">
+                <h2>{{ __('medical.titles.creation') }}</h2>
+                <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.created_by')" :value="$appointment->createdBy->name . ' ' . $appointment->createdBy->surname"
+                    :link="route('user.show', $appointment->created_by)" />
+                <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($appointment->created_at)->format('d/m/Y H:i')" />
+                <x-field-with-icon icon="calendar-range-fill" :label="__('medical.updated_by')" :value="$appointment->updatedBy->name . ' ' . $appointment->updatedBy->surname"
+                    :link="route('user.show', $appointment->updated_by)" />
+                <x-field-with-icon icon="calendar-range-fill" :label="__('medical.update_date')" :value="\Carbon\Carbon::parse($appointment->updated_at)->format('d/m/Y H:i')" />
+                </p>
+            </div>
+            <hr>
+            <div class="card half-width">
                 @if (!empty($appointment->available_time_slots))
-                    @php
-                        $number_of_hours_available = 0;
-                    @endphp
                     <p>
                         <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.title')" />
                         <small>
@@ -42,11 +59,8 @@
                 @else
                     <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.title')" :value="\Carbon\Carbon::parse($appointment->start_time)->format('H:i')" />
                 @endif
-                @php
-                    $number_of_reservations = 0;
-                @endphp
             </div>
-            <div class="card">
+            <div class="card half-width">
                 <p>
                     <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.title')" />
                     <small>
@@ -62,22 +76,7 @@
                     </small>
                 </p>
             </div>
-            <div class="card">
-                <x-field-with-icon icon="clipboard2-data-fill" :label="__('appointment.schedule.number_of_reservations')" :value="$appointment->number_of_reservations" />
-                <x-field-with-icon icon="clipboard2-data-fill" :label="__('appointment.schedule.total_amount_of_reservations')" :value="$appointment->number_of_reservations * $number_of_reservations" />
-                <x-field-with-icon icon="clipboard2-data-fill" :label="__('appointment.schedule.number_of_available_schedules')" :value="$number_of_hours_available ?? '1'" />
-                <x-field-with-icon icon="clipboard2-data-fill" :label="__('appointment.schedule.number_of_dates')" :value="$number_of_reservations" />
-            </div>
-            <div class="card">
-                <h2>{{ __('medical.titles.creation') }}</h2>
-                <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.created_by')" :value="$appointment->createdBy->name . ' ' . $appointment->createdBy->surname"
-                    :link="route('user.show', $appointment->created_by)" />
-                <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($appointment->created_at)->format('d/m/Y H:i')" />
-                <x-field-with-icon icon="calendar-range-fill" :label="__('medical.updated_by')" :value="$appointment->updatedBy->name . ' ' . $appointment->updatedBy->surname"
-                    :link="route('user.show', $appointment->updated_by)" />
-                <x-field-with-icon icon="calendar-range-fill" :label="__('medical.update_date')" :value="\Carbon\Carbon::parse($appointment->updated_at)->format('d/m/Y H:i')" />
-                </p>
-            </div>
+
         </div>
         <div class="options full-center">
             <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn-edit"><i

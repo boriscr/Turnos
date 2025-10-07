@@ -1,0 +1,53 @@
+/*estilos específicos de show*/
+
+.content-wrapper {
+    margin-top: 10px;
+    width: 100%;
+
+    .status-box {
+        position: absolute;
+        z-index: 1 !important;
+        text-align: right;
+        font-weight: bold;
+        width: 120px;
+        top: 120px;
+        left: 0px;
+        border-radius: 0px 40px 5px 0px;
+        padding: 5px 10px;
+        border: 1px solid;
+    }
+
+    .section-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: start;
+        border-radius: 10px;
+        padding: 15px;
+
+        .card {
+            position: relative;
+            display: flex;
+            width: 380px;
+            border: 1px solid rgba(194, 194, 194, 0.361);
+            box-shadow: 0px 0px 10px rgba(150, 150, 150, 0.5);
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+            background-color: transparent;
+            color: var(--light_text_color);
+
+            h1 {
+                text-align: center;
+                text-decoration: underline;
+                text-underline-offset: 5px;
+                text-decoration-thickness: 2px;
+                margin-bottom: 10px;
+            }
+        }
+
+        .half-width {
+            width: 45% !important;
+        }
+    }
+}

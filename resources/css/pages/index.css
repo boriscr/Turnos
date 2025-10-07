@@ -1,0 +1,40 @@
+/*Estilos específicos de index*/
+.main-table {
+    width: 100%;
+
+    .container-form {
+        width: 100%;
+        gap: 10px;
+
+        form {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .bi {
+            font-size: 15px;
+        }
+
+        .acciones {
+            gap: 3px;
+            flex-wrap: wrap;
+
+            form {
+                gap: 1px;
+                flex-wrap: wrap;
+                width: 45px;
+            }
+
+            a {
+                border-radius: 15px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        .accionesMovil {
+            display: none;
+        }
+    }
+}

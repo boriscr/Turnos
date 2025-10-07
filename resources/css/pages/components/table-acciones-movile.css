@@ -11,49 +11,56 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     padding: 15px;
-}
+    background-color: color-mix(in srgb, var(--light_application_background) 60%, #fff 40%);
+    border: 1px solid #00000064;
 
-.box-accionesMovil .contenido-accionesMovil a,
-.box-accionesMovil .contenido-accionesMovil form {
-    height: 45px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    * {
+        color: var(--light_text_color);
+    }
 
-.box-accionesMovil .contenido-accionesMovil form {
-    padding: 0px;
+    h1 {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    hr {
+        margin: 10px 0;
+    }
+
+    .contenido-accionesMovil {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+
+        .btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        a,
+        .delete-form {
+            width: 100%;
+        }
+
+        a,
+        form {
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        form {
+            padding: 0px;
+        }
+    }
 }
 
 .box-accionesMovil.active {
     display: block;
 }
 
-.box-accionesMovil hr {
-    margin: 10px 0;
-}
-
-.box-accionesMovil h1 {
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.contenido-accionesMovil {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-}
-
-.contenido-accionesMovil a,
-.contenido-accionesMovil .delete-form {
-    width: 100%;
-}
-
-.contenido-accionesMovil .btn {
-    width: 100%;
-    text-align: center;
-}
 
 .accionesMovilBtn {
     background: none;
@@ -84,28 +91,19 @@
         }
 
         .accionesMovilBtn .bi {
-            color: var(--dark_text_color);
+            color: var(--dark_text_color) !important;
         }
 
     }
 }
 
-/* Modo claro */
+/* Modo oscuro */
 @media (prefers-color-scheme: light) {
-    .box-accionesMovil {
-        background-color: color-mix(in srgb, var(--light_application_background) 60%, #fff 40%);
-        border: 1px solid #00000064;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.29);
-
-        * {
-            color: var(--light_text_color);
-        }
-    }
-
     .accionesMovilBtn .bi {
-        color: var(--light_text_color);
+        color: var(--light_text_color) !important;
     }
 }
+
 
 @media (max-width: 738px) {
 

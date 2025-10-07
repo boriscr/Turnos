@@ -1,5 +1,7 @@
 .main-nav {
     box-shadow: 0 2px 4px rgba(2, 200, 255, 0.1);
+    color: var(--light_text_color);
+    background-color: var(--background_navbar_light);
 }
 
 .navbar {
@@ -55,16 +57,21 @@
     border-radius: 10px;
     padding: 2px;
     border: 1px solid var(--general_design_color);
+    color: var(--light_text_color);
+    background-color: var(--background_navbar_light);
 }
 
 .dropdown-item {
     padding: 0.5rem 0.2rem;
     transition: background-color 0.3s;
     border-radius: 5px;
+    color: var(--light_text_color);
 }
 
 .dropdown-item:hover {
     font-weight: bolder;
+    color: var(--background_navbar_dark);
+    background-color: var(--light_text_color);
 }
 
 
@@ -86,7 +93,8 @@
 
 
 
-.dropdown-section span,.dropdown-item span {
+.dropdown-section span,
+.dropdown-item span {
     white-space: normal;
     word-break: break-word;
 }
@@ -99,7 +107,7 @@
 }
 
 .hamburger {
-    border: 1px solid aliceblue !important;
+    border: 1px solid var(--light_text_color);
 }
 
 /*Btn cerrar sesion*/
@@ -144,36 +152,6 @@
         }
     }
 }
-
-/* Modo claro */
-
-@media (prefers-color-scheme: light) {
-    .main-nav {
-        color: var(--light_text_color);
-        background-color: var(--background_navbar_light);
-
-        .menu {
-            color: var(--light_text_color);
-            background-color: var(--background_navbar_light);
-        }
-
-        .dropdown-item {
-            color: var(--light_text_color);
-        }
-
-        .dropdown-item:hover {
-            color: var(--background_navbar_light);
-            background-color: var(--light_text_color);
-        }
-
-        .hamburger {
-            border: 1px solid var(--light_text_color) !important;
-        }
-
-
-    }
-}
-
 
 @media screen and (max-width: 702px) {
     .main-nav {

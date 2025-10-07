@@ -106,7 +106,7 @@
     <!-- Paso 3 - Fecha y Estado -->
     <div class="form-step" data-step="3">
         <div class="form-grid">
-            @include('layouts.calendario')
+            @include('layouts.calendar')
         </div>
 
         <x-form.select name="status" :label="__('medical.status.title')" :required="true">
