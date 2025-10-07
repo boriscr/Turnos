@@ -1,40 +1,42 @@
 /*Estilos específicos de index*/
 .main-table {
     width: 100%;
+}
 
-    .container-form {
-        width: 100%;
-        gap: 10px;
+.container-form {
+    width: 100% !important;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
 
-        form {
-            margin: 0px;
-            padding: 0px;
-        }
+    form {
+        margin: 0px;
+        padding: 0px;
+    }
 
-        .bi {
-            font-size: 15px;
-        }
+    .bi {
+        font-size: 15px;
+    }
 
-        .acciones {
-            gap: 3px;
-            flex-wrap: wrap;
+    .accionesMovil {
+        display: none;
+    }
+}
 
-            form {
-                gap: 1px;
-                flex-wrap: wrap;
-                width: 45px;
-            }
+.acciones {
+    gap: 3px;
+    flex-wrap: wrap;
 
-            a {
-                border-radius: 15px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-        }
+    form {
+        gap: 1px;
+        flex-wrap: wrap;
+        width: 45px;
+    }
 
-        .accionesMovil {
-            display: none;
-        }
+    a {
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }

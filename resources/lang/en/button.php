@@ -10,11 +10,11 @@ return [
     'view_available_reservations' => 'View available reservations',
     'search' => [
         'search' => 'Search',
-        'clear' => 'Clear',
+        'placeholder' => 'Search by ID number',
         'assisted' => 'Assisted',
         'pending' => 'Pending',
         'not_attendance' => 'Unassisted',
-        'inactive_appointment'=> 'Inactive appointment',
+        'inactive_appointment' => 'Inactive appointment',
         'all' => 'All',
         'yesterday' => 'Yesterday',
         'today' => 'Today',

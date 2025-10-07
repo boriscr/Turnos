@@ -56,6 +56,9 @@ textarea {
     margin: 5px 0 22px 0;
 }
 
+input::placeholder {
+    color: #888 !important;
+}
 
 input[type="time"],
 input[type="date"] {
@@ -202,7 +205,7 @@ textarea:focus {
 
 
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 
     .container-form,
     .container-form-register {

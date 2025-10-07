@@ -3,6 +3,7 @@
         <div class="container-form full-center">
             <h1>{{ __('medical.titles.reservation_list') }}</h1>
             <div class="search-filters filter-box">
+                
                 <form action="{{ route('reservations.index') }}" method="GET" class="rounded" id="filterForm">
                     <!-- Buscardor de usuarios o doctores-->
                     @include('components.form.search')

@@ -10,11 +10,11 @@ return [
     'view_available_reservations' => 'Ver reservas disponibles',
     'search' => [
         'search' => 'Buscar',
-        'clear' => 'Limpiar',
+        'placeholder' => 'Buscar por DNI...',
         'assisted' => 'Asistido',
         'pending' => 'Pendiente',
         'not_attendance' => 'No asistido',
-        'inactive_appointment'=> 'Turno inactivo',
+        'inactive_appointment' => 'Turno inactivo',
         'all' => 'Todos',
         'yesterday' => 'Ayer',
         'today' => 'Hoy',

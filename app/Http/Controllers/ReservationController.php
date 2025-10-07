@@ -56,15 +56,8 @@ class ReservationController extends Controller
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->whereHas('user', function ($userQuery) use ($search) {
-                        $userQuery->where('name', 'like', "%$search%")
-                            ->orWhere('surname', 'like', "%$search%")
-                            ->orWhere('idNumber', 'like', "%$search%");
-                    })
-                        ->orWhereHas('availableAppointment.doctor', function ($equipoQuery) use ($search) {
-                            $equipoQuery->where('name', 'like', "%$search%")
-                                ->orWhere('surname', 'like', "%$search%")
-                                ->orWhere('idNumber', 'like', "%$search%");
-                        });
+                        $userQuery->Where('idNumber', 'like', "%$search%");
+                    });
                 });
             })
             ->when(in_array($reservaFiltro, ['assisted', 'pending', 'not_attendance']), function ($query) use ($reservaFiltro) {

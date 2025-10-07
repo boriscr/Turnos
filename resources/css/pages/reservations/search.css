@@ -1,7 +1,68 @@
 .search-filters {
-    padding: 15px;
+    padding: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 4px var(--secondary_color_btn);
+}
+
+.search-bar-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+}
+
+.search-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.search-wrapper input[type="text"] {
+    padding-right: 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px var(--secondary_color_btn);
+    border: 1px solid #ccc;
+    padding: 12px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.search-wrapper button {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--general_design_color);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.search-wrapper button:hover {
+    color: var(--secondary_color_btn);
+}
+
+.clear-btn {
+    white-space: nowrap;
+    border: none;
+    padding: 0;
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    :hover {
+        background-color: rgba(248, 50, 50, 0.289);
+    }
+
+    .bi {
+        color: red;
+        font-size: 30px;
+
+    }
 }
 
 .input-group {
@@ -76,6 +137,10 @@
 
 
 @media (max-width: 768px) {
+    .search-wrapper button {
+        right: 25px;
+        width: 0px;
+    }
 
     .date-filters .col-md-5,
     .date-filters .col-md-2 {
