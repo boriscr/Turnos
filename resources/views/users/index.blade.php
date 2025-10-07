@@ -2,11 +2,7 @@
     <div class="main-table full-center">
         <div class="container-form full-center">
             <h1>{{ __('medical.titles.user_index_title') }}</h1>
-            <div class="search-filters filter-box">
-                <form action="{{ route('user.search') }}" method="GET" class="rounded" id="filterForm">
-                    @include('components.form.search')
-                </form>
-            </div>
+            <x-form.search resource="user" />
             <table>
                 <thead>
                     <tr>

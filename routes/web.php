@@ -70,6 +70,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     //Control del Doctors
     Route::get('/doctors', [DoctorController::class, 'index'])->name('doctor.index');
+    Route::get('doctor/search', [DoctorController::class, 'search'])->name('doctor.search');
     Route::get('/doctors/create', [DoctorController::class, 'create'])->name('doctor.create');
     Route::post('/doctors/store', [DoctorController::class, 'store'])->name('doctor.store');
     Route::get('/doctors/show/{id}', [DoctorController::class, 'show'])->name('doctor.show');
@@ -122,7 +123,7 @@ Route::get('/get-states/{countryId}', function ($countryId) {
         ->where('country_id', $countryId)
         ->orderBy('name')
         ->get(['id', 'name']);
-    
+
     return response()->json($states);
 });
 
@@ -131,6 +132,6 @@ Route::get('/get-cities/{stateId}', function ($stateId) {
         ->where('state_id', $stateId)
         ->orderBy('name')
         ->get(['id', 'name']);
-    
+
     return response()->json($cities);
 });

@@ -26,7 +26,7 @@ class UserController extends Controller
     {
         $query = $request->input('search');
         $users = User::where('idNumber', 'like', "%{$query}%")
-            ->orWhere('email', 'like', "%{$query}%")
+            //->orWhere('email', 'like', "%{$query}%")
             ->paginate(10);
         return view('users/index', compact('users'));
     }

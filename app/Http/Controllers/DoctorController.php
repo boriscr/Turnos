@@ -10,19 +10,27 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Requests\DoctorStoreRequest;
 use App\Http\Requests\DoctorUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
 
 class DoctorController extends Controller
 {
     public function index()
     {
         $doctors = Doctor::with('specialty')
-        ->select('id', 'name', 'surname', 'idNumber', 'specialty_id', 'role', 'status')
-        ->orderBy('updated_at', 'desc')
-        ->paginate(10);
+            ->select('id', 'name', 'surname', 'idNumber', 'specialty_id', 'role', 'status')
+            ->orderBy('updated_at', 'desc')
+            ->paginate(10);
         return view('doctors.index', compact('doctors'));
     }
-
+    //busqueda de usuarios por dni o email
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+        $doctors = Doctor::where('idNumber', 'like', "%{$query}%")
+            ->paginate(10);
+        return view('doctors/index', compact('doctors'));
+    }
     public function create()
     {
         $specialties = Specialty::select('id', 'name')->where('status', true)->get();

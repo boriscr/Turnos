@@ -2,6 +2,7 @@
     <div class="main-table full-center">
         <div class="container-form full-center">
             <h1>{{ __('medical.titles.doctor_index_title') }}</h1>
+            <x-form.search resource="doctor" />
             <table>
                 <thead>
                     <tr>
