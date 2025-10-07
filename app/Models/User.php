@@ -81,22 +81,13 @@ class User extends Authenticatable
         return $query;
     }
 
-    // Obtener el rol traducido
-    /*public function getTranslatedRoleAttribute()
-    {
-        $role = $this->getRoleNames()->first();
-
-        return match ($role) {
-            'user' => __('medical.user'),
-            'doctor' => __('medical.doctor'),
-            'admin' => __('medical.admin'),
-            default => __('medical.status.unknown')
-        };
-    }*/
-
     public function appointment()
     {
         return $this->hasMany(Appointment::class);
+    }
+    public function appointmentHistory()
+    {
+        return $this->hasMany(AppointmentHistory::class);
     }
     // Relación 1:1 con Doctor (un user PUEDE ser un profesional)
     public function doctor()

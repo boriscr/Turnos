@@ -6,6 +6,7 @@ use App\Models\AppointmentHistory;
 use App\Models\AppointmentHistoryArchive;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class AppointmentHistoryController extends Controller
 {
@@ -18,8 +19,7 @@ class AppointmentHistoryController extends Controller
         }
         // Obtener todos los historiales de citas listados en 10 páginas
 
-        $appointmentHistory = AppointmentHistory::orderBy('appointment_date', 'desc')
-            ->orderBy('updated_at', 'desc')
+        $appointmentHistory = AppointmentHistory::orderBy('updated_at', 'desc')
             ->paginate(10);
 
         return view('appointmentHistories.index', compact('appointmentHistory'));
@@ -27,8 +27,7 @@ class AppointmentHistoryController extends Controller
 
     public function show($id)
     {
-        $appointmentHistoryId = AppointmentHistory::findOrFail($id)
-            ;
+        $appointmentHistoryId = AppointmentHistory::with(['user','appointment', 'doctor', 'reservation'])->findOrFail($id);
         return view('appointmentHistories.show', compact('appointmentHistoryId'));
     }
 

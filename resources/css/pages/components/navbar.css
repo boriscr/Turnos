@@ -79,7 +79,7 @@
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     .responsive-menu {
-        background-color: var(--background_navbar_dark);
+        background: var(--background_navbar_dark);
     }
 
     .bottom-navigation-bar {

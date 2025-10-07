@@ -53,6 +53,11 @@ class AppointmentHistory extends Model
     {
         return $this->belongsTo(Appointment::class);
     }
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class);
+    }
+
     public function reservation()
     {
         return $this->belongsTo(Reservation::class);

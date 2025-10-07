@@ -1,21 +1,3 @@
-.main {
-    flex-direction: column;
-    width: 100%;
-    margin-top: 15px;
-
-    .container-form {
-        position: relative;
-        flex-direction: column;
-        width: 600px;
-        box-shadow: 0px 0px 10px 5px rgba(143, 143, 143, 0.393);
-        border-radius: 5px;
-        background-color: var(--light_application_background);
-
-        .item {
-            margin-top: 10px;
-        }
-    }
-}
 
 
 .container-form-register {
@@ -206,8 +188,6 @@ textarea:focus {
 
 
 @media (max-width: 768px) {
-
-    .container-form,
     .container-form-register {
         width: 90%;
         padding: 10px;

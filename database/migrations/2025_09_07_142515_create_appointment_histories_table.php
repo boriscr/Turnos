@@ -24,7 +24,7 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('reservations')
                 ->onDelete('set null');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Paciente
+            $table->foreignId('user_id')->constrained('user')->onDelete('cascade'); // Paciente
             $table->string('doctor_name', 56); // Nombre del doctor
             $table->string('specialty', 50); // Especialidad médica
             $table->date('appointment_date');

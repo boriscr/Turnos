@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Appointment;
+use App\Models\AppointmentHistory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use App\Http\Requests\UserUpdateRequest;
@@ -35,10 +36,13 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user = User::with(['country', 'state', 'city'])->find($id);
+        $appointmentHistory = AppointmentHistory::with(['appointment', 'reservation', 'user'])->where('user_id', $id)
+            ->orderBy('created_at','desc')
+            ->paginate(10);
         if (!$user) {
             return redirect()->route('user.index')->with('error', 'Usuario no encontrado.');
         };
-        return view('users/show', compact('user'));
+        return view('users/show', compact('user','appointmentHistory'));
     }
     //Edit admin controller
     public function edit($id)

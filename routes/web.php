@@ -46,6 +46,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::patch('/registered/update', [RegisteredUserController::class, 'update'])->name('registered.update');
     //Historial de Appointments
     Route::get('/appointmentHistory', [AppointmentHistoryController::class, 'index'])->name('appointmentHistory.index');
+    Route::get('/appointmentHistory/search', [AppointmentHistoryController::class, 'search'])->name('appointmentHistory.search');
+
     Route::get('/appointmentHistory/show/{id}', [AppointmentHistoryController::class, 'show'])->name('appointmentHistory.show');
     Route::delete('/appointmentHistory/{id}', [AppointmentHistoryController::class, 'destroy'])->name('appointmentHistory.destroy');
 

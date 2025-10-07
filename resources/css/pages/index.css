@@ -1,25 +1,45 @@
 /*Estilos específicos de index*/
-.main-table {
+.main {
+    flex-direction: column;
     width: 100%;
+    margin-top: 15px;
+
+    .container-form {
+        position: relative;
+        width: 600px;
+        flex-direction: column;
+        box-shadow: 0px 0px 10px 5px rgba(143, 143, 143, 0.393);
+        border-radius: 5px;
+        padding: 10px;
+        background-color: var(--light_application_background);
+
+        .item {
+            margin-top: 10px;
+        }
+    }
 }
 
-.container-form {
-    width: 100% !important;
-    gap: 10px;
-    display: flex;
-    flex-direction: column;
+.main-table {
+    width: 100%;
 
-    form {
-        margin: 0px;
-        padding: 0px;
-    }
+    .container-form {
+        width: 100%;
+        gap: 10px;
+        display: flex;
+        flex-direction: column;
 
-    .bi {
-        font-size: 15px;
-    }
+        form {
+            margin: 0px;
+            padding: 0px;
+        }
 
-    .accionesMovil {
-        display: none;
+        .bi {
+            font-size: 15px;
+        }
+
+        .accionesMovil {
+            display: none;
+        }
     }
 }
 
@@ -38,5 +58,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .main {
+        .container-form {
+            width: 100%;
+        }
     }
 }

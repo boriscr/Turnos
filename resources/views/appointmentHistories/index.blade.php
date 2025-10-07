@@ -35,9 +35,9 @@
                                     class="{{ $item->status == 'pending' ? 'btn-default' : ($item->status == 'assisted' ? 'btn-success' : 'btn-danger') }}">
                                     @switch($item->status)
                                         @case('pending')
-                                            <i
-                                                class="bi bi-hourglass-split btn-default">{{ __('button.search.pending') }}</i>
+                                            <i class="bi bi-hourglass-split btn-default">{{ __('button.search.pending') }}</i>
                                         @break
+
                                         @case('assisted')
                                             <i
                                                 class="bi bi-check-circle-fill btn-success">{{ __('button.search.assisted') }}</i>

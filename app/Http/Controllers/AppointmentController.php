@@ -180,7 +180,7 @@ class AppointmentController extends Controller
     </div>";
     }
 
-    private function calcularTotalRegistros($available_dates, $timeSlots, $appointmentType)
+    /*private function calcularTotalRegistros($available_dates, $timeSlots, $appointmentType)
     {
         $totalFechas = count($available_dates);
 
@@ -189,7 +189,7 @@ class AppointmentController extends Controller
         }
 
         return $totalFechas;
-    }
+    }*/
 
     private function crearDisponibilidadesEnLote($appointment, $available_dates, $tipoAppointment, $request, $timeSlots = [])
     {
@@ -261,7 +261,16 @@ class AppointmentController extends Controller
     public function show($id)
     {
         $appointment = Appointment::findOrFail($id);
-        return view('appointments.show', compact('appointment'));
+        if ($appointment) {
+            return view('appointments.show', compact('appointment'));
+        } else {
+            session()->flash('error', [
+                'title' => 'No existe!',
+                'text' => 'El turno ha sido eliminado o no existe.',
+                'icon' => 'error'
+            ]);
+            return back();
+        }
     }
 
 
