@@ -16,25 +16,23 @@ document.addEventListener('DOMContentLoaded', function () {
         box.className = 'box-accionesMovil';
 
         // Obtener los datos necesarios de la fila
-        if (window.location.pathname.includes('/appointments')) {
+
+        if (window.location.pathname.includes('/users/show') ||
+          window.location.pathname.includes('/reservations') ||
+          window.location.pathname.includes('/availableAppointments')) {
+          var idElemento = 'td:nth-child(1)'
           var elemento = 'td:nth-child(2)'
-          var editarLink = row.querySelector('.acciones a:nth-child(2)').outerHTML;
-        } else if (window.location.pathname.includes('/reservations')) {
-          var elemento = 'td:nth-child(5) a'
-        } else if (window.location.pathname.includes('/users/show')) {
-          var elemento = 'td:nth-child(2)'
-          //var editarLink = row.querySelector('.acciones a:nth-child(1)').outerHTML;
-        } else if (window.location.pathname.includes('/user')) {
-          var elemento = 'td:nth-child(2)'
-          var editarLink = row.querySelector('.acciones a:nth-child(2)').outerHTML;
-        } else if (window.location.pathname.includes('/doctors')) {
-          var elemento = 'td:nth-child(2)'
-          var editarLink = row.querySelector('.acciones a:nth-child(2)').outerHTML;
-        } else if (window.location.pathname.includes('/specialty')) {
+        } else if (window.location.pathname.includes('/appointments') ||
+          window.location.pathname.includes('/user') ||
+          window.location.pathname.includes('/specialty') ||
+          window.location.pathname.includes('/doctors')) {
+          var idElemento = 'td:nth-child(1)'
           var elemento = 'td:nth-child(2)'
           var editarLink = row.querySelector('.acciones a:nth-child(2)').outerHTML;
         }
 
+        // Obtener el id del titulo
+        const id = row.querySelector(idElemento).textContent;
         // Obtener el name del titulo
         const name = row.querySelector(elemento).textContent;
         // Obtener el enlace de ver detalles
@@ -45,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Construir el contenido del box
         box.innerHTML = `
+                    <h2 class="paciente-info">ID: ${id}</h2>
                     <h1 class="paciente-info">${name}</h1>
                     <hr>
                     <hr>

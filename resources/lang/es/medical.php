@@ -1,5 +1,7 @@
 <?php
 return [
+    'available' => 'Disponibles',
+    'reserved' => 'Reservados',
     'update' => 'Actualizar',
     'register' => 'Registrar',
     'cancel' => 'Cancelar',
@@ -68,7 +70,8 @@ return [
         'my_data' => 'Mis datos',
         'reservations' => 'Reservas',
         'reserved_appointment_details' => 'Detalles del turno reservado',
-        'historical' => 'Historial'
+        'historical' => 'Historial',
+        'appointment_quotas_created'=>'Cupos de turnos creadas'
     ],
     'setting' => [
         'title_1' => 'Contenido personalizado',

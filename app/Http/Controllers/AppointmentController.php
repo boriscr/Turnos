@@ -10,7 +10,6 @@ use App\Models\Specialty;
 use App\Models\Doctor;
 use App\Models\AvailableAppointment;
 use App\Models\Reservation;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 

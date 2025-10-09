@@ -10,7 +10,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>{{ __('medical.id') }}</th>
+                        <th class="option-movil">{{ __('medical.id') }}</th>
                         <th>{{ __('specialty.title') }}</th>
                         <th>{{ __('medical.status.title') }}</th>
                         <th>{{ __('medical.actions') }}</th>
@@ -19,7 +19,7 @@
                 <tbody>
                     @foreach ($specialties as $specialty)
                         <tr>
-                            <td>{{ $specialty->id }}</td>
+                            <td class="option-movil">{{ $specialty->id }}</td>
                             <td>{{ $specialty->name }}</td>
                             <td class="{{ $specialty->status ? 'existing' : 'no_data' }}">
                                 {{ $specialty->status ? __('medical.active') : __('medical.inactive') }}</td>

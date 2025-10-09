@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AvailableAppointment;
+use App\Models\Specialty;
+use App\Models\Reservation;
 
 class AvailableAppointmentsController extends Controller
 {
-    public function index(Request $request)
+    /* public function index(Request $request)
     {
         // Si se presionó "Mostrar Todo", ignoramos todos los filtros
         if ($request->has('show_all')) {
@@ -27,7 +29,6 @@ class AvailableAppointmentsController extends Controller
         }
 
         // Procesamiento normal de filtros
-        ///$search = $request->input('search');
         $reservaFiltro = $request->input('reservation', 'reservados');
         $fechaFiltro = $request->input('date', 'hoy');
         $fechaInicio = $request->input('start_date');
@@ -36,13 +37,6 @@ class AvailableAppointmentsController extends Controller
         $manana = now()->addDay()->format('Y-m-d'); // Nueva variable para mañana
 
         $query = AvailableAppointment::with(['appointment', 'reservations.user'])
-/*            ->when($search, function ($query) use ($search) {
-                $query->whereHas('reservations.user', function ($userQuery) use ($search) {
-                    $userQuery->where('idNumber', 'like', "%$search%")
-                        ->orWhere('name', 'like', "%$search%")
-                        ->orWhere('surname', 'like', "%$search%");
-                });
-            })*/
             ->when($reservaFiltro !== 'todos', function ($query) use ($reservaFiltro) {
                 switch ($reservaFiltro) {
                     case 'reservados':
@@ -84,5 +78,29 @@ class AvailableAppointmentsController extends Controller
             ->paginate(10);
 
         return view('availableAppointments.index', compact('turnoDisponibles', 'reservaFiltro', 'fechaFiltro', 'fechaInicio', 'fechaFin'));
+    }*/
+    public function index(Request $request, $id)
+    {
+        $availableAppointment = AvailableAppointment::with(['appointment' => function ($query) {
+            $query->select('id', 'name');
+        }])
+            ->select('id', 'appointment_id', 'date', 'time', 'available_spots', 'reserved_spots')
+            ->where('appointment_id', '=', $id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        return view('availableAppointments.index', compact('availableAppointment'));
+    }
+    public function show(Request $request, $id)
+    {
+        $reservations = Reservation::with(['availableAppointment' => function ($query) {
+            $query->select('id', 'date', 'time');
+        }, 'user' => function ($query) {
+            $query->select('id', 'name', 'surname');
+        }])
+            ->select('id', 'available_appointment_id', 'user_id', 'asistencia')
+            ->where('available_appointment_id', '=', $id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        return view('availableAppointments.show', compact('reservations'));
     }
 }

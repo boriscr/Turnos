@@ -6,7 +6,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>{{ __('medical.id') }}</th>
+                        <th class="option-movil">{{ __('medical.id') }}</th>
                         <th>{{ __('contact.name_and_surname') }}</th>
                         <th class="option-movil">{{ __('contact.idNumber') }}</th>
                         <th class="option-movil">{{ __('medical.role') }}</th>
@@ -17,7 +17,7 @@
                 <tbody>
                     @foreach ($users as $user)
                         <tr>
-                            <td>{{ $user->id }}</td>
+                            <td class="option-movil">{{ $user->id }}</td>
                             <td>{{ $user->name . ' ' . $user->surname }}</td>
                             <td class="option-movil">{{ $user->idNumber }}</td>
                             <td class="option-movil">

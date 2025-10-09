@@ -1,4 +1,9 @@
 /*estilos específicos de show*/
+.scrollable-div {
+    max-height: 200px;
+    width: 380px;
+    overflow-y: auto;
+}
 
 .content-wrapper {
     margin-top: 10px;
@@ -44,10 +49,6 @@
                 text-decoration-thickness: 2px;
                 margin-bottom: 10px;
             }
-        }
-
-        .half-width {
-            width: 45% !important;
         }
     }
 }

@@ -36,11 +36,11 @@
             <table>
                 <thead>
                     <tr>
-                        <th>{{ __('medical.id') }}</th>
+                        <th class="option-movil">{{ __('medical.id') }}</th>
+                        <th>{{ __('medical.patient') }}</th>
                         <th>{{ __('appointment.date.date') }}</th>
                         <th class="option-movil">{{ __('appointment.schedule.time') }}</th>
                         <th>{{ __('medical.doctor') }}</th>
-                        <th>{{ __('medical.patient') }}</th>
                         <th>{{ __('medical.attendance') }}</th>
                         <th>{{ __('medical.actions') }}</th>
                     </tr>
@@ -48,7 +48,9 @@
                 <tbody>
                     @forelse ($reservations as $reservation)
                         <tr>
-                            <td>{{ $reservation->id }}</td>
+                            <td class="option-movil">{{ $reservation->id }}</td>
+                            <td>
+                                {{ $reservation->user->name . ' ' . $reservation->user->surname }} </td>
                             <td>{{ Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}
                             </td>
                             <td class="option-movil">
@@ -56,9 +58,6 @@
                             </td>
                             <td><a
                                     href="{{ route('doctor.create', $reservation->availableAppointment->doctor->id) }}">{{ $reservation->availableAppointment->doctor->name . ' ' . $reservation->availableAppointment->doctor->surname }}</a>
-                            </td>
-                            <td><a
-                                    href="{{ route('user.show', $reservation->user->id) }}">{{ $reservation->user->name . ' ' . $reservation->user->surname }}</a>
                             </td>
                             <td>
                                 @if ($reservation->availableAppointment->appointment->status === true)
@@ -141,8 +140,8 @@
                     @endforelse
                 </tbody>
             </table>
-            <div class="mt-4">
-                {{ $reservations->appends(request()->query())->links() }}
+            <div class="pagination">
+                {{ $reservations->links() }}
             </div>
         </div>
     </div>

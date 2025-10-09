@@ -1,5 +1,7 @@
 <?php
 return [
+    'available' => 'Available',
+    'reserved' => 'Reserved',
     'update' => 'Update',
     'register' => 'Register',
     'cancel' => 'Cancel',
@@ -69,7 +71,8 @@ return [
         'my_data' => 'My data',
         'reservations' => 'Reservations',
         'reserved_appointment_details' => 'Reserved appointment details',
-        'historical' => 'Historical'
+        'historical' => 'Historical',
+        'appointment_quotas_created' => 'Appointment quotas created'
     ],
 
     'setting' => [

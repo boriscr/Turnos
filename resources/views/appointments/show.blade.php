@@ -41,7 +41,7 @@
                 </p>
             </div>
             <hr>
-            <div class="card half-width">
+            <div class="card scrollable-div">
                 @if (!empty($appointment->available_time_slots))
                     <p>
                         <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.title')" />
@@ -60,7 +60,7 @@
                     <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.title')" :value="\Carbon\Carbon::parse($appointment->start_time)->format('H:i')" />
                 @endif
             </div>
-            <div class="card half-width">
+            <div class="card scrollable-div">
                 <p>
                     <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.title')" />
                     <small>
@@ -91,7 +91,7 @@
         <br>
         <div class="full-center mt-4">
             <x-secondary-button>
-                <a href="{{ route('availableAppointments.index', $appointment->doctor_id) }}">
+                <a href="{{ route('availableAppointments.index', $appointment->id) }}">
                     {{ __('button.view_available_reservations') }}</a>
             </x-secondary-button>
         </div>

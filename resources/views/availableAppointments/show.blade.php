@@ -4,7 +4,7 @@
             <h1>{{ __('medical.titles.appointment_quotas_created') }}</h1>
             <div class="search-filters filter-box">
                 <!-- Formulario de búsqueda y filtros rápidos -->
-                <form action="{{ route('availableAppointments.index') }}" method="GET" class="mb-4 border p-3 rounded"
+                <form action="{{ route('availableAppointments.show') }}" method="GET" class="mb-4 border p-3 rounded"
                     id="filterForm">
                     <div class="mb-3">
                         <!-- Filtro de reservations -->
@@ -27,30 +27,47 @@
                         <thead>
                             <tr>
                                 <th class="option-movil">{{ __('medical.id') }}</th>
-                                <th class="option-movil">{{ __('reservation.title_name') }}</th>
+                                <th class="option-movil">{{ __('medical.patient') }}</th>
                                 <th>{{ __('appointment.date.date') }}</th>
                                 <th>{{ __('appointment.schedule.time') }}</th>
-                                <th>{{ __('medical.available') }}</th>
-                                <th>{{ __('medical.reserved') }}</th>
+                                <th>{{ __('medical.attendance') }}</th>
                                 <th>{{ __('medical.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($availableAppointment as $item)
+                            @foreach ($reservations as $item)
                                 <tr>
                                     <td class="option-movil">{{ $item->id }}</td>
-                                    <td class="option-movil">{{ $item->appointment->name }}</td>
-                                    <td>
-                                        {{ \Carbon\Carbon::parse($item->date)->format('d-m-Y') }}</td>
-                                    <td> {{ \Carbon\Carbon::parse($item->time)->format('H:i') }}</td>
-                                    <td class="{{ $item->available_spots ? 'btn-success' : 'btn-danger' }}">
-                                        {{ $item->available_spots }}
+                                    <td class="option-movil">{{ $item->user->name . ' ' . $item->user->surname }}</td>
+                                    <td class="option-movil">
+                                        {{ \Carbon\Carbon::parse($item->availableAppointment->date)->format('d-m-Y') }}
                                     </td>
-                                    <td class="{{ $item->reserved_spots ? 'btn-success' : 'btn-danger' }}">
-                                        {{ $item->reserved_spots }}
+                                    <td class="option-movil">
+                                        {{ \Carbon\Carbon::parse($item->availableAppointment->time)->format('H:i') }}
+                                    </td>
+
+                                    <td
+                                        class="{{ $item->asistencia === true ? ($item->asistencia === null ? 'btn-default' : ($item->asistencia === true ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
+                                        @switch($item->asistencia)
+                                        @case(false)
+                                            {{ __('button.search.not_attendance') }}
+                                        @break
+                                            @case(null)
+                                                {{ __('button.search.pending') }}
+                                            @break
+
+                                            @case(true)
+                                                {{ __('button.search.assisted') }}
+                                            @break
+
+
+                                            @default
+                                                {{ __('button.search.inactive_appointment') }}
+                                            @break
+                                        @endswitch
                                     </td>
                                     <td class="acciones full-center">
-                                        <a href="{{ route('availableAppointments.show', $item->id) }}" class="btn btn-view"><i
+                                        <a href="{{ route('appointments.show', $item->id) }}" class="btn btn-view"><i
                                                 class="bi bi-eye"></i><b
                                                 class="accionesMovil">{{ __('button.view') }}</b></a>
                                         <form action="{{ route('appointments.destroy', $item->id) }}" method="POST"
@@ -72,10 +89,10 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="pagination">
+                        {{ $reservations->links() }}
+                    </div>
                 </div>
-            </div>
-            <div class="pagination">
-                {{ $availableAppointment->links() }}
             </div>
         </div>
     </div>

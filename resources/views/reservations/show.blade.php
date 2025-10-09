@@ -32,7 +32,27 @@
                         </b>
                         <span
                             class="{{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia === true ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
-                            {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? __('button.search.pending') : ($reservation->asistencia === true ? __('button.search.assisted') : __('button.search.not_attendance'))) : __('button.search.inactive_appointment') }}
+                            @if ($reservation->availableAppointment->appointment->status === true)
+                                @switch($reservation->asistencia)
+                                    @case(null)
+                                        {{ __('button.search.pending') }}
+                                    @break
+
+                                    @case(true)
+                                        {{ __('button.search.assisted') }}
+                                    @break
+
+                                    @case(false)
+                                        {{ __('button.search.not_attendance') }}
+                                    @break
+
+                                    @default
+                                        {{ __('button.search.inactive_appointment') }}
+                                    @break
+                                @endswitch
+                            @else
+                                {{ __('button.search.inactive_appointment') }}
+                            @endif
                         </span>
                     </p>
                     <p><b><i class="bi bi-calendar-date"></i>{{ __('medical.creation_date') }}:

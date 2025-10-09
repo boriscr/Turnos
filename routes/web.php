@@ -100,7 +100,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
 
     //Appointments disponibles creados
-    Route::get('/availableAppointments/{doctor_id?}', [AvailableAppointmentsController::class, 'index'])->name('availableAppointments.index');
+    Route::get('/availableAppointments/{id?}', [AvailableAppointmentsController::class, 'index'])->name('availableAppointments.index');
+    Route::get('/availableAppointments/show/{id?}', [AvailableAppointmentsController::class, 'show'])->name('availableAppointments.show');
+
     //Setting
     Route::get('/settings/edit', [SettingController::class, 'edit'])->name('settings.edit');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
