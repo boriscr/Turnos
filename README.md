@@ -163,7 +163,7 @@
 #### 🔄 Sistema de Gestión de Estados
 <p>🤖 Cambios Automáticos</p>
 
-- Verificación programada - Cada X tiempo configurado, el sistema verifica automáticamente la asistencia
+- Verificación programada - Cada X tiempo configurado, el sistema verifica automáticamente la status
 - Actualización automática - Cambia estado de "Pendiente" a "No asistido" cuando corresponde
 
 <p>👨‍💼 Cambios Manuales</p>
@@ -192,7 +192,7 @@
 - Sistema de alertas - Notificaciones al usuario sobre su estado de faltas (Futuro)
 - Límites configurables - Umbrales personalizables para restricciones por faltas
 
-<p>📈 Nota: El sistema está diseñado para promover la responsabilidad en la asistencia a consultas médicas, optimizando la disponibilidad de turnos para todos los pacientes.</p>
+<p>📈 Nota: El sistema está diseñado para promover la responsabilidad en la status a consultas médicas, optimizando la disponibilidad de turnos para todos los pacientes.</p>
 
 ### 📖 Historial
 - Creación de registro en el historial al realizar una reserva con el estado "pendiente". 
@@ -227,7 +227,7 @@ El paciente no puede visualizar estos registros.
 
 | Opción                     | Descripción                                                           |
 | -------------------------- | --------------------------------------------------------------------- |
-| Límite de faltas           | Número máximo de inasistencias permitidas antes de bloquear pacientes |
+| Límite de faltas           | Número máximo de instatuss permitidas antes de bloquear pacientes |
 | Límite de reservas activas | Cantidad máxima de reservas simultáneas por paciente                  |
 
 #### ⏰ Configuración de Tiempos
@@ -248,7 +248,7 @@ El paciente no puede visualizar estos registros.
 
 | Opción                     | Descripción                                           |
 | -------------------------- | ----------------------------------------------------- |
-| Frecuencia de verificación | Intervalo para verificación automática de asistencias |
+| Frecuencia de verificación | Intervalo para verificación automática de statuss |
 
 
 #### 🎨 Personalización del Diseño

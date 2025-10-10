@@ -475,7 +475,7 @@ class AppointmentController extends Controller
 
         // Una sola consulta para todas las reservas pendientes
         $reservasPendientes = Reservation::whereIn('available_appointment_id', $idsDisponibilidades)
-            ->whereNull('asistencia')
+            ->where('status','=','pending')
             ->get()
             ->groupBy('available_appointment_id');
 
@@ -610,7 +610,7 @@ class AppointmentController extends Controller
             $tieneReservasPendientes = DB::table('reservations')
                 ->join('available_appointments', 'reservations.available_appointment_id', '=', 'available_appointments.id')
                 ->where('available_appointments.appointment_id', $id)
-                ->whereNull('reservations.asistencia')
+                ->where('reservations.status','=','pending')
                 ->exists();
 
             if ($tieneReservasPendientes) {

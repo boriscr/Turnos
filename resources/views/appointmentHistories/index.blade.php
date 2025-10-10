@@ -33,40 +33,7 @@
                                 </td>
                                 <td
                                     class="{{ $item->status == 'pending' ? 'btn-default' : ($item->status == 'assisted' ? 'btn-success' : 'btn-danger') }}">
-                                    @switch($item->status)
-                                        @case('pending')
-                                            <i class="bi bi-hourglass-split btn-default">{{ __('button.search.pending') }}</i>
-                                        @break
-
-                                        @case('assisted')
-                                            <i
-                                                class="bi bi-check-circle-fill btn-success">{{ __('button.search.assisted') }}</i>
-                                        @break
-
-                                        @case('not_attendance')
-                                            <i
-                                                class="bi bi-x-circle-fill btn-danger">{{ __('button.search.not_attendance') }}</i>
-                                        @break
-
-                                        @case('cancelled_by_user')
-                                            <i
-                                                class="bi bi-x-circle-fill btn-danger">{{ __('medical.status.cancelled_by_user') }}</i>
-                                        @break
-
-                                        @case('cancelled_by_admin')
-                                            <i
-                                                class="bi bi-x-circle-fill btn-danger">{{ __('medical.status.cancelled_by_admin') }}</i>
-                                        @break
-
-                                        @case('deleted_by_admin')
-                                            <i
-                                                class="bi bi-x-circle-fill btn-danger">{{ __('medical.status.deleted_by_admin') }}</i>
-                                        @break
-
-                                        @default
-                                            <i
-                                                class="bi bi-question-circle-fill btn-default">{{ __('medical.status.unknown') }}</i>
-                                    @endswitch
+                                    <x-change-of-state :status="$item->status" />
                                 </td>
                                 <td>
                                     <a href="{{ route('appointmentHistory.show', $item->id) }}" class="btn btn-view"><i
@@ -82,14 +49,14 @@
                                     </form>
                                 </td>
                             </tr>
-                            @empty
-                                <h5 colspan="7" class="text-center">{{ __('medical.no_data') }}</h5>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    <div class="pagination">
-                        {{ $appointmentHistory->links() }}
-                    </div>
+                        @empty
+                            <h5 colspan="7" class="text-center">{{ __('medical.no_data') }}</h5>
+                        @endforelse
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    {{ $appointmentHistory->links() }}
                 </div>
             </div>
-    </x-app-layout>
+        </div>
+</x-app-layout>

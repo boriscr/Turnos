@@ -19,7 +19,7 @@ class MyAppointmentsController extends Controller
         if (Auth::check()) {
             $reservations = Reservation::where('user_id', Auth::user()->id)
                 ->with('availableAppointment') // Asegúrate de cargar la relación
-                ->whereNull('asistencia') //mostrar solo las reservas con asistencia null
+                ->where('status','=','pending') //mostrar solo las reservas con status pendiente
                 ->orderBy('id', 'desc')
                 ->paginate(8);
             $appointmentHistory = AppointmentHistory::where('user_id', Auth::user()->id)

@@ -76,7 +76,7 @@ class SettingSeeder extends Seeder
                 ]
             ],
 
-            // Configuración de Asistencias
+            // Configuración de statuss
             'assists' => [
                 'verification_interval' => [
                     'value' => 1,

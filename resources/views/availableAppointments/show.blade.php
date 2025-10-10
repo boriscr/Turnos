@@ -47,19 +47,19 @@
                                     </td>
 
                                     <td
-                                        class="{{ $item->asistencia === true ? ($item->asistencia === null ? 'btn-default' : ($item->asistencia === true ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
-                                        @switch($item->asistencia)
-                                        @case(false)
-                                            {{ __('button.search.not_attendance') }}
-                                        @break
-                                            @case(null)
+                                        class="{{ $item->status === true ? ($item->status === null ? 'btn-default' : ($item->status === true ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
+                                        @switch($item->status)
+                                            @case('pending')
                                                 {{ __('button.search.pending') }}
                                             @break
 
-                                            @case(true)
+                                            @case('assisted')
                                                 {{ __('button.search.assisted') }}
                                             @break
 
+                                            @case('not_attendance')
+                                                {{ __('button.search.not_attendance') }}
+                                            @break
 
                                             @default
                                                 {{ __('button.search.inactive_appointment') }}

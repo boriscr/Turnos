@@ -125,16 +125,16 @@
 
 
 /*Tabla seccion acciones reservations*/
-.btn-asistencia {
+.btn-status {
     padding: 5px 10px;
     border: 1px solid #fff;
 }
 
-.btn-asistencia:hover {
+.btn-status:hover {
     transform: scale(1.1);
 }
 
-.btn-asistencia>.bi {
+.btn-status>.bi {
     font-size: 15px !important;
 }
 

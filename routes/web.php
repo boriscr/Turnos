@@ -58,8 +58,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/reservations/show/{id}', [ReservationController::class, 'show'])->name('reservations.show');
     //Route::get('/reservations/edit/{id}', [ReservationController::class, 'edit'])->name('reservations.edit');
     //Route::put('/reservations/{id}', [ReservationController::class, 'update'])->name('reservations.update');
-    Route::patch('/reservations/{reservation}/asistencia', [ReservationController::class, 'actualizarAsistencia'])
-        ->name('reservations.asistencia');
+    Route::patch('/reservations/{reservation}/status', [ReservationController::class, 'actualizarstatus'])
+        ->name('reservations.status');
 
 
     //Users

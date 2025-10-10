@@ -16,34 +16,8 @@
                     <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.time')" :value="\Carbon\Carbon::parse($appointmentHistoryId->appointment_time)->format('H:i')" />
                     <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.date')" :value="\Carbon\Carbon::parse($appointmentHistoryId->appointment_date)->format('d/m/Y')" />
                     <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" />
-                    @switch($appointmentHistoryId->status)
-                        @case('pending')
-                            <i class="bi bi-hourglass-split btn-default">{{ __('button.search.pending') }}</i>
-                        @break
+                    <x-change-of-state :status="$appointmentHistoryId->status" />
 
-                        @case('assisted')
-                            <i class="bi bi-check-circle-fill btn-success">{{ __('button.search.assisted') }}</i>
-                        @break
-
-                        @case('not_attendance')
-                            <i class="bi bi-x-circle-fill btn-danger">{{ __('button.search.not_attendance') }}</i>
-                        @break
-
-                        @case('cancelled_by_user')
-                            <i class="bi bi-x-circle-fill btn-danger">{{ __('medical.status.cancelled_by_user') }}</i>
-                        @break
-
-                        @case('cancelled_by_admin')
-                            <i class="bi bi-x-circle-fill btn-danger">{{ __('medical.status.cancelled_by_admin') }}</i>
-                        @break
-
-                        @case('deleted_by_admin')
-                            <i class="bi bi-x-circle-fill btn-danger">{{ __('medical.status.deleted_by_admin') }}</i>
-                        @break
-
-                        @default
-                            <i class="bi bi-question-circle-fill btn-default">{{ __('medical.status.unknown') }}</i>
-                    @endswitch
                     @if ($appointmentHistoryId->status == 'cancelled_by_user' || $appointmentHistoryId->status == 'cancelled_by_admin')
                         <x-field-with-icon icon="calendar-x" :label="__('medical.cancellation_date')" :value="$appointmentHistoryId->cancelled_at" />
                     @elseif ($appointmentHistoryId->status == 'deleted_by_admin')

@@ -97,7 +97,7 @@ class AvailableAppointmentsController extends Controller
         }, 'user' => function ($query) {
             $query->select('id', 'name', 'surname');
         }])
-            ->select('id', 'available_appointment_id', 'user_id', 'asistencia')
+            ->select('id', 'available_appointment_id', 'user_id', 'status')
             ->where('available_appointment_id', '=', $id)
             ->orderBy('created_at', 'desc')
             ->paginate(10);

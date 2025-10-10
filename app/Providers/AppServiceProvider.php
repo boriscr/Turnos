@@ -5,8 +5,6 @@ namespace App\Providers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Console\Scheduling\Schedule;
-use App\Console\Commands\CheckAttendancesCommand;
 class AppServiceProvider extends ServiceProvider
 {
 

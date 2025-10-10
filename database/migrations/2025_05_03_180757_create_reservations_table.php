@@ -17,12 +17,17 @@ return new class extends Migration
             $table->foreignId('available_appointment_id')->constrained('available_appointments')->onDelete('cascade');
             $table->foreignId('specialty_id')->constrained('specialties')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->boolean('asistencia')->nullable();
+//            $table->boolean('status')->nullable();
+            $table->enum('status', [
+                'pending',            // Pendiente
+                'assisted',           // Asistido
+                'not_attendance'     // No asistido
+            ])->default('pending');
             $table->timestamps();
 
             // EVITA que un usuario reserve el mismo turno múltiples veces
             $table->unique(['user_id', 'available_appointment_id']);
-            $table->index(['user_id', 'asistencia']);
+            $table->index(['user_id', 'status']);
             $table->index('specialty_id');
             // EVITA que un turno sea reservado por múltiples usuarios (si es 1 spot)
             // $table->unique(['available_appointment_id']);

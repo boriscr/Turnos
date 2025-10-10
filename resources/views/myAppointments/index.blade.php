@@ -25,8 +25,12 @@
                                 {{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}
                             </span>
                             <span
-                                class="status full-center {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia === true ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
-                                {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? __('button.search.pending') : ($reservation->asistencia ? __('button.search.assisted') : __('button.search.not_attendance'))) : __('button.search.inactive_appointment') }}
+                                class="status full-center {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->status === 'pending' ? 'btn-default' : ($reservation->status === 'assisted' ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
+                                @if ($reservation->availableAppointment->appointment->status === true)
+                                    <x-change-of-state :status="$reservation->status" />
+                                @else
+                                    {{ __('button.search.inactive_appointment') }}
+                                @endif
                             </span>
                         </div>
                     </a>
@@ -65,52 +69,20 @@
                                 </td>
                                 <td
                                     class="{{ $item->status == 'pending' ? 'btn-default' : ($item->status == 'assisted' ? 'btn-success' : 'btn-danger') }}">
-                                    @switch($item->status)
-                                        @case('pending')
-                                            <i class="bi bi-hourglass-split btn-default">{{ __('button.search.pending') }}</i>
-                                        @break
-
-                                        @case('assisted')
-                                            <i
-                                                class="bi bi-check-circle-fill btn-success">{{ __('button.search.assisted') }}</i>
-                                        @break
-
-                                        @case('not_attendance')
-                                            <i
-                                                class="bi bi-x-circle-fill btn-danger">{{ __('button.search.not_attendance') }}</i>
-                                        @break
-
-                                        @case('cancelled_by_user')
-                                            <i class="bi bi-x-circle-fill btn-danger">{{ __('medical.status.canceled') }}</i>
-                                        @break
-
-                                        @case('cancelled_by_admin')
-                                            <i
-                                                class="bi bi-x-circle-fill btn-danger">{{ __('medical.status.cancelled_by_admin') }}</i>
-                                        @break
-
-                                        @case('deleted_by_admin')
-                                            <i
-                                                class="bi bi-x-circle-fill btn-danger">{{ __('medical.status.deleted_by_admin') }}</i>
-                                        @break
-
-                                        @default
-                                            <i
-                                                class="bi bi-question-circle-fill btn-default">{{ __('medical.status.unknown') }}</i>
-                                    @endswitch
+                                    <x-change-of-state :status="$item->status" />
                                 </td>
                             </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="7" class="text-center">{{ __('medical.no_data') }}</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    <div class="pagination">
-                        {{ $appointmentHistory->links() }}
-                    </div>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center">{{ __('medical.no_data') }}</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    {{ $appointmentHistory->links() }}
                 </div>
             </div>
         </div>
-    </x-app-layout>
+    </div>
+</x-app-layout>

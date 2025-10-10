@@ -19,6 +19,7 @@ use App\Models\AppointmentHistory;
 
 class ReservationController extends Controller
 {
+
     public function index(Request $request)
     {
         $specialties = Specialty::where('status', 1)->get();
@@ -63,13 +64,13 @@ class ReservationController extends Controller
             ->when(in_array($reservaFiltro, ['assisted', 'pending', 'not_attendance']), function ($query) use ($reservaFiltro) {
                 switch ($reservaFiltro) {
                     case 'assisted':
-                        $query->where('asistencia', '=', 1);
+                        $query->where('status', '=', 'assisted');
                         break;
                     case 'pending':
-                        $query->where('asistencia', '=', null);
+                        $query->where('status', '=', 'pending');
                         break;
                     case 'not_attendance':
-                        $query->where('asistencia', '=', 0);
+                        $query->where('status', '=', 'not_attendance');
                         break;
                 }
             })
@@ -117,113 +118,126 @@ class ReservationController extends Controller
         ));
     }
 
-
-    public function actualizarAsistencia(Request $request, Reservation $reservation)
+    public function actualizarstatus(Request $request, Reservation $reservation)
     {
         DB::transaction(function () use ($reservation, $request) {
-            $estadoAnterior = $reservation->asistencia;
+            $estadoAnterior = $reservation->status;
 
-            // Si se envía el valor específico en el request, usarlo
-            if ($request->filled('asistencia')) {
-                $nuevoEstado = $request->asistencia == '1';
+            // Determinar el nuevo estado basado en el request
+            if ($request->filled('status')) {
+                $nuevoEstado = $request->status; // Usar directamente el valor del enum
             } else {
-                // Comportamiento original de toggle
-                $nuevoEstado = $estadoAnterior === null ? false : !$estadoAnterior;
+                // Comportamiento de toggle para el nuevo sistema enum
+                if ($estadoAnterior === 'pending') {
+                    $nuevoEstado = 'not_attendance';
+                } else if ($estadoAnterior === 'assisted') {
+                    $nuevoEstado = 'not_attendance';
+                } else { // not_attendance
+                    $nuevoEstado = 'assisted';
+                }
             }
 
-            $reservation->asistencia = $nuevoEstado;
+            $reservation->status = $nuevoEstado;
             $reservation->save();
 
             if ($reservation->user) {
                 $this->gestionarFaltas($reservation, $estadoAnterior, $nuevoEstado);
             }
 
-            // Verificar si ya existe un historial para esta reservación
-            $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
-                ->first();
+            // Actualizar el historial de citas
+            $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)->first();
             if ($appointmentHistory) {
-                // Actualizar status existente
                 $appointmentHistory->update([
-                    'status' => $nuevoEstado ? 'assisted' : 'not_attendance',
+                    'status' => $nuevoEstado === 'assisted' ? 'assisted' : 'not_attendance',
                     'updated_at' => now(),
                 ]);
             }
         });
 
-        return back()->with('success', 'Estado de asistencia actualizado correctamente');
+        return back()->with('success', 'Estado de status actualizado correctamente');
     }
+
+    // php artisan schedule:work
+    public function checkStatusAutomatically()
+    {
+        Log::info('Iniciando verificación automática de status');
+
+        $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
+        $hora_status = (int) ($settings['assists.verification_interval'] ?? 1);
+        $now = Carbon::now();
+        $verificationTime = $now->copy()->subHours($hora_status);
+
+        Log::info("Parámetros - Hora status: {$hora_status}, Now: {$now}, Verification Time: {$verificationTime}");
+
+        $actualizadas = 0;
+
+        // ✅ OPTIMIZACIÓN: Usar chunk para evitar memory leaks con muchas reservas
+        Reservation::with(['availableAppointment.appointment', 'user'])
+            ->where('status', 'pending')
+            ->whereHas('availableAppointment', function ($query) use ($now, $verificationTime) {
+                $query->where(function ($q) use ($now, $verificationTime) {
+                    $q->where('date', '<', $now->toDateString())
+                        ->orWhere(function ($q2) use ($now, $verificationTime) {
+                            $q2->where('date', $now->toDateString())
+                                ->where('time', '<=', $verificationTime->toTimeString());
+                        });
+                });
+            })
+            ->chunk(100, function ($reservations) use (&$actualizadas) {
+                foreach ($reservations as $reservation) {
+                    try {
+                        DB::transaction(function () use ($reservation, &$actualizadas) {
+                            $estadoAnterior = $reservation->status;
+                            $reservation->status = 'not_attendance';
+                            $reservation->save();
+
+                            if (
+                                $reservation->user &&
+                                $reservation->availableAppointment &&
+                                $reservation->availableAppointment->appointment &&
+                                $reservation->availableAppointment->appointment->status === true
+                            ) {
+                                $reservation->user->increment('faults');
+                            }
+
+                            $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)->first();
+                            if ($appointmentHistory) {
+                                $appointmentHistory->update([
+                                    'status' => 'not_attendance',
+                                    'updated_at' => now(),
+                                ]);
+                            }
+
+                            $actualizadas++;
+                        });
+                    } catch (\Exception $e) {
+                        Log::error("Error procesando reserva {$reservation->id}: " . $e->getMessage());
+                    }
+                }
+            });
+
+        Log::info("Verificación automática completada. Reservas actualizadas: {$actualizadas}");
+
+        return [
+            'message' => 'Estados verificados automáticamente',
+            'reservas_actualizadas' => $actualizadas
+        ];
+    }
+
 
     protected function gestionarFaltas(Reservation $reservation, $estadoAnterior, $nuevoEstado)
     {
-        // Detectar si el estado anterior era null
-        $eraPendiente = is_null($estadoAnterior);
-
-        $estadoAnteriorBool = (bool) $estadoAnterior;
-        $nuevoEstadoBool = (bool) $nuevoEstado;
-
-        // Si el nuevo estado es "No Asistió" (false) y antes estaba en Pendiente o en Asistió
-        if ($nuevoEstadoBool === false && ($estadoAnteriorBool !== false || $eraPendiente)) {
+        // Si el nuevo estado es "No Asistió" y antes no lo era
+        if ($nuevoEstado === 'not_attendance' && $estadoAnterior !== 'not_attendance') {
             $reservation->user->increment('faults');
         }
 
-        // Si el nuevo estado es "Asistió" (true) y antes era "No Asistió" (false)
-        if ($nuevoEstadoBool === true && $estadoAnteriorBool === false) {
+        // Si el nuevo estado es "Asistió" y antes era "No Asistió"
+        if ($nuevoEstado === 'assisted' && $estadoAnterior === 'not_attendance') {
             if ($reservation->user->faults > 0) {
                 $reservation->user->decrement('faults');
             }
         }
-    }
-    // Método para verificación automática (se llamará desde la tarea programada)
-    // php artisan schedule:work
-    public function verificarAsistenciasAutomaticamente()
-    {
-        $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
-        $hora_asistencia = (int) ($settings['assists.verification_interval'] ?? 1); // Valor por defecto
-        $now = Carbon::now();
-        $fourHoursAgo = $now->copy()->subHours($hora_asistencia);
-
-        $reservasPendientes = Reservation::with(['availableAppointment', 'user'])
-            ->whereNull('asistencia')
-            ->whereHas('availableAppointment', function ($query) use ($now, $fourHoursAgo) {
-                $query->where(function ($q) use ($now, $fourHoursAgo) {
-                    $q->where('date', '<', $now->toDateString())
-                        ->orWhere(function ($q2) use ($now, $fourHoursAgo) {
-                            $q2->where('date', $now->toDateString())
-                                ->where('time', '<=', $fourHoursAgo->toTimeString());
-                        });
-                });
-            })
-            ->get();
-
-        foreach ($reservasPendientes as $reservation) {
-            DB::transaction(function () use ($reservation) {
-                $reservation->asistencia = false;
-                $reservation->save();
-                $status = Appointment::where('id', $reservation->availableAppointment->appointment_id)->value('status');
-                if ($reservation->user && $status == true) {
-                    $reservation->user->increment('faults');
-                }
-            });
-            // Mover a appointment_histories si el estado es attended o missed
-            if ($reservation->asistencia !== null) {
-                // Verificar si ya existe un historial para esta reservación
-                $appointmentHistory = AppointmentHistory::where('reservation_id', $reservation->id)
-                    ->first();
-                $nuevoEstado = $appointmentHistory->status === 'assisted';
-                if ($appointmentHistory) {
-                    // Actualizar status existente
-                    $appointmentHistory->update([
-                        'status' => $nuevoEstado ? 'assisted' : 'not_attendance',
-                        'updated_at' => now(),
-                    ]);
-                }
-            }
-        }
-
-        return response()->json([
-            'message' => 'Asistencias verificadas automáticamente',
-            'reservas_actualizadas' => $reservasPendientes->count()
-        ]);
     }
 
 
@@ -245,7 +259,7 @@ class ReservationController extends Controller
         $user = Auth::user();
         $turnos_activos = Reservation::where('user_id', $user->id)
             ->whereHas('availableAppointment', function ($query) {
-                $query->whereNull('asistencia');
+                $query->where('status', '=', 'pending');
             })
             ->count();
         if (
@@ -515,7 +529,7 @@ class ReservationController extends Controller
         // Contar turnos activos del usuario
         $activeReservations = Reservation::where('user_id', $user->id)
             ->whereHas('availableAppointment', function ($query) {
-                $query->whereNull('asistencia');
+                $query->where('status', '=', 'pending');
             })
             ->count();
 

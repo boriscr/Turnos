@@ -8,7 +8,7 @@
                     <!-- Buscardor de usuarios o doctores-->
                     <x-form.search resource="user" indexRoute="reservations" />
                     <div class="mb-3">
-                        <!-- Filtro de tipos de asistencias-->
+                        <!-- Filtro de tipos de statuss-->
                         @include('components.form.assistance-filter')
                         <br>
                         <hr>
@@ -61,28 +61,28 @@
                             </td>
                             <td>
                                 @if ($reservation->availableAppointment->appointment->status === true)
-                                    @if ($reservation->asistencia === null)
+                                    @if ($reservation->status === 'pending')
                                         <div class="ios-dropdown">
-                                            <button class="btn-asistencia btn-default dropdown-toggle"
-                                                title="Marcar asistencia">
+                                            <button class="btn-status btn-default dropdown-toggle"
+                                                title="Marcar status">
                                                 <i class="bi bi-hourglass-split"></i>{{ __('button.search.pending') }}
                                             </button>
                                             <div class="ios-dropdown-menu">
-                                                <form action="{{ route('reservations.asistencia', $reservation->id) }}"
+                                                <form action="{{ route('reservations.status', $reservation->id) }}"
                                                     method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('PATCH')
-                                                    <input type="hidden" name="asistencia" value="1">
+                                                    <input type="hidden" name="status" value="assisted">
                                                     <button type="submit" class="ios-dropdown-item success">
                                                         <i class="bi bi-check-circle-fill"></i>
                                                         {{ __('button.search.assisted') }}
                                                     </button>
                                                 </form>
-                                                <form action="{{ route('reservations.asistencia', $reservation->id) }}"
+                                                <form action="{{ route('reservations.status', $reservation->id) }}"
                                                     method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('PATCH')
-                                                    <input type="hidden" name="asistencia" value="0">
+                                                    <input type="hidden" name="status" value="not_attendance">
                                                     <button type="submit" class="ios-dropdown-item danger">
                                                         <i class="bi bi-x-circle-fill"></i>
                                                         {{ __('button.search.not_attendance') }}
@@ -91,21 +91,23 @@
                                             </div>
                                         </div>
                                     @else
-                                        <form action="{{ route('reservations.asistencia', $reservation->id) }}"
+                                        <form action="{{ route('reservations.status', $reservation->id) }}"
                                             method="POST" style="display:inline;">
                                             @csrf
                                             @method('PATCH')
+                                            <input type="hidden" name="status"
+                                                value="{{ $reservation->status === 'assisted' ? 'not_attendance' : 'assisted' }}">
                                             <button type="submit"
-                                                class="btn-asistencia {{ $reservation->asistencia ? 'btn-success' : 'btn-danger' }}"
-                                                title="{{ $reservation->asistencia ? __('button.reservation.assisted_txt') : __('button.reservation.not_attendance_txt') }}">
+                                                class="btn-status {{ $reservation->status === 'assisted' ? 'btn-success' : 'btn-danger' }}"
+                                                title="{{ $reservation->status === 'assisted' ? __('button.reservation.assisted_txt') : __('button.reservation.not_attendance_txt') }}">
                                                 <i
-                                                    class="bi {{ $reservation->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill' }}"></i>
-                                                {{ $reservation->asistencia ? __('button.search.assisted') : __('button.search.not_attendance') }}
+                                                    class="bi {{ $reservation->status === 'assisted' ? 'bi-check-circle-fill' : 'bi-x-circle-fill' }}"></i>
+                                                {{ $reservation->status === 'assisted' ? __('button.search.assisted') : __('button.search.not_attendance') }}
                                             </button>
                                         </form>
                                     @endif
                                 @else
-                                    <button type="button" class="btn-asistencia inactive"
+                                    <button type="button" class="btn-status inactive"
                                         title="{{ __('button.search.inactive_appointment') }}">
                                         <i class="bi bi-slash-circle"></i>
                                         {{ __('button.search.inactive_appointment') }}

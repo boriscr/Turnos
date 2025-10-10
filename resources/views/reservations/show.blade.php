@@ -31,25 +31,9 @@
                     <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status.title') }}: </b>
                         </b>
                         <span
-                            class="{{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia === true ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
+                            class="{{ $reservation->availableAppointment->appointment->status === true ? ($reservation->status === null ? 'btn-default' : ($reservation->status === true ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
                             @if ($reservation->availableAppointment->appointment->status === true)
-                                @switch($reservation->asistencia)
-                                    @case(null)
-                                        {{ __('button.search.pending') }}
-                                    @break
-
-                                    @case(true)
-                                        {{ __('button.search.assisted') }}
-                                    @break
-
-                                    @case(false)
-                                        {{ __('button.search.not_attendance') }}
-                                    @break
-
-                                    @default
-                                        {{ __('button.search.inactive_appointment') }}
-                                    @break
-                                @endswitch
+                                <x-change-of-state :status="$reservation->status" />
                             @else
                                 {{ __('button.search.inactive_appointment') }}
                             @endif

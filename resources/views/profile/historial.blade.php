@@ -30,11 +30,11 @@
                             <td>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}
                             </td>
                             <td
-                                class="{{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia === true ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
+                                class="{{ $reservation->availableAppointment->appointment->status === true ? ($reservation->status === null ? 'btn-default' : ($reservation->status === true ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
                                 <i
-                                    class="bi {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? 'bi-hourglass-split' : ($reservation->asistencia ? 'bi-check-circle-fill' : 'bi-x-circle-fill')) : 'bi-slash-circle' }} ">
+                                    class="bi {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->status === null ? 'bi-hourglass-split' : ($reservation->status ? 'bi-check-circle-fill' : 'bi-x-circle-fill')) : 'bi-slash-circle' }} ">
                                 </i>
-                                {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->asistencia === null ? __('button.search.pending') : ($reservation->asistencia ? __('button.search.assisted') : __('button.search.not_attendance'))) : __('button.search.inactive_appointment') }}
+                                {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->status === null ? __('button.search.pending') : ($reservation->status ? __('button.search.assisted') : __('button.search.not_attendance'))) : __('button.search.inactive_appointment') }}
                             </td>
                             <td>
                                 <a href="{{ route('profile.show', $reservation->id) }}" class="btn btn-view">

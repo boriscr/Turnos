@@ -98,7 +98,7 @@ return [
 
         // Usuario
         'maximum_faults' => 'Límite de faltas',
-        'maximum_faults_context' => 'Número máximo de inasistencias permitidas antes de bloquear a un paciente.',
+        'maximum_faults_context' => 'Número máximo de instatuss permitidas antes de bloquear a un paciente.',
 
         'daily_limit' => 'Límite de reservas activas',
         'daily_limit_context' => 'Cantidad máxima de reservas activas que un paciente puede tener simultáneamente.',
@@ -116,8 +116,8 @@ return [
         'day' => 'Día(s)',
         'month' => 'Mes(es)',
 
-        'verification_interval' => 'Frecuencia de verificación de asistencias',
-        'verification_interval_context' => 'Intervalo de tiempo para la verificación automática de asistencias (se marcará como *Asistió* o *No asistió*).',
+        'verification_interval' => 'Frecuencia de verificación de statuss',
+        'verification_interval_context' => 'Intervalo de tiempo para la verificación automática de statuss (se marcará como *Asistió* o *No asistió*).',
 
         // Personalización de colores
         'general_design_color' => 'Color general de diseño',

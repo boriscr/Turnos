@@ -36,8 +36,12 @@
                         </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</p>
                     <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status.title') }}: </b>
                         <span
-                            class="{{ $reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia === true ? 'btn-success' : 'btn-danger') }}">
-                            {{ $reservation->asistencia === null ? __('button.search.pending') : ($reservation->asistencia === true ? __('button.search.assisted') : __('button.search.not_attendance')) }}
+                            class="status full-center {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->status === 'pending' ? 'btn-default' : ($reservation->status === 'assisted' ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
+                            @if ($reservation->availableAppointment->appointment->status === true)
+                                <x-change-of-state :status="$reservation->status" />
+                            @else
+                                {{ __('button.search.inactive_appointment') }}
+                            @endif
                         </span>
                     </p>
                     <p><b><i class="bi bi-calendar-date"></i>{{ __('medical.creation_date') }}:

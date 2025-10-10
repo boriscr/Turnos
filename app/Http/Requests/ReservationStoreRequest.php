@@ -27,8 +27,8 @@ class ReservationStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'appointment_id' => 'required|exists:available_appointments,id',
-            'specialty_id'   => 'required|exists:specialties,id',
+            'appointment_id' => ['required', 'exists:available_appointments,id'],
+            'specialty_id'   => ['required', 'exists:specialties,id'],
         ];
     }
 }

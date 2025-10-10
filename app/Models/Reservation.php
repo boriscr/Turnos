@@ -10,10 +10,7 @@ class Reservation extends Model
         'available_appointment_id', 
         'specialty_id',
         'user_id',
-        //'asistencia',
-    ];
-    protected $casts = [
-        'asistencia' => 'boolean',
+        'status',
     ];
 
     public function availableAppointment()

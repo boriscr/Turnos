@@ -29,8 +29,8 @@
                         </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</p>
                     <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status.title') }}: </b>
                         <span
-                            class="{{ $reservation->asistencia === null ? 'btn-default' : ($reservation->asistencia === true ? 'btn-success' : 'btn-danger') }}">
-                            {{ $reservation->asistencia === null ? __('button.search.pending') : ($reservation->asistencia === true ? __('button.search.assisted') : __('button.search.not_attendance')) }}
+                            class="{{ $reservation->status === null ? 'btn-default' : ($reservation->status === true ? 'btn-success' : 'btn-danger') }}">
+                            {{ $reservation->status === null ? __('button.search.pending') : ($reservation->status === true ? __('button.search.assisted') : __('button.search.not_attendance')) }}
                         </span>
                     </p>
                     <p><b><i class="bi bi-calendar-date"></i>{{ __('medical.creation_date') }}:
