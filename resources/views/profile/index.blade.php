@@ -1,53 +1,132 @@
 <x-app-layout>
     <div class="content-wrapper">
-        <h2>
-            @if (Auth::user()->gender == 'Masculino')
-                Bienvenido, {{ Auth::user()->name }}
-            @elseif(Auth::user()->gender == 'Femenino')
-                Bienvenida, {{ Auth::user()->name }}
-            @else
-                Hola, {{ Auth::user()->name }}
-            @endif
-        </h2>
+        <div class="content-date-profile {{ $user->status ? '' : 'status-inactive' }}">
+            <div class="profile-container">
+                <label for="profile-photo" class="profile-img-label">
+                    <img src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2558760599.jpg"
+                        alt="img-profile" class="profile-img">
+                    <input type="file" id="profile-photo" class="profile-input" accept="image/*">
+                </label>
+                <div class="profile-id">
+                    <p class="profile-name">
+                        <span>
+                            @switch($user->gender)
+                                @case('Masculino')
+                                    {{ __('medical.greetings.welcome') }}
+                                @break
 
-        <!-- Para nuevos users -->
-        @if (Auth::user()->is_new_user)
-            <div class="welcome-guide">
-                <h3>¡Bienvenido a nuestro sistema de appointments online!</h3>
-                <div class="guide-steps">
-                    <div class="step">
-                        <i class="icon-user-check"></i>
-                        <p>Complete su perfil para agilizar la solicitud de appointments</p>
-                        <a href="{{ route('profile.show') }}" class="btn-step-action">Completar perfil</a>
-                    </div>
-                    <div class="step">
-                        <i class="icon-calendar"></i>
-                        <p>Solicite su primer appointment doctor</p>
-                        <a href="{{ route('reservations.create') }}" class="btn-step-action">Sacar appointment</a>
-                    </div>
-                    <div class="step">
-                        <i class="icon-bell"></i>
-                        <p>Configure sus preferencias de notificaciones</p>
-                        <a href="{{ route('profile.notifications') }}" class="btn-step-action">Configurar</a>
+                                @case('Femenino')
+                                    {{ __('medical.greetings.famale_welcome') }}
+                                @break
+
+                                @default
+                                    {{ __('medical.greetings.hello') }}
+                            @endswitch
+                        </span>
+                        {{ explode(' ', $user->name)[0] }}
+                    </p>
+                    <small>
+                        {{ $user->email }}
+                    </small>
+                    <div class="profile-edit-btn-container">
+                        <x-secondary-button>
+                            <a href="{{ route('profile.edit', $user->id) }}">
+                                {{ __('medical.update') }}
+                            </a>
+                        </x-secondary-button>
                     </div>
                 </div>
             </div>
-        @endif
+        </div>
 
-
-        <div class="section-container-profile">
-            <div class="card-profile full-center">
-                <h1>Seccion Informacion</h1>
-                <i class="bi bi-person-bounding-box"></i>
-                <a href="{{ route('profile.edit', $user->id) }}">Ver mis datos</a>
-            </div>
-
+        <div class="section-container-profile desktop-elements">
             <!-- Notificaciones importantes -->
-            <div class="card-profile full-center">
-                <h1>Mi historial</h1>
-                <i class="bi bi-journal-text"></i>
-                <a href="{{ route('profile.historial') }}">Ver historial</a>
-            </div>
+            <a href="{{ route('myAppointments.index') }}">
+                <div class="card-profile full-center">
+                    <h1> {{ __('navbar.my_appointments') }}</h1>
+                    <i class="bi bi-journal-text"></i>
+                </div>
+            </a>
+            <a href="#">
+                <div class="card-profile full-center">
+                    <div class="feature">
+                        {{ __('medical.feature') }}
+                    </div>
+                    <h1>{{ __('medical.notifications') }}</h1>
+                    <i class="bi bi-bell-fill"></i>
+                </div>
+            </a>
+            <a href="#">
+                <div class="card-profile full-center">
+                    <div class="feature">
+                        {{ __('medical.feature') }}
+                    </div>
+                    <h1>{{ __('medical.tutorial') }}</h1>
+                    <i class="bi bi-mortarboard"></i>
+                </div>
+            </a>
+            <a href="#">
+                <div class="card-profile full-center">
+                    <div class="feature">
+                        {{ __('medical.feature') }}
+                    </div>
+                    <h1>{{ __('medical.bases_and_conditions') }}</h1>
+                    <i class="bi bi-file-earmark-text"></i>
+                </div>
+            </a>
+        </div>
+
+
+
+        <div class="mobile-elements">
+            <!-- Historial -->
+            <a href="{{ route('myAppointments.index') }}">
+                <div class="card-profile">
+                    <div class="element-container">
+                        <i class="bi bi-calendar-check-fill"></i>
+                        <p>{{ __('navbar.my_appointments') }}</p>
+                    </div>
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </a>
+            <!-- Notificaciones importantes -->
+            <a href="#">
+                <div class="card-profile">
+                    <div class="feature">
+                        {{ __('medical.feature') }}
+                    </div>
+                    <div class="element-container">
+                        <i class="bi bi-bell-fill"></i>
+                        <p>{{ __('medical.notifications') }}</p>
+                    </div>
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </a>
+            <hr>
+            <a href="#">
+                <div class="card-profile">
+                    <div class="feature">
+                        {{ __('medical.feature') }}
+                    </div>
+                    <div class="element-container">
+                        <i class="bi bi-mortarboard"></i>
+                        <p>{{ __('medical.tutorial') }}</p>
+                    </div>
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </a>
+            <a href="#">
+                <div class="card-profile">
+                    <div class="feature">
+                        {{ __('medical.feature') }}
+                    </div>
+                    <div class="element-container">
+                        <i class="bi bi-file-earmark-text"></i>
+                        <p>{{ __('medical.bases_and_conditions') }}</p>
+                    </div>
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </a>
         </div>
     </div>
 </x-app-layout>

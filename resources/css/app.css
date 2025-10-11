@@ -7,6 +7,7 @@
 @import 'pages/index.css';
 @import 'pages/show.css';
 /*Components*/
+@import 'pages/components/feature.css';
 @import 'pages/components/navbar.css';
 @import 'pages/components/main.css';
 @import 'pages/components/buttons.css';

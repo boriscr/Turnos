@@ -53,10 +53,10 @@
             {{ $slot }}
         </main>
     </div>
-    <!-- Bottom Navigation Bar -->
-    @include('layouts.bottom-navigation-bar')
     <!-- Footer -->
     @include('layouts.footer')
+    <!-- Bottom Navigation Bar -->
+    @include('layouts.bottom-navigation-bar')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>

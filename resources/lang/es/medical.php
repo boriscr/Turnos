@@ -33,6 +33,15 @@ return [
     'none' => 'Ninguno',
     'unassisted_reservations' => 'Reservas no asistidas',
     'no_appointments' => 'No hay turnos reservados.',
+    'feature' => 'Feature',
+    'notifications' => 'Notificaciones',
+    'tutorial' => 'Tutorial',
+    'bases_and_conditions' => 'Bases y condiciones',
+    'greetings' => [
+        'hello' => 'Hola',
+        'welcome' => 'Bienvenido',
+        'famale_welcome'=>'Bienvenida',
+    ],
     'status' => [
         'title' => 'Estado',
         'assisted' => 'Asistió',
@@ -71,7 +80,7 @@ return [
         'reservations' => 'Reservas',
         'reserved_appointment_details' => 'Detalles del turno reservado',
         'historical' => 'Historial',
-        'appointment_quotas_created'=>'Cupos de turnos creadas'
+        'appointment_quotas_created' => 'Cupos de turnos creadas'
     ],
     'setting' => [
         'title_1' => 'Contenido personalizado',

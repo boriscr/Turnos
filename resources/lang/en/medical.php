@@ -33,7 +33,16 @@ return [
     'none' => 'None',
     'unassisted_reservations' => 'Unassisted reservations',
     'no_appointments' => 'No booked appointments.',
+    'feature' => 'Feature',
+    'notifications' => 'Notifications',
+    'tutorial' => 'Tutorial',
+    'bases_and_conditions' => 'Bases and conditions',
 
+    'greetings' => [
+        'hello' => 'Hello',
+        'welcome' => 'Welcome',
+        'famale_welcome' => 'Welcome',
+    ],
     'status' => [
         'title' => 'Status',
         'assisted' => 'Assisted',

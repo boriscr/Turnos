@@ -28,20 +28,20 @@ class RegisteredUserController extends Controller
      */
 
 
-public function create(): View
+    public function create(): View
     {
         // Cargar países directamente desde la tabla
         $countries = DB::table('countries')
             ->orderBy('name')
             ->get();
-        
+
         // Encontrar Argentina
         $argentinaId = DB::table('countries')
             ->where('name', 'Argentina')
             ->value('id');
-        
+
         $disabledNav = true;
-        
+
         return view('auth.register', compact('disabledNav', 'countries', 'argentinaId'));
     }
 
@@ -87,6 +87,6 @@ public function create(): View
             'icon' => 'success',
         ]);
 
-        return redirect(route('home', absolute: false));
+        return redirect(route('profile.index', absolute: false));
     }
 }

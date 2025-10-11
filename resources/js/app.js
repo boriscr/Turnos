@@ -3,6 +3,7 @@ import '../js/layouts/get-list-of-countries.js';
 //pages***********************
 import '../js/pages/doctors/specialty.js';
 import '../js/pages/profiles/anular-btn.js';
+import '../js/pages/profiles/profile-photo.js';
 
 import '../js/pages/reservations/index/date-filter.js';
 import '../js/pages/reservations/index/search.js';
