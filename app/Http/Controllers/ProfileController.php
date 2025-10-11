@@ -17,7 +17,7 @@ class ProfileController extends Controller
 {
     public function index(): View
     {
-        $user = User::select('id', 'name', 'gender_id', 'status')
+        $user = User::select('id', 'name', 'gender_id', 'email', 'status')
             ->with('gender')
             ->findOrFail(Auth::id());
 
