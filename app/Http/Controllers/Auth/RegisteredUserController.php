@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-use Nnjeim\World\World;
+use App\Models\Gender;
 
 class RegisteredUserController extends Controller
 {
@@ -39,10 +39,10 @@ class RegisteredUserController extends Controller
         $argentinaId = DB::table('countries')
             ->where('name', 'Argentina')
             ->value('id');
-
+        $genders=Gender::where('status','=',true)->get();
         $disabledNav = true;
 
-        return view('auth.register', compact('disabledNav', 'countries', 'argentinaId'));
+        return view('auth.register', compact('disabledNav', 'countries', 'argentinaId','genders'));
     }
 
 
@@ -61,7 +61,7 @@ class RegisteredUserController extends Controller
             'surname' => $request->validated()['surname'],
             'idNumber' => $request->validated()['idNumber'],
             'birthdate' => $request->validated()['birthdate'],
-            'gender' => $request->validated()['gender'],
+            'gender_id' => $request->validated()['gender_id'],
             'country_id' => $request->validated()['country_id'],
             'state_id' => $request->validated()['state_id'],
             'city_id' => $request->validated()['city_id'],

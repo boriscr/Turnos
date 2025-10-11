@@ -28,8 +28,13 @@ class ProfileUpdateRequest extends FormRequest
         $rules = [
             'name' => ['required', 'string', 'min:3', 'max:40'],
             'surname' => ['required', 'string', 'min:3', 'max:40'],
-            'birthdate' => ['required', 'date', 'before:today'], //'before:-18 years'
-            'gender' => ['required', 'in:Masculino,Femenino,No binario,Otro,Prefiero no decir'],
+            'birthdate' => [
+                'required',
+                'date',
+                'before:-18 years',  // 👈 Mayor de 18 años
+                'after:-120 years',
+            ], // 👈 Menor de 120 años], //'before:-18 years'
+            'gender_id' => ['required', 'integer', 'exists:genders,id'],
             'country_id' => ['required', 'integer', 'exists:countries,id'],
             'state_id' => ['required', 'integer', 'exists:states,id'],
             'city_id' => ['required', 'integer', 'exists:cities,id'],
@@ -81,7 +86,7 @@ class ProfileUpdateRequest extends FormRequest
             'surname.min' => 'El apellido debe tener al menos :min caracteres',
             'birthdate.required' => 'La date de nacimiento es obligatoria',
             'birthdate.before' => 'Debes ser mayor de 18 años',
-            'gender.required' => 'El género es obligatorio',
+            'gender_id.required' => 'El género es obligatorio',
             'country_id.required' => 'El país es obligatorio',
             'province_id.required' => 'La provincia es obligatoria',
             'city_id.required' => 'La ciudad es obligatoria',

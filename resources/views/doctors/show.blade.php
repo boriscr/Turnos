@@ -24,15 +24,17 @@
                     <x-field-with-icon icon="telephone-fill" :label="__('contact.phone')" :value="$doctor->phone" />
                     <x-field-with-icon icon="envelope-fill" :label="__('contact.email')" :value="$doctor->email" />
                 </div>
-                <div class="card">
-                    <h2>{{ __('medical.titles.creation') }}</h2>
-                    <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.created_by')" :value="$doctor->createdBy->name . ' ' . $doctor->createdBy->surname"
-                        :link="route('user.show', $doctor->created_by)" />
-                    <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($doctor->created_at)->format('d/m/Y H:i')" />
-                    <x-field-with-icon icon="calendar-range-fill" :label="__('medical.updated_by')" :value="$doctor->updatedBy->name . ' ' . $doctor->updatedBy->surname"
-                        :link="route('user.show', $doctor->updated_by)" />
-                    <x-field-with-icon icon="calendar-range-fill" :label="__('medical.update_date')" :value="\Carbon\Carbon::parse($doctor->updated_at)->format('d/m/Y H:i')" />
-                </div>
+                @if ($doctor->created_by != null)
+                    <div class="card">
+                        <h2>{{ __('medical.titles.creation') }}</h2>
+                        <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.created_by')" :value="$doctor->createdBy->name . ' ' . $doctor->createdBy->surname"
+                            :link="route('user.show', $doctor->created_by)" />
+                        <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($doctor->created_at)->format('d/m/Y H:i')" />
+                        <x-field-with-icon icon="calendar-range-fill" :label="__('medical.updated_by')" :value="$doctor->updatedBy->name . ' ' . $doctor->updatedBy->surname"
+                            :link="route('user.show', $doctor->updated_by)" />
+                        <x-field-with-icon icon="calendar-range-fill" :label="__('medical.update_date')" :value="\Carbon\Carbon::parse($doctor->updated_at)->format('d/m/Y H:i')" />
+                    </div>
+                @endif
             </div>
             <div class="options full-center">
                 <a href="{{ route('doctor.edit', $doctor->id) }}" class="btn-edit"><i

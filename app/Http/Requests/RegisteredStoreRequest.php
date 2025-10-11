@@ -32,7 +32,7 @@ class RegisteredStoreRequest extends FormRequest
                 'before:-18 years',  // 👈 Mayor de 18 años
                 'after:-120 years' // 👈 Menor de 120 años
             ], //'before:-18 years'
-            'gender' => ['required', 'string', 'in:Masculino,Femenino,No binario,Otro,Prefiero no decir'],
+            'gender_id' => ['required', 'integer', 'exists:genders,id'],
             'country_id' => ['required', 'integer', 'exists:countries,id'],
             'state_id' => ['required', 'integer', 'exists:states,id'],
             'city_id' => ['required', 'integer', 'exists:cities,id'],
@@ -75,8 +75,7 @@ class RegisteredStoreRequest extends FormRequest
             'birthdate.before' => 'El usuario debe ser mayor de 18 años.',
             'birthdate.after' => 'La fecha de nacimiento no es válida.',
 
-            'gender.required' => 'El género es obligatorio',
-            'gender.in' => 'El género seleccionado no es válido',
+            'gender_id.required' => 'El género es obligatorio',
 
             'country_id.required' => 'El país es obligatorio',
 

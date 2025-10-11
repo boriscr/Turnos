@@ -10,7 +10,7 @@
                 <div class="profile-id">
                     <p class="profile-name">
                         <span>
-                            @switch($user->gender)
+                            @switch($user->gender->name)
                                 @case('Masculino')
                                     {{ __('medical.greetings.welcome') }}
                                 @break

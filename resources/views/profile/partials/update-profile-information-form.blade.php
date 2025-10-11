@@ -33,18 +33,14 @@
                     placeholder="{{ __('placeholder.birthdate') }}" value="{{ $user->birthdate }}" :required="true"
                     autofocus autocomplete="birthdate" />
                 <small id="edad"></small>
-                <x-form.select icon="gender-ambiguous" name="gender" :label="__('contact.gender')" :required="true">
-                    <option value="">Selecciona...</option>
-                    <option {{ $user->gender == 'Femenino' ? 'selected' : '' }} value="Femenino">Femenino</option>
-                    <option {{ $user->gender == 'Masculino' ? 'selected' : '' }} value="Masculino">Masculino
-                    </option>
-                    <option {{ $user->gender == 'No binario' ? 'selected' : '' }} value="No binario">No binario
-                    </option>
-                    <option {{ $user->gender == 'Otro' ? 'selected' : '' }} value="Otro">Otro</option>
-                    <option {{ $user->gender == 'Prefiero no decir' ? 'selected' : '' }} value="Prefiero no decir">
-                        Prefiero
-                        no
-                        decir</option>
+                {{$user->status}}
+                <x-form.select icon="gender-ambiguous" name="gender_id" :label="__('contact.gender')" :required="true">
+                    <option value="">{{ __('medical.select_default') }}</option>
+                    @foreach ($genders as $item)
+                        <option value="{{ $item->id }}" {{ $user->gender_id == $item->id ? 'selected' : '' }}>
+                            {{ $item->name }}</option>
+                    @endforeach
+                    </select>
                 </x-form.select>
             </div>
             <!-- Paso 2 -->

@@ -10,30 +10,38 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Reservation;
 use App\Models\User;
+use App\Models\Gender;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        return view('profile.index', [
-            'user' => Auth::user(),
-        ]);
+        $user = User::select('id', 'name', 'gender_id', 'status')
+            ->with('gender')
+            ->findOrFail(Auth::id());
+
+        // Verifica si el usuario tiene permiso para ver su perfil
+        $this->authorize('view', $user);
+
+        return view('profile.index', compact('user'));
     }
 
     //verificar si el usuario esta autenticado y pertenese al mismo usuario
     public function edit(Request $request, $id): View
     {
-        $user = $request->user();
-        if (Auth::check() && $user->id == $id) {
-            // Cargar datos para los selects
-            $countries = DB::table('countries')->orderBy('name')->get();
-            $states = DB::table('states')->where('country_id', $user->country_id)->orderBy('name')->get();
-            $cities = DB::table('cities')->where('state_id', $user->state_id)->orderBy('name')->get();
-            return view('profile.edit', compact('user', 'countries', 'states', 'cities'));
-        } else {
-            abort(403, 'No tienes permiso para editar este perfil.');
-        }
+        $user = User::select('id', 'name', 'surname', 'idNumber', 'birthdate', 'gender_id', 'country_id', 'state_id', 'city_id', 'address', 'phone', 'email')
+            ->with(['country', 'state', 'city', 'gender'])
+            ->findOrFail($id);
+
+        $this->authorize('update', $user);
+
+        $countries = DB::table('countries')->orderBy('name')->get();
+        $states = DB::table('states')->where('country_id', $user->country_id)->orderBy('name')->get();
+        $cities = DB::table('cities')->where('state_id', $user->state_id)->orderBy('name')->get();
+        $genders = Gender::where('status', true)->get();
+
+        return view('profile.edit', compact('user', 'countries', 'states', 'cities', 'genders'));
     }
 
     public function historial()
@@ -73,36 +81,38 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request, $id): RedirectResponse
     {
         $user = User::findOrFail($id);
-        if (Auth::check() && $user->id == $id) {
-            // Actualizar campos editables (excluyendo idNumber)
-            $user->fill($request->only([
-                'name',
-                'surname',
-                'birthdate',
-                'gender',
-                'country_id',
-                'state_id',
-                'city_id',
-                'address',
-                'phone'
-            ]));
 
-            // Validación adicional para email
-            if ($user->isDirty('email')) {
-                $user->email_verified_at = null;
-            }
+        // Verifica si el usuario autenticado tiene permiso para actualizar este perfil
+        $this->authorize('update', $user);
 
-            // Guardar los cambios
-            $user->save();
-            session()->flash('success', [
-                'title' => 'Tus datos han sido actualizados',
-                'text' => 'Los cambios se han guardado correctamente',
-                'icon' => 'success',
-            ]);
-            return Redirect::route('profile.edit', $user->id);
-        } else {
-            abort(403, 'No tienes permiso para editar este perfil.');
+        // Actualizar campos editables (excluyendo idNumber y email)
+        $user->fill($request->only([
+            'name',
+            'surname',
+            'birthdate',
+            'gender_id',
+            'country_id',
+            'state_id',
+            'city_id',
+            'address',
+            'phone'
+        ]));
+
+        // Si el email fue modificado, se invalida la verificación
+        if ($request->filled('email') && $user->email !== $request->email) {
+            $user->email = $request->email;
+            $user->email_verified_at = null;
         }
+
+        $user->save();
+
+        session()->flash('success', [
+            'title' => 'Tus datos han sido actualizados',
+            'text' => 'Los cambios se han guardado correctamente',
+            'icon' => 'success',
+        ]);
+
+        return Redirect::route('profile.edit', $user->id);
     }
 
     /**
@@ -115,6 +125,9 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+
+        // Verifica si el usuario tiene permiso para eliminar su cuenta
+        $this->authorize('delete', $user);
 
         Auth::logout();
 

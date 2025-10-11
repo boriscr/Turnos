@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('surname', 40);
             $table->string('idNumber', 8)->unique();
             $table->date('birthdate');
-            $table->string('gender');
+            $table->foreignId('gender_id')->nullable()->constrained('genders')->nullOnDelete();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->unsignedBigInteger('state_id')->nullable();
             $table->unsignedBigInteger('city_id')->nullable();
@@ -62,7 +62,7 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-   public function down(): void
+    public function down(): void
     {
         Schema::dropIfExists('sessions');
         Schema::dropIfExists('password_reset_tokens');

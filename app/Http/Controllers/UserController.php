@@ -12,6 +12,7 @@ use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Gender;
 
 class UserController extends Controller
 {
@@ -34,28 +35,30 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::find($id);
-        $user = User::with(['country', 'state', 'city'])->find($id);
-        $appointmentHistory = AppointmentHistory::with(['appointment', 'reservation', 'user'])->where('user_id', $id)
-            ->orderBy('created_at','desc')
-            ->paginate(10);
+        //$user = User::find($id);
+        $user = User::with(['country', 'state', 'city', 'gender'])->findOrfail($id);
         if (!$user) {
             return redirect()->route('user.index')->with('error', 'Usuario no encontrado.');
         };
-        return view('users/show', compact('user','appointmentHistory'));
+        $appointmentHistory = AppointmentHistory::with(['appointment', 'reservation', 'user'])->where('user_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        return view('users/show', compact('user', 'appointmentHistory'));
     }
     //Edit admin controller
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = User::with(['country', 'state', 'city', 'gender'])->findOrfail($id);
+        if (!$user) {
+            return redirect()->route('users.index')->with('error', 'Usuario no encontrado.');
+        };
         // Cargar datos para los selects
         $countries = DB::table('countries')->orderBy('name')->get();
         $states = DB::table('states')->where('country_id', $user->country_id)->orderBy('name')->get();
         $cities = DB::table('cities')->where('state_id', $user->state_id)->orderBy('name')->get();
-        if (!$user) {
-            return redirect()->route('users.index')->with('error', 'Usuario no encontrado.');
-        };
-        return view('users/edit', compact('user', 'countries', 'states', 'cities'));
+        $genders = Gender::where('status', '=', true)->get();
+
+        return view('users/edit', compact('user', 'countries', 'states', 'cities', 'genders'));
     }
 
     public function update(UserUpdateRequest $request, $id)

@@ -1,5 +1,5 @@
 <x-app-layout>
-    
+
     <div class="main full-center">
         <div class="container-form full-center">
             <h1>{{ __('medical.titles.section_title_edit') }}</h1>
@@ -20,18 +20,13 @@
                     <x-form.text-input type="date" icon="gift" name="birthdate"
                         label="{{ __('contact.birthdate') }}" value="{{ $user->birthdate }}" :required="true" />
                     <small id="edad"></small>
-                    <x-form.select name="gender" icon="gender-ambiguous" :label="__('contact.gender')" :required="true">
-                        <option value="Femenino" {{ $user->gender == 'Femenino' ? 'Selected' : '' }}>Femenino
-                        </option>
-                        <option value="Masculino" {{ $user->gender == 'Masculino' ? 'Selected' : '' }}>Masculino
-                        </option>
-                        <option value="No binario" {{ $user->gender == 'No binario' ? 'Selected' : '' }}>No binario
-                        </option>
-                        <option value="Otro" {{ $user->gender == 'Otro' ? 'Selected' : '' }}>Otro</option>
-                        <option value="Prefiero no decir" {{ $user->gender == 'Prefiero no decir' ? 'Selected' : '' }}>
-                            Prefiero
-                            no decir
-                        </option>
+                    <x-form.select icon="gender-ambiguous" name="gender_id" :label="__('contact.gender')" :required="true">
+                        <option value="">{{ __('medical.select_default') }}</option>
+                        @foreach ($genders as $item)
+                            <option value="{{ $item->id }}" {{ $user->gender_id == $item->id ? 'selected' : '' }}>
+                                {{ $item->name }}</option>
+                        @endforeach
+                        </select>
                     </x-form.select>
 
                     <div class="mt-4">

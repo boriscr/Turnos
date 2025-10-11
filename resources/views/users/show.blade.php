@@ -13,7 +13,7 @@
                     ' (' .
                     \Carbon\Carbon::parse($user->birthdate)->age .
                     ' años)'" />
-                <x-field-with-icon icon="gender-ambiguous" :label="__('contact.gender')" :value="$user->gender" />
+                <x-field-with-icon icon="gender-ambiguous" :label="__('contact.gender')" :value="$user->gender->name" />
                 <x-field-with-icon icon="person-badge-fill" :label="__('medical.role')" :value="$user->translated_role" />
             </div>
 

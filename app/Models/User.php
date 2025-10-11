@@ -26,7 +26,7 @@ class User extends Authenticatable
         'surname',
         'idNumber',
         'birthdate',
-        'gender',
+        'gender_id',
         'country_id',
         'state_id',
         'city_id',
@@ -88,6 +88,10 @@ class User extends Authenticatable
     public function appointmentHistory()
     {
         return $this->hasMany(AppointmentHistory::class);
+    }
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class);
     }
     // Relación 1:1 con Doctor (un user PUEDE ser un profesional)
     public function doctor()

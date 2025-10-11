@@ -1,4 +1,4 @@
-if (window.location.pathname.includes('/profile')) {
+if (window.location.pathname.includes('/profile/index')) {
     document.getElementById('profile-photo').addEventListener('change', function (e) {
         const file = e.target.files[0];
         if (file) {

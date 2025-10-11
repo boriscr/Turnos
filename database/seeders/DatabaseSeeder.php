@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\GenderSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,20 +16,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             SettingSeeder::class,
+            GenderSeeder::class,
+            SpecialtySeeder::class,
+            AdminSeeder::class,
+            DoctorSeeder::class,
+            UserSeeder::class,
+            WorldSeeder::class,
         ]);
-        User::factory()->create([
-            'name' => 'Administrador',
-            'surname' => 'Sistema',
-            'idNumber' => '12345678',
-            'birthdate' => '1990-01-01',
-            'gender' => 'Otro',
-            'country_id' => 11, // Argentina
-            'state_id' => 180, // Jujuy
-            'city_id' => 1085, // Abra Pampa
-            'address' => 'Calle Falsa 123',
-            'phone' => '2211234567',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('Clavesegura123'),
-        ])->assignRole('admin');
     }
 }

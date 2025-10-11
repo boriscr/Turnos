@@ -40,13 +40,11 @@
                     placeholder="{{ __('placeholder.birthdate') }}" :required="true" />
                 <small id="edad"></small>
 
-                <x-form.select icon="gender-ambiguous" name="gender" :label="__('contact.gender')" :required="true">
-                    <option value="">Selecciona...</option>
-                    <option value="Femenino">Femenino</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="No binario">No binario</option>
-                    <option value="Otro">Otro</option>
-                    <option value="Prefiero no decir">Prefiero no decir</option>
+                <x-form.select icon="gender-ambiguous" name="gender_id" :label="__('contact.gender')" :required="true">
+                    <option value="">{{ __('medical.select_default') }}</option>
+                    @foreach ($genders as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endforeach
                     </select>
                 </x-form.select>
             </div>
