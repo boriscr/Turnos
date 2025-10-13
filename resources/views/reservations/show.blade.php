@@ -5,61 +5,34 @@
             <div class="section-container full-center">
                 <div class="card">
                     <h2>{{ __('medical.titles.reserved_appointment_details') }}</h2>
-                    <p><b><i class="bi bi-activity"></i>{{ __('reservation.title_name') }}:
-                        </b>{{ $reservation->availableAppointment->appointment->name }} <a
-                            href="{{ route('appointments.show', $reservation->availableAppointment->appointment->id) }}">
-                            <i class="bi bi-eye">{{ __('button.view') }}</i>
-                        </a></p>
-                    <p><b><i class="bi bi-geo-alt-fill"></i>{{ __('contact.address') }}:
-                        </b>{{ $reservation->availableAppointment->appointment->address }}</p>
-                    <p><b><i class="bi bi-heart-pulse-fill"></i>{{ __('specialty.title') }}:
-                        </b>{{ $reservation->availableAppointment->doctor->specialty->name }}<a
-                            href="{{ route('specialty.show', $reservation->availableAppointment->doctor->specialty->id) }}">
-                            <i class="bi bi-eye">{{ __('button.view') }}</i>
-                        </a></p>
-                    </p>
-                    <p><b><i class="bi bi-person-check-fill"></i>{{ __('medical.doctor') }}:
-                        </b>{{ $reservation->availableAppointment->doctor->name . ' ' . $reservation->availableAppointment->doctor->surname }}
-                        <a href="{{ route('doctor.show', $reservation->availableAppointment->doctor_id) }}">
-                            <i class="bi bi-eye">{{ __('button.view') }}</i>
-                        </a>
-                    </p>
-                    <p><b><i class="bi bi-clock-fill"></i>{{ __('appointment.schedule.time') }}:
-                        </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</p>
-                    <p><b><i class="bi bi-calendar-check-fill"></i>{{ __('appointment.date.date') }}:
-                        </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</p>
-                    <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status.title') }}: </b>
-                        </b>
-                        <span
-                            class="{{ $reservation->availableAppointment->appointment->status === true ? ($reservation->status === null ? 'btn-default' : ($reservation->status === true ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
-                            @if ($reservation->availableAppointment->appointment->status === true)
-                                <x-change-of-state :status="$reservation->status" />
-                            @else
-                                {{ __('button.search.inactive_appointment') }}
-                            @endif
-                        </span>
-                    </p>
-                    <p><b><i class="bi bi-calendar-date"></i>{{ __('medical.creation_date') }}:
-                        </b>{{ $reservation->created_at }}</p>
-                    <p><b><i class="bi bi-calendar-date"></i>{{ __('medical.update_date') }}:
-                        </b>{{ $reservation->updated_at }}</p>
+                    <x-field-with-icon icon="activity" :label="__('reservation.title_name')" :value="$reservation->availableAppointment->appointment->name" :link="route('appointments.show', $reservation->availableAppointment->appointment->id)" />
+                    <x-field-with-icon icon="geo-alt-fill" :label="__('contact.address')" :value="$reservation->availableAppointment->appointment->address" />
+                    <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$reservation->availableAppointment->doctor->specialty->name" :link="route('specialty.show', $reservation->availableAppointment->doctor->specialty->id)" />
+                    <x-field-with-icon icon="person-fill" :label="__('medical.doctor')" :value="$reservation->availableAppointment->doctor->name .
+                        ' ' .
+                        $reservation->availableAppointment->doctor->surname" :link="route('doctor.show', $reservation->availableAppointment->doctor_id)" />
+                    <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.time')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i')" />
+                    <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.date')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y')" />
+                    <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" />
+                    @if (!$reservation->availableAppointment->doctor->specialty->status)
+                        <x-change-of-state :status="$reservation->status" />
+                    @else
+                        <spam class="full-center btn-danger">
+                            {{ __('button.search.inactive_appointment') }}
+                        </spam>
+                    @endif
+                    <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="$reservation->created_at" />
+                    <x-field-with-icon icon="calendar-range-fill" :label="__('medical.update_date')" :value="$reservation->updated_at" />
                 </div>
 
                 <div class="card">
                     <h2>{{ __('medical.titles.patient_data') }}</h2>
-                    <p><b><i class="bi bi-person-fill"></i>{{ __('medical.patient') }}: </b>
-                        {{ $reservation->user->name . ' ' . $reservation->user->surname }}
-                        <a href="{{ route('user.show', $reservation->user->id) }}"><i
-                                class="bi bi-eye">{{ __('button.view') }}</i></a>
-                    </p>
-                    <p><b><i class="bi bi-fingerprint"></i>{{ __('contact.idNumber') }}:
-                        </b>{{ $reservation->user->idNumber }}</p>
-                    <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status.title') }}:
-                        </b>
-                        <span class="{{ $reservation->user->status ? 'btn-success' : 'btn-danger' }}">
-                            {{ $reservation->user->status ? __('medical.active') : __('medical.inactive') }}
-                        </span>
-                    </p>
+                    <x-field-with-icon icon="person-fill" :label="__('medical.patient')" :value="$reservation->user->name . ' ' . $reservation->user->surname" :link="route('user.show', $reservation->user->id)" />
+                    <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="$reservation->user->idNumber" />
+                    <x-field-with-icon icon="clipboard" :label="__('medical.status.title')" />
+                    <span class="full-center {{ $reservation->user->status ? 'btn-success' : 'btn-danger' }}">
+                        <x-field-with-icon :value="$reservation->user->status ? __('medical.active') : __('medical.inactive')" />
+                    </span>
                 </div>
             </div>
 

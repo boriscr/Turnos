@@ -5,60 +5,44 @@
             <div class="section-container full-center">
                 <div class="card">
                     <h2>{{ __('medical.titles.reserved_appointment_details') }}</h2>
-                    <p><b><i class="bi bi-activity"></i>{{ __('reservation.title_name') }}:
-                        </b>{{ $reservation->availableAppointment->appointment->name }}</p>
-                    <p><b><i class="bi bi-geo-alt-fill"></i>{{ __('contact.address') }}:
-                        </b>{{ $reservation->availableAppointment->appointment->address }}</p>
-                    <p><b><i class="bi bi-heart-pulse-fill"></i>{{ __('specialty.title') }}:
-                        </b>{{ $reservation->availableAppointment->doctor->specialty->name }}
-                        <span
-                            class="{{ $reservation->availableAppointment->doctor->specialty->status ? 'btn-success' : 'inactive' }}">
-                            @if (!$reservation->availableAppointment->doctor->specialty->status)
-                                <i class="bi bi-exclamation-diamond"></i>
-                                {{ __('medical.inactive') }}
-                            @endif
-                        </span>
-                    </p>
-                    <p><b><i class="bi bi-person-check-fill"></i>{{ __('medical.doctor') }}:
-                        </b>{{ $reservation->availableAppointment->doctor->name . ' ' . $reservation->availableAppointment->doctor->surname }}
-                        <span
-                            class="{{ $reservation->availableAppointment->doctor->status ? 'btn-success' : 'inactive' }}">
-                            @if (!$reservation->availableAppointment->doctor->status)
-                                <i class="bi bi-exclamation-diamond"></i>
-                                {{ __('medical.inactive') }}
-                            @else
-                            @endif
-                        </span>
-                    </p>
-                    <p><b><i class="bi bi-clock-fill"></i>{{ __('appointment.schedule.time') }}:
-                        </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}</p>
-                    <p><b><i class="bi bi-calendar-check-fill"></i>{{ __('appointment.date.date') }}:
-                        </b>{{ \Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}</p>
-                    <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status.title') }}: </b>
-                        <span
-                            class="status full-center {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->status === 'pending' ? 'btn-default' : ($reservation->status === 'assisted' ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
-                            @if ($reservation->availableAppointment->appointment->status === true)
-                                <x-change-of-state :status="$reservation->status" />
-                            @else
-                                {{ __('button.search.inactive_appointment') }}
-                            @endif
-                        </span>
-                    </p>
-                    <p><b><i class="bi bi-calendar-date"></i>{{ __('medical.creation_date') }}:
-                        </b>{{ $reservation->created_at }}</p>
+                    <x-field-with-icon icon="activity" :label="__('reservation.title_name')" :value="$reservation->availableAppointment->appointment->name" />
+                    <x-field-with-icon icon="geo-alt-fill" :label="__('contact.address')" :value="$reservation->availableAppointment->appointment->address" />
+                    <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$reservation->availableAppointment->doctor->specialty->name" />
+                    @if (!$reservation->availableAppointment->doctor->specialty->status)
+                        <spam
+                            class="full-center {{ $reservation->availableAppointment->doctor->specialty->status ? 'btn-success' : 'btn-danger' }}">
+                            <x-field-with-icon icon="exclamation-diamond" :value="__('medical.inactive')" />
+                        </spam>
+                    @endif
+                    <x-field-with-icon icon="person-fill" :label="__('medical.doctor')" :value="$reservation->availableAppointment->doctor->name .
+                        ' ' .
+                        $reservation->availableAppointment->doctor->surname" />
+                    @if (!$reservation->availableAppointment->doctor->status)
+                        <spam
+                            class="full-center {{ $reservation->availableAppointment->doctor->specialty->status ? 'btn-success' : 'btn-danger' }}">
+                            <x-field-with-icon icon="exclamation-diamond" :value="__('medical.inactive')" />
+                        </spam>
+                    @endif
+                    <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.time')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i')" />
+                    <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.date')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y')" />
+
+                    <x-field-with-icon icon="clipboard" :label="__('medical.status.title')" />
+                    <spam
+                        class="status full-center {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->status === 'pending' ? 'btn-default' : ($reservation->status === 'assisted' ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
+                        @if ($reservation->availableAppointment->appointment->status)
+                            <x-change-of-state :status="$reservation->status" />
+                        @else
+                            {{ __('button.search.inactive_appointment') }}
+                        @endif
+                    </spam>
+                    <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="$reservation->created_at" />
                 </div>
                 <div class="card">
                     <h2>{{ __('medical.titles.my_data') }}</h2>
-                    <p><b><i class="bi bi-person-fill"></i>{{ __('contact.name_and_surname') }}: </b>
-                        {{ @Auth::user()->name . ' ' . @Auth::user()->surname }}
-                    </p>
-                    <p><b><i class="bi bi-fingerprint"></i>{{ __('contact.idNumber') }}:
-                        </b>{{ @Auth::user()->idNumber }}</p>
-                    <p><b><i class="bi bi-clipboard"></i>{{ __('medical.status.title') }}:
-                        </b>
-                        <spam class="{{ @Auth::user()->status ? 'btn-success' : 'btn-danger' }}">
-                            {{ @Auth::user()->status ? __('medical.active') : __('medical.inactive') }}</spam>
-                    </p>
+                    <x-field-with-icon icon="person-fill" :label="__('contact.name_and_surname')" :value="@Auth::user()->name . ' ' . @Auth::user()->surname" />
+                    <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="@Auth::user()->idNumber" />
+                    <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" />
+                    <x-field-with-icon :value="@Auth::user()->status ? __('medical.active') : __('medical.inactive')" />
                 </div>
                 @php
                     // Correcto: Combinar solo la date (de availableAppointment->date) con la time (de availableAppointment->time)
@@ -109,6 +93,5 @@
                     <p>{{ __('error.oops.message_3') }}</p>
                 </div>
             </div>
-        </div>
-    @endif
+        </div> @endif
 </x-app-layout>

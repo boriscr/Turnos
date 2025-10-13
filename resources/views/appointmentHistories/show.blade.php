@@ -17,7 +17,6 @@
                     <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.date')" :value="\Carbon\Carbon::parse($appointmentHistoryId->appointment_date)->format('d/m/Y')" />
                     <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" />
                     <x-change-of-state :status="$appointmentHistoryId->status" />
-
                     @if ($appointmentHistoryId->status == 'cancelled_by_user' || $appointmentHistoryId->status == 'cancelled_by_admin')
                         <x-field-with-icon icon="calendar-x" :label="__('medical.cancellation_date')" :value="$appointmentHistoryId->cancelled_at" />
                     @elseif ($appointmentHistoryId->status == 'deleted_by_admin')
