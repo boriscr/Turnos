@@ -81,6 +81,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/doctors/destroy/{id}', [DoctorController::class, 'destroy'])->name('doctor.destroy');
     //Control de specialties
     Route::get('/specialty', [SpecialtyController::class, 'index'])->name('specialty.index');
+    Route::get('specialty/search', [SpecialtyController::class, 'search'])->name('specialty.search');
     Route::get('/specialty/create', [SpecialtyController::class, 'create'])->name('specialty.create');
     Route::post('/specialty', [SpecialtyController::class, 'store'])->name('specialty.store');
     Route::get('/specialty/show/{id}', [SpecialtyController::class, 'show'])->name('specialty.show');

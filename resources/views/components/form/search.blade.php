@@ -1,8 +1,8 @@
 @if (isset($indexRoute))
     <div class="search-bar-group mb-3">
         <div class="search-wrapper">
-            <input type="text" name="search" class="form-control" maxlength="8" minlength="7"
-                placeholder="{{ __('button.search.placeholder') }}" value="{{ request('search') }}">
+            <input type="text" name="search" class="form-control"
+                placeholder="{{ $placeholder ?? __('button.search.placeholderId') }}" value="{{ request('search') }}">
             <button type="submit">
                 <i class="bi bi-search"></i>
             </button>
@@ -19,8 +19,8 @@
         <form action="{{ route($resource . '.search') }}" method="GET" class="rounded" id="filterForm">
             <div class="search-bar-group mb-3">
                 <div class="search-wrapper">
-                    <input type="text" name="search" class="form-control" maxlength="8" minlength="7"
-                        placeholder="{{ __('button.search.placeholder') }}" value="{{ request('search') }}">
+                    <input type="text" name="search" class="form-control"
+                        placeholder="{{ $placeholder ?? __('button.search.placeholderId') }}" value="{{ request('search') }}">
                     <button type="submit">
                         <i class="bi bi-search"></i>
                     </button>

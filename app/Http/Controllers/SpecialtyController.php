@@ -9,6 +9,7 @@ use App\Http\Requests\SpecialtyUpdateRequest;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class SpecialtyController extends Controller
 {
@@ -18,6 +19,15 @@ class SpecialtyController extends Controller
             ->paginate(10);
         return view('specialties/index', compact('specialties'));
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+        $specialties = Specialty::where('name', 'like', "%{$query}%")
+            ->paginate(10);
+        return view('specialties/index', compact('specialties'));
+    }
+
     public function create()
     {
         return view('specialties/create');
@@ -47,6 +57,7 @@ class SpecialtyController extends Controller
         try {
             $specialty = Specialty::findOrFail($id);
             $doctors = Doctor::select('id', 'name', 'surname', 'idNumber', 'licenseNumber', 'status')
+                ->with('specialty')
                 ->where('specialty_id', $id)
                 ->orderBy('updated_at', 'desc')
                 ->paginate(10);

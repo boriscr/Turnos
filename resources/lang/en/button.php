@@ -10,7 +10,8 @@ return [
     'view_available_reservations' => 'View available reservations',
     'search' => [
         'search' => 'Search',
-        'placeholder' => 'Search by ID number',
+        'placeholderId' => 'Search by ID number',
+        'placeholderName' => 'Search by name...',
         'assisted' => 'Assisted',
         'pending' => 'Pending',
         'not_attendance' => 'Unassisted',

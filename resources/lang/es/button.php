@@ -10,7 +10,8 @@ return [
     'view_available_reservations' => 'Ver reservas disponibles',
     'search' => [
         'search' => 'Buscar',
-        'placeholder' => 'Buscar por DNI...',
+        'placeholderId' => 'Buscar por DNI...',
+        'placeholderName' => 'Buscar por nombre...',
         'assisted' => 'Asistido',
         'pending' => 'Pendiente',
         'not_attendance' => 'No asistido',
