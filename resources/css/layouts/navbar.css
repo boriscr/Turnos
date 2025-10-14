@@ -70,7 +70,7 @@
 
 .dropdown-item:hover {
     font-weight: bolder;
-    color: var(--background_navbar_dark);
+    color: var(--dark_text_color);
     background-color: var(--light_text_color);
 }
 

@@ -1,17 +1,51 @@
 table {
     border-collapse: collapse;
     width: 100%;
+    border: none;
+}
 
-    td,
-    th {
-        border: 1px solid #0000004d;
-        text-align: center;
-        padding: 2px;
-        word-break: break-word;
+td,
+th {
+    border: none;
+    /* eliminamos los bordes */
+    text-align: center;
+    padding: 8px;
+    word-break: break-word;
+}
+
+thead {
+    background-color: color-mix(in srgb, var(--general_design_color) 90%, #fff 10%);
+    color: var(--dark_text_color);
+    text-align: center;
+}
+
+/* Colores alternados para las filas del cuerpo */
+tbody tr:nth-child(odd) {
+    /* color claro */
+    background-color: color-mix(in srgb, var(--light_application_background) 60%, #fff 40%);
+}
+
+tbody tr:nth-child(even) {
+    background-color: #e0e0e0;
+    /* color un poco más oscuro */
+}
+
+tbody tr:hover {
+    background-color: color-mix(in srgb, var(--light_application_background) 70%, var(--general_design_color) 30%);
+}
+
+@media (prefers-color-scheme: dark) {
+    tbody tr:nth-child(odd) {
+        /* color claro */
+        background-color: color-mix(in srgb, var(--dark_application_background) 70%, #fff 30%);
     }
 
-    thead {
-        background-color: var(--general_design_color);
-        text-align: center;
+    tbody tr:nth-child(even) {
+        background-color: color-mix(in srgb, var(--dark_application_background) 80%, #fff 20%);
+        /* color un poco más oscuro */
+    }
+
+    tbody tr:hover {
+        background-color: color-mix(in srgb, var(--dark_application_background) 80%, var(--general_design_color) 20%);
     }
 }
