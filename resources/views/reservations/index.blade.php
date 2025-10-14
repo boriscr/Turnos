@@ -6,7 +6,7 @@
 
                 <form action="{{ route('reservations.index') }}" method="GET" class="rounded" id="filterForm">
                     <!-- Buscardor de usuarios o doctores-->
-                    <x-form.search resource="user" indexRoute="reservations" />
+                    <x-form.search indexReservation="reservations" />
                     <div class="mb-3">
                         <!-- Filtro de tipos de statuss-->
                         @include('components.form.assistance-filter')
