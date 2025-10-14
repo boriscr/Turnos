@@ -79,15 +79,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');
     Route::delete('/doctors/destroy/{id}', [DoctorController::class, 'destroy'])->name('doctors.destroy');
     //Control de specialties
-    Route::get('/specialty', [SpecialtyController::class, 'index'])->name('specialty.index');
-    Route::get('specialty/search', [SpecialtyController::class, 'search'])->name('specialty.search');
-    Route::get('/specialty/create', [SpecialtyController::class, 'create'])->name('specialty.create');
-    Route::post('/specialty', [SpecialtyController::class, 'store'])->name('specialty.store');
-    Route::get('/specialty/show/{id}', [SpecialtyController::class, 'show'])->name('specialty.show');
-    Route::get('/specialty/edit/{id}', [SpecialtyController::class, 'edit'])->name('specialty.edit');
-    Route::put('/specialty/{id}', [SpecialtyController::class, 'update'])->name('specialty.update');
-    Route::delete('/specialty/{id}', [SpecialtyController::class, 'destroy'])->name('specialty.destroy');
-    Route::get('/specialty/doctors/{id}', [SpecialtyController::class, 'listaEquipo'])->name('lista.doctors');
+    Route::get('/specialty', [SpecialtyController::class, 'index'])->name('specialties.index');
+    Route::get('specialty/search', [SpecialtyController::class, 'search'])->name('specialties.search');
+    Route::get('/specialty/create', [SpecialtyController::class, 'create'])->name('specialties.create');
+    Route::post('/specialty', [SpecialtyController::class, 'store'])->name('specialties.store');
+    Route::get('/specialty/show/{id}', [SpecialtyController::class, 'show'])->name('specialties.show');
+    Route::get('/specialty/edit/{id}', [SpecialtyController::class, 'edit'])->name('specialties.edit');
+    Route::put('/specialty/{id}', [SpecialtyController::class, 'update'])->name('specialties.update');
+    Route::delete('/specialty/{id}', [SpecialtyController::class, 'destroy'])->name('specialties.destroy');
+    //Route::get('/specialty/doctors/{id}', [SpecialtyController::class, 'listaEquipo'])->name('lista.doctors');
 
     //Appointments
     Route::get('/getBySpecialty/{id}', [AppointmentController::class, 'getBySpecialty']); //Selects decargar especialidad seleccionada (fetch API) segun los doctores

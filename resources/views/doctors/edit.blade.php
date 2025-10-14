@@ -8,7 +8,7 @@
 
             {{-- Formulario para crear una nueva specialty --}}
             <div class="form-specialty" id="specialty-form">
-                <x-form.specialty :nuevoMedico="isset($nuevoMedico) ? true : false" :ruta="route('specialty.store')" :name="old('name')" :description="old('description')" />
+                <x-form.specialty :nuevoMedico="isset($nuevoMedico) ? true : false" :ruta="route('specialties.store')" :name="old('name')" :description="old('description')" />
             </div>
         </div>
     </div>

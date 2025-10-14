@@ -8,7 +8,7 @@
 
             {{-- Formulario para crear una nueva specialty --}}
             <div class="form-specialty" id="specialty-form">
-                <x-form.specialty :ruta="route('specialty.store')" :crear="true" :name="old('name')" :description="old('description')" />
+                <x-form.specialty :ruta="route('specialties.store')" :crear="true" :name="old('name')" :description="old('description')" />
             </div>
         </div>
 </x-app-layout>

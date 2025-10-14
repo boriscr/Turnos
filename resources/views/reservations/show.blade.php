@@ -7,7 +7,7 @@
                     <h2>{{ __('medical.titles.reserved_appointment_details') }}</h2>
                     <x-field-with-icon icon="activity" :label="__('reservation.title_name')" :value="$reservation->availableAppointment->appointment->name" :link="route('appointments.show', $reservation->availableAppointment->appointment->id)" />
                     <x-field-with-icon icon="geo-alt-fill" :label="__('contact.address')" :value="$reservation->availableAppointment->appointment->address" />
-                    <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$reservation->availableAppointment->doctor->specialty->name" :link="route('specialty.show', $reservation->availableAppointment->doctor->specialty->id)" />
+                    <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$reservation->availableAppointment->doctor->specialty->name" :link="route('specialties.show', $reservation->availableAppointment->doctor->specialty->id)" />
                     <x-field-with-icon icon="person-fill" :label="__('medical.doctor')" :value="$reservation->availableAppointment->doctor->name .
                         ' ' .
                         $reservation->availableAppointment->doctor->surname" :link="route('doctors.show', $reservation->availableAppointment->doctor_id)" />

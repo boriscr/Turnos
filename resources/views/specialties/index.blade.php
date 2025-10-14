@@ -2,10 +2,10 @@
     <div class="main-table full-center">
         <div class="container-form full-center">
             <h1>{{ __('medical.titles.specialty_list') }}</h1>
-            <x-form.search resource="specialty" :placeholder="__('button.search.placeholderName')"/>
+            <x-form.search resource="specialties" :placeholder="__('button.search.placeholderName')"/>
             <div class="options full-center">
                 <button class="btn-add">
-                    <a href="{{ route('specialty.create') }}">{{ __('specialty.btn_name') }}</a>
+                    <a href="{{ route('specialties.create') }}">{{ __('specialty.btn_name') }}</a>
                 </button>
             </div>
             <table>
@@ -25,12 +25,12 @@
                             <td class="{{ $specialty->status ? 'existing' : 'no_data' }}">
                                 {{ $specialty->status ? __('medical.active') : __('medical.inactive') }}</td>
                             <td class="acciones full-center">
-                                <a href="{{ route('specialty.show', $specialty->id) }}" class="btn btn-view"><i
+                                <a href="{{ route('specialties.show', $specialty->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">{{ __('button.view') }}</b></a>
-                                <a href="{{ route('specialty.edit', $specialty->id) }}" class="btn btn-edit"><i
+                                <a href="{{ route('specialties.edit', $specialty->id) }}" class="btn btn-edit"><i
                                         class="bi bi-pencil-fill"></i><b
                                         class="accionesMovil">{{ __('button.edit') }}</b></a>
-                                <form action="{{ route('specialty.destroy', $specialty->id) }}" method="POST"
+                                <form action="{{ route('specialties.destroy', $specialty->id) }}" method="POST"
                                     style="display:inline;" class="delete-form">
                                     @csrf
                                     @method('DELETE')

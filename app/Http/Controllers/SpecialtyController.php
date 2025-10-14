@@ -49,7 +49,7 @@ class SpecialtyController extends Controller
             return back()->withErrors('Error al crear la especialidad: ' . $e->getMessage());
         }
 
-        return redirect()->route('specialty.index');
+        return redirect()->route('specialties.index');
     }
 
     public function show($id)
@@ -63,7 +63,7 @@ class SpecialtyController extends Controller
                 ->paginate(10);
             return view('specialties/show', compact('specialty', 'doctors'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
+            return redirect()->route('specialties.index')->withErrors('Especialidad no encontrada.');
         }
     }
     public function edit($id)
@@ -72,7 +72,7 @@ class SpecialtyController extends Controller
             $specialty = Specialty::findOrFail($id);
             return view('specialties/edit', compact('specialty'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
+            return redirect()->route('specialties.index')->withErrors('Especialidad no encontrada.');
         }
     }
 
@@ -92,12 +92,12 @@ class SpecialtyController extends Controller
                 'icon' => 'success',
             ]);
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
+            return redirect()->route('specialties.index')->withErrors('Especialidad no encontrada.');
         } catch (Exception $e) {
             return back()->withErrors('Error al actualizar la especialidad: ' . $e->getMessage());
         }
 
-        return redirect()->route('specialty.index');
+        return redirect()->route('specialties.index');
     }
 
 
@@ -125,11 +125,11 @@ class SpecialtyController extends Controller
                 'icon' => 'success',
             ]);
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('specialty.index')->withErrors('Especialidad no encontrada.');
+            return redirect()->route('specialties.index')->withErrors('Especialidad no encontrada.');
         } catch (Exception $e) {
             return back()->withErrors('Error al eliminar la especialidad: ' . $e->getMessage());
         }
 
-        return redirect()->route('specialty.index');
+        return redirect()->route('specialties.index');
     }
 }

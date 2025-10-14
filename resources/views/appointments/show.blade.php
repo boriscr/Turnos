@@ -9,7 +9,7 @@
                 <h2>{{ __('medical.titles.management') }}</h2>
                 <x-field-with-icon icon="activity" :label="__('reservation.title_name')" :value="$appointment->name" />
                 <x-field-with-icon icon="geo-alt-fill" :label="__('contact.address')" :value="$appointment->address" />
-                <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$appointment->specialty->name" :link="route('specialty.show', $appointment->specialty->id)" />
+                <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$appointment->specialty->name" :link="route('specialties.show', $appointment->specialty->id)" />
                 <x-field-with-icon icon="person-fill" :label="__('medical.doctor')" :value="$appointment->doctor->name . ' ' . $appointment->doctor->surname" :link="route('doctors.show', $appointment->doctor->id)" />
                 <x-field-with-icon icon="brightness-high-fill" :label="__('appointment.shift.name')" :value="$appointment->shift === 'morning' ? __('appointment.shift.morning_shift') : ($appointment->shift === 'afternoon' ? __('appointment.shift.afternoon_shift') : __('appointment.shift.night_shift'))" />
                 <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.start_time')" :value="\Carbon\Carbon::parse($appointment->start_time)->format('H:i')" />
