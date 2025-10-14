@@ -14,7 +14,13 @@
                 <x-nav-link-active href="{{ route('home') }}" route="home">
                     <i class="bi bi-house"></i><span>{{ __('navbar.home') }}</span>
                 </x-nav-link-active>
-
+                @role('doctor')
+                    <!-- Sección Reservations -->
+                    <x-nav-link-active :href="route('reservations.index')">
+                        <i class="bi bi-eye"></i> <span>
+                            {{ __('navbar.view_booking') }}</span>{{-- Ver reservations --}}
+                    </x-nav-link-active>
+                @endrole
                 <!-- Settings Dropdown -->
                 @role('admin')
                     <div class="hidden sm:flex sm:items-center sm:ms-0">

@@ -42,7 +42,9 @@
                     <x-field-with-icon icon="person-fill" :label="__('contact.name_and_surname')" :value="@Auth::user()->name . ' ' . @Auth::user()->surname" />
                     <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="@Auth::user()->idNumber" />
                     <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" />
-                    <x-field-with-icon :value="@Auth::user()->status ? __('medical.active') : __('medical.inactive')" />
+                    <span class="full-center {{ @Auth::user()->status ? 'btn-success' : 'btn-danger' }}">
+                        <x-field-with-icon :value="$reservation->user->status ? __('medical.active') : __('medical.inactive')" />
+                    </span>
                 </div>
                 @php
                     // Correcto: Combinar solo la date (de availableAppointment->date) con la time (de availableAppointment->time)

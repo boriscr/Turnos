@@ -119,15 +119,17 @@
                                 <a href="{{ route('reservations.show', $reservation->id) }}" class="btn btn-view">
                                     <i class="bi bi-eye"></i><b class="accionesMovil">{{ __('button.view') }}</b>
                                 </a>
-                                <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST"
-                                    style="display:inline;" class="delete-form">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-delete delete-btn">
-                                        <i class="bi bi-trash-fill"></i><b
-                                            class="accionesMovil">{{ __('button.delete') }}</b>
-                                    </button>
-                                </form>
+                                @role('admin')
+                                    <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST"
+                                        style="display:inline;" class="delete-form">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-delete delete-btn">
+                                            <i class="bi bi-trash-fill"></i><b
+                                                class="accionesMovil">{{ __('button.delete') }}</b>
+                                        </button>
+                                    </form>
+                                @endrole
                             </td>
                             <td class="accionesMovil">
                                 <button type="button" class="accionesMovilBtn">

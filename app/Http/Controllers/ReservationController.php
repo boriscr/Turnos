@@ -22,11 +22,17 @@ class ReservationController extends Controller
 
     public function index(Request $request)
     {
+        $user = Auth::user();
         $specialties = Specialty::where('status', 1)->get();
 
-        // Si se presionó "Mostrar Todo", ignoramos todos los filtros
+        // Si se presionó "Mostrar Todo"
         if ($request->has('show_all')) {
             $reservations = Reservation::with(['availableAppointment.doctor', 'user'])
+                ->when($user->hasRole('doctor'), function ($query) use ($user) {
+                    $query->whereHas('availableAppointment', function ($q) use ($user) {
+                        $q->where('doctor_id', $user->doctor->id); // Asegurate que el user tenga relación con Doctor
+                    });
+                })
                 ->orderByDesc('created_at')
                 ->paginate(10);
 
@@ -42,49 +48,39 @@ class ReservationController extends Controller
             ]);
         }
 
-        // Procesamiento normal de filtros
+        // Filtros
         $search = $request->input('search');
         $reservaFiltro = $request->input('reservation', 'pending');
         $fechaInicio = $request->input('start_date');
         $fechaFin = $request->input('end_date');
-        $fechaFiltro = $request->input('date', 'today'); // Añadido para capturar el filtro rápido
+        $fechaFiltro = $request->input('date', 'today');
         $today = now()->format('Y-m-d');
         $yesterday = now()->subDay()->format('Y-m-d');
         $tomorrow = now()->addDay()->format('Y-m-d');
         $specialty_id = $request->input('specialty_id', 'all_specialties');
 
         $reservations = Reservation::with(['user', 'availableAppointment.doctor'])
+            ->when($user->hasRole('doctor'), function ($query) use ($user) {
+                $query->whereHas('availableAppointment', function ($q) use ($user) {
+                    $q->where('doctor_id', $user->doctor->id);
+                });
+            })
             ->when($search, function ($query) use ($search) {
-                $query->where(function ($q) use ($search) {
-                    $q->whereHas('user', function ($userQuery) use ($search) {
-                        $userQuery->Where('idNumber', 'like', "%$search%");
-                    });
+                $query->whereHas('user', function ($userQuery) use ($search) {
+                    $userQuery->where('idNumber', 'like', "%$search%");
                 });
             })
             ->when(in_array($reservaFiltro, ['assisted', 'pending', 'not_attendance']), function ($query) use ($reservaFiltro) {
-                switch ($reservaFiltro) {
-                    case 'assisted':
-                        $query->where('status', '=', 'assisted');
-                        break;
-                    case 'pending':
-                        $query->where('status', '=', 'pending');
-                        break;
-                    case 'not_attendance':
-                        $query->where('status', '=', 'not_attendance');
-                        break;
-                }
+                $query->where('status', $reservaFiltro);
             })
             ->when($specialty_id !== 'all_specialties', function ($query) use ($specialty_id) {
                 $query->where('specialty_id', $specialty_id);
             })
-            // LÓGICA CORREGIDA PARA FECHAS - SIN CONFLICTOS
             ->when($fechaInicio && $fechaFin, function ($query) use ($fechaInicio, $fechaFin) {
-                // Solo filtro por rango personalizado si hay fechas
                 $query->whereHas('availableAppointment', function ($q) use ($fechaInicio, $fechaFin) {
                     $q->whereBetween('date', [$fechaInicio, $fechaFin]);
                 });
             }, function ($query) use ($fechaFiltro, $today, $yesterday, $tomorrow, $fechaInicio, $fechaFin) {
-                // Solo aplicar filtros rápidos si NO hay rango personalizado
                 if (!$fechaInicio && !$fechaFin) {
                     $query->whereHas('availableAppointment', function ($q) use ($fechaFiltro, $today, $yesterday, $tomorrow) {
                         switch ($fechaFiltro) {
@@ -111,7 +107,7 @@ class ReservationController extends Controller
             'reservations',
             'search',
             'reservaFiltro',
-            'fechaFiltro', // Añadido para mantener el estado del botón
+            'fechaFiltro',
             'fechaInicio',
             'fechaFin',
             'specialty_id'
