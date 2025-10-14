@@ -12,7 +12,6 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\MyAppointmentsController;
 use App\Http\Controllers\AppointmentHistoryController;
-use Nnjeim\World\World;
 
 Route::view('/', 'home')->name('home');
 
@@ -63,12 +62,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 
     //Users
-    Route::get('/users', [UserController::class, 'index'])->name('user.index');
-    Route::get('/users/search', [UserController::class, 'search'])->name('user.search');
-    Route::get('/users/show/{id}', [UserController::class, 'show'])->name('user.show');
-    Route::get('/users/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
-    Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
+    Route::get('/users/show/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
     //Control del Doctors
     Route::get('/doctors', [DoctorController::class, 'index'])->name('doctor.index');
@@ -93,6 +92,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     //Appointments
     Route::get('/getBySpecialty/{id}', [AppointmentController::class, 'getBySpecialty']); //Selects decargar especialidad seleccionada (fetch API) segun los doctores
     Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
+    Route::get('appointment/search', [AppointmentController::class, 'search'])->name('appointment.search');
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
     Route::get('/appointments/show/{id}', [AppointmentController::class, 'show'])->name('appointments.show');

@@ -27,7 +27,7 @@
                 </div>
 
                 @if (request('search') || request('start_date') || request('end_date') || request('specialty_id') || request('show_all'))
-                    <a href="{{ route($resource . '.index') }}" class="clear-btn">
+                    <a href="{{ route($resource . 's.index') }}" class="clear-btn">
                         <i class="bi bi-x"></i>
                     </a>
                 @endif

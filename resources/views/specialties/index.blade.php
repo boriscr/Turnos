@@ -48,8 +48,7 @@
                     @endforeach
                 </tbody>
             </table>
-            <br>
-            <div class="pagination full-center">
+            <div class="pagination">
                 {{ $specialties->links() }}
             </div>
         </div>

@@ -38,7 +38,7 @@ class UserController extends Controller
         //$user = User::find($id);
         $user = User::with(['country', 'state', 'city', 'gender'])->findOrfail($id);
         if (!$user) {
-            return redirect()->route('user.index')->with('error', 'Usuario no encontrado.');
+            return redirect()->route('users.index')->with('error', 'Usuario no encontrado.');
         };
         $appointmentHistory = AppointmentHistory::with(['appointment', 'reservation', 'user'])->where('user_id', $id)
             ->orderBy('created_at', 'desc')
@@ -162,7 +162,7 @@ class UserController extends Controller
         }
 
         // Redirección normal
-        return redirect()->route('user.index')->with(
+        return redirect()->route('users.index')->with(
             'success',
             'Usuario actualizado correctamente.'
         );
@@ -172,7 +172,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if (!$user) {
-            return redirect()->route('user.index')->with('error', 'Usuario no encontrado.');
+            return redirect()->route('users.index')->with('error', 'Usuario no encontrado.');
         };
         $originalRole = $user->getRoleNames()->first();
         // Verificar si el usuario es un doctor con citas asociadas
@@ -184,7 +184,7 @@ class UserController extends Controller
                     'text'  => 'No se puede eliminar el usuario. El doctor tiene turnos asociados.',
                     'icon'  => 'error',
                 ]);
-                return redirect()->route('user.index');
+                return redirect()->route('users.index');
             }
             // Eliminar perfil de doctor si existe
             if ($doctor) {
@@ -201,6 +201,6 @@ class UserController extends Controller
             'text'  => 'El usuario ha sido eliminado correctamente.',
             'icon'  => 'success',
         ]);
-        return redirect()->route('user.index');
+        return redirect()->route('users.index');
     }
 }

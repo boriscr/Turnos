@@ -4,7 +4,7 @@
         <div class="container-form full-center">
             <h1>{{ __('medical.titles.section_title_edit') }}</h1>
             @if (isset($user))
-                <form action="{{ route('user.update', $user->id) }}" method="post">
+                <form action="{{ route('users.update', $user->id) }}" method="post">
                     @csrf
                     @method('PUT')
                     <x-form.text-input type="text" icon="person" name="name" label="{{ __('contact.name') }}"

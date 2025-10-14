@@ -12,18 +12,26 @@ use App\Models\AvailableAppointment;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::select('id', 'name', 'address', 'specialty_id', 'doctor_id', 'shift', 'status')
+        $appointments = Appointment::select('id', 'name', 'specialty_id', 'doctor_id', 'shift', 'status')
             ->with(['specialty' => function ($query) {
                 $query->select('id', 'name');
             }, 'doctor' => function ($query) {
                 $query->select('id', 'name');
             }])
             ->orderBy('updated_at', 'desc')
+            ->paginate(10);
+        return view('appointments/index', compact('appointments'));
+    }
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+        $appointments = Appointment::where('name', 'like', "%{$query}%")
             ->paginate(10);
         return view('appointments/index', compact('appointments'));
     }
@@ -475,7 +483,7 @@ class AppointmentController extends Controller
 
         // Una sola consulta para todas las reservas pendientes
         $reservasPendientes = Reservation::whereIn('available_appointment_id', $idsDisponibilidades)
-            ->where('status','=','pending')
+            ->where('status', '=', 'pending')
             ->get()
             ->groupBy('available_appointment_id');
 
@@ -610,7 +618,7 @@ class AppointmentController extends Controller
             $tieneReservasPendientes = DB::table('reservations')
                 ->join('available_appointments', 'reservations.available_appointment_id', '=', 'available_appointments.id')
                 ->where('available_appointments.appointment_id', $id)
-                ->where('reservations.status','=','pending')
+                ->where('reservations.status', '=', 'pending')
                 ->exists();
 
             if ($tieneReservasPendientes) {

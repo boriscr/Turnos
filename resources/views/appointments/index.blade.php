@@ -2,12 +2,12 @@
     <div class="main-table full-center">
         <div class="container-form full-center">
             <h1>{{ __('medical.titles.appointment_index_title') }}</h1>
+            <x-form.search resource="appointment" :placeholder="__('button.search.placeholderName')" />
             <table>
                 <thead>
                     <tr>
                         <th>{{ __('medical.id') }}</th>
                         <th>{{ __('reservation.title_name') }}</th>
-                        <th class="option-movil">{{ __('contact.address') }}</th>
                         <th class="option-movil">{{ __('specialty.title') }}</th>
                         <th>{{ __('medical.doctor') }}</th>
                         <th class="option-movil">{{ __('appointment.shift.name') }}</th>
@@ -20,7 +20,6 @@
                         <tr>
                             <td>{{ $appointment->id }}</td>
                             <td>{{ $appointment->name }}</td>
-                            <td class="option-movil">{{ $appointment->address }}</td>
                             <td class="option-movil">{{ $appointment->specialty->name }}</td>
                             <td>{{ $appointment->doctor->name . ' ' . $appointment->doctor->surname }}</td>
                             <td class="option-movil">

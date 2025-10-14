@@ -42,7 +42,7 @@
 
                                     <!-- Sección Usuarios -->
                                     <div class="subtitulo">{{ __('navbar.manage_users') }}</div>{{-- Gestionar Usuarios --}}
-                                    <x-dropdown-link :href="route('user.index')">
+                                    <x-dropdown-link :href="route('users.index')">
                                         <i class="bi bi-eye"></i> <span> {{ __('navbar.view_users') }}</span>
                                         {{-- Ver users --}}
                                     </x-dropdown-link>
@@ -202,7 +202,7 @@
                         <div class="menu pt-2 pb-2 space-y-1">
                             <!-- Sección Usuarios -->
                             <div class="subtitulo">{{ __('navbar.manage_users') }}</div>{{-- Gestionar Usuarios --}}
-                            <x-responsive-nav-link :href="route('user.index')">
+                            <x-responsive-nav-link :href="route('users.index')">
                                 <i class="bi bi-eye"></i> <span> {{ __('navbar.view_users') }}</span>
                                 {{-- Ver users --}}
                             </x-responsive-nav-link>

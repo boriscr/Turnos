@@ -42,7 +42,7 @@
 
                 @if (!empty($user->updatedById->name))
                     <x-field-with-icon icon="calendar-range-fill" :label="__('medical.updated_by')" :value="$user->updatedById->name . ' ' . $user->updatedById->surname"
-                        :link="route('user.show', $user->updated_by)" />
+                        :link="route('users.show', $user->updated_by)" />
                 @else
                     <x-field-with-icon icon="calendar-range-fill" :label="__('medical.updated_by')" :value="__('medical.no_data')" />
                 @endif
@@ -51,9 +51,9 @@
         </div>
 
         <div class="options full-center">
-            <a href="{{ route('user.edit', $user->id) }}" class="btn-edit"><i
+            <a href="{{ route('users.edit', $user->id) }}" class="btn-edit"><i
                     class="bi bi-pencil-fill">{{ __('button.edit') }}</i></a>
-            <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="delete-form">
+            <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="delete-form">
                 @csrf
                 @method('DELETE')
                 <button type="button" class="btn-delete delete-btn"><i

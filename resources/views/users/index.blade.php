@@ -2,7 +2,7 @@
     <div class="main-table full-center">
         <div class="container-form full-center">
             <h1>{{ __('medical.titles.user_index_title') }}</h1>
-            <x-form.search resource="user" />
+            <x-form.search resource="users" />
             <table>
                 <thead>
                     <tr>
@@ -42,12 +42,12 @@
                             <td class="{{ $user->status ? 'existing' : 'no_data' }}">
                                 {{ $user->status ? __('medical.active') : __('medical.inactive') }}</td>
                             <td class="acciones full-center">
-                                <a href="{{ route('user.show', $user->id) }}" class="btn btn-view"><i
+                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-view"><i
                                         class="bi bi-eye"></i><b class="accionesMovil">{{ __('button.view') }}</b></a>
-                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-edit"><i
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-edit"><i
                                         class="bi bi-pencil-fill"></i><b
                                         class="accionesMovil">{{ __('button.edit') }}</b></a>
-                                <form action="{{ route('user.destroy', $user->id) }}" method="POST"
+                                <form action="{{ route('users.destroy', $user->id) }}" method="POST"
                                     style="display:inline;" class="delete-form">
                                     @csrf
                                     @method('DELETE')

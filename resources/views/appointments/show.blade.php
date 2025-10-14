@@ -33,10 +33,10 @@
             <div class="card">
                 <h2>{{ __('medical.titles.creation') }}</h2>
                 <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.created_by')" :value="$appointment->createdBy->name . ' ' . $appointment->createdBy->surname"
-                    :link="route('user.show', $appointment->created_by)" />
+                    :link="route('users.show', $appointment->created_by)" />
                 <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($appointment->created_at)->format('d/m/Y H:i')" />
                 <x-field-with-icon icon="calendar-range-fill" :label="__('medical.updated_by')" :value="$appointment->updatedBy->name . ' ' . $appointment->updatedBy->surname"
-                    :link="route('user.show', $appointment->updated_by)" />
+                    :link="route('users.show', $appointment->updated_by)" />
                 <x-field-with-icon icon="calendar-range-fill" :label="__('medical.update_date')" :value="\Carbon\Carbon::parse($appointment->updated_at)->format('d/m/Y H:i')" />
                 </p>
             </div>

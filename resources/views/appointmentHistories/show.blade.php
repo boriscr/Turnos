@@ -30,7 +30,7 @@
                     <h2>{{ __('medical.titles.patient_data') }}</h2>
                     @if ($appointmentHistoryId->user->id)
                         <x-field-with-icon icon="person-fill" :label="__('medical.patient')" :value="$appointmentHistoryId->user->name . ' ' . $appointmentHistoryId->user->surname"
-                            :link="route('user.show', $appointmentHistoryId->user->id)" />
+                            :link="route('users.show', $appointmentHistoryId->user->id)" />
                         <x-field-with-icon icon="person-vcard-fill me-2" :label="__('contact.idNumber')" :value="$appointmentHistoryId->user->idNumber" />
                     @endif
                 </div>

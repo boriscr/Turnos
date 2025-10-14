@@ -10,7 +10,7 @@
                     <h2>{{ __('medical.titles.personal_data') }}</h2>
                     @if ($doctor->user_id)
                         <x-field-with-icon icon="person-check-fill" :label="__('medical.doctor')" :value="$doctor->name . ' ' . $doctor->surname"
-                            :link="route('user.show', $doctor->user_id)" />
+                            :link="route('users.show', $doctor->user_id)" />
                     @else
                         <x-field-with-icon icon="person-fill" :label="__('medical.doctor')" :value="$doctor->name . ' ' . $doctor->surname" />
                     @endif
@@ -28,10 +28,10 @@
                     <div class="card">
                         <h2>{{ __('medical.titles.creation') }}</h2>
                         <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.created_by')" :value="$doctor->createdBy->name . ' ' . $doctor->createdBy->surname"
-                            :link="route('user.show', $doctor->created_by)" />
+                            :link="route('users.show', $doctor->created_by)" />
                         <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($doctor->created_at)->format('d/m/Y H:i')" />
                         <x-field-with-icon icon="calendar-range-fill" :label="__('medical.updated_by')" :value="$doctor->updatedBy->name . ' ' . $doctor->updatedBy->surname"
-                            :link="route('user.show', $doctor->updated_by)" />
+                            :link="route('users.show', $doctor->updated_by)" />
                         <x-field-with-icon icon="calendar-range-fill" :label="__('medical.update_date')" :value="\Carbon\Carbon::parse($doctor->updated_at)->format('d/m/Y H:i')" />
                     </div>
                 @endif

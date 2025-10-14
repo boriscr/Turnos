@@ -27,7 +27,7 @@
 
                 <div class="card">
                     <h2>{{ __('medical.titles.patient_data') }}</h2>
-                    <x-field-with-icon icon="person-fill" :label="__('medical.patient')" :value="$reservation->user->name . ' ' . $reservation->user->surname" :link="route('user.show', $reservation->user->id)" />
+                    <x-field-with-icon icon="person-fill" :label="__('medical.patient')" :value="$reservation->user->name . ' ' . $reservation->user->surname" :link="route('users.show', $reservation->user->id)" />
                     <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="$reservation->user->idNumber" />
                     <x-field-with-icon icon="clipboard" :label="__('medical.status.title')" />
                     <span class="full-center {{ $reservation->user->status ? 'btn-success' : 'btn-danger' }}">
