@@ -48,7 +48,7 @@
                                 <td>{{ $doctor->licenseNumber }}</td>
                                 <td class="{{ $doctor->status ? 'existing' : 'no_data' }}">
                                     {{ $doctor->status ? __('medical.active') : __('medical.inactive') }}</td>
-                                <td> <a href="{{ route('doctor.show', $doctor->id) }}" class="btn btn-view"><i
+                                <td> <a href="{{ route('doctors.show', $doctor->id) }}" class="btn btn-view"><i
                                             class="bi bi-eye"></i></a></td>
                             </tr>
                         @endforeach

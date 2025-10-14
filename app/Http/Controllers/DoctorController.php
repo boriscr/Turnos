@@ -59,7 +59,7 @@ class DoctorController extends Controller
             ]);
         }
 
-        return redirect()->route('doctor.index');
+        return redirect()->route('doctors.index');
     }
 
     //ok
@@ -134,7 +134,7 @@ class DoctorController extends Controller
             ]);
         }
 
-        return redirect()->route('doctor.index');
+        return redirect()->route('doctors.index');
     }
 
     public function destroy($id)
@@ -150,7 +150,7 @@ class DoctorController extends Controller
                     'text'  => 'No se puede eliminar el médico porque tiene turnos asociados.',
                     'icon'  => 'error',
                 ]);
-                return redirect()->route('doctor.index');
+                return redirect()->route('doctors.index');
             }
             // Si el doctor tiene un user asociado, cambiar su rol a 'user'
             if ($user) {
@@ -165,7 +165,7 @@ class DoctorController extends Controller
                 'text'  => 'Médico eliminado con éxito.',
                 'icon'  => 'success',
             ]);
-            return redirect()->route('doctor.index');
+            return redirect()->route('doctors.index');
         } catch (ModelNotFoundException $e) {
             Log::error('Médico no encontrado', ['id' => $id]);
             session()->flash('error', [
@@ -173,7 +173,7 @@ class DoctorController extends Controller
                 'text'  => 'Médico no encontrado.',
                 'icon'  => 'error',
             ]);
-            return redirect()->route('doctor.index');
+            return redirect()->route('doctors.index');
         } catch (\Exception $e) {
             Log::error('Error al eliminar doctor', ['id' => $id, 'error' => $e->getMessage()]);
             session()->flash('error', [
@@ -181,7 +181,7 @@ class DoctorController extends Controller
                 'text'  => 'Ocurrió un error al eliminar el doctor.',
                 'icon'  => 'error',
             ]);
-            return redirect()->route('doctor.index');
+            return redirect()->route('doctors.index');
         }
     }
 }

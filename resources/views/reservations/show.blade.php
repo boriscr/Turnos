@@ -10,7 +10,7 @@
                     <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$reservation->availableAppointment->doctor->specialty->name" :link="route('specialty.show', $reservation->availableAppointment->doctor->specialty->id)" />
                     <x-field-with-icon icon="person-fill" :label="__('medical.doctor')" :value="$reservation->availableAppointment->doctor->name .
                         ' ' .
-                        $reservation->availableAppointment->doctor->surname" :link="route('doctor.show', $reservation->availableAppointment->doctor_id)" />
+                        $reservation->availableAppointment->doctor->surname" :link="route('doctors.show', $reservation->availableAppointment->doctor_id)" />
                     <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.time')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i')" />
                     <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.date')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y')" />
                     <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" />

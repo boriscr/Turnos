@@ -57,7 +57,7 @@
                                 {{ Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i') }}
                             </td>
                             <td><a
-                                    href="{{ route('doctor.create', $reservation->availableAppointment->doctor->id) }}">{{ $reservation->availableAppointment->doctor->name . ' ' . $reservation->availableAppointment->doctor->surname }}</a>
+                                    href="{{ route('doctors.create', $reservation->availableAppointment->doctor->id) }}">{{ $reservation->availableAppointment->doctor->name . ' ' . $reservation->availableAppointment->doctor->surname }}</a>
                             </td>
                             <td>
                                 @if ($reservation->availableAppointment->appointment->status === true)

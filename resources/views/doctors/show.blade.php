@@ -37,9 +37,9 @@
                 @endif
             </div>
             <div class="options full-center">
-                <a href="{{ route('doctor.edit', $doctor->id) }}" class="btn-edit"><i
+                <a href="{{ route('doctors.edit', $doctor->id) }}" class="btn-edit"><i
                         class="bi bi-pencil-fill">{{ __('button.edit') }}</i></a>
-                <form action="{{ route('doctor.destroy', $doctor->id) }}" method="POST" class="delete-form">
+                <form action="{{ route('doctors.destroy', $doctor->id) }}" method="POST" class="delete-form">
                     @csrf
                     @method('DELETE')
                     <button type="button" class="btn-delete delete-btn"><i

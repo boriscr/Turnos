@@ -49,11 +49,11 @@
 
                                     <!-- Sección Doctors -->
                                     <div class="subtitulo">{{ __('navbar.manage_doctors') }}</div>{{-- Gestionar Doctors --}}
-                                    <x-dropdown-link :href="route('doctor.index')">
+                                    <x-dropdown-link :href="route('doctors.index')">
                                         <i class="bi bi-eye"></i><span> {{ __('navbar.view_doctors') }}</span>
                                         {{-- Ver doctors --}}
                                     </x-dropdown-link>
-                                    <x-dropdown-link :href="route('doctor.create')">
+                                    <x-dropdown-link :href="route('doctors.create')">
                                         <i class="bi bi-person-fill-add"></i> <span>
                                             {{ __('navbar.add_doctor') }}</span>{{-- Agregar doctors --}}
                                     </x-dropdown-link>
@@ -209,11 +209,11 @@
 
                             <!-- Sección Doctor -->
                             <div class="subtitulo">{{ __('navbar.manage_doctors') }}</div>{{-- Gestionar Doctors --}}
-                            <x-responsive-nav-link :href="route('doctor.index')">
+                            <x-responsive-nav-link :href="route('doctors.index')">
                                 <i class="bi bi-eye"></i><span> {{ __('navbar.view_doctors') }}</span>
                                 {{-- Ver doctors --}}
                             </x-responsive-nav-link>
-                            <x-responsive-nav-link :href="route('doctor.create')">
+                            <x-responsive-nav-link :href="route('doctors.create')">
                                 <i class="bi bi-person-fill-add"></i> <span>
                                     {{ __('navbar.add_doctor') }}</span>{{-- Agregar doctors --}}
                             </x-responsive-nav-link>

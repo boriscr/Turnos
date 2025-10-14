@@ -155,7 +155,7 @@ class UserController extends Controller
     {
         // Si se convirtió en doctor, redirigir para completar perfil
         if ($originalRole !== 'doctor' && $newRole === 'doctor' && $user->doctor) {
-            return redirect()->route('doctor.edit', $user->doctor->id)->with([
+            return redirect()->route('doctors.edit', $user->doctor->id)->with([
                 'success' => 'Perfil profesional creado. Complete los datos específicos.',
                 'nuevoMedico' => true,
             ]);
