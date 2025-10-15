@@ -11,7 +11,11 @@ class AppointmentStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user() && $this->user()->hasRole('admin');
+        $user = $this->user();
+        return $user && (
+            $user->hasRole('admin') ||
+            ($user->hasRole('doctor') && $user->doctor !== null)
+        );
     }
 
     /**

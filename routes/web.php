@@ -36,31 +36,23 @@ Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:doctor|admin'])->group(function () {
-    //Control de specialties
-    Route::get('/specialty', [SpecialtyController::class, 'index'])->name('specialties.index');
-    Route::get('/specialty/create', [SpecialtyController::class, 'create'])->name('specialties.create');
-    Route::post('/specialty', [SpecialtyController::class, 'store'])->name('specialties.store');
-    Route::get('/specialty/show/{id}', [SpecialtyController::class, 'show'])->name('specialties.show');
-    Route::get('/specialty/edit/{id}', [SpecialtyController::class, 'edit'])->name('specialties.edit');
-    Route::put('/specialty/{id}', [SpecialtyController::class, 'update'])->name('specialties.update');
-    Route::get('specialty/search', [SpecialtyController::class, 'search'])->name('specialties.search');
-    Route::delete('/specialty/{id}', [SpecialtyController::class, 'destroy'])->name('specialties.destroy');
     //Appointments
     Route::get('/getBySpecialty/{id}', [AppointmentController::class, 'getBySpecialty']); //Selects decargar especialidad seleccionada (fetch API) segun los doctores
     Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
+    Route::get('appointment/search', [AppointmentController::class, 'search'])->name('appointments.search');
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
     Route::get('/appointments/show/{id}', [AppointmentController::class, 'show'])->name('appointments.show');
     Route::get('/appointments/edit/{id}', [AppointmentController::class, 'edit'])->name('appointments.edit');
     Route::patch('/appointments/{id}', [AppointmentController::class, 'update'])->name('appointments.update');
-    Route::get('appointment/search', [AppointmentController::class, 'search'])->name('appointment.search');
     Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
     //Appointments disponibles creados
     Route::get('/availableAppointments/{id?}', [AvailableAppointmentsController::class, 'index'])->name('availableAppointments.index');
-    Route::get('/availableAppointments/show/{id?}', [AvailableAppointmentsController::class, 'show'])->name('availableAppointments.show');
-
+    //Route::get('/availableAppointments/show/{id?}', [AvailableAppointmentsController::class, 'show'])->name('availableAppointments.show');
+    
     //Reservations
-    Route::get('/reservations/index', [ReservationController::class, 'index'])->name('reservations.index');
+    Route::get('/reservations/{availableAppointmentId?}', [ReservationController::class, 'index'])->name('reservations.index');
+   // Route::get('/reservations/index', [ReservationController::class, 'index'])->name('reservations.index');
     Route::get('/reservations/show/{id}', [ReservationController::class, 'show'])->name('reservations.show');
     Route::patch('/reservations/{reservation}/status', [ReservationController::class, 'actualizarstatus'])
         ->name('reservations.status');
@@ -71,6 +63,15 @@ Route::middleware(['auth', 'role:doctor|admin'])->group(function () {
 
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
+    //Control de specialties
+    Route::get('/specialty', [SpecialtyController::class, 'index'])->name('specialties.index');
+    Route::get('/specialty/create', [SpecialtyController::class, 'create'])->name('specialties.create');
+    Route::post('/specialty', [SpecialtyController::class, 'store'])->name('specialties.store');
+    Route::get('/specialty/show/{id}', [SpecialtyController::class, 'show'])->name('specialties.show');
+    Route::get('/specialty/edit/{id}', [SpecialtyController::class, 'edit'])->name('specialties.edit');
+    Route::put('/specialty/{id}', [SpecialtyController::class, 'update'])->name('specialties.update');
+    Route::get('specialty/search', [SpecialtyController::class, 'search'])->name('specialties.search');
+    Route::delete('/specialty/{id}', [SpecialtyController::class, 'destroy'])->name('specialties.destroy');
     //Reservations
     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 

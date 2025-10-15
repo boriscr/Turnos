@@ -50,7 +50,7 @@
                                         {{ $item->reserved_spots }}
                                     </td>
                                     <td class="acciones full-center">
-                                        <a href="{{ route('availableAppointments.show', $item->id) }}" class="btn btn-view"><i
+                                        <a href="{{ route('reservations.index', $item->id) }}" class="btn btn-view"><i
                                                 class="bi bi-eye"></i><b
                                                 class="accionesMovil">{{ __('button.view') }}</b></a>
                                         <form action="{{ route('appointments.destroy', $item->id) }}" method="POST"

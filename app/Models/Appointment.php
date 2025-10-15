@@ -10,7 +10,7 @@ class Appointment extends Model
 {
     use HasFactory;
     use TracksUserActions;
-    
+
     protected $fillable = [
         'name',
         'address',
@@ -32,7 +32,11 @@ class Appointment extends Model
         'start_time' => 'datetime:H:i',
         'end_time' => 'datetime:H:i',
     ];
-
+    public function scopeForDoctor($query, $doctorId)
+    {
+        return $query->where('doctor_id', $doctorId);
+    }
+    
     public function specialty()
     {
         return $this->belongsTo(Specialty::class);

@@ -14,12 +14,50 @@
                 <x-nav-link-active href="{{ route('home') }}" route="home">
                     <i class="bi bi-house"></i><span>{{ __('navbar.home') }}</span>
                 </x-nav-link-active>
+                <!-- Settings Dropdown -->
                 @role('doctor')
-                    <!-- Sección Reservations -->
-                    <x-nav-link-active :href="route('reservations.index')">
-                        <i class="bi bi-eye"></i> <span>
-                            {{ __('navbar.view_booking') }}</span>{{-- Ver reservations --}}
-                    </x-nav-link-active>
+                    <div class="hidden sm:flex sm:items-center sm:ms-0">
+                        <x-dropdown align="right" width="48">
+                            <x-slot name="trigger">
+                                <button
+                                    class="menu-btn inline-flex items-center leading-4 font-medium rounded-md focus:outline-none transition ease-in-out duration-150">
+                                    <div><i class="bi bi-clipboard-pulse"></i>
+                                        <span>{{ __('navbar.administration') }}</span>{{-- Administracion --}}
+                                    </div>
+
+                                    <div class="ms-1">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                <!-- Sección Appointments -->
+                                <div class="subtitulo"> {{ __('navbar.manage_appointments') }}</div>
+                                {{-- Gestionar Appointments --}}
+                                <x-dropdown-link :href="route('appointments.index')">
+                                    <i class="bi bi-eye"></i> <span>
+                                        {{ __('navbar.view_appointments') }}</span>{{-- Ver Appointments --}}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('appointments.create')">
+                                    <i class="bi bi-clock"></i> <span>
+                                        {{ __('navbar.create_appointment') }}</span>{{-- Crear Appointments --}}
+                                </x-dropdown-link>
+
+                                <!-- Sección Reservations -->
+                                <div class="subtitulo"> {{ __('navbar.manage_booking') }}</div>{{-- Gestionar Reservations --}}
+                                <x-dropdown-link :href="route('reservations.index')">
+                                    <i class="bi bi-eye"></i> <span>
+                                        {{ __('navbar.view_booking') }}</span>{{-- Ver reservations --}}
+                                </x-dropdown-link>
+                            </x-slot>
+                        </x-dropdown>
+                    </div>
                 @endrole
                 <!-- Settings Dropdown -->
                 @role('admin')
@@ -198,7 +236,8 @@
                             </div>
                             <svg class="h-4 w-4 transform transition-transform" :class="{ 'rotate-180': adminOpen }"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
                             </svg>
                         </div>
                     </button>

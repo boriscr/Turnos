@@ -13,50 +13,81 @@ use App\Models\Reservation;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+
         $appointments = Appointment::select('id', 'name', 'specialty_id', 'doctor_id', 'shift', 'status')
-            ->with(['specialty' => function ($query) {
-                $query->select('id', 'name');
-            }, 'doctor' => function ($query) {
-                $query->select('id', 'name');
-            }])
+            ->with([
+                'specialty:id,name',
+                'doctor:id,name'
+            ])
+            ->when($user->hasRole('doctor'), fn($q) => $q->forDoctor($user->doctor->id))
             ->orderBy('updated_at', 'desc')
             ->paginate(10);
-        return view('appointments/index', compact('appointments'));
+
+        return view('appointments.index', compact('appointments'));
     }
     public function search(Request $request)
     {
+        $user = Auth::user();
         $query = $request->input('search');
+
         $appointments = Appointment::where('name', 'like', "%{$query}%")
+            ->when($user->hasRole('doctor'), fn($q) => $q->forDoctor($user->doctor->id))
+            ->with([
+                'specialty:id,name',
+                'doctor:id,name'
+            ])
+            ->orderBy('updated_at', 'desc')
             ->paginate(10);
-        return view('appointments/index', compact('appointments'));
+
+        return view('appointments.index', compact('appointments'));
     }
     public function create()
     {
+        $user = Auth::user();
+
         $specialties = Specialty::select('id', 'name', 'status')
-            ->where('status', 1)
+            ->when($user->hasRole('doctor'), function ($query) use ($user) {
+                $query->where('id', optional($user->doctor)->specialty_id);
+            }, function ($query) {
+                $query->where('status', 1);
+            })
             ->orderBy('name')
             ->get();
-        return view('appointments/create', compact('specialties'));
+
+        return view('appointments.create', compact('specialties'));
     }
 
     //Usado desde el formulario Create Appointments para cargar especialidad seleccionada (fetch API) segun los doctores
     public function getBySpecialty($id)
     {
         try {
-            $doctors = Doctor::where('specialty_id', $id)
-                ->select('id', 'name', 'surname')
+            $user = Auth::user();
+            if ($user->hasRole('doctor') && $id != $user->doctor->specialty_id) {
+                return back(); // vista no autorizada
+            }
+            $doctors = Doctor::select('id', 'name', 'surname')
                 ->where('status', 1)
+                ->when($user->hasRole('doctor'), function ($query) use ($user) {
+                    $query->where('id', $user->doctor->id); // Solo el doctor autenticado
+                }, function ($query) use ($id) {
+                    $query->where('specialty_id', $id); // Todos los doctores de la especialidad
+                })
                 ->orderBy('name')
                 ->get();
 
             return response()->json($doctors);
         } catch (\Exception $e) {
-            Log::error('Error al obtener doctores por especialidad', ['specialty_id' => $id, 'error' => $e->getMessage()]);
+            Log::error('Error al obtener doctores por especialidad', [
+                'specialty_id' => $id,
+                'error' => $e->getMessage()
+            ]);
             return response()->json([], 500);
         }
     }
@@ -65,7 +96,19 @@ class AppointmentController extends Controller
     {
         // Aumentar temporalmente el tiempo de ejecución
         set_time_limit(60);
-
+        //Verificacion de permisos para doctor
+        $user = Auth::user();
+        if ($user->hasRole('doctor')) {
+            $doctor = $user->doctor;
+            // Validar que el doctor_id enviado sea el mismo que el del usuario
+            if ($request->doctor_id != $doctor->id) {
+                return back()->with('error', 'No tiene permiso para crear turnos para otro médico.');
+            }
+            // Validar que la especialidad enviada coincida con la del doctor
+            if ($request->specialty_id != $doctor->specialty_id) {
+                return back()->with('error', 'La especialidad seleccionada no coincide con la asignada al médico.');
+            }
+        }
         // Decodificar datos una sola vez
         $timeSlots = json_decode($request->available_time_slots, true) ?? [];
         $available_dates = json_decode($request->selected_dates, true) ?? [];
@@ -187,17 +230,6 @@ class AppointmentController extends Controller
     </div>";
     }
 
-    /*private function calcularTotalRegistros($available_dates, $timeSlots, $appointmentType)
-    {
-        $totalFechas = count($available_dates);
-
-        if ($appointmentType === 'multi_slot' && !empty($timeSlots)) {
-            return $totalFechas * count($timeSlots);
-        }
-
-        return $totalFechas;
-    }*/
-
     private function crearDisponibilidadesEnLote($appointment, $available_dates, $tipoAppointment, $request, $timeSlots = [])
     {
         $lotes = [];
@@ -267,37 +299,58 @@ class AppointmentController extends Controller
 
     public function show($id)
     {
+        $user = Auth::user();
         $appointment = Appointment::findOrFail($id);
-        if ($appointment) {
-            return view('appointments.show', compact('appointment'));
-        } else {
+
+        // Si el usuario es doctor, validar que el turno le pertenece
+        if ($user->hasRole('doctor') && $appointment->doctor_id !== $user->doctor->id) {
             session()->flash('error', [
-                'title' => 'No existe!',
-                'text' => 'El turno ha sido eliminado o no existe.',
+                'title' => 'Acceso denegado',
+                'text' => 'No tiene permiso para ver este turno.',
                 'icon' => 'error'
             ]);
             return back();
         }
+
+        return view('appointments.show', compact('appointment'));
     }
 
 
     //Editar Appointment
     public function edit($id)
     {
+        $user = Auth::user();
         $appointment = Appointment::with(['specialty', 'doctor', 'disponibilidades'])->findOrFail($id);
-        $specialties = Specialty::where('status', 1)->get();
+
+        // Verificar propiedad si es doctor
+        if ($user->hasRole('doctor') && $appointment->doctor_id !== $user->doctor->id) {
+            session()->flash('error', [
+                'title' => 'Acceso denegado',
+                'text' => 'No tiene permiso para editar este turno.',
+                'icon' => 'error'
+            ]);
+            return back();
+        }
+
+        // Cargar especialidades según rol
+        $specialties = Specialty::select('id', 'name', 'status')
+            ->when($user->hasRole('doctor'), function ($query) use ($user) {
+                $query->where('id', optional($user->doctor)->specialty_id);
+            }, function ($query) {
+                $query->where('status', 1);
+            })
+            ->orderBy('name')
+            ->get();
 
         // Procesar available_time_slots para la vista
         $available_time_slots = $appointment->available_time_slots;
-
-        // Verificar si es un array JSON (multi_slot)
-        $availableTimeSlotsValue = is_string($appointment->available_time_slots) ? $appointment->available_time_slots : '';
+        $availableTimeSlotsValue = is_string($available_time_slots) ? $available_time_slots : '';
         $horariosArray = json_decode($availableTimeSlotsValue, true);
+
         if (json_last_error() === JSON_ERROR_NONE && is_array($horariosArray)) {
             $available_time_slots = json_encode($horariosArray);
         }
 
-        //dd($appointment,$specialties,json_encode($appointment->available_dates),$available_time_slots);
         return view('appointments.edit', [
             'appointment' => $appointment,
             'specialties' => $specialties,
@@ -329,8 +382,28 @@ class AppointmentController extends Controller
             }
         }
 
+        $user = Auth::user();
         $appointment = Appointment::findOrFail($id);
 
+        // Verificación de propiedad si es doctor
+        if ($user->hasRole('doctor')) {
+            $doctor = $user->doctor;
+
+            // Validar que el turno le pertenece
+            if ($appointment->doctor_id !== $doctor->id) {
+                return back()->with('error', 'No tiene permiso para modificar este turno.');
+            }
+
+            // Validar que la especialidad enviada coincida con la del doctor
+            if ($request->specialty_id != $doctor->specialty_id) {
+                return back()->with('error', 'La especialidad seleccionada no coincide con la asignada al médico.');
+            }
+
+            // Validar que el doctor_id enviado sea el mismo que el del usuario
+            if ($request->doctor_id != $doctor->id) {
+                return back()->with('error', 'No tiene permiso para asignar otro médico al turno.');
+            }
+        }
         // FILTRAR FECHAS: Aplicar límites como en el store
         $resultadoFiltrado = $this->filtrarFechasDentroDeLimite($available_dates, $timeSlots, $tipoAppointment);
 
@@ -612,9 +685,21 @@ class AppointmentController extends Controller
     public function destroy($id)
     {
         set_time_limit(30);
+        $user = Auth::user();
+        $appointment = Appointment::findOrFail($id);
+
+        // Verificación de propiedad si es doctor
+        if ($user->hasRole('doctor') && $appointment->doctor_id !== $user->doctor->id) {
+            session()->flash('error', [
+                'title' => 'Acceso denegado',
+                'text' => 'No tiene permiso para eliminar este turno.',
+                'icon' => 'error',
+            ]);
+            return redirect()->route('appointments.index');
+        }
 
         try {
-            // 1. Verificar reservas pendientes en una sola consulta optimizada
+            // Verificar reservas pendientes
             $tieneReservasPendientes = DB::table('reservations')
                 ->join('available_appointments', 'reservations.available_appointment_id', '=', 'available_appointments.id')
                 ->where('available_appointments.appointment_id', $id)
@@ -630,12 +715,9 @@ class AppointmentController extends Controller
                 return redirect()->route('appointments.index');
             }
 
-            // 2. Usar transacción para atomicidad
+            // Transacción para eliminar
             DB::transaction(function () use ($id) {
-                // 3. Eliminar disponibilidades con DELETE directo (más rápido que Eloquent)
                 AvailableAppointment::where('appointment_id', $id)->delete();
-
-                // 4. Eliminar el appointment
                 Appointment::where('id', $id)->delete();
             });
 

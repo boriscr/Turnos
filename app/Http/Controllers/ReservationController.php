@@ -20,50 +20,36 @@ use App\Models\AppointmentHistory;
 class ReservationController extends Controller
 {
 
-    public function index(Request $request)
+    public function index(Request $request, $availableAppointmentId = null)
     {
         $user = Auth::user();
         $specialties = Specialty::where('status', 1)->get();
 
-        // Si se presionó "Mostrar Todo"
-        if ($request->has('show_all')) {
-            $reservations = Reservation::with(['availableAppointment.doctor', 'user'])
-                ->when($user->hasRole('doctor'), function ($query) use ($user) {
-                    $query->whereHas('availableAppointment', function ($q) use ($user) {
-                        $q->where('doctor_id', $user->doctor->id); // Asegurate que el user tenga relación con Doctor
-                    });
-                })
-                ->orderByDesc('created_at')
-                ->paginate(10);
-
-            return view('reservations.index', [
-                'specialties' => $specialties,
-                'reservations' => $reservations,
-                'reservaFiltro' => 'all',
-                'fechaFiltro' => 'all',
-                'search' => null,
-                'fechaInicio' => null,
-                'fechaFin' => null,
-                'specialty_id' => 'all_specialties'
-            ]);
-        }
-
-        // Filtros
         $search = $request->input('search');
-        $reservaFiltro = $request->input('reservation', 'pending');
+        $reservaFiltro = $request->input('reservation', 'all');
         $fechaInicio = $request->input('start_date');
         $fechaFin = $request->input('end_date');
-        $fechaFiltro = $request->input('date', 'today');
+        $fechaFiltro = $request->input('date', 'all');
         $today = now()->format('Y-m-d');
         $yesterday = now()->subDay()->format('Y-m-d');
         $tomorrow = now()->addDay()->format('Y-m-d');
         $specialty_id = $request->input('specialty_id', 'all_specialties');
-
+        // Restaurar filtros por defecto si no se envía ID ni filtros manuales
+        if (
+            is_null($availableAppointmentId) &&
+            !$request->hasAny(['search', 'reservation', 'start_date', 'end_date', 'date', 'specialty_id', 'show_all'])
+        ) {
+            $reservaFiltro = 'pending';
+            $fechaFiltro = 'today';
+        }
         $reservations = Reservation::with(['user', 'availableAppointment.doctor'])
             ->when($user->hasRole('doctor'), function ($query) use ($user) {
                 $query->whereHas('availableAppointment', function ($q) use ($user) {
                     $q->where('doctor_id', $user->doctor->id);
                 });
+            })
+            ->when($availableAppointmentId, function ($query) use ($availableAppointmentId) {
+                $query->where('available_appointment_id', $availableAppointmentId);
             })
             ->when($search, function ($query) use ($search) {
                 $query->whereHas('user', function ($userQuery) use ($search) {
@@ -80,8 +66,8 @@ class ReservationController extends Controller
                 $query->whereHas('availableAppointment', function ($q) use ($fechaInicio, $fechaFin) {
                     $q->whereBetween('date', [$fechaInicio, $fechaFin]);
                 });
-            }, function ($query) use ($fechaFiltro, $today, $yesterday, $tomorrow, $fechaInicio, $fechaFin) {
-                if (!$fechaInicio && !$fechaFin) {
+            }, function ($query) use ($fechaFiltro, $today, $yesterday, $tomorrow) {
+                if ($fechaFiltro !== 'all') {
                     $query->whereHas('availableAppointment', function ($q) use ($fechaFiltro, $today, $yesterday, $tomorrow) {
                         switch ($fechaFiltro) {
                             case 'yesterday':
@@ -93,8 +79,6 @@ class ReservationController extends Controller
                             case 'tomorrow':
                                 $q->whereDate('date', $tomorrow);
                                 break;
-                            default:
-                                $q->whereDate('date', $today);
                         }
                     });
                 }
