@@ -44,7 +44,7 @@
                 </div>
                 <!-- Paso 2 - Selección de Appointment -->
                 <div class="form-step" data-step="2">
-                    <x-form.select name="specialty_id" :label="__('specialty.title')" icon="bi-1-circle" :required="true">
+                    <x-form.select name="specialty_id" :label="__('specialty.title')" icon="1-circle" :required="true">
                         <option value="">{{ __('reservation.specialty_option') }}</option>
                         @if (!empty($specialties))
                             @foreach ($specialties as $specialty)
@@ -55,20 +55,20 @@
                         @endif
                     </x-form.select>
 
-                    <x-form.select name="doctor_id" :label="__('medical.doctor')" icon="bi-2-circle" :required="true">
+                    <x-form.select name="doctor_id" :label="__('medical.doctor')" icon="2-circle" :required="true">
                         <option value="">{{ __('reservation.doctor_option') }}</option>
                     </x-form.select>
-                    <x-form.select name="appointment_name_id" :label="__('reservation.title_name')" icon="bi-3-circle" :required="true">
+                    <x-form.select name="appointment_name_id" :label="__('reservation.title_name')" icon="3-circle" :required="true">
                         <option value="">{{ __('reservation.title_name_option') }}</option>
                     </x-form.select>
 
 
-                    <x-form.select name="appointment_date" :label="__('reservation.date')" icon="bi-4-circle" :required="true">
+                    <x-form.select name="appointment_date" :label="__('reservation.date')" icon="4-circle" :required="true">
                         <option value="">{{ __('reservation.date_option') }}</option>
                     </x-form.select>
 
 
-                    <x-form.select name="appointment_time" :label="__('reservation.time')" icon="bi-5-circle" :required="true">
+                    <x-form.select name="appointment_time" :label="__('reservation.time')" icon="5-circle" :required="true">
                         <option value="">{{ __('reservation.time_option') }}</option>
                         <input type="hidden" name="appointment_id" id="appointment_id">
                     </x-form.select>
