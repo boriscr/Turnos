@@ -49,10 +49,10 @@ Route::middleware(['auth', 'role:doctor|admin'])->group(function () {
     //Appointments disponibles creados
     Route::get('/availableAppointments/{id?}', [AvailableAppointmentsController::class, 'index'])->name('availableAppointments.index');
     //Route::get('/availableAppointments/show/{id?}', [AvailableAppointmentsController::class, 'show'])->name('availableAppointments.show');
-    
+
     //Reservations
     Route::get('/reservations/{availableAppointmentId?}', [ReservationController::class, 'index'])->name('reservations.index');
-   // Route::get('/reservations/index', [ReservationController::class, 'index'])->name('reservations.index');
+    // Route::get('/reservations/index', [ReservationController::class, 'index'])->name('reservations.index');
     Route::get('/reservations/show/{id}', [ReservationController::class, 'show'])->name('reservations.show');
     Route::patch('/reservations/{reservation}/status', [ReservationController::class, 'actualizarstatus'])
         ->name('reservations.status');
@@ -104,12 +104,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     //Setting
     Route::get('/settings/edit', [SettingController::class, 'edit'])->name('settings.edit');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
+    //dashboard
+    //Route::put('/dashboard', [SettingController::class, 'update'])->name('dashboard');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
 });
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 require __DIR__ . '/auth.php';

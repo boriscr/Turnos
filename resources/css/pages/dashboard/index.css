@@ -1,0 +1,259 @@
+:root {
+    --sidebar-width: 250px;
+    --sidebar-collapsed-width: 100px;
+    --header-height: 60px;
+    --transition-speed: 0.3s;
+}
+
+
+/* Estilos para la barra lateral en escritorio */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--background_navbar_light);
+    color: var(--light_text_color);
+    height: 100vh;
+    position: absolute;
+    transition: width var(--transition-speed) ease;
+    overflow-x: hidden;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    height: var(--header-height);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.logo-icon {
+    font-size: 1.8rem;
+}
+
+.logo-text {
+    transition: opacity var(--transition-speed) ease;
+}
+
+.sidebar.collapsed .logo-text {
+    opacity: 0;
+    width: 0;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    color: var(--light_text_color);
+    background-color: var(--general_design_color);
+    padding: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform var(--transition-speed) ease;
+}
+
+.sidebar.collapsed .toggle-btn {
+    transform: rotate(180deg);
+}
+
+.nav-links {
+    list-style: none;
+    padding: 20px 0;
+}
+
+.nav-links li {
+    margin-bottom: 5px;
+}
+
+.nav-links a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--light_text_color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.nav-links a:hover {
+    background-color: color-mix(in srgb, var(--light_application_background) 70%, var(--general_design_color) 30%);
+    border-left: 3px solid var(--general_design_color);
+}
+
+.nav-links a.active {
+    background-color: color-mix(in srgb, var(--light_application_background) 50%, var(--general_design_color) 50%);
+    border-left: 3px solid var(--general_design_color);
+}
+
+.nav-links i {
+    font-size: 1.2rem;
+    width: 30px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.nav-links span {
+    transition: opacity var(--transition-speed) ease;
+}
+
+.sidebar.collapsed .nav-links span {
+    opacity: 0;
+    width: 0;
+}
+
+/* Estilos para el contenido principal */
+.main-content {
+    position: relative;
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    transition: margin-left var(--transition-speed) ease;
+    padding: 20px;
+}
+
+.sidebar.collapsed~.main-content {
+    margin-left: var(--sidebar-collapsed-width);
+}
+
+/* Estilos para la barra de navegación en móvil */
+.mobile-nav {
+    display: none;
+    background-color: var(--background_navbar_light);
+    color: var(--light_text_color);
+    height: var(--header-height);
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 100%;
+}
+
+.mobile-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.mobile-toggle {
+    display: flex;
+    border: none;
+    color: var(--light_text_color);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.mobile-nav-links {
+    display: none;
+    list-style: none;
+    background-color: var(--background_navbar_light);
+    padding: 10px 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-nav-links.active {
+    display: block;
+    z-index: 999;
+}
+
+.mobile-nav-links li {
+    margin: 0;
+}
+
+.mobile-nav-links a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.mobile-nav-links a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav-links i {
+    font-size: 1.2rem;
+    width: 30px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    .mobile-nav {
+        display: block;
+    }
+}
+
+/* Estilos para el contenido de ejemplo */
+.dashboard-content {
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.338);
+    margin-top: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+@media (prefers-color-scheme: dark) {
+
+    .sidebar,
+    .mobile-nav,
+    .mobile-nav-links {
+        background-color: var(--background_navbar_dark);
+        color: var(--dark_text_color);
+    }
+
+    .toggle-btn,
+    .nav-links a,
+    .mobile-toggle {
+        color: var(--dark_text_color);
+    }
+
+    .nav-links a:hover {
+        background-color: color-mix(in srgb, var(--dark_application_background) 70%, var(--general_design_color) 30%);
+    }
+
+    .nav-links a.active {
+        background-color: color-mix(in srgb, var(--dark_application_background) 50%, var(--general_design_color) 50%);
+    }
+
+}
