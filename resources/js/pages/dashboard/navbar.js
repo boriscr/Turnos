@@ -37,16 +37,6 @@ if (window.location.pathname.includes('/dashboard')) {
 
             // Añadir clase activa al enlace clickeado
             this.classList.add('active');
-
-            // Actualizar también el carrusel
-            const href = this.getAttribute('href');
-            document.querySelectorAll('.carousel-item').forEach(item => {
-                if (item.getAttribute('href') === href) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
         });
     });
 }

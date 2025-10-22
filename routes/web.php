@@ -12,6 +12,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\MyAppointmentsController;
 use App\Http\Controllers\AppointmentHistoryController;
+use App\Http\Controllers\DashboardController;
 
 Route::view('/', 'home')->name('home');
 
@@ -106,9 +107,16 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
     //dashboard
     //Route::put('/dashboard', [SettingController::class, 'update'])->name('dashboard');
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    // routes/web.php
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
+        Route::get('/analytics', [DashboardController::class, 'analytics'])->name('analytics');
+        Route::get('/users', [DashboardController::class, 'users'])->name('users');
+        Route::get('/general', [DashboardController::class, 'general'])->name('general');
+        Route::get('/design', [DashboardController::class, 'design'])->name('design');
+        Route::get('/appointment', [DashboardController::class, 'appointment'])->name('appointment');
+        Route::get('/privacy', [DashboardController::class, 'privacy'])->name('privacy');
+    });
 });
 
 

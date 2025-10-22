@@ -20,7 +20,7 @@ class SettingController extends Controller
 
     public function update(SettingUpdateRequest $request)
     {
-       
+
         foreach ($request->all() as $group => $items) {
             if (is_array($items)) {
                 foreach ($items as $key => $value) {
@@ -53,7 +53,7 @@ class SettingController extends Controller
             'title' => 'Configuración actualizada',
             'text' => 'Los cambios se han guardado correctamente.'
         ]);
-        return redirect()->route('settings.edit');
+        return back();
     }
 
     protected function isJson($string)
