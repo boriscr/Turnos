@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    public function index()
+    {
+        $settings = app('settings'); // o Setting::all()->pluck('value', 'key')
+        return view('dashboard.index', compact('settings'));
+    }
+
     public function design()
     {
         $settings = app('settings'); // o Setting::all()->pluck('value', 'key')
@@ -20,10 +26,5 @@ class DashboardController extends Controller
     {
         $settings = app('settings'); // o Setting::all()->pluck('value', 'key')
         return view('dashboard.appointment', compact('settings'));
-    }
-    public function index()
-    {
-        $settings = app('settings'); // o Setting::all()->pluck('value', 'key')
-        return view('dashboard.index', compact('settings'));
     }
 }

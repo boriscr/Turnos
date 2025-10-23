@@ -48,7 +48,7 @@
                 </div>
             </a>
             <a href="#">
-                <div class="card-profile full-center">
+                <div class="card-profile full-center feature-style">
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
@@ -57,7 +57,7 @@
                 </div>
             </a>
             <a href="#">
-                <div class="card-profile full-center">
+                <div class="card-profile full-center feature-style">
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
@@ -66,7 +66,7 @@
                 </div>
             </a>
             <a href="#">
-                <div class="card-profile full-center">
+                <div class="card-profile full-center feature-style">
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
@@ -91,7 +91,7 @@
             </a>
             <!-- Notificaciones importantes -->
             <a href="#">
-                <div class="card-profile">
+                <div class="card-profile feature-style">
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
@@ -104,7 +104,7 @@
             </a>
             <hr>
             <a href="#">
-                <div class="card-profile">
+                <div class="card-profile feature-style">
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
@@ -116,7 +116,7 @@
                 </div>
             </a>
             <a href="#">
-                <div class="card-profile">
+                <div class="card-profile feature-style">
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>

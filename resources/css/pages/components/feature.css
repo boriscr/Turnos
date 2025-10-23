@@ -62,3 +62,8 @@
         transform: rotate(360deg);
     }
 }
+
+.feature-style {
+    border: 1px solid rgb(0, 0, 0);
+    background: linear-gradient(10deg, var(--ios-green),var(--ios-teal)) !important;
+}

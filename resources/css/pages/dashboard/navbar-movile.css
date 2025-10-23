@@ -1,0 +1,184 @@
+/* ===== ESTILOS MÓVIL ===== */
+@media (max-width: 768px) {
+    /* Ocultar sidebar en móvil */
+    .sidebar {
+        display: none !important;
+    }
+
+    /* Mostrar navbar móvil */
+    .mobile-nav {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--background_navbar_light);
+        color: var(--light_text_color);
+        height: auto;
+        position: fixed;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Header del navbar móvil */
+    .mobile-nav-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+        height: var(--header-height);
+        background-color: var(--background_navbar_light);
+    }
+
+    .mobile-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .mobile-logo i {
+        font-size: 1.4rem;
+    }
+
+    .mobile-toggle {
+        display: flex;
+        border: none;
+        color: var(--light_text_color);
+        font-size: 1.5rem;
+        cursor: pointer;
+        background: none;
+        padding: 5px;
+        transition: transform 0.3s ease;
+    }
+
+    .mobile-toggle.active {
+        transform: rotate(90deg);
+    }
+
+    /* Links del navbar móvil */
+    .mobile-nav-links {
+        display: none;
+        list-style: none;
+        background-color: var(--background_navbar_light);
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        right: 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        max-height: 70vh;
+        overflow-y: auto;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-nav-links.active {
+        display: block;
+        z-index: 999;
+    }
+
+    .mobile-nav-links li {
+        margin: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-nav-links li:last-child {
+        border-bottom: none;
+    }
+
+    .mobile-nav-links a {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        text-decoration: none;
+        color: var(--light_text_color);
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+    }
+
+    .mobile-nav-links a:hover {
+        background-color: color-mix(in srgb, var(--light_application_background) 70%, var(--general_design_color) 30%);
+        border-left: 3px solid var(--general_design_color);
+    }
+
+    .mobile-nav-links a.active {
+        background-color: color-mix(in srgb, var(--light_application_background) 50%, var(--general_design_color) 50%);
+        border-left: 3px solid var(--general_design_color);
+    }
+
+    .mobile-nav-links i {
+        font-size: 1.2rem;
+        width: 25px;
+        text-align: center;
+        margin-right: 12px;
+        flex-shrink: 0;
+    }
+
+    /* Ajustar contenido principal para móvil */
+    .main-content {
+        margin-left: 0 !important;
+        padding: 20px 15px;
+        width: 100%;
+    }
+
+    .dashboard-content {
+        /*padding: 20px;*/
+        margin-top: 10px;
+    }
+
+    /* Ocultar toggle del sidebar en móvil */
+    .toggle-btn {
+        display: none;
+    }
+}
+
+/* Para tablets pequeñas (601px - 768px) */
+@media (min-width: 601px) and (max-width: 768px) {
+    .mobile-nav-links {
+        max-height: 60vh;
+    }
+    
+    .mobile-nav-links a {
+        padding: 18px 25px;
+        font-size: 1.1rem;
+    }
+}
+
+/* Para escritorio (ocultar navbar móvil) */
+@media (min-width: 769px) {
+    .mobile-nav {
+        display: none !important;
+    }
+}
+
+/* Dark mode para móvil */
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+    .mobile-nav,
+    .mobile-nav-header,
+    .mobile-nav-links {
+        background-color: var(--background_navbar_dark);
+        color: var(--dark_text_color);
+    }
+
+    .mobile-toggle {
+        color: var(--dark_text_color);
+    }
+
+    .mobile-nav-links a {
+        color: var(--dark_text_color);
+    }
+
+    .mobile-nav-links a:hover {
+        background-color: color-mix(in srgb, var(--dark_application_background) 70%, var(--general_design_color) 30%);
+    }
+
+    .mobile-nav-links a.active {
+        background-color: color-mix(in srgb, var(--dark_application_background) 50%, var(--general_design_color) 50%);
+    }
+
+    .mobile-nav-links li {
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+}

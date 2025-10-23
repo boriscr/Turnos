@@ -2,7 +2,6 @@ import '../js/pages/register/register-validate.js';
 import '../js/layouts/get-list-of-countries.js';
 //pages***********************
 import '../js/pages/dashboard/navbar.js';
-import '../js/pages/dashboard/dropdown-btn.js';
 
 import '../js/pages/doctors/specialty.js';
 import '../js/pages/profiles/anular-btn.js';

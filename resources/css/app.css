@@ -18,7 +18,7 @@
 @import 'pages/components/form-settings.css';
 /*pages*/
 @import 'pages/dashboard/index.css';
-@import 'pages/dashboard/dropdown-btn.css';
+@import 'pages/dashboard/navbar-movile.css';
 
 @import 'pages/myAppointments/myAppointments.css';
 @import 'pages/myAppointments/show.css';
