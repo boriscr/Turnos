@@ -233,7 +233,7 @@ class ReservationController extends Controller
         $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
         $turnos_antelacion_reserva = $settings['appointments.advance_reservation'];
         $turnos_faltas_maximas = $settings['appointments.maximum_faults'];
-        $turnos_horas_cancelacion = $settings['appointments.cancellation_hours'];
+        //$turnos_horas_cancelacion = $settings['appointments.cancellation_hours'];
         $turnos_limite_diario = $settings['appointments.daily_limit'];
         $turnos_unidad_antelacion = $settings['appointments.unit_advance'];
         $user = Auth::user();
@@ -443,7 +443,7 @@ class ReservationController extends Controller
                 }
 
                 // 7. Validar estados
-                $statusValidation = $this->validateStatuses($availableAppointment, $request->specialty_id);
+                $statusValidation = $this->validateStatus($availableAppointment, $request->specialty_id);
                 if (!$statusValidation['valid']) {
                     throw new \Exception($statusValidation['message']);
                 }
@@ -576,7 +576,7 @@ class ReservationController extends Controller
     /**
      * Validar estados de especialidad, doctor y turno
      */
-    private function validateStatuses($availableAppointment, $specialtyId)
+    private function validateStatus($availableAppointment, $specialtyId)
     {
         $specialtyStatus = Specialty::where('id', $specialtyId)->value('status');
         $doctorStatus = Doctor::where('id', $availableAppointment->doctor_id)->value('status');

@@ -56,6 +56,7 @@ class SettingsServiceProvider extends ServiceProvider
             'app.institution_name' => setting('app.institution_name'),
             'app.patient_message' => setting('app.patient_message'),
             'app.logo_url' => setting('app.logo_url'),
+            'appointments.cancellation_hours'=>setting('appointments.cancellation_hours'),
         ]);
     }
 }

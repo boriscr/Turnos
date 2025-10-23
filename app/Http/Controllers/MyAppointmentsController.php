@@ -19,7 +19,7 @@ class MyAppointmentsController extends Controller
         if (Auth::check()) {
             $reservations = Reservation::where('user_id', Auth::user()->id)
                 ->with('availableAppointment') // Asegúrate de cargar la relación
-                ->where('status','=','pending') //mostrar solo las reservas con status pendiente
+                ->where('status', '=', 'pending') //mostrar solo las reservas con status pendiente
                 ->orderBy('id', 'desc')
                 ->paginate(8);
             $appointmentHistory = AppointmentHistory::where('user_id', Auth::user()->id)
@@ -140,9 +140,7 @@ class MyAppointmentsController extends Controller
      */
     protected function getCancellationHoursLimit(): int
     {
-        return Setting::where('group', 'appointments')
-            ->where('key', 'cancellation_hours')
-            ->value('value') ?? 2;
+        return setting('appointments.cancellation_hours', 24);
     }
 
     /**
