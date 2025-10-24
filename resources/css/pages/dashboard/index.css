@@ -200,7 +200,7 @@ body {
 }
 
 .dropdown-item {
-    padding: 14px 20px;
+    padding: 10px 2px;
     display: flex;
     align-items: center;
     gap: 12px;
