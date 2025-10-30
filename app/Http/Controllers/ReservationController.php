@@ -402,6 +402,7 @@ class ReservationController extends Controller
         try {
             // Simular procesamiento que podría causar condiciones de carrera
             usleep(rand(2000000, 4000000)); // Retardo aleatorio entre 2-4 segundos
+
             return DB::transaction(function () use ($request) {
                 // 1. BLOQUEAR el registro para evitar acceso concurrente
                 $availableAppointment = AvailableAppointment::where('id', $request->appointment_id)
@@ -452,42 +453,52 @@ class ReservationController extends Controller
                 $availableAppointment->decrement('available_spots');
                 $availableAppointment->increment('reserved_spots');
 
-                Reservation::create([
+                // ✅ CREAR RESERVA Y CAPTURAR LA INSTANCIA COMPLETA
+                $reservation = Reservation::create([
                     'user_id' => $user->id,
                     'available_appointment_id' => $availableAppointment->id,
                     'specialty_id' => $request->specialty_id
                 ]);
-                $available = AvailableAppointment::where('id', $request->appointment_id)
-                    ->firstOrFail();
-                //$reservation = Reservation::with('availableAppointment')->findOrFail($available->id);
-                $reservation = Reservation::where('available_appointment_id', $available->id)
-                    ->where('user_id', $user->id)->firstOrFail();
+
+                // 9. Crear historial (solo para auditoría)
                 $this->storeAppointmentHistoryStatus($reservation);
-                return $this->successResponse('Reserva exitosa', 'Turno reservado correctamente.');
+
+                // ✅ REDIRECCIÓN SEGURA usando RESERVATION ID (entidad principal)
+                return $this->successResponse(
+                    'Reserva exitosa',
+                    'Turno reservado correctamente.',
+                    $reservation->id
+                );
             });
         } catch (\Exception $e) {
             return $this->errorResponse('Error en la reserva', $e->getMessage());
         }
     }
+
+    /**
+     * Almacena el historial de la cita (solo para auditoría)
+     */
     protected function storeAppointmentHistoryStatus($reservation): void
     {
+        $reservation->load([
+            'availableAppointment.appointment',
+            'availableAppointment.doctor',
+            'availableAppointment.specialty'
+        ]);
 
-        // Obtener la cita disponible
-        $availableAppointment = AvailableAppointment::with(['appointment', 'doctor', 'specialty'])
-            ->findOrFail($reservation->available_appointment_id);
+        $availableAppointment = $reservation->availableAppointment;
 
-        // Crear nuevo historial
         AppointmentHistory::create([
-            'appointment_id' => $availableAppointment->appointment_id ?? null,
+            'appointment_id' => $availableAppointment->appointment_id,
             'appointment_name' => $availableAppointment->appointment->name ?? 'Desconocido',
             'reservation_id' => $reservation->id,
             'user_id' => $reservation->user_id,
-            'doctor_name' => $availableAppointment ?
-                ($availableAppointment->doctor->name . ' ' . $availableAppointment->doctor->surname) :
+            'doctor_name' => $availableAppointment->doctor ?
+                "{$availableAppointment->doctor->name} {$availableAppointment->doctor->surname}" :
                 'Doctor no disponible',
             'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
-            'appointment_date' => $availableAppointment->date ?? $reservation->date,
-            'appointment_time' => $availableAppointment->time ?? $reservation->time,
+            'appointment_date' => $availableAppointment->date,
+            'appointment_time' => $availableAppointment->time,
             'status' => 'pending',
         ]);
     }
@@ -496,6 +507,7 @@ class ReservationController extends Controller
     /**
      * Validar límites de reserva del usuario
      */
+
     private function validateUserReservationLimits($user)
     {
         $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
@@ -513,7 +525,7 @@ class ReservationController extends Controller
             return ['can_reserve' => false, 'message' => 'Su cuenta está inactiva.'];
         }
 
-        if ($user->faults > $maxFaults) {
+        if ($user->faults >= $maxFaults) { // ✅ CORREGIDO: >= en lugar de >
             return ['can_reserve' => false, 'message' => 'Has superado el límite de faltas permitidas.'];
         }
 
@@ -523,6 +535,7 @@ class ReservationController extends Controller
 
         return ['can_reserve' => true, 'message' => ''];
     }
+
 
     /**
      * Validar tiempo del turno
@@ -597,18 +610,33 @@ class ReservationController extends Controller
         return ['valid' => true, 'message' => ''];
     }
 
+
     /**
-     * Respuesta de éxito
+     * Redirige a la vista de éxito usando RESERVATIONS (entidad principal)
      */
-    private function successResponse($title, $message)
+    private function successResponse($title, $message, $reservationId = null)
     {
         session()->flash('success', [
             'title' => $title,
             'text' => $message,
             'icon' => 'success',
         ]);
+
+        if ($reservationId) {
+            // ✅ VERIFICACIÓN DIRECTA en RESERVATIONS (entidad principal)
+            $userReservation = Reservation::where('id', $reservationId)
+                ->where('user_id', Auth::id())
+                ->first();
+
+            if ($userReservation) {
+                return redirect()->route('myAppointments.show', $reservationId);
+            }
+        }
+
+        // Fallback seguro
         return redirect()->route('myAppointments.index');
     }
+
 
     /**
      * Respuesta de error

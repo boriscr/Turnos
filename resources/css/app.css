@@ -3,6 +3,8 @@
 @import 'layouts/navbar.css';
 @import 'layouts/icon.css';
 @import 'layouts/footer.css';
+/*Animations*/
+@import 'animations/check.css';
 /*Pages*/
 @import 'pages/index.css';
 @import 'pages/show.css';

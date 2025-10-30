@@ -1,32 +1,39 @@
 <x-app-layout>
+
     @if (isset($reservation) && $reservation->availableAppointment->appointment->status === true)
         <div class="content-wrapper">
-            <h1>{{ __('medical.titles.details') }}</h1>
-            <div class="section-container full-center">
-                <div class="card">
-                    <h2>{{ __('medical.titles.reserved_appointment_details') }}</h2>
-                    <x-field-with-icon icon="activity" :label="__('reservation.title_name')" :value="$reservation->availableAppointment->appointment->name" />
-                    <x-field-with-icon icon="geo-alt-fill" :label="__('contact.address')" :value="$reservation->availableAppointment->appointment->address" />
-                    <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$reservation->availableAppointment->doctor->specialty->name" />
-                    @if (!$reservation->availableAppointment->doctor->specialty->status)
-                        <spam
-                            class="full-center {{ $reservation->availableAppointment->doctor->specialty->status ? 'btn-success' : 'btn-danger' }}">
-                            <x-field-with-icon icon="exclamation-diamond" :value="__('medical.inactive')" />
-                        </spam>
-                    @endif
-                    <x-field-with-icon icon="person-fill" :label="__('medical.doctor')" :value="$reservation->availableAppointment->doctor->name .
-                        ' ' .
-                        $reservation->availableAppointment->doctor->surname" />
-                    @if (!$reservation->availableAppointment->doctor->status)
-                        <spam
-                            class="full-center {{ $reservation->availableAppointment->doctor->specialty->status ? 'btn-success' : 'btn-danger' }}">
-                            <x-field-with-icon icon="exclamation-diamond" :value="__('medical.inactive')" />
-                        </spam>
-                    @endif
-                    <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.time')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i')" />
-                    <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.date')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y')" />
+            <h1>{{ __('medical.titles.reserved_appointment_details') }}</h1>
+            <br>
+            <div class="card-heder full-center">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark__circle" cx="26" cy="26" r="25" />
+                    <path class="checkmark__check" fill="none" stroke="#fff" stroke-width="3" d="M14 27l7 7 16-16" />
+                </svg>
+                <span>{{ __('medical.confirmed') }}</span>
+            </div>
 
-                    <x-field-with-icon icon="clipboard" :label="__('medical.status.title')" />
+            <div class="section-container full-center">
+                <div class="content-date-profile">
+                    <div class="profile-container">
+                        <img src="https://img.freepik.com/foto-gratis/retrato-hombre-blanco-aislado_53876-40306.jpg?semt=ais_hybrid&w=740&q=80"
+                            alt="img-profile" class="profile-img">
+                        <div class="profile-id">
+                            <p class="profile-name">
+                                {{ __('medical.dr') . $reservation->availableAppointment->doctor->name . ' ' . $reservation->availableAppointment->doctor->surname }}
+                            </p>
+                            <small>
+                                {{ $reservation->availableAppointment->doctor->specialty->name . ' | ' . $reservation->availableAppointment->appointment->name }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <x-field-with-icon-history icon="calendar-check-fill" :label="__('appointment.date.date')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->date)
+                        ->locale('es') // establece el idioma
+                        ->translatedFormat('l d \d\e F \d\e Y')" />
+                    <x-field-with-icon-history icon="clock-fill" :label="__('appointment.schedule.time')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i')" />
+                    <x-field-with-icon-history icon="geo-alt-fill" :label="__('contact.address')" :value="$reservation->availableAppointment->appointment->address" />
                     <spam
                         class="status full-center {{ $reservation->availableAppointment->appointment->status === true ? ($reservation->status === 'pending' ? 'btn-default' : ($reservation->status === 'assisted' ? 'btn-success' : 'btn-danger')) : 'inactive' }}">
                         @if ($reservation->availableAppointment->appointment->status)
@@ -35,19 +42,27 @@
                             {{ __('button.search.inactive_appointment') }}
                         @endif
                     </spam>
-                    <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="$reservation->created_at" />
                 </div>
+
                 <div class="card">
                     <h2>{{ __('medical.titles.my_data') }}</h2>
                     <x-field-with-icon icon="person-fill" :label="__('contact.name_and_surname')" :value="@Auth::user()->name . ' ' . @Auth::user()->surname" />
                     <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="@Auth::user()->idNumber" />
-                    <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" />
+                        <br>
                     <span class="full-center {{ @Auth::user()->status ? 'btn-success' : 'btn-danger' }}">
                         <x-field-with-icon :value="$reservation->user->status ? __('medical.active') : __('medical.inactive')" />
                     </span>
                 </div>
+
+                <div class="card">
+                    <div class="reminder-box full-center">
+                        <i class="bi bi-bell-fill"></i>
+                        <small>
+                            {{ config('app.patient_message') }}
+                        </small>
+                    </div>
+                </div>
                 @php
-                    // Correcto: Combinar solo la date (de availableAppointment->date) con la time (de availableAppointment->time)
                     $fechaHoraReserva = \Carbon\Carbon::parse(
                         $reservation->availableAppointment->date->format('Y-m-d') .
                             ' ' .
