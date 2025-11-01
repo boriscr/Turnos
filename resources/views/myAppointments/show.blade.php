@@ -48,7 +48,6 @@
                     <h2>{{ __('medical.titles.my_data') }}</h2>
                     <x-field-with-icon icon="person-fill" :label="__('contact.name_and_surname')" :value="@Auth::user()->name . ' ' . @Auth::user()->surname" />
                     <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="@Auth::user()->idNumber" />
-                        <br>
                     <span class="full-center {{ @Auth::user()->status ? 'btn-success' : 'btn-danger' }}">
                         <x-field-with-icon :value="$reservation->user->status ? __('medical.active') : __('medical.inactive')" />
                     </span>
