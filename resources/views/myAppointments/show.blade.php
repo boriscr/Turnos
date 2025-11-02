@@ -13,7 +13,7 @@
             </div>
 
             <div class="section-container full-center">
-                <div class="content-date-profile">
+                <div class="content-date-profile width-profile-doctor">
                     <div class="profile-container">
                         <img src="https://img.freepik.com/foto-gratis/retrato-hombre-blanco-aislado_53876-40306.jpg?semt=ais_hybrid&w=740&q=80"
                             alt="img-profile" class="profile-img">

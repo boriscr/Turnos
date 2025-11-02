@@ -22,10 +22,12 @@
         border: 1px solid;
     }
 
-    .content-date-profile {
+    .width-profile-doctor {
         width: 380px;
+    }
+
+    .content-date-profile {
         height: auto;
-        padding: 20px;
         margin: 0px;
 
         .profile-img {

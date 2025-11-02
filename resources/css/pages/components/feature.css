@@ -25,12 +25,14 @@
     /* Asegura que el contenido esté encima del borde */
     text-transform: uppercase;
     font-size: 0.75rem;
-    color: #fff;
     /* Texto blanco para mayor contraste */
     background-color: var(--ios-green);
     /* Color de fondo plano para el botón */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.24);
+    color: #fff !important;
+
     /* Sombra sutil */
+
 }
 
 .feature::before {
@@ -49,7 +51,6 @@
             transparent);
     z-index: -1;
     animation: rotate 4s linear infinite;
-    /* La animación se repite indefinidamente */
 }
 
 /* Define la animación para el gradiente */
@@ -65,5 +66,11 @@
 
 .feature-style {
     border: 1px solid rgb(0, 0, 0);
-    background: linear-gradient(10deg, var(--ios-green),var(--ios-teal)) !important;
+    background: linear-gradient(10deg, var(--ios-green), var(--ios-teal)) !important;
+
+    .element-container {
+        p {
+            color: #fff !important;
+        }
+    }
 }

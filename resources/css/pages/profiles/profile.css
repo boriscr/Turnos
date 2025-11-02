@@ -1,9 +1,8 @@
 /*Seccion 1. datos personales img*/
 .content-date-profile {
     box-shadow: 0px 0px 10px rgba(150, 150, 150, 0.5);
-    height: 150px;
     margin: 15px;
-    padding: 5px;
+    padding: 10px;
     border-radius: 25px;
     display: flex;
     align-items: center;
@@ -14,6 +13,7 @@
 
 
 .profile-container {
+    height: 120px;
     display: flex;
     align-items: center;
     gap: 10px;
