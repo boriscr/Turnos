@@ -1,53 +1,85 @@
-// Agrega este script al final de tu body
 document.addEventListener('DOMContentLoaded', function() {
     const dropdownToggle = document.querySelector('.dropdown-toggle');
     const dropdownMenu = document.querySelector('.dropdown-menu');
-    let dropdownTimeout;
+    let isOpen = false;
 
     if (dropdownToggle && dropdownMenu) {
-        // Abrir dropdown
+        // Inicializar estado
+        dropdownMenu.style.display = 'none';
+        dropdownMenu.style.opacity = '0';
+        dropdownMenu.style.transform = 'translateX(-100%) translateY(10px)';
+
+        // Abrir/cerrar dropdown
         dropdownToggle.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            const isOpen = dropdownMenu.style.display === 'block';
-            dropdownMenu.style.display = isOpen ? 'none' : 'block';
-            dropdownMenu.style.opacity = isOpen ? '0' : '1';
-            dropdownMenu.style.transform = isOpen ? 'translateX(-100%) translateY(10px)' : 'translateX(-100%) translateY(0)';
+            
+            isOpen = !isOpen;
+            
+            if (isOpen) {
+                dropdownMenu.style.display = 'block';
+                // Pequeño delay para permitir la transición
+                setTimeout(() => {
+                    dropdownMenu.style.opacity = '1';
+                    dropdownMenu.style.transform = 'translateX(-100%) translateY(0)';
+                }, 10);
+            } else {
+                dropdownMenu.style.opacity = '0';
+                dropdownMenu.style.transform = 'translateX(-100%) translateY(10px)';
+                // Esperar a que termine la transición para ocultar
+                setTimeout(() => {
+                    dropdownMenu.style.display = 'none';
+                }, 300);
+            }
         });
 
         // Cerrar dropdown al hacer click fuera
         document.addEventListener('click', function(e) {
-            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                dropdownMenu.style.display = 'none';
-                dropdownMenu.style.opacity = '0';
-                dropdownMenu.style.transform = 'translateX(-100%) translateY(10px)';
+            if (isOpen && !dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                closeDropdown();
             }
         });
 
-        // Para hover en desktop (opcional)
+        // Función para cerrar dropdown
+        function closeDropdown() {
+            isOpen = false;
+            dropdownMenu.style.opacity = '0';
+            dropdownMenu.style.transform = 'translateX(-100%) translateY(10px)';
+            setTimeout(() => {
+                dropdownMenu.style.display = 'none';
+            }, 300);
+        }
+
+        // Para hover en desktop (opcional - si quieres mantenerlo)
         dropdownToggle.addEventListener('mouseenter', function() {
-            clearTimeout(dropdownTimeout);
-            dropdownMenu.style.display = 'block';
-            dropdownMenu.style.opacity = '1';
-            dropdownMenu.style.transform = 'translateX(-100%) translateY(0)';
+            if (!isOpen) {
+                isOpen = true;
+                dropdownMenu.style.display = 'block';
+                setTimeout(() => {
+                    dropdownMenu.style.opacity = '1';
+                    dropdownMenu.style.transform = 'translateX(-100%) translateY(0)';
+                }, 10);
+            }
         });
 
         dropdownToggle.addEventListener('mouseleave', function() {
-            dropdownTimeout = setTimeout(() => {
+            // No cerrar inmediatamente, dar tiempo para mover el mouse al dropdown
+            setTimeout(() => {
                 if (!dropdownMenu.matches(':hover')) {
-                    dropdownMenu.style.display = 'none';
-                    dropdownMenu.style.opacity = '0';
-                    dropdownMenu.style.transform = 'translateX(-100%) translateY(10px)';
+                    closeDropdown();
                 }
-            }, 300);
+            }, 200);
         });
 
         dropdownMenu.addEventListener('mouseleave', function() {
-            dropdownTimeout = setTimeout(() => {
-                dropdownMenu.style.display = 'none';
-                dropdownMenu.style.opacity = '0';
-                dropdownMenu.style.transform = 'translateX(-100%) translateY(10px)';
-            }, 300);
+            setTimeout(() => {
+                closeDropdown();
+            }, 200);
+        });
+
+        // Prevenir que los clicks dentro del dropdown lo cierren
+        dropdownMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
         });
     }
 });

@@ -41,13 +41,59 @@
                         </a>
                     </li>
                     @role('admin')
-                        <li>
-                            <a href="{{ route('settings.edit') }}"
-                                class="{{ request()->routeIs('settings') ? 'active' : '' }}">
-                                <i class="bi bi-gear-fill"></i>
-                                <span>Configuración</span>
-                            </a>
-                        </li>
+                        <div x-show="adminOpen" x-collapse class="space-y-1 pl-4">
+                            <li>
+                                <div class="subtitulo">{{ __('navbar.manage_users') }}</div>{{-- Gestionar Usuarios --}}
+                                <a href="{{ route('users.index') }}"
+                                    class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
+                                    <i class="bi bi-eye"></i> <span> {{ __('navbar.view_users') }}</span>
+                                </a>
+                            </li>
+                            <!-- Sección Doctor -->
+                            <li>
+                                <div class="subtitulo">{{ __('navbar.manage_doctors') }}</div>{{-- Gestionar Doctors --}}
+                                <a href="{{ route('doctors.index') }}"
+                                    class="{{ request()->routeIs('doctors.index') ? 'active' : '' }}">
+                                    <i class="bi bi-eye"></i><span> {{ __('navbar.view_doctors') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('doctors.create') }}"
+                                    class="{{ request()->routeIs('doctors.create') ? 'active' : '' }}">
+                                    <i class="bi bi-person-fill-add"></i><span> {{ __('navbar.add_doctor') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('specialties.index') }}"
+                                    class="{{ request()->routeIs('specialties.*') ? 'active' : '' }}">
+                                    <i class="bi bi-heart-pulse-fill"></i><span> {{ __('navbar.specialties') }}</span>
+                                </a>
+                            </li>
+
+                            <!-- Sección Appointments -->
+                            <li>
+                                <div class="subtitulo"> {{ __('navbar.manage_appointments') }}</div>{{-- Gestionar Appointments --}}
+                                <a href="{{ route('appointments.index') }}"
+                                    class="{{ request()->routeIs('appointments.index') ? 'active' : '' }}">
+                                    <i class="bi bi-eye"></i> <span>
+                                        {{ __('navbar.view_appointments') }}</span>{{-- Ver Appointments --}} </a>
+                            </li>
+                            <li>
+                                {{-- Crear Appointments --}}
+                                <a href="{{ route('specialties.create') }}"
+                                    class="{{ request()->routeIs('specialties.create') ? 'active' : '' }}">
+                                    <i class="bi bi-clock"></i><span> {{ __('navbar.create_appointment') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <!-- Sección Reservations -->
+                                <div class="subtitulo"> {{ __('navbar.manage_booking') }}</div>{{-- Ver reservations --}}
+                                <a href="{{ route('reservations.index') }}"
+                                    class="{{ request()->routeIs('reservations.index') ? 'active' : '' }}">
+                                    <i class="bi bi-eye"></i><span> {{ __('navbar.view_booking') }}</span>
+                                </a>
+                            </li>
+                        </div>
                         <li>
                             <a href="{{ route('dashboard.index') }}"
                                 class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">

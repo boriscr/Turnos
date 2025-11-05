@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="content-wrapper">
-        <div class="content-date-profile {{ $user->status ? '' : 'status-inactive' }}"  style="width: 100%">
+        <div class="content-date-profile {{ $user->status ? '' : 'status-inactive' }}" style="width: 100%">
             <div class="profile-container">
                 <label for="profile-photo" class="profile-img-label">
                     <img src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2558760599.jpg"
@@ -61,6 +61,15 @@
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
+                    <h1>Soporte</h1>
+                    <i class="bi bi-chat-square-fill"></i>
+                </div>
+            </a>
+            <a href="#">
+                <div class="card-profile full-center feature-style">
+                    <div class="feature">
+                        {{ __('medical.feature') }}
+                    </div>
                     <h1>{{ __('medical.tutorial') }}</h1>
                     <i class="bi bi-mortarboard"></i>
                 </div>
@@ -102,6 +111,18 @@
                     <i class="bi bi-chevron-right"></i>
                 </div>
             </a>
+            <a href="#">
+                <div class="card-profile feature-style">
+                    <div class="feature">
+                        {{ __('medical.feature') }}
+                    </div>
+                    <div class="element-container">
+                        <i class="bi bi-chat-square-fill"></i>
+                        <p>Soporte</p>
+                    </div>
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </a>
             <hr>
             <a href="#">
                 <div class="card-profile feature-style">
@@ -127,6 +148,17 @@
                     <i class="bi bi-chevron-right"></i>
                 </div>
             </a>
+
+            <!-- Authentication -->
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <x-responsive-nav-link class="btn-salir" :href="route('logout')"
+                    onclick="event.preventDefault();
+                                this.closest('form').submit();">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>{{ __('Logout') }}</span>
+                </x-responsive-nav-link>
+            </form>
         </div>
     </div>
 </x-app-layout>

@@ -1,7 +1,6 @@
 /*Seccion 1. datos personales img*/
 .content-date-profile {
     box-shadow: 0px 0px 10px rgba(150, 150, 150, 0.5);
-    margin: 15px;
     padding: 10px;
     border-radius: 25px;
     display: flex;
@@ -103,7 +102,7 @@
     display: none;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 639px) {
     .section-container-profile {
         flex-direction: column;
     }
@@ -140,6 +139,16 @@
         flex-direction: column;
         padding: 5px;
         gap: 10px;
+        margin-top: 30px;
+
+        form {
+            .btn-salir {
+                width: 100%;
+                background-color: red;
+                padding: 12px !important;
+                border-radius: 12px;
+            }
+        }
 
         .card-profile {
             position: relative;
@@ -148,9 +157,14 @@
             border: 1px solid var(--general_design_color);
             width: 100%;
             padding: 12px;
-            border-radius: 10px;
+            border-radius: 12px;
 
             .element-container {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+
                 * {
                     margin-right: 10px;
                 }
