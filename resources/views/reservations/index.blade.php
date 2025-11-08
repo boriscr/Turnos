@@ -63,7 +63,7 @@
                                 @if ($reservation->availableAppointment->appointment->status === true)
                                     @if ($reservation->status === 'pending')
                                         <div class="ios-dropdown">
-                                            <button class="btn-status btn-default dropdown-toggle"
+                                            <button class="btn-status btn-default dropdown-toggle-btn"
                                                 title="Marcar status">
                                                 <i class="bi bi-hourglass-split"></i>{{ __('button.search.pending') }}
                                             </button>
