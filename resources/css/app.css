@@ -29,6 +29,7 @@
 @import 'pages/appointments/calendar.css';
 @import 'pages/reservations/date-filter.css';
 @import 'pages/reservations/search.css';
+@import 'pages/reservations/create.css';
 @import 'pages/reservations/actualizacion-de-status-btn.css';
 @import 'pages/reservations/reservation-filter.css';
 @import 'pages/settings/settings.css';

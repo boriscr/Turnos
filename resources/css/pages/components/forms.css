@@ -1,5 +1,3 @@
-
-
 .container-form-register {
     position: relative;
     flex-direction: column;
@@ -36,9 +34,12 @@ textarea {
     width: 100%;
     margin: 5px 0 22px 0;
 }
-input:not([type="color"]),textarea {
+
+input:not([type="color"]),
+textarea {
     padding: 12px !important;
 }
+
 input::placeholder {
     color: #888 !important;
 }
@@ -71,7 +72,7 @@ input[type="color"] {
 
 select {
     padding: 12px !important;
-    background-color: transparent !important;
+    background-color: color-mix(in srgb, var(--light_application_background) 90%, #000000 10%) !important;
 }
 
 select,
@@ -176,13 +177,17 @@ textarea:focus {
     option,
     input,
     textarea {
-        background: transparent !important;
+        background: var(--dark_application_background) !important;
         color: var(--text_color_form_elements_dark) !important;
     }
 
     input:focus,
     textarea:focus {
         border-color: var(--text_color_form_elements_dark) !important;
+    }
+
+    select {
+        background-color: color-mix(in srgb, var(--dark_application_background) 90%, #ffffff 10%) !important;
     }
 }
 

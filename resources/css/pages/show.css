@@ -80,9 +80,6 @@
                 height: 40px;
             }
         }
-
-
-
         .reminder-box {
             gap: 10px;
 
@@ -93,9 +90,23 @@
     }
 }
 
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+    .section-container {
+        .card {
+            .bi{
+                color: var(--dark_text_color);
+            }
+        }
+    }
+}
+
+
+
 @media (max-width: 670px) {
     .content-wrapper {
         padding: 10px;
+
         .section-container {
             .content-date-profile {
                 width: 100%;

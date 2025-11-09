@@ -1,43 +1,96 @@
 <x-app-layout>
 
     <div class="main full-center">
+        <h1>{{ __('medical.titles.book_a_new_appointment') }}</h1>
         <div class="container-form full-center">
-            <h1>{{ __('medical.titles.book_a_new_appointment') }}</h1>
 
             <!-- Indicador de pasos -->
-            <div class="step-indicator">
-                <div class="step active" data-step="1"><i
-                        class="bi bi-person-circle"></i><span>{{ __('medical.titles.personal_data') }}</span>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
                 </div>
-                <div class="step" data-step="2"><i
-                        class="bi bi-clock-history"></i><span>{{ __('reservation.step_2') }}</span> </div>
-                <div class="step" data-step="3"><i
-                        class="bi bi-check-circle-fill"></i><span>{{ __('reservation.step_3') }}</span>
+                <div class="steps-wrapper">
+                    <div class="step active" data-step="1">
+                        <div class="step-circle">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                        <span class="step-label">{{ __('medical.titles.personal_data') }}</span>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-circle">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <span class="step-label">{{ __('reservation.step_2') }}</span>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-circle">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <span class="step-label">{{ __('reservation.step_3') }}</span>
+                    </div>
                 </div>
             </div>
 
             <form action="{{ route('reservations.store') }}" method="post" id="multiStepForm">
                 @csrf
+
+                <!-- Campo hidden para indicar el tipo de paciente -->
+                <input type="hidden" name="patient_type" id="patient_type" value="myself">
+
                 <!-- Paso 1 - Datos Personales -->
                 <div class="form-step active" data-step="1">
-                    <div class="item">
-                        <small>{{ __('contact.name') }} </small>
-                        <p>{{ Auth::user()->name }}</p>
-                        <small>{{ __('contact.surname') }} </small>
-                        <p>{{ Auth::user()->surname }}</p>
-                        <small>{{ __('contact.email') }} </small>
-                        <p>{{ Auth::user()->email }}</p>
-                        <small>{{ __('contact.phone') }} </small>
-                        <p>{{ Auth::user()->phone }}</p>
-                        <small>{{ __('contact.idNumber') }} </small>
-                        <p>{{ Auth::user()->idNumber }}</p>
-                        <small>{{ __('contact.address') }} </small>
-                        <p>{{ Auth::user()->address }}</p>
-                        <small>{{ __('contact.birthdate') }} </small>
-                        <p>{{ Auth::user()->birthdate }}</p>
+                    <!-- Selector de tipo de paciente -->
+                    <div class="patient-type-selector mb-4">
+                        <label class="form-label">{{ __('medical.titles.who_is_the_appointment_for') }}</label>
+                        <div class="btn-group w-100" role="group">
+                            <input type="radio" class="btn-check" name="patient_type_radio" id="patient_type_myself"
+                                value="myself" checked>
+                            <label class="btn btn-outline-primary" for="patient_type_myself">
+                                <i class="bi bi-person-circle"></i> {{ __('medical.titles.for_myself') }}
+                            </label>
+
+                            <input type="radio" class="btn-check" name="patient_type_radio" id="patient_type_other"
+                                value="other">
+                            <label class="btn btn-outline-primary" for="patient_type_other">
+                                <i class="bi bi-person-plus-fill"></i> {{ __('medical.titles.for_other_person') }}
+                            </label>
+                        </div>
                     </div>
 
-                    <div class="navegation-next full-center  mt-4">
+                    <!-- Sección para "Para mí" -->
+                    <div id="for-myself-section" class="patient-section">
+                        <div class="item">
+                            <small>{{ __('contact.name') }} </small>
+                            <p>{{ Auth::user()->name }}</p>
+                            <small>{{ __('contact.surname') }} </small>
+                            <p>{{ Auth::user()->surname }}</p>
+                            <small>{{ __('contact.email') }} </small>
+                            <p>{{ Auth::user()->email }}</p>
+                            <small>{{ __('contact.phone') }} </small>
+                            <p>{{ Auth::user()->phone }}</p>
+                            <small>{{ __('contact.idNumber') }} </small>
+                            <p>{{ Auth::user()->idNumber }}</p>
+                            <small>{{ __('contact.address') }} </small>
+                            <p>{{ Auth::user()->address }}</p>
+                            <small>{{ __('contact.birthdate') }} </small>
+                            <p>{{ Auth::user()->birthdate }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Sección para "Para otra persona" -->
+                    <div id="for-other-section" class="patient-section" style="display: none;">
+                        <x-form.text-input type="text" icon="person-fill" name="other_name" :label="__('contact.name')"
+                            placeholder="{{ __('placeholder.name') }}" minlength="3" maxlength="40"
+                            :required="false" />
+                        <x-form.text-input type="text" icon="person-fill" name="other_surname" :label="__('contact.surname')"
+                            placeholder="{{ __('placeholder.surname') }}" minlength="3" maxlength="40"
+                            :required="false" />
+                        <x-form.text-input type="text" icon="person-vcard-fill" name="other_idNumber"
+                            :label="__('contact.idNumber')" placeholder="{{ __('placeholder.idNumber') }}" minlength="7"
+                            maxlength="8" :required="false" />
+                    </div>
+
+                    <div class="form-navigation full-center">
                         <button type="button" class="next-btn full-center">{{ __('button.next') }}<i
                                 class="bi bi-chevron-right"></i></button>
                     </div>
@@ -74,7 +127,7 @@
                     </x-form.select>
 
 
-                    <div class="form-navigation  mt-4">
+                    <div class="form-navigation">
                         <button type="button" class="prev-btn full-center"><i
                                 class="bi bi-chevron-left"></i>{{ __('button.back') }}</button>
                         <button type="button" class="next-btn full-center">{{ __('button.next') }}<i
@@ -86,9 +139,9 @@
                 <div class="form-step" data-step="3">
                     <h2>{{ __('reservation.reservation_details_txt') }}</h2>
                     <div id="confirmation-details" class="mt-4">
-                        <!-- Los detalles se cargarán automáticamente -->
+                        <!-- Los detalles se cargan automáticamente -->
                     </div>
-                    <div class="form-navigation mt-4">
+                    <div class="form-navigation">
                         <button type="button" class="prev-btn full-center">
                             <i class="bi bi-chevron-left"></i>{{ __('button.back') }}
                         </button>
@@ -219,14 +272,6 @@
                         }
                     @endforeach
                 @endif
-                let specialtyDescription = 'No especificada';
-                @if (!empty($specialties))
-                    @foreach ($specialties as $item)
-                        if ({{ $item->id }} == specialtySelect.value) {
-                            specialtyDescription = '{{ $item->description }}';
-                        }
-                    @endforeach
-                @endif
 
                 // Construir HTML de confirmación
                 confirmationDetails.innerHTML = `
@@ -234,7 +279,6 @@
                 <p><strong>{{ __('reservation.title_name') }}:</strong> ${appointmentNameText}</p>
                 <p><strong>{{ __('contact.address') }}:</strong> ${address}</p>
                 <p><strong>{{ __('specialty.title') }}:</strong> ${specialtyText}</p>
-                <p><strong>{{ __('medical.description_txt') }}:</strong> ${specialtyDescription}</p>
                 <hr>
                 <p><strong>{{ __('medical.doctor') }}:</strong> ${doctorText}</p>
                 <p><strong>{{ __('reservation.date') }}:</strong> ${dateText}</p>

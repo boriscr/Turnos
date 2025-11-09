@@ -1,0 +1,41 @@
+.patient-type-selector {
+    margin-bottom: 2rem;
+}
+
+.patient-type-selector .btn-group {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.patient-type-selector .btn {
+    padding: 12px 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.patient-section {
+    transition: all 0.3s ease;
+}
+
+.patient-section .item {
+    background: var(--card-background);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-top: 1rem;
+}
+
+/* Estilos para los botones de radio personalizados */
+.btn-check:checked + .btn {
+    background-color: var(--secondary_color_btn);
+    border-color: var(--secondary_color_btn);
+    color: white;
+}
+
+/* Asegurar que las secciones tengan un display inicial correcto */
+#for-myself-section {
+    display: block;
+}
+
+#for-other-section {
+    display: none;
+}

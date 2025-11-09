@@ -41,7 +41,7 @@ return [
     'greetings' => [
         'hello' => 'Hola',
         'welcome' => 'Bienvenido',
-        'famale_welcome'=>'Bienvenida',
+        'famale_welcome' => 'Bienvenida',
     ],
     'status' => [
         'title' => 'Estado',
@@ -81,7 +81,11 @@ return [
         'reservations' => 'Reservas',
         'reserved_appointment_details' => 'Detalles del turno reservado',
         'historical' => 'Historial',
-        'appointment_quotas_created' => 'Cupos de turnos creadas'
+        'appointment_quotas_created' => 'Cupos de turnos creadas',
+        /*Seccion de creacion de turnos /reservas */
+        'who_is_the_appointment_for' => '¿Para quién es el turno?',
+        'for_myself' => 'Para mí',
+        'for_other_person' => 'Para otra persona',
     ],
     'setting' => [
         'title_1' => 'Contenido personalizado',

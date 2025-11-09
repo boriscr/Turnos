@@ -1,78 +1,343 @@
-/* Estilos para el formulario multipaso */
-.step-indicator {
+/* Estilos para la barra de progreso moderna */
+.progress-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+}
+
+.progress-bar {
+    position: absolute;
+    top: 24px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    z-index: 1;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--general_design_color), var(--secondary_color_btn));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+}
+
+.steps-wrapper {
     display: flex;
-    margin-bottom: 20px;
-    justify-content: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
 }
 
 .step {
-    text-align: center;
-    padding: 15px 15px;
-    margin: 0 5px;
-    background: #e0e0e0ad;
-    border-radius: 5px;
-    cursor: default;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
 }
 
-.step.active {
+.step-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--card-background);
+    border: 3px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.step.active .step-circle {
     background: var(--general_design_color);
-    color: #fff;
+    border-color: var(--general_design_color);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(var(--general_design_color-rgb), 0.3);
+}
+
+.step.completed .step-circle {
+    background: var(--secondary_color_btn);
+    border-color: var(--secondary_color_btn);
+}
+
+/* Ocultar el ícono original cuando el paso está completado */
+.step.completed .step-circle .bi {
+    display: none;
+}
+
+/* Mostrar solo el check cuando está completado */
+.step.completed .step-circle::after {
+    content: '✓';
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .step .bi {
-    color: grey;
+    font-size: 18px;
+    color: color-mix(in srgb, var(--light_text_color) 70%, #ffffff 30%);
+    transition: all 0.3s ease;
 }
 
 .step.active .bi {
-    color: var(--btn_text_color);
+    color: white;
 }
 
+.step-label {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    color: color-mix(in srgb, var(--light_text_color) 70%, #ffffff 30%);
+    margin-top: 4px;
+    transition: all 0.3s ease;
+    max-width: 120px;
+}
+
+.step.active .step-label {
+    color: var(--general_design_color);
+    font-weight: 600;
+}
+
+.step.completed .step-label {
+    color: var(--secondary_color_btn);
+}
+
+/* Estados hover para mejor UX */
+.step-circle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.step.active .step-circle:hover {
+    transform: scale(1.15);
+}
+
+/* Estilos para el formulario multipaso */
 .form-step {
     display: none;
+    animation: fadeIn 0.5s ease;
 }
 
 .form-step.active {
     display: block;
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .form-navigation {
-    margin-top: 20px;
+    margin-top: 50px;
     display: flex;
     justify-content: space-between;
+    gap: 10px;
 }
 
 .form-navigation .primary-btn {
-    width: 50%;
+    flex: 1;
 }
 
 .next-btn {
-    background-color: var(--secondary_color_btn);
+    background: linear-gradient(135deg, var(--secondary_color_btn), var(--general_design_color));
+    border: none;
 }
 
+
 .prev-btn {
-    background: #f44336;
+    background-color: tomato;
+    border: 1px solid color-mix(in srgb, var(--light_text_color) 40%, #ff0000 60%);
+}
+
+/*
+.prev-btn:hover {
+    border-color: var(--light_text_color);
+}*/
+
+.next-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .prev-btn,
 .next-btn {
-    color: var(--btn_text_color);
-    border: 1px solid #fff;
-    border-radius: 5px;
+    border-radius: 8px;
     height: 50px;
-    padding: 15px;
+    padding: 15px 25px;
     display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.prev-btn:hover,
-.next-btn:hover {
-    opacity: 0.8;
+/* Responsive */
+@media (max-width: 768px) {
+    .progress-container {
+        margin-bottom: 30px;
+    }
+
+    .step-circle {
+        width: 40px;
+        height: 40px;
+    }
+
+    .step .bi {
+        font-size: 16px;
+    }
+
+    .step.completed .step-circle::after {
+        font-size: 18px;
+    }
+
+    .step-label {
+        font-size: 12px;
+        max-width: 100px;
+    }
+
+    .progress-bar {
+        top: 20px;
+    }
+
+    .form-navigation {
+        flex-direction: column-reverse;
+    }
+
+    .prev-btn,
+    .next-btn {
+        width: 100%;
+    }
 }
 
-@media (max-width: 600px) {
-    .step {
+@media (max-width: 480px) {
+    .step-label {
+        font-size: 11px;
+        max-width: 80px;
+    }
+
+    .step-circle {
+        width: 36px;
+        height: 36px;
+    }
+
+    .step .bi {
+        font-size: 14px;
+    }
+
+    .step.completed .step-circle::after {
+        font-size: 16px;
+    }
+
+    .progress-bar {
+        top: 18px;
+    }
+}
+
+/*Estilos específicos de index*/
+.main {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 15px;
+
+    .container-form {
+        position: relative;
+        width: 600px;
+        flex-direction: column;
+        box-shadow: 0px 0px 10px 5px rgba(143, 143, 143, 0.393);
+        border-radius: 25px;
+        padding: 20px 10px;
+        background-color: var(--light_application_background);
+
+        .item {
+            margin-top: 10px;
+        }
+    }
+}
+
+.main-table {
+    width: 100%;
+
+    .container-form {
+        width: 100%;
+        gap: 10px;
         display: flex;
         flex-direction: column;
-        padding: 5px 5px;
-        font-size: 0.8em;
+
+        form {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .bi {
+            font-size: 15px;
+        }
+
+        .accionesMovil {
+            display: none;
+        }
+    }
+}
+
+.acciones {
+    gap: 3px;
+    flex-wrap: wrap;
+
+    form {
+        gap: 1px;
+        flex-wrap: wrap;
+        width: 45px;
+    }
+
+    a {
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+/* Modo oscuro */
+
+@media (prefers-color-scheme: dark) {
+    .step .bi {
+        color: color-mix(in srgb, var(--dark_text_color) 70%, #000000 30%);
+    }
+
+    .step-label {
+        color: color-mix(in srgb, var(--dark_text_color) 70%, #000000 30%);
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    .main {
+        .container-form {
+            width: 90%;
+        }
+    }
+
+    .main-table {
+        .container-form {
+            padding: 5px !important;
+        }
     }
 }

@@ -38,6 +38,10 @@ return [
     'notifications' => 'Notifications',
     'tutorial' => 'Tutorial',
     'bases_and_conditions' => 'Bases and conditions',
+    /*Seccion de creacion de turnos /reservas */
+    'who_is_the_appointment_for' => 'Who is the appointment for?',
+    'for_myself' => 'For myself',
+    'for_other_person' => 'For another person',
 
     'greetings' => [
         'hello' => 'Hello',

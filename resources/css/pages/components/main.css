@@ -43,14 +43,11 @@ p {
 }
 
 b,
-a,
-.bi {
+a {
     color: var(--general_design_color);
 }
 
-button .bi {
-    color: var(--btn_text_color);
-}
+
 
 .card {
     color: var(--light_text_color);

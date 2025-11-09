@@ -111,9 +111,10 @@
     /* Amarillo más intenso */
 }
 
+/*
 .btn-view .bi,.btn-edit .bi {
     color: #fff;
-}
+}*/
 
 .btn-delete {
     background-color: #dc3545;
@@ -166,9 +167,14 @@
 }
 
 button {
+    color: var(--btn_text_color) !important;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
+
+    .bi {
+        color: var(--btn_text_color);
+    }
 }
 
 button:disabled {

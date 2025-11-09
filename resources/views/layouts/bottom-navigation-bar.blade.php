@@ -36,7 +36,7 @@
                     <li>
                         <a href="{{ route('profile.index') }}"
                             class="{{ request()->routeIs('profile.*') ? 'active' : '' }}">
-                            <i class="bi bi-person-fill"></i>
+                            <i class="bi bi-person-circle"></i>
                             <span>Mi Perfil</span>
                         </a>
                     </li>
