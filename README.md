@@ -78,6 +78,7 @@
 | 👁‍🗨 Ver usuarios              | Listado completo de usuarios registrados                                                                         |
 | 🖍  Editar datos de usuarios | Modificación de información de usuarios (Cambiar rol 🥉usuario 🥈doctor 🥇admin),(Cambiar estado ✅activo ❌inactivo) |
 | 🧨 Eliminar usuarios         | Remoción de usuarios del sistema                                                                                 |
+|                             |
 ### Historial General
 #### Detalles completos de los usuarios - Información completa de cada reserva solicitada
 - Nombre del turno, especialidad y profesional asignado
@@ -263,8 +264,11 @@ El paciente no puede visualizar estos registros.
 | Opción                     | Descripción                                       |
 | -------------------------- | ------------------------------------------------- |
 | Frecuencia de verificación | Intervalo para verificación automática de statuss |
-
-
+#### 🚻🌍 Personalización del Generos y Nacionalidad
+| Opción                                                             | Descripción                                                                                   |
+| ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- |
+| 🚻 Gestionar generos permitidos para el registro                    | Generos masculino-femenino entre otros que se desee habilitar o no para la creacion de cuenta |
+| 🌍 Gestionar paises,provincias,ciudades permitidos para el registro | Permite administrar las nacionalidades que se mostraran para la creacion de cuenta            |
 #### 🎨 Personalización del Diseño
 ##### 🎨 Paleta de Colores General
 
