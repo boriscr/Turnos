@@ -32,15 +32,18 @@
 
 ### Reservar turnos
 
-| Opción              | Acción                                                          |
-| ------------------- | --------------------------------------------------------------- |
-| Elegir especialidad | Elige entre diversas especialidades médicas                     |
-| Elegir Doctor       | Selecciona el doctor de preferencia                             |
-| Elegir un turno     | Nombre del turno (Puede existir mas de uno para un solo doctor) |
-| Elegir una fecha    | Visualización de días disponibles                               |
-| Elegir un horario   | Franjas horarias según profesional seleccionado                 |
+| Opción                       | Acción                                                                                 |
+| ---------------------------- | -------------------------------------------------------------------------------------- |
+| Elegir solicitante del turno | 1.Para mi=>Para el usuario propietario de la cuenta (Opcion seleccionada por defecto). |
+| Elegir solicitante del turno | 2.Para otra persona=>Para una tercera persona.                                         |
+| Elegir especialidad          | Elige entre diversas especialidades médicas                                            |
+| Elegir Doctor                | Selecciona el doctor de preferencia                                                    |
+| Elegir un turno              | Nombre del turno (Puede existir mas de uno para un solo doctor)                        |
+| Elegir una fecha             | Visualización de días disponibles                                                      |
+| Elegir un horario            | Franjas horarias según profesional seleccionado                                        |
+<p>Al reservar un turno para otra persona, los cupos de turnos se descuentan al propietario de la cuenta solicitante.</p>
 
-### Historial
+### Historial Personal
 #### Detalles completos - Información completa de cada reserva solicitada
 
 - Nombre del turno, especialidad y profesional asignado
@@ -48,7 +51,8 @@
 - Fecha y hora programada
 - Estado de la cita (Asistido, pendiente, No asistido)
 - Cancelar reservas
-
+- Visualizacion del historial de hasta un año de antigüedad
+  
 #### Gestión de reservas - Capacidad para cancelar citas con anticipación
 
 - Cancelación con confirmación requerida
@@ -74,6 +78,16 @@
 | 👁‍🗨 Ver usuarios              | Listado completo de usuarios registrados                                                                         |
 | 🖍  Editar datos de usuarios | Modificación de información de usuarios (Cambiar rol 🥉usuario 🥈doctor 🥇admin),(Cambiar estado ✅activo ❌inactivo) |
 | 🧨 Eliminar usuarios         | Remoción de usuarios del sistema                                                                                 |
+### Historial General
+#### Detalles completos de los usuarios - Información completa de cada reserva solicitada
+- Nombre del turno, especialidad y profesional asignado
+- Ubicación y dirección del consultorio
+- Fecha y hora programada
+- Estado de la cita (Asistido, pendiente, No asistido)
+- Cancelar reservas
+- Visualizacion del historial sin limites de antigüedad
+- Opcion de archivar historiales con antigüedad de más de un año automaticamente
+- Opcion de archivar historiales manualmente
 
 ### Gestionar Doctores
 | Opciones                  | Acciones                             |
@@ -98,7 +112,7 @@
 | 🧱 Crear turnos    | Generación de nuevos horarios disponibles |
 | 🖍  Editar turnos  | Modificación de turnos existentes         |
 | 🧨 Eliminar turnos | Cancelación de turnos programados         |
-
+| ❇️ Clonar turnos   | Clonar turnos ya creados                  |
 #### Creación de Turnos
 ##### 📝 1-Información Básica Requerida
 
@@ -225,10 +239,10 @@ El paciente no puede visualizar estos registros.
 #### 🔧 Configuración de Políticas
 ##### ⚠️ Límites del Sistema
 
-| Opción                     | Descripción                                                           |
-| -------------------------- | --------------------------------------------------------------------- |
+| Opción                     | Descripción                                                       |
+| -------------------------- | ----------------------------------------------------------------- |
 | Límite de faltas           | Número máximo de instatuss permitidas antes de bloquear pacientes |
-| Límite de reservas activas | Cantidad máxima de reservas simultáneas por paciente                  |
+| Límite de reservas activas | Cantidad máxima de reservas simultáneas por paciente              |
 
 #### ⏰ Configuración de Tiempos
 
@@ -246,8 +260,8 @@ El paciente no puede visualizar estos registros.
 
 #### 🔄 Automatización
 
-| Opción                     | Descripción                                           |
-| -------------------------- | ----------------------------------------------------- |
+| Opción                     | Descripción                                       |
+| -------------------------- | ------------------------------------------------- |
 | Frecuencia de verificación | Intervalo para verificación automática de statuss |
 
 
