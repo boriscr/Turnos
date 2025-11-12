@@ -136,7 +136,7 @@
             color: var(--dark_text_color);
             background-color: var(--background_navbar_dark);
         }
-
+/*
         .dropdown-item {
             color: var(--dark_text_color);
 
@@ -145,7 +145,7 @@
         .dropdown-item:hover {
             color: var(--background_navbar_dark);
             background-color: var(--dark_text_color);
-        }
+        }*/
 
         .hamburger {
             border: 1px solid var(--dark_text_color) !important;

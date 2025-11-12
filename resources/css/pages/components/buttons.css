@@ -157,13 +157,23 @@
     background-color: #5a6268;
 }
 
-.btn-danger {
+.btn-danger,
+.btn-salir {
     background-color: #dc3546 !important;
     color: white;
 }
 
 .btn-danger:hover {
     background-color: #c82333;
+}
+
+.menu-btn,
+.dropdown-btn {
+    background-color: var(--secondary_color_btn);
+    padding: 10px 5px;
+    i {
+        color: var(--btn_text_color) !important;
+    }
 }
 
 button {

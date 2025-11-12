@@ -5,8 +5,6 @@
     --transition-speed: 0.3s;
 }
 
-dashboard-content
-
 /* ESTILOS BASE */
 html,
 body {
@@ -110,12 +108,12 @@ body {
 }
 
 .nav-links a:hover {
-    background-color: color-mix(in srgb, var(--light_application_background) 70%, var(--general_design_color) 30%);
+    background-color: color-mix(in srgb, var(--dark_application_background) 30%, var(--secondary_color_btn) 70%);
     border-left: 3px solid var(--general_design_color);
 }
 
 .nav-links a.active {
-    background-color: color-mix(in srgb, var(--light_application_background) 50%, var(--general_design_color) 50%);
+    background-color: var(--secondary_color_btn);
     border-left: 3px solid var(--general_design_color);
     display: flex;
     justify-content: center !important;
@@ -145,6 +143,7 @@ body {
 }
 
 .dropdown-btn {
+    color: var(--light_text_color);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -156,18 +155,19 @@ body {
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
-    background: none;
     color: inherit;
     text-align: left;
 }
 
 .dropdown-btn:hover {
-    background-color: color-mix(in srgb, var(--light_application_background) 70%, var(--general_design_color) 30%);
-    border-left: 3px solid var(--general_design_color);
+    background-color: color-mix(in srgb, var(--dark_application_background) 30%, var(--secondary_color_btn) 70%);
+    border-left: 3px solid var(--secondary_color_btn);
 }
+
 
 .dropdown-btn i {
     transition: transform 0.3s ease;
+    color: var(--btn_text_color);
 }
 
 .dropdown-btn.active i:last-child {
@@ -217,13 +217,24 @@ body {
 }
 
 .dropdown-item:hover {
-    background-color: color-mix(in srgb, var(--light_application_background) 70%, var(--general_design_color) 30%);
+    background-color: var(--secondary_color_btn);
+    color: var(--btn_text_color);
     padding-left: 25px;
+
+    i {
+        color: var(--btn_text_color);
+    }
 }
 
 .dropdown-item.active {
-    background-color: color-mix(in srgb, var(--light_application_background) 50%, var(--general_design_color) 50%);
-    border-left: 3px solid var(--general_design_color);
+    background-color: var(--secondary_color_btn);
+    border-left: 3px solid var(--btn_text_color);
+    margin-left: 10px;
+    color: var(--btn_text_color);
+
+    i {
+        color: var(--btn_text_color);
+    }
 }
 
 .dropdown-item i {
@@ -242,7 +253,7 @@ body {
 }
 
 .dropdown.active .dropdown-btn {
-    background-color: color-mix(in srgb, var(--light_application_background) 50%, var(--general_design_color) 50%);
+    background-color: color-mix(in srgb, var(--dark_application_background) 50%, var(--secondary_color_btn) 50%);
     border-left: 3px solid var(--general_design_color);
 }
 
@@ -351,11 +362,7 @@ p {
     }
 
     .nav-links a:hover {
-        background-color: color-mix(in srgb, var(--dark_application_background) 70%, var(--general_design_color) 30%);
-    }
-
-    .nav-links a.active {
-        background-color: color-mix(in srgb, var(--dark_application_background) 50%, var(--general_design_color) 50%);
+        background-color: color-mix(in srgb, var(--dark_application_background) 30%, var(--secondary_color_btn) 70%);
     }
 
     .dropdown-content,
@@ -366,14 +373,22 @@ p {
 
     .dropdown.active .dropdown-btn,
     .dropdown-btn.active {
-        background-color: color-mix(in srgb, var(--dark_application_background) 50%, var(--general_design_color) 50%);
+        background-color: color-mix(in srgb, var(--dark_application_background) 50%, var(--secondary_color_btn) 50%);
     }
 
     .dropdown-btn:hover {
         background-color: color-mix(in srgb, var(--dark_application_background) 70%, var(--general_design_color) 30%);
     }
 
-    .dropdown-item:hover {
-        background-color: color-mix(in srgb, var(--dark_application_background) 70%, var(--general_design_color) 30%);
+    .dropdown-btn {
+        color: var(--dark_text_color);
     }
+
+    .dropdown-btn i {
+        color: var(--dark_text_color);
+    }
+
+    /*.dropdown-item:hover {
+        background-color: color-mix(in srgb, var(--dark_application_background) 70%, var(--general_design_color) 30%);
+    }*/
 }

@@ -90,7 +90,7 @@
                             maxlength="8" :required="false" />
                     </div>
 
-                    <div class="form-navigation full-center">
+                    <div class="full-center mt-10">
                         <button type="button" class="next-btn full-center">{{ __('button.next') }}<i
                                 class="bi bi-chevron-right"></i></button>
                     </div>

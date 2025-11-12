@@ -154,7 +154,7 @@
 }
 
 .next-btn {
-    background: linear-gradient(135deg, var(--secondary_color_btn), var(--general_design_color));
+    background: var(--secondary_color_btn);
     border: none;
 }
 
