@@ -2,7 +2,8 @@
 if (window.location.pathname.includes('/reservations/create') ||
     window.location.pathname.includes('/availableAppointments/edit') ||
     window.location.pathname.includes('/appointments/create') ||
-    window.location.pathname.includes('/appointments/edit')) {
+    window.location.pathname.includes('/appointments/edit') ||
+    window.location.pathname.includes('/register')) {
 
     document.addEventListener('DOMContentLoaded', function () {
         const steps = document.querySelectorAll('.form-step');
@@ -11,6 +12,7 @@ if (window.location.pathname.includes('/reservations/create') ||
         // Elementos comunes para todos los formularios
         const progressFill = document.getElementById('progress-fill');
         const allSteps = document.querySelectorAll('.step');
+        const form = document.getElementById('multiStepForm');
 
         // Elementos específicos para el formulario de reservas
         const patientTypeRadios = document.querySelectorAll('input[name="patient_type_radio"]');
@@ -19,15 +21,26 @@ if (window.location.pathname.includes('/reservations/create') ||
         const forOtherSection = document.getElementById('for-other-section');
         const otherPersonInputs = forOtherSection ? forOtherSection.querySelectorAll('input') : [];
 
+        // Elemento específico para el formulario de registro
+        const registerSubmitBtn = document.getElementById('submit-register');
+
         // Inicializar secciones de paciente si existen
         if (patientTypeRadios.length > 0) {
             initializePatientSections();
-            
+
             // Manejar cambio en el tipo de paciente
             patientTypeRadios.forEach(radio => {
                 radio.addEventListener('change', function () {
                     updatePatientSections(this.value);
                 });
+            });
+        }
+
+        // Configurar el botón de registro si existe
+        if (registerSubmitBtn) {
+            registerSubmitBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                confirmRegisterSubmit();
             });
         }
 
@@ -100,25 +113,29 @@ if (window.location.pathname.includes('/reservations/create') ||
                 // Primer paso - ocultar botones Anterior
                 allPrevButtons.forEach(btn => btn.style.display = 'none');
                 allNextButtons.forEach(btn => btn.style.display = 'block');
-                if (submitButton) submitButton.style.display = 'none';
-                
+                if (submitButton && !registerSubmitBtn) submitButton.style.display = 'none';
+
                 // Ajuste específico para appointments
                 const navegationNext = document.querySelector('.navegation-next');
                 if (navegationNext && window.location.pathname.includes('/appointments')) {
                     navegationNext.style.justifyContent = 'center';
                 }
-            } 
+            }
             else if (stepIndex === steps.length - 1) {
                 // Último paso - ocultar Siguiente, mostrar Confirmar
                 allPrevButtons.forEach(btn => btn.style.display = 'block');
                 allNextButtons.forEach(btn => btn.style.display = 'none');
-                if (submitButton) submitButton.style.display = 'block';
+
+                // Para registro, el botón de submit ya está visible
+                if (submitButton && !registerSubmitBtn) {
+                    submitButton.style.display = 'block';
+                }
             }
             else {
                 // Pasos intermedios - mostrar ambos botones
                 allPrevButtons.forEach(btn => btn.style.display = 'block');
                 allNextButtons.forEach(btn => btn.style.display = 'block');
-                if (submitButton) submitButton.style.display = 'none';
+                if (submitButton && !registerSubmitBtn) submitButton.style.display = 'none';
             }
         }
 
@@ -186,7 +203,7 @@ if (window.location.pathname.includes('/reservations/create') ||
 
             // Validación normal para campos requeridos
             const inputs = currentStepForm.querySelectorAll('input[required], select[required], textarea[required]');
-            
+
             inputs.forEach(input => {
                 if (!input.value.trim()) {
                     isValid = false;
@@ -223,6 +240,69 @@ if (window.location.pathname.includes('/reservations/create') ||
             } else {
                 alert(message);
             }
+        }
+
+        // Función específica para confirmación de registro
+        function confirmRegisterSubmit() {
+            // Primero validar el paso actual
+            if (!validateStep(2)) {
+                return;
+            }
+
+            const isDarkMode = getCurrentTheme() === 'dark';
+
+            Swal.fire({
+                title: '¿Confirmar registro?',
+                html: `
+<div class="card p-3 border-danger">
+    <h5 class="text-danger">🚨 Verificación Final de Datos para su cuenta🚨</h5>
+    <p>Los datos personales que registrará se utilizarán exclusivamente para la <strong>gestión de sus turnos</strong> y su correcta identificación hospitalaria.</p>
+    <p class="font-weight-bold">
+        Es crucial que la información sea precisa:
+    </p>
+    <blockquote class="blockquote">
+        Algunos de estos datos <strong>no podrán ser editados</strong> tras la creación de la cuenta, ya que establecen su identidad única en el sistema.
+    </blockquote>
+    <li class="mt-3">
+        <strong>Consecuencias:</strong> La inexactitud en sus datos podría impedirle tomar o validar sus turnos.
+    </li>
+    <li class="mt-3">
+        <strong>Requisito:</strong> Revise la información y asegúrese de que <strong>coincida exactamente con su Documento Nacional de Identidad (DNI)</strong> antes de confirmar el registro.
+    </li>
+</div>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: 'var(--primary_color_btn)',
+                cancelButtonColor: '#dc3545',
+                confirmButtonText: 'Sí, registrar',
+                cancelButtonText: 'Cancelar',
+                background: isDarkMode ? 'var(--dark_application_background)' : 'var(--light_application_background)',
+                color: isDarkMode ? 'var(--dark_text_color)' : 'var(--light_text_color)',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Deshabilitar el botón para evitar múltiples clics
+                    registerSubmitBtn.disabled = true;
+                    registerSubmitBtn.classList.add('submitting');
+
+                    // Mostrar loader personalizado adicional
+                    if (typeof showLoader === 'function') {
+                        showLoader('Registrando cuenta...');
+                    }
+
+                    // Enviar formulario
+                    setTimeout(() => {
+                        form.submit();
+                    }, 300);
+                }
+            });
+        }
+
+        function getCurrentTheme() {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
     });
 }
