@@ -17,7 +17,7 @@
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--general_design_color), var(--secondary_color_btn));
+    background: linear-gradient(90deg, #008000, var(--secondary_color_btn));
     border-radius: 2px;
     transition: width 0.4s ease;
     width: 0%;
@@ -42,7 +42,6 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: var(--card-background);
     border: 3px solid var(--border-color);
     display: flex;
     align-items: center;
@@ -60,8 +59,7 @@
 }
 
 .step.completed .step-circle {
-    background: var(--secondary_color_btn);
-    border-color: var(--secondary_color_btn);
+    background: #008000;
 }
 
 /* Ocultar el ícono original cuando el paso está completado */
@@ -102,12 +100,12 @@
 }
 
 .step.active .step-label {
-    color: var(--general_design_color);
+    color: var(--light_text_color);
     font-weight: 600;
 }
 
 .step.completed .step-label {
-    color: var(--secondary_color_btn);
+    color: #008000;
 }
 
 /* Estados hover para mejor UX */
@@ -323,6 +321,10 @@
 
     .step-label {
         color: color-mix(in srgb, var(--dark_text_color) 70%, #000000 30%);
+    }
+
+    .step.active .step-label {
+        color: var(--dark_text_color);
     }
 }
 

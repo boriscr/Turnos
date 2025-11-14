@@ -10,9 +10,8 @@ import '../js/pages/profiles/profile-photo.js';
 import '../js/pages/reservations/index/date-filter.js';
 import '../js/pages/reservations/index/search.js';
 import '../js/pages/reservations/create/filtro-appointments.js';
-import '../js/pages/reservations/create/formulario-3paso-reservation.js';
 
-import '../js/pages/appointments/components/formulario-3paso-appointment.js';
+import '../js/pages/appointments/components/formulario-3paso-reservation-appointment.js';
 import './pages/appointments/components/schedules.js';
 import './pages/appointments/components/calendar.js';
 

@@ -14,6 +14,7 @@ if (window.location.pathname.includes('/reservations/create')) {
         }
     }
 
+
     // Función para calcular date límite según configuración
     function calcularFechaLimite() {
         try {
@@ -254,6 +255,7 @@ if (window.location.pathname.includes('/reservations/create')) {
     }
 
     // Función para cargar horas basadas en date seleccionada
+    // Función para cargar horas basadas en date seleccionada
     async function cargarHoras(fechaSeleccionada) {
         const selectHora = document.getElementById('appointment_time');
         if (!selectHora) return;
@@ -279,10 +281,10 @@ if (window.location.pathname.includes('/reservations/create')) {
                 return appointmentDate === fechaSeleccionada;
             });
 
-            // Obtener fecha y hora actual
-            const ahora = new Date();
-            const fechaActual = ahora.toISOString().split('T')[0];
-            const horaActual = ahora.toTimeString().split(' ')[0].substring(0, 5); // Formato HH:mm
+            // Obtener fecha y hora actual EN ARGENTINA
+            const ahoraArgentina = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
+            const [fechaActual, horaActualCompleta] = ahoraArgentina.split(',');
+            const horaActual = horaActualCompleta ? horaActualCompleta.trim().substring(0, 5) : '00:00';
 
             // Filtrar horarios pasados si es el día actual
             if (fechaSeleccionada === fechaActual) {

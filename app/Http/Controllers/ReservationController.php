@@ -140,7 +140,7 @@ class ReservationController extends Controller
     // php artisan schedule:work
     public function checkStatusAutomatically()
     {
-        Log::info('Iniciando verificación automática de status');
+        /*Log::info('Iniciando verificación automática de status');*/
 
         $settings = Setting::where('group', 'appointments')->pluck('value', 'key');
         $hora_status = (int) ($settings['assists.verification_interval'] ?? 1);

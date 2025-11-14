@@ -1,10 +1,29 @@
 <!-- Indicador de pasos -->
-<div class="step-indicator">
-    <div class="step active" data-step="1"><i class="bi bi-stars"></i> {{ __('appointment.creation') }}</div>
-    <div class="step" data-step="2"><i class="bi bi-clock-history"></i> {{ __('reservation.time') }}</div>
-    <div class="step" data-step="3"><i class="bi bi-calendar-date-fill"></i> {{ __('reservation.date') }}</div>
+<div class="progress-container">
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="steps-wrapper">
+        <div class="step active" data-step="1">
+            <div class="step-circle">
+                <i class="bi bi-stars"></i>
+            </div>
+            <span class="step-label">{{ __('appointment.creation') }}</span>
+        </div>
+        <div class="step" data-step="2">
+            <div class="step-circle">
+                <i class="bi bi-clock-history"></i>
+            </div>
+            <span class="step-label">{{ __('reservation.time') }}</span>
+        </div>
+        <div class="step" data-step="3">
+            <div class="step-circle">
+                <i class="bi bi-calendar-date-fill"></i>
+            </div>
+            <span class="step-label">{{ __('reservation.date') }}</span>
+        </div>
+    </div>
 </div>
-
 <form x-data="iosCalendar()" x-init="init({{ $dates ?? '[]' }})" id="multiStepForm"
     @submit.prevent="updateSelectedDatesInput(); $el.submit()" method="POST" action="{{ $route }}">
     @csrf
@@ -67,8 +86,8 @@
             </div>
 
             <x-form.text-input type="number" name="number_of_reservations" :label="__('appointment.schedule.number_of_reservations')"
-                value="{{ !isset($create) ? $appointment->number_of_reservations : old('number_of_reservations') }}" min="1"
-                :required="true" />
+                value="{{ !isset($create) ? $appointment->number_of_reservations : old('number_of_reservations') }}"
+                min="1" :required="true" />
 
             <x-form.text-input type="time" name="start_time" :label="__('appointment.schedule.start_time')"
                 value="{{ !isset($create) ? $appointment->start_time->format('H:i') : old('start_time') }}"
@@ -82,9 +101,11 @@
                 <br>
                 <h3>{{ __('appointment.schedule.title') }}</h3>
                 <div class="item-style">
-                    <x-form.text-input type="radio" name="appointment_type" id="single_slot" value="single_slot" :label="__('appointment.schedule.single')"
+                    <x-form.text-input type="radio" name="appointment_type" id="single_slot" value="single_slot"
+                        :label="__('appointment.schedule.single')"
                         checkedValue="{{ !isset($appointment) || $appointment->available_time_slots == null ? 'checked' : '' }}" />
-                    <x-form.text-input type="radio" name="appointment_type" id="multi_slot" value="multi_slot" :label="__('appointment.schedule.multiple')"
+                    <x-form.text-input type="radio" name="appointment_type" id="multi_slot" value="multi_slot"
+                        :label="__('appointment.schedule.multiple')"
                         checkedValue="{{ isset($appointment) && $appointment->available_time_slots != null ? 'checked' : '' }}" />
                     <input type="hidden" name="available_time_slots" id="available_time_slots">
                 </div>
