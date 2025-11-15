@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="content-wrapper">
-        <h1>{{ __('medical.titles.details') }}</h1>
+        <x-form.titles :value="__('medical.titles.details')" size="show" />
         <div class="status-box {{ $appointment->status ? 'status-active' : 'status-inactive' }}">
             <span> {{ $appointment->status ? __('medical.active') : __('medical.inactive') }}</span>
         </div>
         <div class="section-container full-center">
             <div class="card">
-                <h2>{{ __('medical.titles.management') }}</h2>
+                <x-form.titles :value="__('medical.titles.management')" type="subtitle" />
                 <x-field-with-icon icon="activity" :label="__('reservation.title_name')" :value="$appointment->name" />
                 <x-field-with-icon icon="geo-alt-fill" :label="__('contact.address')" :value="$appointment->address" />
                 <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$appointment->specialty->name" :link="route('specialties.show', $appointment->specialty->id)" />
@@ -21,6 +21,7 @@
                 <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.end_date')" :value="\Carbon\Carbon::parse($dates->last())->format('d/m/Y')" />
             </div>
             <div class="card">
+                <x-form.titles :value="__('medical.titles.management')" type="subtitle" />
                 @php
                     $number_of_hours_available = 0;
                     $number_of_reservations = 0;
@@ -31,7 +32,7 @@
                 <x-field-with-icon icon="clipboard2-data-fill" :label="__('appointment.schedule.number_of_dates')" :value="$number_of_reservations" />
             </div>
             <div class="card">
-                <h2>{{ __('medical.titles.creation') }}</h2>
+                <x-form.titles :value="__('medical.titles.creation')" type="subtitle" />
                 <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.created_by')" :value="$appointment->createdBy->name . ' ' . $appointment->createdBy->surname"
                     :link="route('users.show', $appointment->created_by)" />
                 <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($appointment->created_at)->format('d/m/Y H:i')" />

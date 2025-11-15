@@ -1,8 +1,6 @@
 <section>
     <header>
-        <h1 class="text-lg font-medium">
-            {{ __('Profile Information') }}
-        </h1>
+        <x-form.titles :value="__('Profile Information')" size="edit-create" />
     </header>
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
@@ -13,7 +11,8 @@
         @method('patch')
         <!-- Paso 1 -->
         <div x-show="step === 1" x-transition>
-            <h1>{{ __('medical.titles.personal_data') }}</h1>
+            <x-form.titles :value="__('medical.titles.personal_data')" type="subtitle" />
+
             <div class="mt-4">
                 <x-form.text-input type="text" icon="person" name="name" label="{{ __('contact.name') }}"
                     placeholder="{{ __('placeholder.name') }}" minlength="3" maxlength="40" value="{{ $user->name }}"
@@ -24,7 +23,7 @@
 
                 <div class="form-step active">
                     <div class="item">
-                        <small><i class="bi bi-credit-card"></i>{{ __('contact.idNumber') }} </small>
+                        <small><i class="bi bi-person-vcard-fill"></i>{{ __('contact.idNumber') }} </small>
                         <p>{{ $user->idNumber }}</p>
                     </div>
                 </div>
@@ -33,7 +32,7 @@
                     placeholder="{{ __('placeholder.birthdate') }}" value="{{ $user->birthdate }}" :required="true"
                     autofocus autocomplete="birthdate" />
                 <small id="edad"></small>
-                {{$user->status}}
+                {{ $user->status }}
                 <x-form.select icon="gender-ambiguous" name="gender_id" :label="__('contact.gender')" :required="true">
                     <option value="">{{ __('medical.select_default') }}</option>
                     @foreach ($genders as $item)
@@ -46,8 +45,8 @@
             <!-- Paso 2 -->
             <div x-show="step === 2" x-transition>
                 <!-- Address -->
-                <h1>{{ __('contact.address') }}</h1>
                 <div class="mt-4">
+                    <x-form.titles :value="__('contact.address')" type="subtitle" />
                     <x-form.select icon="globe" name="country_id" :label="__('contact.country')" :required="true">
                         <option value="">{{ __('medical.select_default') }}</option>
                         @foreach ($countries as $country)
@@ -84,7 +83,7 @@
         </div>
         <!-- Paso 3 -->
         <div x-show="step === 3" x-transition>
-            <h1>{{ __('contact.contact_and_access') }}</h1>
+            <x-form.titles :value="__('contact.contact_and_access')" type="subtitle" />
             <div class="mt-4">
                 <x-form.text-input type="tel" icon="telephone" name="phone" label="{{ __('contact.phone') }}"
                     placeholder="{{ __('placeholder.phone') }}" minlength="9" maxlength="15"

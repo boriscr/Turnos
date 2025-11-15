@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Construir el contenido del box
         box.innerHTML = `
-                    <h2 class="paciente-info">ID: ${id}</h2>
-                    <h1 class="paciente-info">${name}</h1>
+                    <h5 class="paciente-info">ID: ${id}</h5>
+                    <h4 class="paciente-info">${name}</h4>
                     <hr>
                     <hr>
                     <div class="contenido-accionesMovil">

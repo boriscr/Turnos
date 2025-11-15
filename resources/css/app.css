@@ -21,12 +21,17 @@
 /*pages*/
 @import 'pages/dashboard/index.css';
 @import 'pages/dashboard/navbar-movile.css';
+@import 'pages/home/home.css';
 
 @import 'pages/myAppointments/myAppointments.css';
 @import 'pages/myAppointments/show.css';
 /*@import 'pages/home/home.css';*/
 @import 'pages/profiles/profile.css';
+
+/*Appointments*/
 @import 'pages/appointments/calendar.css';
+@import 'pages/appointments/times.css';
+
 @import 'pages/reservations/date-filter.css';
 @import 'pages/reservations/search.css';
 @import 'pages/reservations/create.css';

@@ -1,8 +1,6 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium">
-            {{ __('Update Password') }}
-        </h2>
+        <x-form.titles :value="__('Update Password')" size="edit-create" />
 
         <p class="mt-1 text-sm">
             {{ __('Ensure your account is using a long, random password to stay secure.') }}

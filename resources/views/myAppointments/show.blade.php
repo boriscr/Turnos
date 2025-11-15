@@ -1,8 +1,7 @@
 <x-app-layout>
-
     @if (isset($reservation) && $reservation->availableAppointment->appointment->status === true)
         <div class="content-wrapper">
-            <h1>{{ __('medical.titles.reserved_appointment_details') }}</h1>
+            <x-form.titles :value="__('medical.titles.reserved_appointment_details')" size="show" />
             <br>
             <div class="card-heder full-center">
                 <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
@@ -45,7 +44,7 @@
                 </div>
 
                 <div class="card">
-                    <h2>{{ __('medical.titles.my_data') }}</h2>
+                    <x-form.titles :value="__('medical.titles.my_data')" type="subtitle" />
                     <x-field-with-icon icon="person-fill" :label="__('contact.name_and_surname')" :value="@Auth::user()->name . ' ' . @Auth::user()->surname" />
                     <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="@Auth::user()->idNumber" />
                     <span class="full-center {{ @Auth::user()->status ? 'btn-success' : 'btn-danger' }}">
@@ -84,11 +83,11 @@
         </div>
     @else
         <div class="content-wrapper">
-            <h1>{{ __('error.oops.title') }}</h1>
+            <x-form.titles :value="__('error.oops.title')" size="index" />
             <div class="error-card full-center">
                 <div class="card">
                     <div class="error-box-message">
-                        <h2>{{ __('error.oops.subtitle_1') }}</h2>
+                        <x-form.titles :value="__('error.oops.subtitle_1')" type="subtitle" />
                         <p>{{ __('error.oops.message') }}</p>
                     </div>
                     <div class="error-box-icon full-center">
@@ -97,9 +96,9 @@
                     <p>{{ __('error.oops.message_1') }}</p>
                     <hr>
                     <hr>
-                    <h2>{{ __('error.oops.subtitle_2') }}</h2>
+                    <x-form.titles :value="__('error.oops.subtitle_2')" type="subtitle" />
                     <p>{{ __('error.oops.message_2') }}</p>
-                    <h2>{{ __('error.oops.subtitle_3') }}</h2>
+                    <x-form.titles :value="__('error.oops.subtitle_3')" type="subtitle" />
                     <ul>
                         <li><i class="bi-caret-right-fill"></i>{{ __('error.oops.item_1') }}</li>
                         <li><i class="bi-caret-right-fill"></i>{{ __('error.oops.item_2') }}</li>

@@ -2,7 +2,7 @@
     <div class="main-table full-center">
         <div class="container-form full-center">
             <div class="container-form full-center">
-                <h1>{{ __('medical.titles.historical') }}</h1>
+                <x-form.titles :value="__('medical.titles.historical')" size="index" />
 
                 <table>
                     <thead>

@@ -1,7 +1,7 @@
 <x-app-layout>
     @if (isset($reservation))
         <div class="content-wrapper">
-            <h1>{{ __('medical.titles.details') }}</h1>
+            <x-form.titles :value="__('medical.titles.details')" size="show"/>
             <div class="section-container full-center">
                 <div class="card">
                     <h2>{{ __('medical.titles.reserved_appointment_details') }}</h2>

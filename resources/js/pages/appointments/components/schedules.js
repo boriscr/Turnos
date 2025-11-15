@@ -18,30 +18,45 @@ document.addEventListener("DOMContentLoaded", function () {
         function calcularMinutosTotales(startTime, endTime) {
             let minutosInicio = convertirATiempoEnMinutos(startTime);
             let minutosFin = convertirATiempoEnMinutos(endTime);
-            
+
             // Si el horario final es menor que el inicial, asumimos que cruza la medianoche
             if (minutosFin <= minutosInicio) {
                 minutosFin += 24 * 60; // Agregamos 24 horas (1440 minutos)
             }
-            
+
             return minutosFin - minutosInicio;
         }
 
         function validarCampos() {
-            return number_of_reservations.value >= 1 && 
-                   start_time.value !== "" && 
+            return start_time.value !== "" && 
                    end_time.value !== "" &&
-                   start_time.value !== end_time.value; // Cambiamos la validación
+                   start_time.value !== end_time.value;
         }
 
-        function generarHorarios() {
-            if (multi_slot.checked && validarCampos()) {
+        function validarCamposMultiSlot() {
+            return validarCampos() && number_of_reservations.value >= 1;
+        }
+
+        function generarHorarioSingleSlot() {
+            if (single_slot.checked && start_time.value !== "") {
+                horarioBox.style.display = "flex";
+                
+                // Para single slot, solo usamos el horario de inicio
+                let horarioUnico = [start_time.value];
+                
+                document.getElementById("available_time_slots").value = JSON.stringify(horarioUnico);
+                horarioItem.innerHTML = "<p><strong>Horario único:</strong></p><p>" + start_time.value + "</p>";
+            }
+        }
+
+        function generarHorariosMultiSlot() {
+            if (multi_slot.checked && validarCamposMultiSlot()) {
                 horarioBox.style.display = "flex";
 
                 let minutosTotalesInicio = convertirATiempoEnMinutos(start_time.value);
                 let minutosTotalesFin = convertirATiempoEnMinutos(end_time.value);
                 let minutosTotales = calcularMinutosTotales(start_time.value, end_time.value);
-                
+
                 // Validar que haya tiempo suficiente para al menos un turno
                 if (minutosTotales < 1) {
                     horarioBox.style.display = "none";
@@ -64,10 +79,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 for (let i = 0; i < number_of_reservations.value; i++) {
                     let minutosActuales = minutosTotalesInicio + i * tiempoPorTurno;
-                    
+
                     // Ajustar si cruza la medianoche
                     let minutosEnDia = minutosActuales % (24 * 60);
-                    
+
                     let time = Math.floor(minutosEnDia / 60);
                     let minutos = Math.floor(minutosEnDia % 60);
 
@@ -79,6 +94,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 document.getElementById("available_time_slots").value = JSON.stringify(horarios);
                 horarioItem.innerHTML = "<p><strong>Horarios generados:</strong></p><p>" + horarios.join("</p><p>") + "</p>";
+            }
+        }
+
+        function actualizarHorarios() {
+            if (single_slot.checked) {
+                generarHorarioSingleSlot();
+            } else if (multi_slot.checked) {
+                generarHorariosMultiSlot();
             } else {
                 horarioBox.style.display = "none";
                 document.getElementById("available_time_slots").value = "";
@@ -88,9 +111,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Función para manejar cambios en los inputs de tiempo
         function manejarCambioTiempo() {
+            if (single_slot.checked) {
+                generarHorarioSingleSlot();
+            } else if (multi_slot.checked) {
+                if (validarCamposMultiSlot()) {
+                    generarHorariosMultiSlot();
+                } else {
+                    horarioBox.style.display = "none";
+                    document.getElementById("available_time_slots").value = "";
+                    horarioItem.innerHTML = "";
+                }
+            }
+        }
+
+        // Función para manejar cambios en el número de reservaciones
+        function manejarCambioReservaciones() {
+            if (this.value < 1) {
+                this.value = 1;
+            }
+
             if (multi_slot.checked) {
-                if (validarCampos()) {
-                    generarHorarios();
+                if (validarCamposMultiSlot()) {
+                    generarHorariosMultiSlot();
                 } else {
                     horarioBox.style.display = "none";
                     document.getElementById("available_time_slots").value = "";
@@ -100,22 +142,44 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Disparar automáticamente al cargar la página si ya hay valores cargados
-        if (multi_slot.checked && validarCampos()) {
-            generarHorarios();
+        if (single_slot.checked && start_time.value !== "") {
+            generarHorarioSingleSlot();
+        } else if (multi_slot.checked && validarCamposMultiSlot()) {
+            generarHorariosMultiSlot();
         }
 
         // Event listeners para los inputs de tiempo
         start_time.addEventListener("change", manejarCambioTiempo);
         start_time.addEventListener("input", manejarCambioTiempo);
-        
         end_time.addEventListener("change", manejarCambioTiempo);
         end_time.addEventListener("input", manejarCambioTiempo);
 
-        // Event listener para el número de reservaciones
-        number_of_reservations.addEventListener("input", function () {
-            if (multi_slot.checked) {
-                if (validarCampos()) {
-                    generarHorarios();
+        // Event listeners para el número de reservaciones
+        number_of_reservations.addEventListener("input", manejarCambioReservaciones);
+        number_of_reservations.addEventListener("change", manejarCambioReservaciones);
+
+        // Control de botones de incremento/decremento
+        let inputCantidad = document.getElementById('number_of_reservations');
+        let decrement = document.getElementById('decrement-btn');
+        let increment = document.getElementById('increment-btn');
+
+        decrement.addEventListener('click', function () {
+            if (inputCantidad.value > 1) {
+                inputCantidad.value = parseInt(inputCantidad.value) - 1;
+                inputCantidad.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        });
+
+        increment.addEventListener('click', function () {
+            inputCantidad.value = parseInt(inputCantidad.value) + 1;
+            inputCantidad.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+
+        // Controlar radios
+        single_slot.addEventListener("change", function () {
+            if (this.checked) {
+                if (start_time.value !== "") {
+                    generarHorarioSingleSlot();
                 } else {
                     horarioBox.style.display = "none";
                     document.getElementById("available_time_slots").value = "";
@@ -124,42 +188,20 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Controlar radios manualmente
         multi_slot.addEventListener("change", function () {
             if (this.checked) {
-                if (validarCampos()) {
-                    generarHorarios();
+                if (validarCamposMultiSlot()) {
+                    generarHorariosMultiSlot();
                 } else {
                     alert("Por favor, complete todos los campos con valores válidos antes de continuar.");
                     this.checked = false;
                     single_slot.checked = true;
+                    // Si cambiamos a single slot, generar el horario único
+                    if (start_time.value !== "") {
+                        generarHorarioSingleSlot();
+                    }
                 }
-            } else {
-                horarioBox.style.display = "none";
-                document.getElementById("available_time_slots").value = "";
-                horarioItem.innerHTML = "";
             }
         });
-
-        single_slot.addEventListener("change", function () {
-            if (this.checked) {
-                horarioBox.style.display = "none";
-                document.getElementById("available_time_slots").value = "";
-                horarioItem.innerHTML = "";
-            }
-        });
-
-        // Agregar información sobre horarios que cruzan medianoche
-        function agregarInfoMedianoche() {
-            const info = document.createElement('div');
-            info.className = 'time-info';
-            info.innerHTML = '💡 <em>Nota: Los horarios que cruzan la medianoche (ej: 23:00 a 06:00) son soportados automáticamente.</em>';
-            info.style.cssText = 'font-size: 12px; color: #666; margin-top: 5px; background: #f0f8ff; padding: 5px; border-radius: 3px;';
-            
-            end_time.parentNode.appendChild(info);
-        }
-
-        // Llamar para agregar la información
-        agregarInfoMedianoche();
     }
 });

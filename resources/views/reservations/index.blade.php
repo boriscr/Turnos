@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h1>{{ __('medical.titles.reservation_list') }}</h1>
+            <x-form.titles :value="__('medical.titles.reservation_list')" size="index"/>
             <div class="search-filters filter-box">
 
                 <form action="{{ route('reservations.index') }}" method="GET" class="rounded" id="filterForm">

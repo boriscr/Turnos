@@ -11,7 +11,7 @@
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
-    #specialty-form {
+    .main .container-form #specialty-form {
         background-color: var(--dark_application_background);
     }
 }

@@ -1,10 +1,10 @@
 <x-app-layout>
     @if (isset($appointmentHistoryId))
         <div class="content-wrapper">
-            <h1>{{ __('medical.titles.details') }}</h1>
+            <x-form.titles :value="__('medical.titles.details')" size="show" />
             <div class="section-container full-center">
                 <div class="card">
-                    <h2>{{ __('medical.titles.reserved_appointment_details') }}</h2>
+                    <x-form.titles :value="__('medical.titles.reserved_appointment_details')" type="subtitle" />
                     <x-field-with-icon icon="fingerprint" :label="__('medical.id')" :value="$appointmentHistoryId->id" />
                     @if (isset($appointmentHistoryId->appointment_id))
                         <x-field-with-icon icon="activity" :label="__('reservation.title_name')" :value="$appointmentHistoryId->appointment->name" :link="route('appointments.show', $appointmentHistoryId->appointment_id)" />
@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="card">
-                    <h2>{{ __('medical.titles.patient_data') }}</h2>
+                    <x-form.titles :value="__('medical.titles.patient_data')" type="subtitle" />
                     @if ($appointmentHistoryId->user->id)
                         <x-field-with-icon icon="person-fill" :label="__('medical.patient')" :value="$appointmentHistoryId->user->name . ' ' . $appointmentHistoryId->user->surname"
                             :link="route('users.show', $appointmentHistoryId->user->id)" />

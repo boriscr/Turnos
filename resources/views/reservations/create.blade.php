@@ -1,9 +1,8 @@
 <x-app-layout>
 
     <div class="main full-center">
-        <h1>{{ __('medical.titles.book_a_new_appointment') }}</h1>
+        <x-form.titles :value="__('medical.titles.book_a_new_appointment')" size="edit-create"/>
         <div class="container-form full-center">
-
             <!-- Indicador de pasos -->
             <div class="progress-container">
                 <div class="progress-bar">

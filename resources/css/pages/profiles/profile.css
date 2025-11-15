@@ -75,17 +75,95 @@
         flex-direction: column;
         border: 1px solid var(--general_design_color);
         background-color: transparent;
-        width: 400px;
+        width: 200px;
         padding: 10px;
-        border-radius: 10px;
+        border-radius: 25px;
 
+        /* Transiciones suaves para todas las propiedades animadas */
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+        /* Estado inicial */
+        transform: translateY(0) scale(1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        /* Mejora el rendimiento de las animaciones */
+        will-change: transform, box-shadow;
+
+        /* Evita que el contenido se recorte durante la transformación */
+        overflow: hidden;
+    }
+
+    .card-profile:hover {
+        /* Efecto de elevación más pronunciado */
+        transform: translateY(-8px) scale(1.05);
+
+        /* Sombra más dramática y difuminada */
+        box-shadow:
+            0 15px 30px rgba(150, 150, 150, 0.4),
+            0 5px 15px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+        /* Efecto de brillo sutil */
+        filter: brightness(1.05);
+
+        /* Borde más destacado */
+        border-color: var(--general_design_color);
+
+        /* Asegura que esté por encima de otros elementos */
+        z-index: 10;
+    }
+
+    /* Opcional: Efecto de "respiración" sutil en estado normal */
+    .card-profile {
+        animation: subtle-breathing 3s ease-in-out infinite;
+    }
+
+    @keyframes subtle-breathing {
+
+        0%,
+        100% {
+            transform: translateY(0) scale(1);
+        }
+
+        50% {
+            transform: translateY(-2px) scale(1.01);
+        }
+    }
+
+    /* Para dispositivos táctiles (evita hover no deseado) */
+    @media (hover: none) {
+        .card-profile:hover {
+            transform: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    /* Efecto adicional para el contenido interno */
+    .card-profile::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0) 50%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 25px;
+        pointer-events: none;
+    }
+
+    .card-profile:hover::before {
+        opacity: 1;
     }
 
 
 
     .card-profile .bi {
         color: var(--general_design_color);
-        font-size: 80px;
+        font-size: 60px;
     }
 
     .card-profile H1 {

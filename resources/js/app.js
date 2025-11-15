@@ -1,6 +1,8 @@
 import '../js/pages/register/register-validate.js';
+//layouts**********************/
+import '../js/layouts/form-3steps-reservation-appointment-register.js';
 import '../js/layouts/get-list-of-countries.js';
-//pages***********************
+//pages************************/
 import '../js/pages/dashboard/navbar.js';
 
 import '../js/pages/doctors/specialty.js';
@@ -11,7 +13,6 @@ import '../js/pages/reservations/index/date-filter.js';
 import '../js/pages/reservations/index/search.js';
 import '../js/pages/reservations/create/filtro-appointments.js';
 
-import '../js/pages/appointments/components/formulario-3paso-reservation-appointment.js';
 import './pages/appointments/components/schedules.js';
 import './pages/appointments/components/calendar.js';
 

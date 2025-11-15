@@ -1,12 +1,13 @@
 <x-app-layout>
     <div class="content-wrapper">
-        <h1>{{ __('medical.titles.details') }}</h1>
+        <x-form.titles :value="__('medical.titles.details')" size="show" />
         <div class="status-box {{ $user->status ? 'status-active' : 'status-inactive' }}">
             <span> {{ $user->status ? __('medical.active') : __('medical.inactive') }}</span>
         </div>
         <div class="section-container full-center">
             <div class="card">
-                <h2>{{ __('medical.titles.personal_data') }}</h2>
+                <x-form.titles :value="__('medical.titles.personal_data')" type="subtitle"/>
+
                 <x-field-with-icon icon="person-fill" :label="__('contact.name_and_surname')" :value="$user->name . ' ' . $user->surname" />
                 <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="$user->idNumber" />
                 <x-field-with-icon icon="gift-fill" :label="__('contact.birthdate')" :value="\Carbon\Carbon::parse($user->birthdate)->format('d/m/Y') .
@@ -14,11 +15,12 @@
                     \Carbon\Carbon::parse($user->birthdate)->age .
                     ' años)'" />
                 <x-field-with-icon icon="gender-ambiguous" :label="__('contact.gender')" :value="$user->gender->name" />
-                <x-field-with-icon icon="person-badge-fill" :label="__('medical.role')" :value="$user->translated_role" />
+                <x-field-with-icon icon="person-badge-fill" :label="__('medical.role')" :value="$user->role" />
             </div>
 
             <div class="card">
-                <h2>{{ __('contact.address') }}</h2>
+                <x-form.titles :value="__('contact.address')" type="subtitle"/>
+
                 <x-field-with-icon icon="globe" :label="__('contact.country')" :value="$user->country->name ?? __('medical.no_data')" />
                 <x-field-with-icon icon="geo-alt-fill" :label="__('contact.state')" :value="$user->state->name ?? __('medical.no_data')" />
                 <x-field-with-icon icon="building-fill" :label="__('contact.city')" :value="$user->city->name ?? __('medical.no_data')" />
@@ -26,18 +28,21 @@
             </div>
 
             <div class="card">
-                <h2>{{ __('medical.titles.contact_details') }}</h2>
+                <x-form.titles :value="__('medical.titles.contact_details')" type="subtitle"/>
+
                 <x-field-with-icon icon="telephone-fill" :label="__('contact.phone')" :value="$user->phone" />
                 <x-field-with-icon icon="envelope-fill" :label="__('contact.email')" :value="$user->email" />
             </div>
 
             <div class="card">
-                <h2>{{ __('medical.titles.reservations') }}</h2>
+                <x-form.titles :value="__('medical.titles.reservations')" type="subtitle"/>
+
                 <x-field-with-icon icon="x" :label="__('medical.unassisted_reservations')" :value="$user->faults === 0 ? __('medical.none') : $user->faults" />
             </div>
 
             <div class="card">
-                <h2>{{ __('medical.titles.creation') }}</h2>
+                <x-form.titles :value="__('medical.titles.creation')" type="subtitle"/>
+
                 <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($user->created_at)->format('d/m/Y H:i')" />
 
                 @if (!empty($user->updatedById->name))
@@ -65,7 +70,8 @@
     <div class="main-table full-center">
         <div class="container-form full-center">
             <div class="container-form full-center">
-                <h1>{{ __('medical.titles.historical') }}</h1>
+                <x-form.titles :value="__('medical.titles.historical')" size="index" />
+
                 <table>
                     <thead>
                         <tr>

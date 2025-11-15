@@ -1,8 +1,9 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h1>{{ __('medical.titles.specialty_list') }}</h1>
-            <x-form.search resource="specialties" :placeholder="__('button.search.placeholderName')"/>
+            <x-form.titles :value="__('medical.titles.specialty_list')" size="index"/>
+
+            <x-form.search resource="specialties" :placeholder="__('button.search.placeholderName')" />
             <div class="options full-center">
                 <button class="btn-add">
                     <a href="{{ route('specialties.create') }}">{{ __('specialty.btn_name') }}</a>

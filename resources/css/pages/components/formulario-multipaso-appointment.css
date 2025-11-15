@@ -17,7 +17,7 @@
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #008000, var(--secondary_color_btn));
+    background: linear-gradient(90deg, #008000, var(--general_design_color));
     border-radius: 2px;
     transition: width 0.4s ease;
     width: 0%;
@@ -162,10 +162,11 @@
     border: 1px solid color-mix(in srgb, var(--light_text_color) 40%, #ff0000 60%);
 }
 
-/*
 .prev-btn:hover {
-    border-color: var(--light_text_color);
-}*/
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
 
 .next-btn:hover {
     opacity: 0.9;

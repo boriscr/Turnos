@@ -1,13 +1,13 @@
 <x-app-layout>
     @if (isset($doctor))
         <div class="content-wrapper">
-            <h1>{{ __('medical.titles.details') }}</h1>
+            <x-form.titles :value="__('medical.titles.details')" size="show" />
             <div class="status-box {{ $doctor->status ? 'status-active' : 'status-inactive' }}">
                 <span> {{ $doctor->status ? __('medical.active') : __('medical.inactive') }}</span>
             </div>
             <div class="section-container full-center">
                 <div class="card">
-                    <h2>{{ __('medical.titles.personal_data') }}</h2>
+                    <x-form.titles :value="__('medical.titles.personal_data')" type="subtitle" />
                     @if ($doctor->user_id)
                         <x-field-with-icon icon="person-check-fill" :label="__('medical.doctor')" :value="$doctor->name . ' ' . $doctor->surname"
                             :link="route('users.show', $doctor->user_id)" />
@@ -20,13 +20,13 @@
                     <x-field-with-icon icon="person-badge-fill" :label="__('medical.role')" :value="$doctor->role" />
                 </div>
                 <div class="card">
-                    <h2>{{ __('medical.titles.contact_details') }}</h2>
+                    <x-form.titles :value="__('medical.titles.contact_details')" type="subtitle" />
                     <x-field-with-icon icon="telephone-fill" :label="__('contact.phone')" :value="$doctor->phone" />
                     <x-field-with-icon icon="envelope-fill" :label="__('contact.email')" :value="$doctor->email" />
                 </div>
                 @if ($doctor->created_by != null)
                     <div class="card">
-                        <h2>{{ __('medical.titles.creation') }}</h2>
+                        <x-form.titles :value="__('medical.titles.creation')" type="subtitle" />
                         <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.created_by')" :value="$doctor->createdBy->name . ' ' . $doctor->createdBy->surname"
                             :link="route('users.show', $doctor->created_by)" />
                         <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="\Carbon\Carbon::parse($doctor->created_at)->format('d/m/Y H:i')" />

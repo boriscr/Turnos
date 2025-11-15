@@ -7,7 +7,7 @@
     transform: translate(-50%, -50%);
     width: 70%;
     max-width: 300px;
-    border-radius: 5px;
+    border-radius: 25px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     padding: 15px;
@@ -121,7 +121,7 @@
     }
 
     .main-table .container-form .accionesMovil {
-        display: table-cell;
+        display: table-cell !important;
         text-align: center;
 
     }

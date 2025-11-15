@@ -13,7 +13,7 @@
 .feature {
     position: absolute;
     right: 10px;
-    top: -8px;
+    top: -3px;
     font-weight: 600;
     /* Bolder puede ser demasiado para iOS */
     padding: 3px 6px;
@@ -21,7 +21,7 @@
     /* Bordes más redondeados tipo iOS */
     overflow: hidden;
     /* Oculta el desbordamiento del borde animado */
-    z-index: 1;
+    z-index: 99999;
     /* Asegura que el contenido esté encima del borde */
     text-transform: uppercase;
     font-size: 0.75rem;

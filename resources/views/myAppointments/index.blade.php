@@ -1,13 +1,13 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h1>{{ __('myAppointments') }}</h1>
+            <x-form.titles :value="__('myAppointments')" size="index" />
             <div class="container-appointments">
                 @forelse ($reservations as  $reservation)
                     <a href="{{ route('myAppointments.show', $reservation->id) }}" class="my-appointments-box">
                         <div class="box-content">
                             <div class="details-content">
-                                <h6>{{ $reservation->availableAppointment->doctor->specialty->name }}</h6>
+                                <strong>{{ $reservation->availableAppointment->doctor->specialty->name }}</strong>
                                 <hr>
                                 <div class="details">
                                     <p>{{ __('medical.dr') }}
@@ -41,8 +41,7 @@
                 @endforelse
             </div>
             <div class="container-form full-center">
-                <h1>{{ __('medical.titles.historical') }}</h1>
-
+                <x-form.titles :value="__('medical.titles.historical')" size="index" />
                 <table>
                     <thead>
                         <tr>

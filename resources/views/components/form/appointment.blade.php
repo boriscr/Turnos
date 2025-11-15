@@ -73,8 +73,8 @@
     <!-- Paso 2 - Horarios -->
     <div class="form-step" data-step="2">
         <div class="form-grid">
+            <x-field-with-icon icon="brightness-high-fill" :label="__('appointment.shift.title')" />
             <div class="box-style">
-                <h3>{{ __('appointment.shift.title') }}</h3>
                 <div class="item-style">
                     <x-form.text-input type="radio" name="shift" value="morning" :label="__('appointment.shift.morning_shift')"
                         checkedValue="{{ !isset($create) ? ($appointment->shift == 'morning' ? 'checked' : '') : '' }}" />
@@ -84,22 +84,28 @@
                         checkedValue="{{ !isset($create) ? ($appointment->shift == 'night' ? 'checked' : '') : '' }}" />
                 </div>
             </div>
+            <x-field-with-icon icon="clipboard2-data-fill" :label="__('appointment.schedule.number_of_reservations')" />
 
-            <x-form.text-input type="number" name="number_of_reservations" :label="__('appointment.schedule.number_of_reservations')"
-                value="{{ !isset($create) ? $appointment->number_of_reservations : old('number_of_reservations') }}"
-                min="1" :required="true" />
+            <div class="item-box-style">
+                <button type="button" id="decrement-btn">-</button>
+                <x-form.text-input type="number" name="number_of_reservations"
+                    value="{{ !isset($create) ? $appointment->number_of_reservations : old('number_of_reservations') }}"
+                    min="1" />
+                <button type="button" id="increment-btn">+</button>
+            </div>
+            <br>
+            <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.title')" />
+            <div class="item-box-style">
+                <x-form.text-input type="time" name="start_time" :label="__('appointment.schedule.start_time')"
+                    value="{{ !isset($create) ? $appointment->start_time->format('H:i') : old('start_time') }}"
+                    :required="true" />
 
-            <x-form.text-input type="time" name="start_time" :label="__('appointment.schedule.start_time')"
-                value="{{ !isset($create) ? $appointment->start_time->format('H:i') : old('start_time') }}"
-                :required="true" />
-
-            <x-form.text-input type="time" name="end_time" :label="__('appointment.schedule.end_time')"
-                value="{{ !isset($create) ? $appointment->end_time->format('H:i') : old('end_time') }}"
-                :required="true" />
-
+                <x-form.text-input type="time" name="end_time" :label="__('appointment.schedule.end_time')"
+                    value="{{ !isset($create) ? $appointment->end_time->format('H:i') : old('end_time') }}"
+                    :required="true" />
+            </div>
+            <br>
             <div class="box-style">
-                <br>
-                <h3>{{ __('appointment.schedule.title') }}</h3>
                 <div class="item-style">
                     <x-form.text-input type="radio" name="appointment_type" id="single_slot" value="single_slot"
                         :label="__('appointment.schedule.single')"

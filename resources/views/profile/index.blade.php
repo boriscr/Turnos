@@ -43,7 +43,7 @@
             <!-- Notificaciones importantes -->
             <a href="{{ route('myAppointments.index') }}">
                 <div class="card-profile full-center">
-                    <h1> {{ __('navbar.my_appointments') }}</h1>
+                    <strong>{{ __('navbar.my_appointments') }}</strong>
                     <i class="bi bi-journal-text"></i>
                 </div>
             </a>
@@ -52,7 +52,7 @@
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
-                    <h1>{{ __('medical.notifications') }}</h1>
+                    <strong>{{ __('medical.notifications') }}</strong>
                     <i class="bi bi-bell-fill"></i>
                 </div>
             </a>
@@ -61,7 +61,7 @@
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
-                    <h1>Soporte</h1>
+                    <strong>Soporte</strong>
                     <i class="bi bi-chat-square-fill"></i>
                 </div>
             </a>
@@ -70,7 +70,7 @@
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
-                    <h1>{{ __('medical.tutorial') }}</h1>
+                    <strong>{{ __('medical.tutorial') }}</strong>
                     <i class="bi bi-mortarboard"></i>
                 </div>
             </a>
@@ -79,7 +79,7 @@
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
-                    <h1>{{ __('medical.bases_and_conditions') }}</h1>
+                    <strong>{{ __('medical.bases_and_conditions') }}</strong>
                     <i class="bi bi-file-earmark-text"></i>
                 </div>
             </a>
@@ -93,7 +93,7 @@
                 <div class="card-profile">
                     <div class="element-container">
                         <i class="bi bi-calendar-check-fill"></i>
-                        <p>{{ __('navbar.my_appointments') }}</p>
+                        <strong>{{ __('navbar.my_appointments') }}</strong>
                     </div>
                     <i class="bi bi-chevron-right"></i>
                 </div>
@@ -106,7 +106,7 @@
                     </div>
                     <div class="element-container">
                         <i class="bi bi-bell-fill"></i>
-                        <p>{{ __('medical.notifications') }}</p>
+                        <strong>{{ __('medical.notifications') }}</strong>
                     </div>
                     <i class="bi bi-chevron-right"></i>
                 </div>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="element-container">
                         <i class="bi bi-chat-square-fill"></i>
-                        <p>Soporte</p>
+                        <type="">Soporte</type="">
                     </div>
                     <i class="bi bi-chevron-right"></i>
                 </div>
@@ -131,7 +131,7 @@
                     </div>
                     <div class="element-container">
                         <i class="bi bi-mortarboard"></i>
-                        <p>{{ __('medical.tutorial') }}</p>
+                        <type="">{{ __('medical.tutorial') }}</type="">
                     </div>
                     <i class="bi bi-chevron-right"></i>
                 </div>
@@ -143,7 +143,7 @@
                     </div>
                     <div class="element-container">
                         <i class="bi bi-file-earmark-text"></i>
-                        <p>{{ __('medical.bases_and_conditions') }}</p>
+                        <type="">{{ __('medical.bases_and_conditions') }}</type="">
                     </div>
                     <i class="bi bi-chevron-right"></i>
                 </div>

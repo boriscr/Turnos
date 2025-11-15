@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <h1>{{ __('medical.titles.user_index_title') }}</h1>
+            <x-form.titles :value="__('medical.titles.user_index_title')" size="index"/>
             <x-form.search resource="users" />
             <table>
                 <thead>

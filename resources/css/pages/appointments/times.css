@@ -1,0 +1,28 @@
+.item-box-style {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    .item {
+        width: 45%;
+    }
+
+    button {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 0.5rem;
+        background-color: color-mix(in srgb, var(--secondary_color_btn) 70%, #00000000 20%);
+        border: 1px solid var(--secondary_color_btn);
+        color: var(--btn_text_color);
+        cursor: pointer;
+    }
+
+    input {
+        text-align: center;
+    }
+}

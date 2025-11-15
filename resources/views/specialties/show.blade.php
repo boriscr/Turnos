@@ -1,7 +1,8 @@
 <x-app-layout>
     @if (isset($specialty))
         <div class="content-wrapper">
-            <h1>{{ __('medical.titles.details') }}</h1>
+            <x-form.titles :value="__('medical.titles.details')" size="show" />
+
             <div class="section-container full-center">
                 <div class="card">
                     <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$specialty->name" />
@@ -27,7 +28,7 @@
         <br>
         <div class="main-table full-center">
             <div class="container-form full-center">
-                <h1>{{ __('medical.titles.doctor_show_title') }}</h1>
+                <x-form.titles :value="__('medical.titles.doctor_show_title')" size="index" />
                 <table>
                     <thead>
                         <tr>

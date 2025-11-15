@@ -2,7 +2,7 @@
 
     <div class="main full-center">
         <div class="container-form full-center">
-            <h1>{{ __('medical.titles.section_title_edit') }}</h1>
+            <x-form.titles :value="__('medical.titles.section_title_edit')" size="edit-create" />
             @if (isset($user))
                 <form action="{{ route('users.update', $user->id) }}" method="post">
                     @csrf
