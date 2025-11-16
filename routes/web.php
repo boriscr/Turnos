@@ -13,8 +13,9 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\MyAppointmentsController;
 use App\Http\Controllers\AppointmentHistoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 
-Route::view('/', 'home')->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     //Solicitud de Appointments Reservas

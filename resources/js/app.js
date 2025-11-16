@@ -5,6 +5,11 @@ import '../js/layouts/get-list-of-countries.js';
 //pages************************/
 import '../js/pages/dashboard/navbar.js';
 
+/*Home */
+import '../js/pages/home/carrusel-img.js';
+import '../js/pages/home/carrusel-specialties.js';
+
+/*Doctors */
 import '../js/pages/doctors/specialty.js';
 import '../js/pages/profiles/anular-btn.js';
 import '../js/pages/profiles/profile-photo.js';

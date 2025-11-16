@@ -40,7 +40,7 @@
                 </div>
             @else
                 <p style="font-size: 1.3rem; margin-bottom: 2.5rem;">
-                    Comienza en menos de 30 segundos
+                    Comienza en menos de 3 minutos
                 </p>
                 <div>
                     <a href="{{ route('login') }}" class="btn-secondary">Iniciar sesión</a>
@@ -49,33 +49,20 @@
             @endauth
         </div>
     </section>
-
-    <!-- ====== AQUÍ PUEDES AGREGAR EL RESTO DE TU PÁGINA ====== -->
-    <!-- Ejemplo de sección siguiente (ya no será tapada) -->
-    <section style="padding: 5rem 2rem; text-align: center;">
-        <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">Especialidades disponibles</h2>
-        <p>Aquí irán tus cards, testimonios, etc.</p>
+    <section class="specialties-section">
+        <h2 class="section-title">Especialidades disponibles</h2>
+        <div class="specialties-carousel">
+            <div class="carousel-track" id="specialtiesTrack">
+                @forelse ($specialties as $item)
+                    <div class="specialty-card">
+                        <div class="card-accent"></div>
+                        <h3>{{ $item->name }}</h3>
+                        <p>{{ $item->description }}</p>
+                    </div>
+                @empty
+                    <p class="empty-message">No hay especialidades disponibles en este momento.</p>
+                @endforelse
+            </div>
+        </div>
     </section>
-
-    <!-- JavaScript del carrusel (sin dependencias) -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const slides = document.querySelectorAll('.carousel-slide');
-            let current = 0;
-
-            const nextSlide = () => {
-                slides[current].classList.remove('active');
-                current = (current + 1) % slides.length;
-                slides[current].classList.add('active');
-            };
-
-            setInterval(nextSlide, 6500);
-
-            // Precargar imágenes
-            slides.forEach(slide => {
-                const img = new Image();
-                img.src = slide.style.backgroundImage.replace('url("', '').replace('")', '');
-            });
-        });
-    </script>
 </x-app-layout>

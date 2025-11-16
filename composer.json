@@ -17,7 +17,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",
-        "fakerphp/faker": "^1.23",
+        "fakerphp/faker": "^1.24",
         "laravel-lang/lang": "^15.22",
         "laravel/breeze": "^2.3",
         "laravel/pail": "^1.2.2",

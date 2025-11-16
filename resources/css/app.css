@@ -18,10 +18,14 @@
 @import 'pages/components/formulario-multipaso-appointment.css';
 @import 'pages/components/forms.css';
 @import 'pages/components/form-settings.css';
-/*pages*/
+/*------------------pages*/
+/*Dashboard*/
 @import 'pages/dashboard/index.css';
 @import 'pages/dashboard/navbar-movile.css';
-@import 'pages/home/home.css';
+/**Home*/
+@import 'pages/home/carrusel-img.css';
+@import 'pages/home/carrusel-specialties.css';
+
 
 @import 'pages/myAppointments/myAppointments.css';
 @import 'pages/myAppointments/show.css';
