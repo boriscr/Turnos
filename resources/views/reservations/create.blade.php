@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <div class="main full-center">
-        <x-form.titles :value="__('medical.titles.book_a_new_appointment')" size="edit-create"/>
+        <x-form.titles :value="__('medical.titles.book_a_new_appointment')" size="edit-create" />
         <div class="container-form full-center">
             <!-- Indicador de pasos -->
             <div class="progress-container">
@@ -51,6 +51,9 @@
                             <input type="radio" class="btn-check" name="patient_type_radio" id="patient_type_other"
                                 value="other">
                             <label class="btn btn-outline-primary" for="patient_type_other">
+                                <div class="feature">
+                                    {{ __('medical.feature') }}
+                                </div>
                                 <i class="bi bi-person-plus-fill"></i> {{ __('medical.titles.for_other_person') }}
                             </label>
                         </div>

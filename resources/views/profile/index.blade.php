@@ -43,17 +43,18 @@
             <!-- Notificaciones importantes -->
             <a href="{{ route('myAppointments.index') }}">
                 <div class="card-profile full-center">
-                    <strong>{{ __('navbar.my_appointments') }}</strong>
                     <i class="bi bi-journal-text"></i>
+                    <strong>{{ __('navbar.my_appointments') }}</strong>
                 </div>
             </a>
+
             <a href="#">
                 <div class="card-profile full-center feature-style">
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
-                    <strong>{{ __('medical.notifications') }}</strong>
                     <i class="bi bi-bell-fill"></i>
+                    <strong>{{ __('medical.notifications') }}</strong>
                 </div>
             </a>
             <a href="#">
@@ -61,8 +62,8 @@
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
-                    <strong>Soporte</strong>
                     <i class="bi bi-chat-square-fill"></i>
+                    <strong>Soporte</strong>
                 </div>
             </a>
             <a href="#">
@@ -70,8 +71,8 @@
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
-                    <strong>{{ __('medical.tutorial') }}</strong>
                     <i class="bi bi-mortarboard"></i>
+                    <strong>{{ __('medical.tutorial') }}</strong>
                 </div>
             </a>
             <a href="#">
@@ -79,8 +80,23 @@
                     <div class="feature">
                         {{ __('medical.feature') }}
                     </div>
-                    <strong>{{ __('medical.bases_and_conditions') }}</strong>
                     <i class="bi bi-file-earmark-text"></i>
+                    <strong>{{ __('medical.bases_and_conditions') }}</strong>
+                </div>
+            </a>
+            {{-- Cambio de contraseña --}}
+            <a href="{{ route('password.change') }}">
+                <div class="card-profile full-center">
+                    <i class="bi bi-shield-lock-fill"></i>
+                    <strong>Cambio de contraseña</strong>
+                </div>
+            </a>
+
+            {{-- Eliminación de cuenta --}}
+            <a href="{{ route('deleteCountForm') }}">
+                <div class="card-profile full-center">
+                    <i class="bi bi-person-x-fill"></i>
+                    <strong>Eliminar cuenta</strong>
                 </div>
             </a>
         </div>
@@ -98,6 +114,7 @@
                     <i class="bi bi-chevron-right"></i>
                 </div>
             </a>
+
             <!-- Notificaciones importantes -->
             <a href="#">
                 <div class="card-profile feature-style">
@@ -148,7 +165,26 @@
                     <i class="bi bi-chevron-right"></i>
                 </div>
             </a>
-
+            <!-- contraseña -->
+            <a href="{{ route('myAppointments.index') }}">
+                <div class="card-profile">
+                    <div class="element-container">
+                        <i class="bi bi-shield-lock-fill"></i>
+                        <strong>Cambio de contraseña</strong>
+                    </div>
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </a>
+            <!-- cuenta -->
+            <a href="{{ route('myAppointments.index') }}">
+                <div class="card-profile">
+                    <div class="element-container">
+                        <i class="bi bi-trash-fill"></i>
+                        <strong>Eliminacion de cuenta</strong>
+                    </div>
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </a>
             <!-- Authentication -->
             <form method="POST" action="{{ route('logout') }}">
                 @csrf

@@ -29,11 +29,21 @@ Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     //Cancelar reserva (turno) - solo para usuarios / pacientes
     Route::delete('/myAppointment/{id}/cancel', [MyAppointmentsController::class, 'destroy'])
         ->name('myAppointments.destroy');
-    // Profile
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::get('/profile/edit/{id}', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Profile Routes
+    Route::prefix('profile')->middleware('auth')->group(function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+        Route::get('/edit/{id}', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/{id}', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+        // Password Change Routes
+        Route::get('/change-password', [ProfileController::class, 'showChangePasswordForm'])
+            ->name('password.change');
+        Route::get('/deleteCountForm', [ProfileController::class, 'deleteCountForm'])
+            ->name('deleteCountForm');
+        /*Route::post('/change-password', [ProfileController::class, 'changePassword'])
+            ->name('password.update');*/
+    });
 });
 
 Route::middleware(['auth', 'role:doctor|admin'])->group(function () {

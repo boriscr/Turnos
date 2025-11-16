@@ -1,3 +1,8 @@
+/*Seccion cambio de contraseña*/
+.background-color-form {
+    background-color: var(--light_application_background);
+}
+
 /*Seccion 1. datos personales img*/
 .content-date-profile {
     box-shadow: 0px 0px 10px rgba(150, 150, 150, 0.5);
@@ -60,15 +65,14 @@
 .section-container-profile {
     display: flex;
     justify-content: center;
-    box-shadow: 0px 0px 10px rgba(150, 150, 150, 0.5);
-    border-radius: 10px;
     flex-wrap: wrap;
-    gap: 5px;
-    padding: 15px 2px;
+    padding: 30px 2px;
 
 }
 
 .desktop-elements {
+
+    gap: 10px;
 
     .card-profile {
         position: relative;
@@ -179,6 +183,19 @@
 .mobile-elements {
     display: none;
 }
+
+
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+
+    /*Seccion cambio de contraseña*/
+    .background-color-form {
+        background-color: var(--dark_application_background);
+    }
+}
+
+
 
 @media (max-width: 639px) {
     .section-container-profile {

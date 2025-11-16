@@ -1,5 +1,6 @@
 /* ===== ESTILOS MÓVIL ===== */
 @media (max-width: 768px) {
+
     /* Ocultar sidebar en móvil */
     .sidebar {
         display: none !important;
@@ -51,6 +52,12 @@
         background: none;
         padding: 5px;
         transition: transform 0.3s ease;
+
+        span {
+            i {
+                color: var(--light_text_color);
+            }
+        }
     }
 
     .mobile-toggle.active {
@@ -139,7 +146,7 @@
     .mobile-nav-links {
         max-height: 60vh;
     }
-    
+
     .mobile-nav-links a {
         padding: 18px 25px;
         font-size: 1.1rem;
@@ -155,6 +162,7 @@
 
 /* Dark mode para móvil */
 @media (prefers-color-scheme: dark) and (max-width: 768px) {
+
     .mobile-nav,
     .mobile-nav-header,
     .mobile-nav-links {
@@ -164,6 +172,12 @@
 
     .mobile-toggle {
         color: var(--dark_text_color);
+
+        span {
+            i {
+                color: var(--dark_text_color);
+            }
+        }
     }
 
     .mobile-nav-links a {

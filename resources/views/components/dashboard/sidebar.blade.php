@@ -14,7 +14,7 @@
         <li>
             <a href="{{ route('dashboard.index') }}"
                 class="nav-link {{ request()->routeIs('dashboard.index') ? 'active' : '' }}">
-                <i class="bi bi-house-fill"></i>
+                <i class="bi bi-bar-chart-fill"></i>
                 <span>{{ __('dashboard.dashboard') }}</span>
             </a>
         </li>
@@ -95,12 +95,16 @@
             <span>{{ __('dashboard.dashboard') }}</span>
         </div>
         <button class="mobile-toggle">
-            <i class="bi bi-list"></i>
+            <span><i class="bi bi-list"></i></span>
         </button>
     </div>
     <ul class="mobile-nav-links">
+        <li><a href="{{ route('home') }}"
+                class="{{ request()->routeIs('home') ? 'active' : '' }}"><i class="bi bi-house-fill"></i>
+                {{ __('navbar.home') }}</a></li>
+
         <li><a href="{{ route('dashboard.index') }}"
-                class="{{ request()->routeIs('dashboard.index') ? 'active' : '' }}"><i class="bi bi-house-fill"></i>
+                class="{{ request()->routeIs('dashboard.index') ? 'active' : '' }}"><i class="bi bi-bar-chart-fill"></i>
                 {{ __('dashboard.dashboard') }}</a></li>
         <li><a href="#" class="{{ request()->routeIs('dashboard.analytics') ? 'active' : '' }} feature-style"><i
                     class="bi bi-pie-chart-fill"></i> {{ __('dashboard.analytics') }}

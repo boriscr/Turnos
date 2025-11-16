@@ -170,7 +170,7 @@
                             </x-dropdown-link>
                             @role('admin')
                                 <x-dropdown-link :href="route('dashboard.index')" :active="request()->routeIs('dashboard.index')">
-                                    <i class="bi bi-speedometer2"></i><span>{{ __('Dashboard') }}</span>
+                                    <i class="bi bi-bar-chart-fill"></i><span>{{ __('Dashboard') }}</span>
                                 </x-dropdown-link>
                             @endrole
                             <!-- Authentication -->

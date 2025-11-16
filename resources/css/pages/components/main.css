@@ -17,17 +17,19 @@ a {
 h1 {
     text-align: center;
     font-weight: bold;
-    font-size: 40px !important;
-    margin: 15px 0px !important;
+    font-size: 37px !important;
+    margin: 15px !important;
     color: var(--title_text_color);
 }
 
 h2 {
     font-size: 31px !important;
+    margin: 15px !important;
 }
 
 h3 {
     font-size: 25px !important;
+    margin: 15px !important;
 }
 
 h4 {
