@@ -68,7 +68,7 @@ a {
 
 .card {
     color: var(--light_text_color);
-    background-color: transparent;
+    background-color: var(--light_application_background);
 }
 
 .no_data,
@@ -136,6 +136,7 @@ a {
 
     .card {
         color: var(--dark_text_color);
+        background-color: var(--dark_application_background);
     }
 }
 

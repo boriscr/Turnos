@@ -166,7 +166,7 @@
                 </div>
             </a>
             <!-- contraseña -->
-            <a href="{{ route('myAppointments.index') }}">
+            <a href="{{ route('password.change') }}">
                 <div class="card-profile">
                     <div class="element-container">
                         <i class="bi bi-shield-lock-fill"></i>
@@ -176,7 +176,7 @@
                 </div>
             </a>
             <!-- cuenta -->
-            <a href="{{ route('myAppointments.index') }}">
+            <a href="{{ route('deleteCountForm') }}">
                 <div class="card-profile">
                     <div class="element-container">
                         <i class="bi bi-trash-fill"></i>

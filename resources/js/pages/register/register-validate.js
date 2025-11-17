@@ -178,7 +178,12 @@ document.addEventListener('DOMContentLoaded', function () {
             validatePasswordStrength(this.value);
         });
     }
-
+    const passwordInputUpdate = document.getElementById('update_password_password');
+    if (passwordInputUpdate) {
+        passwordInputUpdate.addEventListener('input', function () {
+            validatePasswordStrength(this.value);
+        });
+    }
     // Función para mostrar fortaleza de contraseña
     function validatePasswordStrength(password) {
         const requirements = {

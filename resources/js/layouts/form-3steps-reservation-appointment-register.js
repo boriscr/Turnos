@@ -255,20 +255,13 @@ if (window.location.pathname.includes('/reservations/create') ||
                 title: '¿Confirmar registro?',
                 html: `
 <div class="card p-3 border-danger">
-    <h5 class="text-danger">🚨 Verificación Final de Datos para su cuenta🚨</h5>
-    <p>Los datos personales que registrará se utilizarán exclusivamente para la <strong>gestión de sus turnos</strong> y su correcta identificación hospitalaria.</p>
-    <p class="font-weight-bold">
-        Es crucial que la información sea precisa:
-    </p>
-    <blockquote class="blockquote">
-        Algunos de estos datos <strong>no podrán ser editados</strong> tras la creación de la cuenta, ya que establecen su identidad única en el sistema.
-    </blockquote>
-    <li class="mt-3">
-        <strong>Consecuencias:</strong> La inexactitud en sus datos podría impedirle tomar o validar sus turnos.
-    </li>
-    <li class="mt-3">
-        <strong>Requisito:</strong> Revise la información y asegúrese de que <strong>coincida exactamente con su Documento Nacional de Identidad (DNI)</strong> antes de confirmar el registro.
-    </li>
+    <strong class="text-danger">🚨 Verifique sus datos 🚨</strong>
+    <p class="my-2">Esta información <strong>gestionará sus turnos</strong> y su identificación hospitalaria.</p>
+    <p class="font-weight-bold mb-2">⚠️ <strong>Importante:</strong> Algunos datos <strong>no podrán editarse</strong> después.</p>
+    <ul class="mb-1">
+        <li>Asegúrese de que coincidan <strong>exactamente con su DNI</strong>.</li>
+        <li>Datos incorrectos pueden impedir la gestión de sus turnos.</li>
+    </ul>
 </div>
                 `,
                 icon: 'question',

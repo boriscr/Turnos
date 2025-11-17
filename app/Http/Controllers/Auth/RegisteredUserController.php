@@ -39,10 +39,10 @@ class RegisteredUserController extends Controller
         $argentinaId = DB::table('countries')
             ->where('name', 'Argentina')
             ->value('id');
-        $genders=Gender::where('status','=',true)->get();
+        $genders = Gender::where('status', '=', true)->get();
         $disabledNav = true;
 
-        return view('auth.register', compact('disabledNav', 'countries', 'argentinaId','genders'));
+        return view('auth.register', compact('disabledNav', 'countries', 'argentinaId', 'genders'));
     }
 
 
@@ -80,13 +80,15 @@ class RegisteredUserController extends Controller
 
         session()->flash('success', [
             'title' => 'Registro exitoso',
-            'html' => '<h1>¡Holaa!</h1> 
-                <h2>Tu cuenta ha sido creada exitosamente.</h2>
-                <h3>Te invitamos a leer las normas de la aplicación para aprovecharla al máximo y evitar problemas.</h3>
-                <a href="">Revisar ahora</a>',
+            'html' => '<strong>¡Holaa!</strong> 
+                <div class="card p-3">
+                <p class="my-2">Tu cuenta ha sido creada exitosamente.</p>
+                <p class="font-weight-bold mb-2">Te invitamos a leer las normas de la aplicación para aprovecharla al máximo y evitar problemas.</p>
+                <a href="" class="secondary-btn">Revisar ahora</a>
+            </div>',
             'icon' => 'success',
         ]);
 
-        return redirect(route('profile.index', absolute: false));
+        return redirect(route('home', absolute: false));
     }
 }

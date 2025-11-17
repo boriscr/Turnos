@@ -128,34 +128,6 @@ class ProfileController extends Controller
     {
         return view('profile.deleteCountForm');
     }
-    /**
-     * Procesar el cambio de contraseña
-     */
-    public function changePassword(Request $request)
-    {
-        $request->validate([
-            'current_password' => ['required', 'string'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
-        $user = Auth::user();
-
-        // Verificar que la contraseña actual sea correcta
-        if (!Hash::check($request->current_password, $user->password)) {
-            throw ValidationException::withMessages([
-                'current_password' => __('La contraseña actual no es correcta.'),
-            ]);
-        }
-
-        // Actualizar la contraseña
-        $user->update([
-            'password' => Hash::make($request->password),
-        ]);
-
-        return redirect()->route('profile.index')
-            ->with('success', __('Contraseña actualizada correctamente.'));
-    }
-
 
     /**
      * Delete the user's account.

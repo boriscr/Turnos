@@ -31,7 +31,7 @@
 </head>
 
 <body>
-    <div class="main full-center">
+    <div class="min-h-screen main full-center">
         <div>
             <a href="/">
                 <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
