@@ -251,7 +251,7 @@ class ReservationController extends Controller
             $availableAppointment = AvailableAppointment::all();
             $appointments = Appointment::where('status', 1)->get();
             $specialties = Specialty::where('status', 1)->get();
-            return view('reservations/create', compact('availableAppointment', 'appointments', 'specialties'));
+            return view('reservations/create', compact('availableAppointment', 'appointments', 'specialties','user'));
         } else {
             if (
                 !$user->status &&

@@ -62,20 +62,16 @@
                     <!-- Sección para "Para mí" -->
                     <div id="for-myself-section" class="patient-section">
                         <div class="item">
-                            <small>{{ __('contact.name') }} </small>
-                            <p>{{ Auth::user()->name }}</p>
-                            <small>{{ __('contact.surname') }} </small>
-                            <p>{{ Auth::user()->surname }}</p>
-                            <small>{{ __('contact.email') }} </small>
-                            <p>{{ Auth::user()->email }}</p>
-                            <small>{{ __('contact.phone') }} </small>
-                            <p>{{ Auth::user()->phone }}</p>
+                            <small>{{ __('contact.name_and_surname') }} </small>
+                            <p>{{$user->name.' '.$user->surname}}</p>
                             <small>{{ __('contact.idNumber') }} </small>
-                            <p>{{ Auth::user()->idNumber }}</p>
+                            <p>{{ $user->idNumber }}</p>
                             <small>{{ __('contact.address') }} </small>
-                            <p>{{ Auth::user()->address }}</p>
-                            <small>{{ __('contact.birthdate') }} </small>
-                            <p>{{ Auth::user()->birthdate }}</p>
+                            <p>{{ $user->address }}</p>
+                            <small>{{ __('contact.phone') }} </small>
+                            <p>{{ $user->phone }}</p>
+                            <small>{{ __('contact.email') }} </small>
+                            <p>{{ $user->email }}</p>
                         </div>
                     </div>
 

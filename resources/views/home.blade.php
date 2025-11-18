@@ -21,12 +21,9 @@
                 style="background-image: url('https://media.jujuyalmomento.com/p/f29efc4217737a3c6be9ebfdc268a8d5/adjuntos/260/imagenes/002/153/0002153671/1200x0/smart/nuestra-senora-del-rosariopng.png')">
             </div>
         </div>
-
         <div class="hero-overlay"></div>
-
         <div class="hero-content">
             <div class="box-content">
-                <h1>{{ config('app.institution_name') }}</h1>
                 <x-form.titles :value="config('app.institution_name')" size="show" />
                 <p>
                     <strong>{{ config('app.welcome_message', 'Turnos médicos online en segundos.<br>Sin filas, sin demoras.') }}
@@ -65,4 +62,51 @@
             </div>
         </div>
     </section>
+    @php
+        // Definimos los tipos de alerta que SweetAlert2 puede mostrar
+        $alertTypes = ['success', 'error', 'warning', 'info', 'question'];
+        $alertData = null;
+
+        // Buscamos si existe ALGUNO de los tipos de alerta en la sesión
+        foreach ($alertTypes as $type) {
+            if (session()->has($type)) {
+                $alertData = [
+                    'type' => $type,
+                    'data' => session($type),
+                ];
+                break; // Encontramos la alerta, salimos del bucle
+            }
+        }
+    @endphp
+
+    @if ($alertData)
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const data = @json($alertData['data']);
+                const iconType = '{{ $alertData['type'] }}';
+
+                // Combinar los campos de texto si existen
+                let alertHtml = data.text || '';
+                if (data.text2) {
+                    alertHtml += '<br><span>'+data.text2+'</span><br>';
+                }
+                if (data.text3) {
+                    alertHtml += '<span>'+data.text3+'</span>';
+                }
+
+                // Mostrar la alerta con SweetAlert2
+                Swal.fire({
+                    title: data.title || (iconType.charAt(0).toUpperCase() + iconType.slice(1) +
+                    '!'), // Capitaliza el tipo como título por defecto
+                    html: alertHtml, // Usamos 'html' para permitir negritas y etiquetas
+                    icon: data.icon || iconType,
+                    confirmButtonText: data.confirmButtonText || 'Aceptar',
+                    allowOutsideClick: data.allowOutsideClick ?? true,
+                    // Opcional: para mejor visualización del texto HTML
+
+                    // Asegúrate de que los estilos personalizados para 'FEATURE' funcionen si es necesario.
+                });
+            });
+        </script>
+    @endif
 </x-app-layout>

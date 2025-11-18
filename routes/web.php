@@ -14,8 +14,9 @@ use App\Http\Controllers\MyAppointmentsController;
 use App\Http\Controllers\AppointmentHistoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
-
+/*Alegrar una alerta al inicio de la pagina ruta / */
 Route::get('/', [HomeController::class, 'index'])->name('home');
+//Rutas protegidas por autenticacion y roles    
 
 Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     //Solicitud de Appointments Reservas
