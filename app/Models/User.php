@@ -35,6 +35,7 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
+        'faults',
     ];
 
     // Métodos para obtener los nombres (sin relaciones Eloquent)

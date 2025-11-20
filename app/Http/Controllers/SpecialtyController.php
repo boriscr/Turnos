@@ -16,6 +16,7 @@ class SpecialtyController extends Controller
     public function index()
     {
         $specialties = Specialty::select('id', 'name', 'description', 'status')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
         return view('specialties/index', compact('specialties'));
     }

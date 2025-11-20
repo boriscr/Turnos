@@ -15,4 +15,5 @@ return [
     'address' => 'Address',
     'phone' => 'Phone',
     'name_and_surname' => 'Name and surname',
+    'faults' => 'Faults',
 ];

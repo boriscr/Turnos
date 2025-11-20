@@ -248,10 +248,10 @@ class ReservationController extends Controller
             $turnos_activos < $turnos_limite_diario &&
             $turnos_limite_diario > 0
         ) {
-            $availableAppointment = AvailableAppointment::all();
-            $appointments = Appointment::where('status', 1)->get();
-            $specialties = Specialty::where('status', 1)->get();
-            return view('reservations/create', compact('availableAppointment', 'appointments', 'specialties','user'));
+            $specialties = Specialty::select('id', 'name', 'status')->where('status', true)
+                ->orderBy('created_at', 'desc')
+                ->get();
+            return view('reservations/create', compact('specialties', 'user'));
         } else {
             if (
                 !$user->status &&
@@ -307,7 +307,8 @@ class ReservationController extends Controller
     public function getDoctorsBySpecialty($specialty_id)
     {
         $doctors = Doctor::where('specialty_id', $specialty_id)
-            ->where('status', 1)
+            ->where('status', true)
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json(['doctors' => $doctors]);
@@ -317,9 +318,22 @@ class ReservationController extends Controller
     public function getAvailableReservationByName($doctor_id)
     {
         if ($doctor_id) {
-            $appointments = Appointment::where('doctor_id', $doctor_id)
-                ->where('status', 1)
+            $appointments = Appointment::select('id', 'name', 'address', 'shift')
+                ->where('doctor_id', $doctor_id)
+                ->where('status', true)
+                ->orderBy('updated_at', 'desc')
                 ->get();
+
+            // Transformar los datos para incluir las traducciones
+            $appointments->transform(function ($appointment) {
+                return [
+                    'id' => $appointment->id,
+                    'name' => $appointment->name,
+                    'address' => $appointment->address, // ← Asegúrate que esto esté incluido
+                    'shift' => $appointment->shift ? __("appointment.shift.{$appointment->shift}_shift") : null,
+                    'shift_key' => $appointment->shift,
+                ];
+            });
 
             return response()->json(['appointments' => $appointments]);
         } else {

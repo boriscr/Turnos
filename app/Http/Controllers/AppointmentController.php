@@ -58,7 +58,7 @@ class AppointmentController extends Controller
             }, function ($query) {
                 $query->where('status', 1);
             })
-            ->orderBy('name')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('appointments.create', compact('specialties'));
@@ -79,7 +79,7 @@ class AppointmentController extends Controller
                 }, function ($query) use ($id) {
                     $query->where('specialty_id', $id); // Todos los doctores de la especialidad
                 })
-                ->orderBy('name')
+                ->orderBy('created_at', 'desc')
                 ->get();
 
             return response()->json($doctors);
@@ -339,7 +339,7 @@ class AppointmentController extends Controller
             }, function ($query) {
                 $query->where('status', 1);
             })
-            ->orderBy('name')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         // Procesar available_time_slots para la vista

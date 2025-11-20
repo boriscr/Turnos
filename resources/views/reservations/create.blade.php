@@ -63,7 +63,7 @@
                     <div id="for-myself-section" class="patient-section">
                         <div class="item">
                             <small>{{ __('contact.name_and_surname') }} </small>
-                            <p>{{$user->name.' '.$user->surname}}</p>
+                            <p>{{ $user->name . ' ' . $user->surname }}</p>
                             <small>{{ __('contact.idNumber') }} </small>
                             <p>{{ $user->idNumber }}</p>
                             <small>{{ __('contact.address') }} </small>
@@ -154,6 +154,8 @@
     </div>
 
     <script>
+        let appointmentsData = []; // Variable global para almacenar los appointments
+
         document.addEventListener('DOMContentLoaded', function() {
             // Configuración dinámica según tema
             function getCurrentTheme() {
@@ -261,28 +263,34 @@
                 const dateText = dateSelect.options[dateSelect.selectedIndex].text;
                 const timeText = timeSelect.options[timeSelect.selectedIndex].text;
 
-                // Obtener datos adicionales (usando Blade)
+                // Obtener la dirección desde los datos guardados en appointmentsData
                 let address = 'No especificada';
-                @if (!empty($appointments))
-                    @foreach ($appointments as $item)
-                        if ({{ $item->id }} == appointmentNameSelect.value) {
-                            address = '{{ $item->address }}';
-                        }
-                    @endforeach
-                @endif
+                const selectedAppointmentId = appointmentNameSelect.value;
+
+                console.log('Selected appointment ID:', selectedAppointmentId); // DEBUG
+                console.log('Appointments data available:', appointmentsData); // DEBUG
+
+                if (selectedAppointmentId && appointmentsData.length > 0) {
+                    const selectedAppointment = appointmentsData.find(app => app.id == selectedAppointmentId);
+                    console.log('Found appointment:', selectedAppointment); // DEBUG
+
+                    if (selectedAppointment && selectedAppointment.address) {
+                        address = selectedAppointment.address;
+                    }
+                }
 
                 // Construir HTML de confirmación
                 confirmationDetails.innerHTML = `
-            <div class="confirmation-detail">
-                <p><strong>{{ __('reservation.title_name') }}:</strong> ${appointmentNameText}</p>
-                <p><strong>{{ __('contact.address') }}:</strong> ${address}</p>
-                <p><strong>{{ __('specialty.title') }}:</strong> ${specialtyText}</p>
-                <hr>
-                <p><strong>{{ __('medical.doctor') }}:</strong> ${doctorText}</p>
-                <p><strong>{{ __('reservation.date') }}:</strong> ${dateText}</p>
-                <p><strong>{{ __('reservation.time') }}:</strong> ${timeText}</p>
-            </div>
-        `;
+                <div class="confirmation-detail">
+                    <p><strong>{{ __('reservation.title_name') }}:</strong> ${appointmentNameText}</p>
+                    <p><strong>{{ __('contact.address') }}:</strong> ${address}</p>
+                    <p><strong>{{ __('specialty.title') }}:</strong> ${specialtyText}</p>
+                    <hr>
+                    <p><strong>{{ __('medical.doctor') }}:</strong> ${doctorText}</p>
+                    <p><strong>{{ __('reservation.date') }}:</strong> ${dateText}</p>
+                    <p><strong>{{ __('reservation.time') }}:</strong> ${timeText}</p>
+                </div>
+            `;
             }
         });
     </script>

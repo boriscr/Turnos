@@ -29,6 +29,8 @@ import '../js/pages/components/cancel-btn.js';
 import '../js/pages/components/delete-btn.js';
 import '../js/pages/components/table-acciones-movile.js';
 
+//users edit increment/decrement buttons
+import '../js/pages/users/edit/increment-decrement-btn.js';
 
 import Alpine from 'alpinejs';
 

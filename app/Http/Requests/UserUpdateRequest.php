@@ -64,6 +64,7 @@ class UserUpdateRequest extends FormRequest
             ],
             'role' => ['required', 'string', 'in:user,admin,doctor'],
             'status' => ['required', 'boolean'], // Cambiado de 'sometimes' a 'required'
+            'faults' => ['required', 'integer', 'min:0', 'max:1000'],
         ];
     }
 
@@ -119,6 +120,11 @@ class UserUpdateRequest extends FormRequest
             'role.in' => 'El rol seleccionado no es válido',
             'status.required' => 'El estado es obligatorio',
             'status.boolean' => 'El estado debe ser verdadero o falso',
+
+            'faults.required' => 'Las faltas son obligatorias',
+            'faults.integer' => 'Las faltas deben ser un número entero',
+            'faults.min' => 'Las faltas no pueden ser negativas',
+            'faults.max' => 'Las faltas no pueden exceder de :max',
         ];
     }
 

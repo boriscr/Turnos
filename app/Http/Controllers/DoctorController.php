@@ -33,7 +33,9 @@ class DoctorController extends Controller
     }
     public function create()
     {
-        $specialties = Specialty::select('id', 'name')->where('status', true)->get();
+        $specialties = Specialty::select('id', 'name')->where('status', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('doctors.create', compact('specialties'));
     }
 
@@ -87,7 +89,9 @@ class DoctorController extends Controller
     {
         try {
             $doctors = Doctor::findOrFail($id);
-            $specialties = Specialty::all();
+            $specialties = Specialty::select('id', 'name')->where('status', true)
+                ->orderBy('created_at', 'desc')
+                ->get();
             return view('doctors.edit', compact('doctors', 'specialties'));
         } catch (ModelNotFoundException $e) {
             Log::error('Médico no encontrado', ['id' => $id]);

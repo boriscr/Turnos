@@ -144,7 +144,7 @@ if (window.location.pathname.includes('/reservations/create')) {
             data.appointments.forEach(appointment => {
                 const option = document.createElement('option');
                 option.value = appointment.id;
-                option.textContent = appointment.name;
+                option.textContent = appointment.name + (appointment.shift ? ` (${appointment.shift})` : '');
                 selectTurno.appendChild(option);
             });
 
