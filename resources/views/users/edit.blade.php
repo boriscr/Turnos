@@ -87,8 +87,7 @@
                     </x-form.select>
                     <div class="item-box-style">
                         <button type="button" id="decrement-btn">-</button>
-                        <x-form.text-input type="number" name="faults"
-                            label="{{ __('contact.faults') }}" placeholder="{{ __('placeholder.surname') }}"
+                        <x-form.text-input type="number" name="faults" label="{{ __('contact.faults') }}"
                             minlength="0" maxlength="1000" value="{{ $user->faults }}" :required="true" />
                         <button type="button" id="increment-btn">+</button>
                     </div>

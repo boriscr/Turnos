@@ -15,4 +15,10 @@ if (window.location.pathname.includes('/users/edit')) {
         inputCantidad.value = parseInt(inputCantidad.value) + 1;
         inputCantidad.dispatchEvent(new Event('change', { bubbles: true }));
     });
+
+    inputCantidad.addEventListener('input', function () {
+        if (inputCantidad.value < 0 || isNaN(inputCantidad.value) || inputCantidad.value === '') {
+            inputCantidad.value = 0;
+        }
+    });
 }

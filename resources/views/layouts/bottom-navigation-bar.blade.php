@@ -79,10 +79,11 @@
                                         {{ __('navbar.view_appointments') }}</span>{{-- Ver Appointments --}} </a>
                             </li>
                             <li>
-                                {{-- Crear Appointments --}}
-                                <a href="{{ route('specialties.create') }}"
-                                    class="{{ request()->routeIs('specialties.create') ? 'active' : '' }}">
+
+                                <a href="{{ route('appointments.create') }}"
+                                    class="{{ request()->routeIs('appointments.create') ? 'active' : '' }}">
                                     <i class="bi bi-clock"></i><span> {{ __('navbar.create_appointment') }}</span>
+                                    {{-- Crear Appointments --}}
                                 </a>
                             </li>
                             <li>

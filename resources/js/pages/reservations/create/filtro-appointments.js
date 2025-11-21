@@ -1,72 +1,6 @@
 if (window.location.pathname.includes('/reservations/create')) {
     // Variables globales
     let todosLosTurnos = [];
-    let previewSettings = { amount: 30, unit: 'day' }; // Valores por defecto
-
-    // Función para obtener date actual en formato ISO (YYYY-MM-DD)
-    function obtenerFechaActual() {
-        try {
-            const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
-            return ahora.split(',')[0];
-        } catch (error) {
-            console.error("Error al obtener date actual:", error);
-            return new Date().toISOString().split('T')[0]; // Fallback
-        }
-    }
-
-
-    // Función para calcular date límite según configuración
-    function calcularFechaLimite() {
-        try {
-            const ahora = new Date();
-            switch (previewSettings.unit) {
-                case 'time':
-                    ahora.setHours(ahora.getHours() + previewSettings.amount);
-                    break;
-                case 'month':
-                    ahora.setMonth(ahora.getMonth() + previewSettings.amount);
-                    break;
-                case 'day':
-                default:
-                    ahora.setDate(ahora.getDate() + previewSettings.amount);
-                    break;
-            }
-            return ahora.toISOString().split('T')[0];
-        } catch (error) {
-            console.error("Error al calcular date límite:", error);
-            // Fallback: 30 días en el futuro
-            const fallback = new Date();
-            fallback.setDate(fallback.getDate() + 30);
-            return fallback.toISOString().split('T')[0];
-        }
-    }
-
-    // Función para filtrar appointments según configuración
-    function filtrarTurnos(appointments) {
-        try {
-            const fechaLimite = calcularFechaLimite();
-            const fechaActual = obtenerFechaActual();
-            const ahora = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
-            const horaActual = ahora.split(',')[1] ? ahora.split(',')[1].trim() : '00:00';
-
-            return appointments.filter(appointment => {
-                // Filtro por date límite
-                if (appointment.date > fechaLimite) return false;
-
-                // Filtro para appointments del día actual
-                if (appointment.date === fechaActual) {
-                    const turnoDate = new Date(`${appointment.date}T${appointment.time}:00`);
-                    const ahoraDate = new Date(`${fechaActual}T${horaActual}:00`);
-                    return turnoDate.getTime() >= ahoraDate.getTime();
-                }
-
-                return true;
-            });
-        } catch (error) {
-            console.error("Error al filtrar appointments:", error);
-            return []; // Retornar array vacío en caso de error
-        }
-    }
 
     // Función para limpiar selects dependientes
     function limpiarSelectsDependientes(selectInicial) {
@@ -155,33 +89,27 @@ if (window.location.pathname.includes('/reservations/create')) {
         }
     }
 
-    // Función para cargar appointments basados en el name de appointment seleccionado
     // Función para formatear fechas de manera segura
     function formatearFecha(dateString) {
         try {
-            // Extraer solo la parte de la fecha del formato ISO (YYYY-MM-DD)
             let fechaParte = dateString;
 
-            // Si viene en formato ISO completo, extraer solo la fecha
             if (dateString.includes('T')) {
                 fechaParte = dateString.split('T')[0];
             }
 
             const [year, month, day] = fechaParte.split('-').map(Number);
 
-            // Validar que sea una fecha válida
             if (!year || !month || !day || isNaN(year) || isNaN(month) || isNaN(day)) {
-                return fechaParte; // Devolver el string original si no se puede parsear
+                return fechaParte;
             }
 
             const fecha = new Date(year, month - 1, day);
 
-            // Verificar si la fecha es válida
             if (isNaN(fecha.getTime())) {
                 return fechaParte;
             }
 
-            // ELIMINAR la capitalización extra - devolver el formato natural de toLocaleDateString
             return fecha.toLocaleDateString('es-ES', {
                 weekday: 'long',
                 day: '2-digit',
@@ -191,7 +119,7 @@ if (window.location.pathname.includes('/reservations/create')) {
 
         } catch (error) {
             console.error('Error al formatear fecha:', error, dateString);
-            return dateString; // Devolver el string original en caso de error
+            return dateString;
         }
     }
 
@@ -223,11 +151,6 @@ if (window.location.pathname.includes('/reservations/create')) {
 
             const data = await response.json();
 
-            // Guardar configuración de previsualización
-            if (data.preview_settings) {
-                previewSettings = data.preview_settings;
-            }
-
             // Usar directamente los appointments que vienen del backend (ya filtrados)
             todosLosTurnos = data.appointments;
 
@@ -242,7 +165,7 @@ if (window.location.pathname.includes('/reservations/create')) {
             selectFecha.innerHTML = '<option value="">Seleccione una fecha</option>';
             fechasUnicas.forEach(date => {
                 const option = document.createElement('option');
-                option.value = date; // Guardamos solo la parte de la fecha (YYYY-MM-DD)
+                option.value = date;
                 option.textContent = formatearFecha(date);
                 selectFecha.appendChild(option);
             });
@@ -254,7 +177,6 @@ if (window.location.pathname.includes('/reservations/create')) {
         }
     }
 
-    // Función para cargar horas basadas en date seleccionada
     // Función para cargar horas basadas en date seleccionada
     async function cargarHoras(fechaSeleccionada) {
         const selectHora = document.getElementById('appointment_time');
@@ -270,33 +192,37 @@ if (window.location.pathname.includes('/reservations/create')) {
                 return;
             }
 
-            // Validación de todosLosTurnos
             if (!Array.isArray(todosLosTurnos)) {
                 throw new Error('La lista de turnos no es válida');
             }
 
-            // Filtrar los appointments disponibles para esa date (comparando solo la parte de la fecha)
+            // Filtrar appointments para la fecha seleccionada
             let availableAppointments = todosLosTurnos.filter(appointment => {
                 const appointmentDate = extraerSoloFecha(appointment.date);
                 return appointmentDate === fechaSeleccionada;
             });
 
-            // Obtener fecha y hora actual EN ARGENTINA
-            const ahoraArgentina = new Date().toLocaleString('en-CA', { timeZone: 'America/Argentina/Jujuy' });
-            const [fechaActual, horaActualCompleta] = ahoraArgentina.split(',');
-            const horaActual = horaActualCompleta ? horaActualCompleta.trim().substring(0, 5) : '00:00';
+            // Obtener fecha y hora actual en Argentina
+            const ahora = new Date();
+            const opciones = { timeZone: 'America/Argentina/Jujuy' };
+            const fechaActual = ahora.toLocaleDateString('en-CA', opciones);
+            const horaActual = ahora.toLocaleTimeString('en-CA', {
+                timeZone: 'America/Argentina/Jujuy',
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit'
+            });
 
-            // Filtrar horarios pasados si es el día actual
+            // Filtrar horarios pasados solo si es el día actual
             if (fechaSeleccionada === fechaActual) {
                 availableAppointments = availableAppointments.filter(appointment => {
                     return appointment.time >= horaActual;
                 });
             }
 
-            // Ordenar los horarios
+            // Ordenar y mostrar resultados
             availableAppointments.sort((a, b) => a.time.localeCompare(b.time));
 
-            // Mostrar resultados
             if (availableAppointments.length === 0) {
                 selectHora.innerHTML = '<option value="">Sin horario disponible</option>';
             } else {
@@ -314,17 +240,7 @@ if (window.location.pathname.includes('/reservations/create')) {
             selectHora.innerHTML = '<option value="">Error al cargar horarios</option>';
         }
     }
-    // Función para resaltar el siguiente campo (animación)
-    function resaltarSiguiente(actualId, siguienteId) {
-        const actual = document.getElementById(actualId);
-        const siguiente = document.getElementById(siguienteId);
 
-        // Quitar animación del actual (ya fue completado)
-        if (actual) actual.classList.remove('input-animado');
-
-        // Agregar animación al siguiente campo
-        if (siguiente) siguiente.classList.add('input-animado');
-    }
     function actualizarAnimaciones() {
         const campos = [
             'specialty_id',
@@ -345,11 +261,10 @@ if (window.location.pathname.includes('/reservations/create')) {
             const el = document.getElementById(campos[i]);
             if (el && (!el.value || el.value === "")) {
                 el.classList.add('input-animado');
-                break; // solo uno a la vez
+                break;
             }
         }
     }
-
 
     // Event listeners
     document.addEventListener('DOMContentLoaded', function () {
@@ -386,8 +301,6 @@ if (window.location.pathname.includes('/reservations/create')) {
                 document.getElementById('appointment_id').value = this.value;
                 actualizarAnimaciones();
             });
-
-
 
             // Cargar datos iniciales si existen
             if (especialidadInicial) {
