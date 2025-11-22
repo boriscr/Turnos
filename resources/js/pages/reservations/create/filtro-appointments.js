@@ -1,6 +1,7 @@
 if (window.location.pathname.includes('/reservations/create')) {
-    // Variables globales
+    // Variables globales compartidas
     let todosLosTurnos = [];
+    let appointmentsData = [];
 
     // Función para limpiar selects dependientes
     function limpiarSelectsDependientes(selectInicial) {
@@ -73,6 +74,9 @@ if (window.location.pathname.includes('/reservations/create')) {
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
             const data = await response.json();
+
+            // Guardar los datos de appointments para usar en la confirmación
+            appointmentsData = data.appointments;
 
             selectTurno.innerHTML = '<option value="">Seleccione un appointment</option>';
             data.appointments.forEach(appointment => {
@@ -266,7 +270,149 @@ if (window.location.pathname.includes('/reservations/create')) {
         }
     }
 
-    // Event listeners
+    // Función para cargar datos de confirmación en el paso 3
+    function loadConfirmationData() {
+        // Obtener elementos
+        const specialtySelect = document.getElementById('specialty_id');
+        const doctorSelect = document.getElementById('doctor_id');
+        const appointmentNameSelect = document.getElementById('appointment_name_id');
+        const dateSelect = document.getElementById('appointment_date');
+        const timeSelect = document.getElementById('appointment_time');
+        const confirmationDetails = document.getElementById('confirmation-details');
+
+        if (!confirmationDetails) return;
+
+        // Obtener textos seleccionados
+        const specialtyText = specialtySelect.options[specialtySelect.selectedIndex]?.text || 'No seleccionado';
+        const doctorText = doctorSelect.options[doctorSelect.selectedIndex]?.text || 'No seleccionado';
+        const appointmentNameText = appointmentNameSelect.options[appointmentNameSelect.selectedIndex]?.text || 'No seleccionado';
+        const dateText = dateSelect.options[dateSelect.selectedIndex]?.text || 'No seleccionado';
+        const timeText = timeSelect.options[timeSelect.selectedIndex]?.text || 'No seleccionado';
+
+        // Obtener la dirección desde los datos guardados en appointmentsData
+        let address = 'No especificada';
+        const selectedAppointmentId = appointmentNameSelect.value;
+
+        console.log('Selected appointment ID:', selectedAppointmentId);
+        console.log('Appointments data available:', appointmentsData);
+
+        if (selectedAppointmentId && appointmentsData.length > 0) {
+            const selectedAppointment = appointmentsData.find(app => app.id == selectedAppointmentId);
+            console.log('Found appointment:', selectedAppointment);
+
+            if (selectedAppointment && selectedAppointment.address) {
+                address = selectedAppointment.address;
+            }
+        }
+
+        // Construir HTML de confirmación usando los datos de traducción
+        confirmationDetails.innerHTML = `
+            <div class="confirmation-detail">
+                <p><strong>${window.confirmationData?.appointmentText || 'Turno'}:</strong> ${appointmentNameText}</p>
+                <p><strong>${window.confirmationData?.addressText || 'Dirección'}:</strong> ${address}</p>
+                <p><strong>${window.confirmationData?.specialtyText || 'Especialidad'}:</strong> ${specialtyText}</p>
+                <hr>
+                <p><strong>${window.confirmationData?.doctorText || 'Profesional'}:</strong> ${doctorText}</p>
+                <p><strong>${window.confirmationData?.dateText || 'Fecha'}:</strong> ${dateText}</p>
+                <p><strong>${window.confirmationData?.timeText || 'Horario'}:</strong> ${timeText}</p>
+            </div>
+        `;
+    }
+
+    // Configuración del formulario multi-paso
+    function setupMultiStepForm() {
+        // Configuración dinámica según tema
+        function getCurrentTheme() {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        const isDarkMode = getCurrentTheme() === 'dark';
+
+        const form = document.getElementById('multiStepForm');
+        const confirmBtn = document.querySelector('#multiStepForm [type="submit"]');
+
+        // Cargar datos en el paso 3 cuando se avance desde el paso 2
+        document.querySelectorAll('.next-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.closest('.form-step')?.dataset.step === "2") {
+                    loadConfirmationData();
+                }
+            });
+        });
+
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Validación básica
+                const requiredFields = ['specialty_id', 'doctor_id', 'appointment_name_id',
+                    'appointment_date', 'appointment_time'
+                ];
+                const isValid = requiredFields.every(field => {
+                    const element = document.getElementById(field);
+                    return element && element.value;
+                });
+
+                if (!isValid) {
+                    Swal.fire({
+                        title: 'Campos incompletos',
+                        text: 'Por favor complete todos los campos del formulario',
+                        icon: 'warning',
+                    });
+                    return;
+                }
+
+                // Mostrar confirmación
+                Swal.fire({
+                    title: '¿Confirmar turno?',
+                    html: `<p>${window.confirmationData?.patientMessage || 'Por favor confirme su turno.'}</p>`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: 'var(--primary_color_btn)',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Confirmar',
+                    cancelButtonText: 'Cancelar',
+                    background: isDarkMode ? 'var(--dark_application_background)' :
+                        'var(--light_application_background)',
+                    color: isDarkMode ? 'var(--dark_text_color)' : 'var(--light_text_color)',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    showLoaderOnConfirm: true,
+                    preConfirm: () => {
+                        return new Promise((resolve) => {
+                            // Simular procesamiento en frontend (3 segundos)
+                            setTimeout(() => {
+                                resolve();
+                            }, 3000);
+                        });
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Deshabilitar el botón para evitar múltiples clics
+                        confirmBtn.disabled = true;
+                        confirmBtn.classList.add('submitting');
+
+                        // Mostrar loader personalizado adicional
+                        if (typeof showLoader === 'function') {
+                            showLoader('Procesando confirmación...');
+                        }
+
+                        // Crear campo hidden para indicar el retardo de testing
+                        const testingField = document.createElement('input');
+                        testingField.type = 'hidden';
+                        testingField.name = 'testing_concurrency';
+                        testingField.value = 'true';
+                        form.appendChild(testingField);
+
+                        // Enviar formulario
+                        form.submit();
+                    }
+                });
+            });
+        }
+    }
+
+    // Event listeners principales
     document.addEventListener('DOMContentLoaded', function () {
         try {
             // Obtener valores iniciales si existen
@@ -276,7 +422,7 @@ if (window.location.pathname.includes('/reservations/create')) {
             const fechaInicial = document.getElementById('appointment_date')?.value;
             const turnoIdInicial = document.getElementById('appointment_time')?.value;
 
-            // Configurar event listeners
+            // Configurar event listeners para los selects
             document.getElementById('specialty_id')?.addEventListener('change', function () {
                 cargarMedicos(this.value);
                 actualizarAnimaciones();
@@ -301,6 +447,9 @@ if (window.location.pathname.includes('/reservations/create')) {
                 document.getElementById('appointment_id').value = this.value;
                 actualizarAnimaciones();
             });
+
+            // Configurar formulario multi-paso
+            setupMultiStepForm();
 
             // Cargar datos iniciales si existen
             if (especialidadInicial) {

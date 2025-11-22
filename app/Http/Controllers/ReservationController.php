@@ -244,7 +244,7 @@ class ReservationController extends Controller
             ->count();
         if (
             $user->status &&
-            $user->faults <= $turnos_faltas_maximas &&
+            $user->faults < $turnos_faltas_maximas &&
             $turnos_activos < $turnos_limite_diario &&
             $turnos_limite_diario > 0
         ) {
@@ -272,7 +272,7 @@ class ReservationController extends Controller
                     'icon' => 'error',
                 ]);
                 return redirect()->route('home');
-            } elseif ($user->faults > $turnos_faltas_maximas) {
+            } elseif ($user->faults >= $turnos_faltas_maximas) {
                 session()->flash('error', [
                     'title' => 'Acceso denegado',
                     'html' => 'Has alcanzado el límite de faltas permitidas.<br> No puedes solicitar más reservas.',

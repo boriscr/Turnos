@@ -153,145 +153,19 @@
         </div>
     </div>
 
+
     <script>
-        let appointmentsData = []; // Variable global para almacenar los appointments
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Configuración dinámica según tema
-            function getCurrentTheme() {
-                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            }
-            const isDarkMode = getCurrentTheme() === 'dark';
-
-            const form = document.getElementById('multiStepForm');
-            const confirmBtn = document.querySelector('#multiStepForm [type="submit"]');
-
-            // Cargar datos en el paso 3 cuando se avance desde el paso 2
-            document.querySelectorAll('.next-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    if (this.closest('.form-step').dataset.step === "2") {
-                        loadConfirmationData();
-                    }
-                });
-            });
-
-            if (confirmBtn) {
-                confirmBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    // Validación básica (tu código existente)
-                    const requiredFields = ['specialty_id', 'doctor_id', 'appointment_name_id',
-                        'appointment_date', 'appointment_time'
-                    ];
-                    const isValid = requiredFields.every(field => {
-                        const element = document.getElementById(field);
-                        return element && element.value;
-                    });
-
-                    if (!isValid) {
-                        Swal.fire({
-                            title: 'Campos incompletos',
-                            text: 'Por favor complete todos los campos del formulario',
-                            icon: 'warning',
-                        });
-                        return;
-                    }
-
-                    // Mostrar confirmación
-                    Swal.fire({
-                        title: '¿Confirmar turno?',
-                        html: '<p>{{ config('app.patient_message') }}</p>',
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonColor: 'var(--primary_color_btn)',
-                        cancelButtonColor: '#dc3545',
-                        confirmButtonText: 'Confirmar',
-                        cancelButtonText: 'Cancelar',
-                        background: isDarkMode ? 'var(--dark_application_background)' :
-                            'var(--light_application_background)',
-                        color: isDarkMode ? 'var(--dark_text_color)' : 'var(--light_text_color)',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        allowEnterKey: false,
-                        showLoaderOnConfirm: true,
-                        preConfirm: () => {
-                            return new Promise((resolve) => {
-                                // Simular procesamiento en frontend (3 segundos)
-                                setTimeout(() => {
-                                    resolve();
-                                }, 3000);
-                            });
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Deshabilitar el botón para evitar múltiples clics
-                            confirmBtn.disabled = true;
-                            confirmBtn.classList.add('submitting');
-
-                            // Mostrar loader personalizado adicional
-                            if (typeof showLoader === 'function') {
-                                showLoader('Procesando confirmación...');
-                            }
-
-                            // Crear campo hidden para indicar el retardo de testing
-                            const testingField = document.createElement('input');
-                            testingField.type = 'hidden';
-                            testingField.name = 'testing_concurrency';
-                            testingField.value = 'true';
-                            form.appendChild(testingField);
-
-                            // Enviar formulario
-                            form.submit();
-                        }
-                    });
-                });
-            }
-
-            function loadConfirmationData() {
-                // Obtener elementos
-                const specialtySelect = document.getElementById('specialty_id');
-                const doctorSelect = document.getElementById('doctor_id');
-                const appointmentNameSelect = document.getElementById('appointment_name_id');
-                const dateSelect = document.getElementById('appointment_date');
-                const timeSelect = document.getElementById('appointment_time');
-                const confirmationDetails = document.getElementById('confirmation-details');
-
-                // Obtener textos seleccionados
-                const specialtyText = specialtySelect.options[specialtySelect.selectedIndex].text;
-                const doctorText = doctorSelect.options[doctorSelect.selectedIndex].text;
-                const appointmentNameText = appointmentNameSelect.options[appointmentNameSelect.selectedIndex].text;
-                const dateText = dateSelect.options[dateSelect.selectedIndex].text;
-                const timeText = timeSelect.options[timeSelect.selectedIndex].text;
-
-                // Obtener la dirección desde los datos guardados en appointmentsData
-                let address = 'No especificada';
-                const selectedAppointmentId = appointmentNameSelect.value;
-
-                console.log('Selected appointment ID:', selectedAppointmentId); // DEBUG
-                console.log('Appointments data available:', appointmentsData); // DEBUG
-
-                if (selectedAppointmentId && appointmentsData.length > 0) {
-                    const selectedAppointment = appointmentsData.find(app => app.id == selectedAppointmentId);
-                    console.log('Found appointment:', selectedAppointment); // DEBUG
-
-                    if (selectedAppointment && selectedAppointment.address) {
-                        address = selectedAppointment.address;
-                    }
-                }
-
-                // Construir HTML de confirmación
-                confirmationDetails.innerHTML = `
-                <div class="confirmation-detail">
-                    <p><strong>{{ __('reservation.title_name') }}:</strong> ${appointmentNameText}</p>
-                    <p><strong>{{ __('contact.address') }}:</strong> ${address}</p>
-                    <p><strong>{{ __('specialty.title') }}:</strong> ${specialtyText}</p>
-                    <hr>
-                    <p><strong>{{ __('medical.doctor') }}:</strong> ${doctorText}</p>
-                    <p><strong>{{ __('reservation.date') }}:</strong> ${dateText}</p>
-                    <p><strong>{{ __('reservation.time') }}:</strong> ${timeText}</p>
-                </div>
-            `;
-            }
-        });
+        // Pasar datos de Laravel a JavaScript
+        const confirmationData = {
+            specialtyText: document.getElementById('confirmation-data')?.dataset.specialtyText || 'Especialidad',
+            addressText: document.getElementById('confirmation-data')?.dataset.addressText || 'Dirección',
+            doctorText: document.getElementById('confirmation-data')?.dataset.doctorText || 'Profesional',
+            dateText: document.getElementById('confirmation-data')?.dataset.dateText || 'Fecha',
+            timeText: document.getElementById('confirmation-data')?.dataset.timeText || 'Horario',
+            appointmentText: document.getElementById('confirmation-data')?.dataset.appointmentText || 'Turno',
+            patientMessage: document.getElementById('confirmation-data')?.dataset.patientMessage ||
+                'Por favor confirme su turno.'
+        };
     </script>
+
 </x-app-layout>
