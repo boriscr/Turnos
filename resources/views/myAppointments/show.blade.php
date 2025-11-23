@@ -52,14 +52,10 @@
                     </span>
                 </div>
 
-                <div class="card">
-                    <div class="reminder-box full-center">
-                        <i class="bi bi-bell-fill"></i>
-                        <small>
-                            {{ config('app.patient_message') }}
-                        </small>
-                    </div>
-                </div>
+
+
+    <x-boxed-info-section :all="true"/>
+
                 @php
                     $fechaHoraReserva = \Carbon\Carbon::parse(
                         $reservation->availableAppointment->date->format('Y-m-d') .

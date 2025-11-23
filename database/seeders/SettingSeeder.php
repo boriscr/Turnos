@@ -36,9 +36,9 @@ class SettingSeeder extends Seeder
                     'desc' => 'Nombre de la institución de salud'
                 ],
                 'patient_message' => [
-                    'value' => 'Por favor, presentese 15 minutos antes. Si no puede asistir, cancele su turno con antelación. Traer DNI. Gracias.',
+                    'value' => 'Por favor, presentese con su DNI 15 minutos antes. Si no puede asistir, cancele su turno con antelación.',
                     'type' => 'string',
-                    'desc' => 'Mensaje para los pacientes al solicitar un appointment'
+                    'desc' => 'Mensaje para los pacientes al solicitar un turno'
                 ],
                 'logo_url' => [
                     'value' => '/images/logo.png',

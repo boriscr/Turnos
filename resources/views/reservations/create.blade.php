@@ -139,6 +139,9 @@
                     <div id="confirmation-details" class="mt-4">
                         <!-- Los detalles se cargan automáticamente -->
                     </div>
+
+                    <x-boxed-info-section :reminder="true" />
+
                     <div class="form-navigation">
                         <button type="button" class="prev-btn full-center">
                             <i class="bi bi-chevron-left"></i>{{ __('button.back') }}
@@ -152,6 +155,7 @@
             </form>
         </div>
     </div>
+
 
 
     <script>

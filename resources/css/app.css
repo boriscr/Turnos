@@ -1,4 +1,5 @@
 /* app.css */
+
 @import 'layouts/loader.css';
 @import 'layouts/navbar.css';
 @import 'layouts/icon.css';
@@ -9,6 +10,7 @@
 @import 'pages/index.css';
 @import 'pages/show.css';
 /*Components*/
+@import 'pages/components/alert-card.css';
 @import 'pages/components/feature.css';
 @import 'pages/components/navbar.css';
 @import 'pages/components/main.css';

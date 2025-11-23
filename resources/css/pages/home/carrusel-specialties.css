@@ -1,13 +1,12 @@
 .specialties-section {
     padding: 6rem 2rem;
-    background: #f8fafc;
+    background: #ffffff;
     text-align: center;
 }
 
 .section-title {
     font-size: 2.6rem;
     font-weight: 700;
-    color: #1d1d1f;
     margin-bottom: 4rem;
 }
 
@@ -61,7 +60,7 @@
     background: white;
     border-radius: 20px;
     padding: 2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
     transition: transform 0.4s ease;
     position: relative;
     overflow: hidden;

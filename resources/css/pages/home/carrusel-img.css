@@ -100,7 +100,7 @@ h2 {
 /* Botones estilo premium */
 .btn-primary {
     display: inline-block;
-    background-color: color-mix(in srgb, var(--secondary_color_btn) 80%, #00000000 20%);
+    background-color: var(--secondary_color_btn);
     border: 1px solid var(--secondary_color_btn);
     color: var(--btn_text_color);
     font-weight: 600;

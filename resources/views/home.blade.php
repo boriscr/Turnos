@@ -46,6 +46,7 @@
             @endauth
         </div>
     </section>
+    <x-boxed-info-section :info="true"/>
     <section class="specialties-section">
         <h2 class="section-title">Especialidades disponibles</h2>
         <div class="specialties-carousel">

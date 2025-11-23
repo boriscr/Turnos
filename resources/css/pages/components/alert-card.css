@@ -1,0 +1,52 @@
+.boxed-info-section {
+    width: 100%;
+    padding: 0px;
+
+    .alert-card {
+        width: 100%;
+        background: linear-gradient(-45deg, var(--dark_application_background), #432b20, #522710, var(--dark_application_background));
+        background-size: 400% 400%;
+        animation: gradientBG 20s ease infinite;
+        border-radius: 25px;
+        padding: 20px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+
+        .reminder-box {
+            gap: 10px;
+            color: #ff6600;
+
+            .bi-cone-striped {
+                font-size: 55px;
+            }
+
+            ul,
+            li,
+            p {
+                color: aliceblue;
+            }
+        }
+    }
+}
+
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@media (max-width: 768px) {
+    .boxed-info-section {
+        padding: 0px;
+    }
+}
