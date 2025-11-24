@@ -76,3 +76,14 @@
         background-color: var(--background_navbar_light);
     }
 }
+
+@media (max-width: 768px) {
+    .ios-dropdown-menu {
+        min-width: 130px;
+    }
+
+    .ios-dropdown-item {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}

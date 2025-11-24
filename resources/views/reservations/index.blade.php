@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="main-table full-center">
         <div class="container-form full-center">
-            <x-form.titles :value="__('medical.titles.reservation_list')" size="index"/>
+            <x-form.titles :value="__('medical.titles.reservation_list')" size="index" />
             <div class="search-filters filter-box">
 
                 <form action="{{ route('reservations.index') }}" method="GET" class="rounded" id="filterForm">
@@ -74,8 +74,8 @@
                                                     @method('PATCH')
                                                     <input type="hidden" name="status" value="assisted">
                                                     <button type="submit" class="ios-dropdown-item success">
-                                                        <i class="bi bi-check-circle-fill"></i>
-                                                        {{ __('button.search.assisted') }}
+                                                        <span><i class="bi bi-check-circle-fill"></i>
+                                                            {{ __('button.search.assisted') }}</span>
                                                     </button>
                                                 </form>
                                                 <form action="{{ route('reservations.status', $reservation->id) }}"
@@ -84,8 +84,8 @@
                                                     @method('PATCH')
                                                     <input type="hidden" name="status" value="not_attendance">
                                                     <button type="submit" class="ios-dropdown-item danger">
-                                                        <i class="bi bi-x-circle-fill"></i>
-                                                        {{ __('button.search.not_attendance') }}
+                                                        <span><i class="bi bi-x-circle-fill"></i>
+                                                            {{ __('button.search.not_attendance') }}</span>
                                                     </button>
                                                 </form>
                                             </div>
