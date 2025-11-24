@@ -39,10 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (isNowQuick) {
                 icon.className = 'bi bi-calendar-range';
-                this.innerHTML = '<i class="bi bi-calendar-range"></i> Cambiar a rango de fechas';
+                this.innerHTML = '<span><i class="bi bi-calendar-range"></i> Cambiar a rango de fechas</span>';
             } else {
                 icon.className = 'bi bi-lightning';
-                this.innerHTML = '<i class="bi bi-lightning"></i> Cambiar a filtro rápido';
+                this.innerHTML = '<span><i class="bi bi-lightning"></i> Cambiar a filtro rápido</span>';
             }
         });
     }

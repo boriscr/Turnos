@@ -4,7 +4,7 @@
             <input type="text" name="search" class="form-control"
                 placeholder="{{ $placeholder ?? __('button.search.placeholderId') }}" value="{{ request('search') }}">
             <button type="submit">
-                <i class="bi bi-search"></i>
+                <span><i class="bi bi-search"></i></span>
             </button>
         </div>
 
@@ -22,7 +22,7 @@
                     <input type="text" name="search" class="form-control"
                         placeholder="{{ $placeholder ?? __('button.search.placeholderId') }}" value="{{ request('search') }}">
                     <button type="submit">
-                        <i class="bi bi-search"></i>
+                        <span><i class="bi bi-search"></i></span>
                     </button>
                 </div>
 

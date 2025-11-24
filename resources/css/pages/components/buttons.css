@@ -29,15 +29,29 @@
    Usamos rotaciones muy sutiles (2 grados) para elevar las esquinas.
 */
 @keyframes seesaw-motion {
-  0% { transform: rotate(0deg); }
-  /* Fase 1: Se eleva el lado derecho (rotación anti-horaria) */
-  10% { transform: rotate(-2deg); }
-  /* Fase 2: Se eleva el lado izquierdo (rotación horaria) */
-  20% { transform: rotate(2deg); }
-  /* Fase 3: Vuelve al centro */
-  30% { transform: rotate(0deg); }
-  /* Del 30% al 100% el botón se queda quieto (la pausa larga) */
-  100% { transform: rotate(0deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    /* Fase 1: Se eleva el lado derecho (rotación anti-horaria) */
+    10% {
+        transform: rotate(-2deg);
+    }
+
+    /* Fase 2: Se eleva el lado izquierdo (rotación horaria) */
+    20% {
+        transform: rotate(2deg);
+    }
+
+    /* Fase 3: Vuelve al centro */
+    30% {
+        transform: rotate(0deg);
+    }
+
+    /* Del 30% al 100% el botón se queda quieto (la pausa larga) */
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 .primary-btn {
@@ -73,11 +87,11 @@
     /* ¡IMPORTANTE! Detenemos la animación al pasar el mouse */
     animation-play-state: paused;
     /* Opcional: al hacer hover, aseguramos que quede recto */
-    transform: rotate(0deg); 
+    transform: rotate(0deg);
 }
 
 .primary-btn:active {
-    background-color: var(--primary_color_btn); 
+    background-color: var(--primary_color_btn);
     color: var(--btn_text_color);
     /* Efecto de click: reducción y aseguramos que no esté rotado */
     transform: scale(0.98) rotate(0deg);
@@ -215,6 +229,10 @@ button {
 
     span {
         color: var(--light_text_color);
+
+        .bi {
+            color: var(--light_text_color);
+        }
     }
 }
 
@@ -227,6 +245,10 @@ button:disabled {
     button {
         span {
             color: var(--dark_text_color);
+
+            .bi {
+                color: var(--dark_text_color);
+            }
         }
     }
 }
