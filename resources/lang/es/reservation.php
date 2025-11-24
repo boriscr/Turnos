@@ -10,5 +10,4 @@ return[
     'title_name_option' => 'Seleccione un turno',
     'date_option' => 'Seleccione una fecha',
     'time_option' => 'Seleccione una horario',
-    'reservation_details_txt' => 'Detalles de la reserva',
 ];

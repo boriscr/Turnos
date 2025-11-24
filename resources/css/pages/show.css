@@ -72,7 +72,6 @@
             .history-paragraph {
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
             }
 
             .status {
@@ -83,16 +82,7 @@
     }
 }
 
-/* Modo oscuro */
-@media (prefers-color-scheme: dark) {
-    .section-container {
-        .card {
-            .bi {
-                color: var(--dark_text_color);
-            }
-        }
-    }
-}
+
 
 
 

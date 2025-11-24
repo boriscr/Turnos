@@ -1,7 +1,8 @@
 @props(['icon' => null, 'label' => null, 'value' => null, 'link' => null])
 
 <p class="history-paragraph">
-    <b> <i class="bi bi-{{ $icon }} me-2"></i>
+    <i class="bi bi-{{ $icon }} me-2"></i>
+    <b>
         {{ $label }}: </b>
     {{ $value }}
     @if ($link)

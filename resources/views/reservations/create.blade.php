@@ -135,8 +135,7 @@
 
                 <!-- Paso 3 - Mensaje de Confirmación -->
                 <div class="form-step" data-step="3">
-                    <h2>{{ __('reservation.reservation_details_txt') }}</h2>
-                    <div id="confirmation-details" class="mt-4">
+                    <div class="confirmation-details" id="confirmation-details">
                         <!-- Los detalles se cargan automáticamente -->
                     </div>
 
@@ -155,8 +154,6 @@
             </form>
         </div>
     </div>
-
-
 
     <script>
         // Pasar datos de Laravel a JavaScript

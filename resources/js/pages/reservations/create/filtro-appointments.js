@@ -307,15 +307,24 @@ if (window.location.pathname.includes('/reservations/create')) {
 
         // Construir HTML de confirmación usando los datos de traducción
         confirmationDetails.innerHTML = `
-            <div class="confirmation-detail">
-                <p><strong>${window.confirmationData?.appointmentText || 'Turno'}:</strong> ${appointmentNameText}</p>
-                <p><strong>${window.confirmationData?.addressText || 'Dirección'}:</strong> ${address}</p>
-                <p><strong>${window.confirmationData?.specialtyText || 'Especialidad'}:</strong> ${specialtyText}</p>
-                <hr>
-                <p><strong>${window.confirmationData?.doctorText || 'Profesional'}:</strong> ${doctorText}</p>
-                <p><strong>${window.confirmationData?.dateText || 'Fecha'}:</strong> ${dateText}</p>
-                <p><strong>${window.confirmationData?.timeText || 'Horario'}:</strong> ${timeText}</p>
+        <div class="content-date-profile width-profile-doctor">
+            <div class="profile-container">
+                <img src="https://www.nicepng.com/png/detail/867-8678512_doctor-icon-physician.png"alt="img-profile" class="profile-img">
+                <div class="profile-id">
+                    <p class="profile-name">
+                        Dr: ${doctorText}
+                    </p>
+                    <small>
+                        ${specialtyText} | ${appointmentNameText}
+                    </small>
+                </div>
             </div>
+        </div>
+        <div class="card">
+        <p><i class="bi bi-calendar-check-fill me-2"></i><b>${window.confirmationData?.dateText || 'Fecha'}:</b> ${dateText}</p>
+        <p><i class="bi bi-clock-fill me-2"></i><b>${window.confirmationData?.timeText || 'Horario'}:</b> ${timeText}</p>
+        <p><i class="bi bi-geo-alt-fill me-2"></i><b>${window.confirmationData?.addressText || 'Dirección'}:</b> ${address}</p>
+        </div>
         `;
     }
 
@@ -332,7 +341,7 @@ if (window.location.pathname.includes('/reservations/create')) {
 
         // Cargar datos en el paso 3 cuando se avance desde el paso 2
         document.querySelectorAll('.next-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 if (this.closest('.form-step')?.dataset.step === "2") {
                     loadConfirmationData();
                 }
@@ -340,7 +349,7 @@ if (window.location.pathname.includes('/reservations/create')) {
         });
 
         if (confirmBtn) {
-            confirmBtn.addEventListener('click', function(e) {
+            confirmBtn.addEventListener('click', function (e) {
                 e.preventDefault();
 
                 // Validación básica

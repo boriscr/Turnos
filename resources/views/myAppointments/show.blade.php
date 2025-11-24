@@ -14,7 +14,7 @@
             <div class="section-container full-center">
                 <div class="content-date-profile width-profile-doctor">
                     <div class="profile-container">
-                        <img src="https://img.freepik.com/foto-gratis/retrato-hombre-blanco-aislado_53876-40306.jpg?semt=ais_hybrid&w=740&q=80"
+                        <img src="https://www.nicepng.com/png/detail/867-8678512_doctor-icon-physician.png"
                             alt="img-profile" class="profile-img">
                         <div class="profile-id">
                             <p class="profile-name">
@@ -45,16 +45,12 @@
 
                 <div class="card">
                     <x-form.titles :value="__('medical.titles.my_data')" type="subtitle" />
-                    <x-field-with-icon icon="person-fill" :label="__('contact.name_and_surname')" :value="@Auth::user()->name . ' ' . @Auth::user()->surname" />
-                    <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="@Auth::user()->idNumber" />
-                    <span class="full-center {{ @Auth::user()->status ? 'btn-success' : 'btn-danger' }}">
+                    <x-field-with-icon icon="person-fill" :label="__('contact.name_and_surname')" :value="$reservation->user->name . ' ' . $reservation->user->surname" />
+                    <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="$reservation->user->idNumber" />
+                    <span class="full-center status {{ $reservation->user->status ? 'btn-success' : 'btn-danger' }}">
                         <x-field-with-icon :value="$reservation->user->status ? __('medical.active') : __('medical.inactive')" />
                     </span>
                 </div>
-
-
-
-    <x-boxed-info-section :all="true"/>
 
                 @php
                     $fechaHoraReserva = \Carbon\Carbon::parse(
@@ -76,6 +72,9 @@
                     </div>
                 @endif
             </div>
+                <br>
+                <hr>
+                <x-boxed-info-section :all="true"/>
         </div>
     @else
         <div class="content-wrapper">

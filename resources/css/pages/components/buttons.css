@@ -21,7 +21,24 @@
     opacity: 0.8;
 }
 
-/*botones submit*/
+/* =========================================
+   Estilos para Botones de Acción (Submit)
+   ========================================= */
+
+/* Nueva definición de la animación: Efecto Balancín (Sube y Baja)
+   Usamos rotaciones muy sutiles (2 grados) para elevar las esquinas.
+*/
+@keyframes seesaw-motion {
+  0% { transform: rotate(0deg); }
+  /* Fase 1: Se eleva el lado derecho (rotación anti-horaria) */
+  10% { transform: rotate(-2deg); }
+  /* Fase 2: Se eleva el lado izquierdo (rotación horaria) */
+  20% { transform: rotate(2deg); }
+  /* Fase 3: Vuelve al centro */
+  30% { transform: rotate(0deg); }
+  /* Del 30% al 100% el botón se queda quieto (la pausa larga) */
+  100% { transform: rotate(0deg); }
+}
 
 .primary-btn {
     background-color: var(--primary_color_btn);
@@ -29,23 +46,42 @@
     border: none;
     cursor: pointer;
     width: 100%;
-}
-
-.primary-btn {
     padding: 12px;
     border-radius: 8px;
     font-weight: bold;
-    transition: background-color 0.3s;
+    /* Transiciones suaves para hover, active y el cambio de forma */
+    transition: background-color 0.3s, opacity 0.3s, transform 0.3s;
+
+    /* --- APLICACIÓN DE LA ANIMACIÓN --- */
+    /*
+       Nombre: seesaw-motion
+       Duración total del ciclo: 5 segundos (movimiento suave, pausa larga)
+       Comportamiento: infinito y con suavizado (ease-in-out)
+    */
+    animation: seesaw-motion 3s ease-in-out infinite;
+    /* Ayuda al navegador a renderizar la rotación suavemente */
+    will-change: transform;
+    /* Aseguramos que el pivote de la rotación sea el centro exacto del botón */
+    transform-origin: center center;
 }
+
+/* Estados Hover y Active */
 
 .primary-btn:hover,
 .secondary-btn:hover {
     opacity: 0.8;
+    /* ¡IMPORTANTE! Detenemos la animación al pasar el mouse */
+    animation-play-state: paused;
+    /* Opcional: al hacer hover, aseguramos que quede recto */
+    transform: rotate(0deg); 
 }
 
 .primary-btn:active {
-    background-color: var(--primary_color_btn);
+    background-color: var(--primary_color_btn); 
     color: var(--btn_text_color);
+    /* Efecto de click: reducción y aseguramos que no esté rotado */
+    transform: scale(0.98) rotate(0deg);
+    animation-play-state: paused;
 }
 
 /*Vista register*/
@@ -146,13 +182,6 @@
     color: white;
 }
 
-.btn-success:hover {
-    background-color: #218838;
-}
-
-.btn-default:hover {
-    background-color: #5a6268;
-}
 
 .btn-danger,
 .btn-salir {
