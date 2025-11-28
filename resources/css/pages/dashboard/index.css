@@ -387,8 +387,4 @@ p {
     .dropdown-btn i {
         color: var(--dark_text_color);
     }
-
-    /*.dropdown-item:hover {
-        background-color: color-mix(in srgb, var(--dark_application_background) 70%, var(--general_design_color) 30%);
-    }*/
 }

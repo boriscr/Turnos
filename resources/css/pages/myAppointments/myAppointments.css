@@ -14,6 +14,9 @@
     }
 
     .my-appointments-box {
+        background-color: color-mix(in srgb, var(--light_application_background) 60%, #fff 40%);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.116), 0 6px 20px 0 rgba(0, 0, 0, 0.108);
+        border: 1px solid color-mix(in srgb, var(--light_text_color) 70%, #000000 30%);
         border-radius: 20px;
         width: 250px;
         flex-wrap: nowrap;
@@ -26,6 +29,7 @@
         opacity: 0.7;
 
         &:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             border: 1px solid color-mix(in srgb, var(--general_design_color) 80%, #000000 20%);
             transform: scale(1.04);
             opacity: 1;
@@ -46,6 +50,7 @@
 
             .details-icon {
                 .bi {
+                    color: var(--light_text_color);
                     font-size: 30px;
                 }
             }
@@ -83,27 +88,6 @@
             }
         }
     }
-}
-
-/* Modo claro */
-@media (prefers-color-scheme: light) {
-
-    .my-appointments-box {
-        background-color: color-mix(in srgb, var(--light_application_background) 60%, #fff 40%);
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.116), 0 6px 20px 0 rgba(0, 0, 0, 0.108);
-        border: 1px solid color-mix(in srgb, var(--light_text_color) 70%, #000000 30%);
-
-        &:hover {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
-
-        .details-icon {
-            .bi {
-                color: var(--light_text_color);
-            }
-        }
-    }
-
 }
 
 @media (max-width: 450px) {

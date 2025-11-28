@@ -1,82 +1,92 @@
 if (window.location.pathname === '/') {
-    document.addEventListener('DOMContentLoaded', function () {
-        const track = document.getElementById('specialtiesTrack');
-        const container = track.parentElement;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const carousel = document.getElementById('carousel');
+        const track = document.getElementById('track');
         const cards = track.querySelectorAll('.specialty-card');
+
         if (cards.length === 0) return;
 
-        // Duplicar para bucle infinito perfecto
+        // Duplicar para bucle infinito (solo una vez)
         track.innerHTML += track.innerHTML;
 
-        // Solo en móvil
+        // =============== ESCRITORIO: ACELERAR EN BORDES ===============
+        if (window.innerWidth > 768) {
+            carousel.addEventListener('mousemove', e => {
+                const rect = carousel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const width = rect.width;
+
+                if (x < width * 0.15) {
+                    carousel.dataset.side = 'left';
+                } else if (x > width * 0.85) {
+                    carousel.dataset.side = 'right';
+                } else {
+                    carousel.dataset.side = '';
+                }
+
+                // Cambiar velocidad dinámicamente
+                const speed = carousel.dataset.side === 'left' ? -3 : carousel.dataset.side === 'right' ? 3 : 1;
+                track.style.animationDuration = `${50 / speed}s`;
+            });
+
+            carousel.addEventListener('mouseleave', () => {
+                delete carousel.dataset.side;
+                track.style.animationDuration = '50s';
+            });
+        }
+
+        // =============== MÓVIL: EFECTO TINDER PERFECTO ===============
         if (window.innerWidth <= 768) {
             let isDragging = false;
             let startX = 0;
-            let startY = 0;
             let scrollLeft = 0;
-            const cardWidth = cards[0].offsetWidth + 28; // ancho card + gap
 
-            const start = (e) => {
+            const cardWidth = cards[0].offsetWidth + 20; // ancho real + gap aproximado
+            const maxScroll = track.scrollWidth / 2;
+
+            const start = e => {
                 isDragging = true;
-                container.classList.add('dragging');
-                const touch = e.type.includes('touch') ? e.touches[0] : e;
+                const touch = e.touches ? e.touches[0] : e;
                 startX = touch.clientX;
-                startY = touch.clientY;
-                scrollLeft = container.scrollLeft;
+                scrollLeft = carousel.scrollLeft;
             };
 
-            const move = (e) => {
+            const move = e => {
                 if (!isDragging) return;
-
-                const touch = e.type.includes('touch') ? e.touches[0] : e;
-                const deltaX = Math.abs(touch.clientX - startX);
-                const deltaY = Math.abs(touch.clientY - startY);
-
-                // Si es más vertical → permitir scroll de página
-                if (deltaY > deltaX && deltaY > 10) {
-                    end();
-                    return;
-                }
-
                 e.preventDefault();
-                const walk = (touch.clientX - startX) * 2.8;
-                container.scrollLeft = scrollLeft - walk;
+                const touch = e.touches ? e.touches[0] : e;
+                const walk = (touch.clientX - startX) * 2.5;
+                carousel.scrollLeft = scrollLeft - walk;
             };
 
             const end = () => {
                 if (!isDragging) return;
                 isDragging = false;
-                container.classList.remove('dragging');
 
-                // === SNAP AUTOMÁTICO ===
-                const currentScroll = container.scrollLeft;
-                const cardIndex = Math.round(currentScroll / cardWidth);
-                const targetScroll = cardIndex * cardWidth;
+                // Snap al centro más cercano
+                const scrolled = carousel.scrollLeft;
+                const index = Math.round(scrolled / cardWidth);
+                const target = index * cardWidth;
 
-                // Animación suave al soltar
-                container.style.scrollBehavior = 'smooth';
-                container.scrollLeft = targetScroll;
+                carousel.style.scrollBehavior = 'smooth';
+                carousel.scrollLeft = target;
 
-                // Reinicio invisible para bucle infinito
+                // Bucle infinito invisible
                 setTimeout(() => {
-                    container.style.scrollBehavior = 'auto';
-                    const maxScroll = container.scrollWidth / 2;
-
-                    if (container.scrollLeft >= maxScroll - cardWidth) {
-                        container.scrollLeft -= maxScroll;
-                    } else if (container.scrollLeft <= cardWidth) {
-                        container.scrollLeft += maxScroll;
+                    carousel.style.scrollBehavior = 'auto';
+                    if (carousel.scrollLeft >= maxScroll - cardWidth) {
+                        carousel.scrollLeft -= maxScroll;
+                    } else if (carousel.scrollLeft < cardWidth) {
+                        carousel.scrollLeft += maxScroll;
                     }
-                }, 400); // después de la animación smooth
+                }, 500);
             };
 
-            // Eventos
-            container.addEventListener('touchstart', start, { passive: true });
-            container.addEventListener('touchmove', move, { passive: false });
-            container.addEventListener('touchend', end);
-            container.addEventListener('touchcancel', end);
-
-            container.addEventListener('mousedown', start);
+            carousel.addEventListener('touchstart', start, { passive: true });
+            carousel.addEventListener('touchmove', move, { passive: false });
+            carousel.addEventListener('touchend', end);
+            carousel.addEventListener('mousedown', start);
             document.addEventListener('mousemove', move);
             document.addEventListener('mouseup', end);
         }

@@ -10,6 +10,7 @@
 }
 
 .ios-dropdown-menu {
+    background-color: var(--background_navbar_light);
     display: none;
     position: absolute;
     z-index: 1000;
@@ -66,14 +67,6 @@
 @media (prefers-color-scheme: dark) {
     .ios-dropdown-menu {
         background-color: var(--background_navbar_dark);
-    }
-}
-
-/* Modo claro */
-
-@media (prefers-color-scheme: light) {
-    .ios-dropdown-menu {
-        background-color: var(--background_navbar_light);
     }
 }
 

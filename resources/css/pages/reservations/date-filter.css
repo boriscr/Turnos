@@ -26,6 +26,7 @@
     padding: 0.5rem;
     border-radius: 0.375rem;
     border: 1px solid var(--general_design_color);
+    background: var(--background-light);
 }
 
 /* Filtro rápido visible por defecto */
@@ -81,6 +82,7 @@
 }
 
 .filter-switch-btn i {
+    color: var(--text_color_light) !important;
     font-size: 0.8rem;
 }
 
@@ -93,28 +95,8 @@
 /* Modo oscuro */
 
 @media (prefers-color-scheme: dark) {
-
-    /* Estilos base para ambos filtros */
-    .date-filter {
-        background: var(--background-dark);
-    }
-
     .filter-switch-btn i {
         color: var(--text_color_dark) !important;
-    }
-}
-
-/* Modo claro */
-
-@media (prefers-color-scheme: light) {
-
-    /* Estilos base para ambos filtros */
-    .date-filter {
-        background: var(--background-light);
-    }
-
-    .filter-switch-btn i {
-        color: var(--text_color_light) !important;
     }
 }
 

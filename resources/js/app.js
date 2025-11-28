@@ -8,6 +8,7 @@ import '../js/pages/dashboard/navbar.js';
 /*Home */
 import '../js/pages/home/carrusel-img.js';
 import '../js/pages/home/carrusel-specialties.js';
+import '../js/pages/home/mesaje-alert-demo.js';
 
 /*Doctors */
 import '../js/pages/doctors/specialty.js';

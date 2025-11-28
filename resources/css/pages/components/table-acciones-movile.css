@@ -78,6 +78,9 @@
     background-color: var(--general_design_color);
 }
 
+.accionesMovilBtn .bi {
+    color: var(--light_text_color) !important;
+}
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
@@ -96,14 +99,6 @@
 
     }
 }
-
-/* Modo oscuro */
-@media (prefers-color-scheme: light) {
-    .accionesMovilBtn .bi {
-        color: var(--light_text_color) !important;
-    }
-}
-
 
 @media (max-width: 738px) {
 

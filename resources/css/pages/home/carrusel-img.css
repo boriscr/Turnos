@@ -184,6 +184,7 @@ h2 {
 
     /* Contenido */
     .hero-content {
+        padding: 10px;
         .box-content {
             padding: 20px 15px;
         }

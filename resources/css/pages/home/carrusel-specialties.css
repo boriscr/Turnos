@@ -8,6 +8,7 @@
     font-size: 2.6rem;
     font-weight: 700;
     margin-bottom: 4rem;
+    color: #1d1d1f;
 }
 
 .specialties-carousel {
@@ -16,43 +17,13 @@
     overflow: hidden;
     padding: 20px 0;
     user-select: none;
-    scroll-behavior: auto;
-    /* importante: auto por defecto */
-    -webkit-mask-image: linear-gradient(90deg, transparent, white 10%, white 90%, transparent);
-    mask-image: linear-gradient(90deg, transparent, white 10%, white 90%, transparent);
+    position: relative;
 }
 
 .carousel-track {
     display: flex;
     gap: 28px;
     padding: 10px 0;
-    width: 200%;
-}
-
-/* EN ESCRITORIO: animación automática continua */
-@media (min-width: 769px) {
-    .carousel-track {
-        animation: scroll 40s linear infinite;
-    }
-
-    .specialties-carousel:hover .carousel-track {
-        animation-play-state: paused;
-    }
-}
-
-/* Para que el snap sea más natural */
-@media (max-width: 768px) {
-    .specialties-carousel {
-        scroll-snap-type: x mandatory;
-        overflow-x: scroll;
-        -webkit-overflow-scrolling: touch;
-        /* iOS momentum scroll */
-    }
-
-    .specialty-card {
-        scroll-snap-align: start;
-        flex: 0 0 340px;
-    }
 }
 
 .specialty-card {
@@ -60,8 +31,8 @@
     background: white;
     border-radius: 20px;
     padding: 2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
-    transition: transform 0.4s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.516);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
     position: relative;
     overflow: hidden;
 }
@@ -87,7 +58,6 @@
     line-height: 1.6;
     font-size: 1.02rem;
     text-align: justify;
-    hyphens: auto;
 }
 
 .specialty-card:hover {
@@ -95,24 +65,84 @@
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
 }
 
-@keyframes scroll {
-    0% {
-        transform: translateX(0);
+/* ====================== ESCRITORIO ====================== */
+@media (min-width: 769px) {
+    .carousel-track {
+        animation: scroll 50s linear infinite;
     }
 
-    100% {
-        transform: translateX(-50%);
+    .specialties-carousel:hover .carousel-track {
+        animation-play-state: paused;
+    }
+
+    /* Acelerar en bordes */
+    .specialties-carousel {
+        --speed: 1;
+    }
+
+    .specialties-carousel:hover {
+        --speed: 0;
+    }
+
+    .specialties-carousel[data-side="left"] {
+        --speed: -3;
+    }
+
+    .specialties-carousel[data-side="right"] {
+        --speed: 3;
+    }
+
+    .carousel-track {
+        animation: scroll var(--duration, 50s) linear infinite;
+    }
+
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
     }
 }
 
+/* ====================== MÓVIL - EFECTO TINDER ====================== */
 @media (max-width: 768px) {
+    .specialties-carousel {
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 40px;
+        scroll-padding: 0 40px;
+        mask-image: linear-gradient(90deg, transparent, white 8%, white 92%, transparent);
+    }
+
+    .carousel-track {
+        gap: 20px;
+        padding: 20px 0;
+    }
+
     .specialty-card {
-        flex: 0 0 340px;
+        flex: 0 0 calc(100vw - 80px);
+        scroll-snap-align: center;
+    }
+
+    .specialties-section {
+        padding: 1rem 0.5rem;
+    }
+
+    .specialty-card {
+        flex: 0 0 calc(85vw - 50px);
     }
 }
 
 @media (max-width: 480px) {
+    .specialties-section {
+        padding: 1rem 0.5rem;
+    }
+
     .specialty-card {
-        flex: 0 0 310px;
+        flex: 0 0 calc(85vw - 50px);
     }
 }

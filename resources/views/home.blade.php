@@ -46,16 +46,20 @@
             @endauth
         </div>
     </section>
-    <x-boxed-info-section :info="true"/>
+    <x-boxed-info-section :info="true" />
     <section class="specialties-section">
         <h2 class="section-title">Especialidades disponibles</h2>
-        <div class="specialties-carousel">
+        <div class="specialties-carousel" id="carousel">
             <div class="carousel-track" id="specialtiesTrack">
+                <!-- El contenido dinámico de Laravel se inserta aquí -->
                 @forelse ($specialties as $item)
                     <div class="specialty-card">
                         <div class="card-accent"></div>
                         <h3>{{ $item->name }}</h3>
-                        <p>{{ $item->description }}</p>
+                        <div class="modal-body">
+
+                            <p>{{ $item->description }}</p>
+                        </div>
                     </div>
                 @empty
                     <p class="empty-message">No hay especialidades disponibles en este momento.</p>
@@ -63,4 +67,34 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal / Pop-up -->
+    <!-- ==================== MODAL ==================== -->
+    <div id="demoModal">
+        <div class="modal-content">
+            <h2>¡Atención: Modo Demostración!</h2>
+            <div class="box-img full-center">
+                <img src="https://i.pinimg.com/originals/69/2a/5c/692a5ca9ea28c54c77df560e374b798a.gif" alt="">
+            </div>
+            <!-- Contenedor con scroll -->
+            <div class="modal-body">
+                <p>Esta aplicación está <strong>en construcción</strong> y es solo una <strong>vista de
+                        demostración</strong>. Puede que <strong>no esté disponible en cualquier momento</strong>, y
+                    algunas
+                    funciones pueden no funcionar de la forma esperada.</p>
+
+                <p>Los datos ingresados serán eliminados automáticamente en 30 días o antes. Las secciones marcadas como
+                    <span class="featureHome">FEATURE</span> no están disponibles.
+                </p>
+
+                <p>Agradecemos enormemente tu ayuda <strong>reportando los errores</strong> encontrados al
+                    desarrollador.
+                </p>
+
+            </div>
+
+            <button id="btnAceptar">Entendido y Acepto</button>
+        </div>
+    </div>
+
 </x-app-layout>
