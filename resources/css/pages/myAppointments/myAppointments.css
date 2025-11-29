@@ -73,18 +73,20 @@
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
-    .my-appointments-box {
-        background-color: color-mix(in srgb, var(--dark_application_background) 90%, #000000 10%);
-        box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.1);
-        border: 1px solid color-mix(in srgb, var(--dark_text_color)50%, #ffffff00 50%);
+    .container-appointments {
+        .my-appointments-box {
+            background-color: color-mix(in srgb, var(--dark_application_background) 90%, #000000 10%);
+            box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid color-mix(in srgb, var(--dark_text_color)50%, #ffffff00 50%);
 
-        &:hover {
-            box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.219);
-        }
+            &:hover {
+                box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.219);
+            }
 
-        .details-icon {
-            .bi {
-                color: var(--dark_text_color);
+            .details-icon {
+                .bi {
+                    color: var(--dark_text_color);
+                }
             }
         }
     }

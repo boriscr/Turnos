@@ -252,3 +252,15 @@ button:disabled {
         }
     }
 }
+
+@media (max-width: 640px) {
+    .delete-form {
+        width: 100%;
+    }
+    
+    .btn-delete {
+        padding: 20px;
+        width: 100%;
+        font-size: 18px;
+    }
+}

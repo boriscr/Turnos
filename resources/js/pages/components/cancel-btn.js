@@ -9,14 +9,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const originalButtonText = this.innerHTML;
 
             Swal.fire({
-                title: '¿Estás seguro de cancelar tu reserva?',
-                text: "¡No podrás revertir esta acción!",
+                title: '¡Espera! ¿Quieres Cancelar tu Turno?',
+                text: "Ten en cuenta que la cancelación es definitiva. Si cancelas ahora, perderás esta reserva y deberás agendar otra.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, cancelar',
-                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Sí, Cancelar',
+                cancelButtonText: 'Volver atrás', 
                 // Personalizar colores según el tema
                 didOpen: () => {
                     const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -37,13 +37,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Fallback si showLoader no está disponible
                         console.warn('La función showLoader no está disponible');
                     }
-                    
+
                     // Deshabilitar todos los botones de eliminación para evitar múltiples clics
                     deleteButtons.forEach(btn => {
                         btn.disabled = true;
                         btn.classList.add('submitting');
                     });
-                    
+
                     // Enviar formulario después de un breve delay
                     setTimeout(() => {
                         try {

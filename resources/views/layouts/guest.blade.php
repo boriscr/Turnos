@@ -57,18 +57,21 @@
     </div>
 
     <script>
-        // Funciones globales para controlar el loader
+        /* ============================================
+           GLOBAL LOADER CONTROL – OPTIMIZED VERSION
+           ============================================ */
+
+        // Mostrar loader
         window.showLoader = function(message = 'Cargando...') {
             const loader = document.getElementById('globalLoader');
             if (loader) {
                 const textElement = loader.querySelector('.loader-text');
-                if (textElement && message) {
-                    textElement.textContent = message;
-                }
+                if (textElement) textElement.textContent = message;
                 loader.classList.add('active');
             }
         };
 
+        // Ocultar loader
         window.hideLoader = function() {
             const loader = document.getElementById('globalLoader');
             if (loader) {
@@ -76,84 +79,120 @@
             }
         };
 
-        // Ocultar el loader cuando la página esté completamente cargada
+        /* ============================================
+           OCULTAR LOADER EN CARGA NORMAL
+           ============================================ */
         window.addEventListener('load', function() {
             hideLoader();
         });
 
+
+        /* ============================================================================
+           FIX CRÍTICO: OCULTAR LOADER AL VOLVER ATRÁS (Back/Forward Cache)
+           ============================================================================ */
+        window.addEventListener("pageshow", function(event) {
+            // Si viene desde el bfcache, event.persisted === true
+            hideLoader();
+        });
+
+
+        /* ============================================
+           CUANDO EL DOM ESTÁ LISTO
+           ============================================ */
         document.addEventListener('DOMContentLoaded', function() {
-            // Nueva lógica: esperar a que el CSS crítico cargue
+
+            /* ================================
+               ESPERAR A QUE CARGUE EL CSS
+               ================================ */
             const css = document.querySelector('link[href*="app.css"]');
 
             if (css) {
-                css.addEventListener('load', () => {
-                    // El CSS está listo → mostramos la app
+                if (css.sheet) {
                     hideLoader();
                     document.body.classList.add('css-ready');
-                });
+                } else {
+                    css.addEventListener('load', () => {
+                        hideLoader();
+                        document.body.classList.add('css-ready');
+                    });
 
-                css.addEventListener('error', () => {
-                    // Si falla el CSS, ocultar el loader igual para no trabar la app
-                    hideLoader();
-                });
+                    css.addEventListener('error', () => {
+                        hideLoader(); // fallback
+                    });
+                }
             } else {
-                // Si no existe link al CSS, fallback
-                hideLoader();
+                hideLoader(); // si no existe el CSS
             }
-            // Manejar todos los enlaces
+
+
+            /* ============================================
+               INTERCEPTAR NAVEGACIÓN CON ENLACES
+               ============================================ */
             document.addEventListener('click', function(e) {
                 const link = e.target.closest('a');
-                if (link &&
-                    link.hostname === window.location.hostname &&
-                    !link.getAttribute('target') &&
-                    !link.hasAttribute('download') &&
-                    link.getAttribute('href') !== '#' &&
-                    !link.getAttribute('href').startsWith('javascript:') &&
-                    !e.defaultPrevented) {
+                if (!link) return;
 
-                    // Evitar que SweetAlert2 interfiera
-                    e.preventDefault();
-                    showLoader('Cargando...');
+                // Excepciones comunes
+                if (
+                    link.getAttribute('target') ||
+                    link.hasAttribute('download') ||
+                    link.getAttribute('href') === '#' ||
+                    link.getAttribute('href')?.startsWith('javascript:')
+                ) return;
 
-                    // Navegar después de mostrar el loader
-                    setTimeout(() => {
-                        window.location.href = link.href;
-                    }, 100);
-                }
+                // Solo enlaces internos
+                if (link.hostname !== window.location.hostname) return;
+
+                // Evitar doble ejecución
+                if (e.defaultPrevented) return;
+
+                e.preventDefault();
+
+                showLoader('Cargando...');
+
+                // Navegar luego de mostrar loader
+                setTimeout(() => {
+                    window.location.href = link.href;
+                }, 90);
             });
 
-            // Manejar todos los formularios
+
+            /* ============================================
+               FORMULARIOS
+               ============================================ */
             document.addEventListener('submit', function(e) {
                 const form = e.target;
 
-                // No aplicar a formularios con data-no-loader
+                // Excepción opcional
                 if (form.hasAttribute('data-no-loader')) return;
 
                 showLoader('Enviando...');
-
-                // El loader permanecerá visible hasta que se complete el envío
-                // y se redirija a la nueva página
             });
 
-            // Interceptar SweetAlert2 confirms que envían formularios
+
+            /* ============================================
+               SWEETALERT2 + FORMULARIOS
+               ============================================ */
             document.addEventListener('click', function(e) {
                 const button = e.target;
+
                 if (button.classList.contains('swal2-confirm')) {
-                    const swal = button.closest('.swal2-popup');
-                    if (swal) {
-                        const form = swal.querySelector('form');
+                    const popup = button.closest('.swal2-popup');
+                    if (popup) {
+                        const form = popup.querySelector('form');
                         if (form) {
                             showLoader('Procesando...');
                         }
                     }
                 }
             });
-        });
 
-        // Fallback: ocultar loader después de 10 segundos
-        setTimeout(() => {
-            hideLoader();
-        }, 10000);
+
+            /* ============================================
+               FALLBACK DE SEGURIDAD (por si algo falla)
+               ============================================ */
+            setTimeout(() => hideLoader(), 8000);
+        });
     </script>
     @vite(['resources/js/app.js'])
 </body>
