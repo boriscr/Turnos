@@ -1,24 +1,46 @@
 <style>
-    /*loader*/
     /* Estilos para el loader */
     .loader-overlay {
+        /* Posicionamiento y estilos ya existentes */
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 500px;
-        height: 400px;
-        background-color: var(--light_application_background);
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 99999;
         transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.438);
-        backdrop-filter: blur(5px);
         opacity: 0;
         visibility: hidden;
+
+        /* CAMBIOS PARA EL EFECTO VIDRIO ESMERILADO (GLASSMORHISM) */
+
+        /* 1. Fondo semi-transparente (Blanco con 20% de opacidad) */
+        background-color: rgba(255, 255, 255, 0.2);
+
+        /* 2. Filtro de desenfoque (blur) para el efecto "vidrio" */
+        backdrop-filter: blur(10px);
+
+        /* ANIMACIÓN SUTIL DE FONDO (Si quieres un efecto visual de movimiento) */
+        /* Aplica la animación */
+        background-size: 400% 400%;
+        animation: moveGradient 10s ease infinite;
+    }
+
+    /* 2. Definición de la Animación de Fondo */
+    @keyframes moveGradient {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
     }
 
     .loader-overlay.active {
@@ -123,14 +145,27 @@
         object-fit: cover;
     }
 
-    /* Tamaños responsivos */
-    @media (max-width: 768px) {
+
+
+
+
+    /* Tema oscuro */
+    @media (prefers-color-scheme: dark) {
         .loader-overlay {
-            width: 90%;
-            max-width: 400px;
-            height: 300px;
+            background-color: rgba(0, 0, 0, 0.2);
         }
 
+        .loader-text {
+            color: var(--dark_text_color);
+        }
+
+        .loader-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    /* Tamaños responsivos */
+    @media (max-width: 768px) {
         .loader-spinner {
             width: 50px;
             height: 50px;
@@ -142,12 +177,6 @@
     }
 
     @media (max-width: 480px) {
-        .loader-overlay {
-            max-width: 95%;
-            height: 250px;
-            border-radius: 12px;
-        }
-
         .loader-spinner {
             width: 40px;
             height: 40px;
@@ -155,22 +184,6 @@
 
         .loader-text {
             font-size: 14px;
-        }
-    }
-
-    /* Tema oscuro */
-    @media (prefers-color-scheme: dark) {
-        .loader-overlay {
-            background-color: var(--dark_application_background);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.167);
-        }
-
-        .loader-text {
-            color: var(--dark_text_color);
-        }
-
-        .loader-spinner {
-            border: 4px solid rgba(255, 255, 255, 0.1);
         }
     }
 </style>

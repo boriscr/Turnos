@@ -83,7 +83,7 @@
         });
     </script>
     <!-- Loader Component-->
-    <div class="active loader-overlay" id="globalLoader" style="width: 500px; height: 400px;">
+    <div class="active loader-overlay" id="globalLoader" style="width: 100%; height: 100%;">
         <div class="modern-loader">
             <div class="loader-content">
                 <div class="loader-spinner primary"></div>
