@@ -63,7 +63,7 @@ if (window.location.pathname.includes('/reservations/create')) {
         try {
             limpiarSelectsDependientes('doctor_id');
             selectTurno.disabled = true;
-            selectTurno.innerHTML = '<option value="">Cargando appointments...</option>';
+            selectTurno.innerHTML = '<option value="">Cargando turnos...</option>';
 
             if (!medicoId) {
                 selectTurno.innerHTML = '<option value="">Seleccione un doctor primero</option>';
@@ -78,7 +78,7 @@ if (window.location.pathname.includes('/reservations/create')) {
             // Guardar los datos de appointments para usar en la confirmación
             appointmentsData = data.appointments;
 
-            selectTurno.innerHTML = '<option value="">Seleccione un appointment</option>';
+            selectTurno.innerHTML = '<option value="">Seleccione un turno</option>';
             data.appointments.forEach(appointment => {
                 const option = document.createElement('option');
                 option.value = appointment.id;
@@ -88,7 +88,7 @@ if (window.location.pathname.includes('/reservations/create')) {
 
             selectTurno.disabled = false;
         } catch (error) {
-            console.error("Error al cargar lista de appointments:", error);
+            console.error("Error al cargar lista de turnos:", error);
             selectTurno.innerHTML = '<option value="">Error al cargar</option>';
         }
     }
@@ -292,9 +292,6 @@ if (window.location.pathname.includes('/reservations/create')) {
         // Obtener la dirección desde los datos guardados en appointmentsData
         let address = 'No especificada';
         const selectedAppointmentId = appointmentNameSelect.value;
-
-        console.log('Selected appointment ID:', selectedAppointmentId);
-        console.log('Appointments data available:', appointmentsData);
 
         if (selectedAppointmentId && appointmentsData.length > 0) {
             const selectedAppointment = appointmentsData.find(app => app.id == selectedAppointmentId);

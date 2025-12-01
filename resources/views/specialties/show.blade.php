@@ -10,18 +10,18 @@
                     <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" :value="$specialty->status ? __('medical.active') : __('medical.inactive')" />
                     <x-field-with-icon icon="calendar-plus" :label="__('medical.creation_date')" :value="$specialty->created_at" />
                     <x-field-with-icon icon="calendar-check" :label="__('medical.update_date')" :value="$specialty->updated_at" />
-                    <div class="options full-center">
-                        <a href="{{ route('specialties.edit', $specialty->id) }}" class="btn-edit"><i
-                                class="bi bi-pencil-fill">{{ __('button.edit') }}</i></a>
-                        <form action="{{ route('specialties.destroy', $specialty->id) }}" method="POST"
-                            class="delete-form">
-                            @csrf
-                            @method('DELETE')
-                            <button type="button" class="btn-delete delete-btn"><i
-                                    class="bi bi-trash-fill">{{ __('button.delete') }}</i>
-                            </button>
-                        </form>
-                    </div>
+                </div>
+                <div class="options full-center">
+                    <a href="{{ route('specialties.edit', $specialty->id) }}" class="btn-edit"><i
+                            class="bi bi-pencil-fill">{{ __('button.edit') }}</i></a>
+                    <form action="{{ route('specialties.destroy', $specialty->id) }}" method="POST"
+                        class="delete-form">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn-delete delete-btn"><i
+                                class="bi bi-trash-fill">{{ __('button.delete') }}</i>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

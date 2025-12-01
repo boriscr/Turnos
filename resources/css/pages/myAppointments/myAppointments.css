@@ -50,7 +50,6 @@
 
             .details-icon {
                 .bi {
-                    color: var(--light_text_color);
                     font-size: 30px;
                 }
             }
@@ -83,11 +82,7 @@
                 box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.219);
             }
 
-            .details-icon {
-                .bi {
-                    color: var(--dark_text_color);
-                }
-            }
+
         }
     }
 }

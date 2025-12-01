@@ -46,8 +46,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Loader Component -->
-    <div class="active loader-overlay" id="globalLoader" style="width: 500px; height: 400px;">
+    <!-- Loader Component-->
+    <div class="active loader-overlay" id="globalLoader" style="width: 100%; height: 100%;">
         <div class="modern-loader">
             <div class="loader-content">
                 <div class="loader-spinner primary"></div>
@@ -58,8 +58,8 @@
 
     <script>
         /* ============================================
-           GLOBAL LOADER CONTROL – OPTIMIZED VERSION
-           ============================================ */
+               GLOBAL LOADER CONTROL – OPTIMIZED VERSION
+               ============================================ */
 
         // Mostrar loader
         window.showLoader = function(message = 'Cargando...') {

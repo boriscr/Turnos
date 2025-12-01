@@ -329,7 +329,7 @@ class ReservationController extends Controller
                 return [
                     'id' => $appointment->id,
                     'name' => $appointment->name,
-                    'address' => $appointment->address, // ← Asegúrate que esto esté incluido
+                    'address' => $appointment->address,
                     'shift' => $appointment->shift ? __("appointment.shift.{$appointment->shift}_shift") : null,
                     'shift_key' => $appointment->shift,
                 ];
