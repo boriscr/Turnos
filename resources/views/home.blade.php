@@ -77,7 +77,7 @@
                 <img src="https://i.pinimg.com/originals/69/2a/5c/692a5ca9ea28c54c77df560e374b798a.gif" alt="">
             </div>
             <!-- Contenedor con scroll -->
-            <div class="modal-body">
+            <div class="modal-body messaje-alert-body">
                 <p>Esta aplicación está <strong>en construcción</strong> y es solo una <strong>vista de
                         demostración</strong>. Puede que <strong>no esté disponible en cualquier momento</strong>, y
                     algunas

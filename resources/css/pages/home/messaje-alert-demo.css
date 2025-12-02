@@ -44,7 +44,7 @@
         width: 100%;
         height: 150px;
         object-fit: cover;
-        
+
         border-radius: 16px;
         margin-bottom: 15px;
     }
@@ -119,6 +119,13 @@
     margin: 10px 0;
     max-height: calc(90vh - 200px);
 
+
+}
+
+.messaje-alert-body {
+    p {
+        color: #eee !important;
+    }
 }
 
 /* Estilo bonito para la barra de scroll (solo Webkit: Chrome, Edge, Safari) */
