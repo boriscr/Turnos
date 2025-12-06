@@ -20,6 +20,7 @@ class Appointment extends Model
         'number_of_reservations',
         'start_time',
         'end_time',
+        'appointment_type',
         'available_dates',
         'available_time_slots',
         'status'

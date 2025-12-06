@@ -34,6 +34,7 @@ class AppointmentStoreRequest extends FormRequest
             'number_of_reservations' =>  ['required', 'integer', 'min:1'],
             'start_time' =>  ['required'],
             'end_time' =>  ['required'],
+            'appointment_type' => ['required', 'in:single_slot,multi_slot'],
             'available_time_slots' => [],
             'selected_dates' =>  ['required', 'json'], // Aseguramos que sea un JSON válido
             'status' =>  ['required', 'boolean'],

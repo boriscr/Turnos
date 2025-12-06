@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('number_of_reservations');
             $table->time('start_time');
             $table->time('end_time');
+            $table->enum('appointment_type',['single_slot','multi_slot']);
             $table->json('available_time_slots')->nullable();
             $table->json('available_dates');
             $table->boolean('status')->default(true);

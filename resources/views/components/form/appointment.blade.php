@@ -109,10 +109,11 @@
                 <div class="item-style">
                     <x-form.text-input type="radio" name="appointment_type" id="single_slot" value="single_slot"
                         :label="__('appointment.schedule.single')"
-                        checkedValue="{{ !isset($appointment) || $appointment->available_time_slots == null ? 'checked' : '' }}" />
+                        checkedValue="{{ !isset($appointment) || $appointment->appointment_type === 'single_slot' ? 'checked' : '' }}" />
                     <x-form.text-input type="radio" name="appointment_type" id="multi_slot" value="multi_slot"
                         :label="__('appointment.schedule.multiple')"
-                        checkedValue="{{ isset($appointment) && $appointment->available_time_slots != null ? 'checked' : '' }}" />
+
+                        checkedValue="{{ isset($appointment) && $appointment->appointment_type === 'multi_slot' ? 'checked' : '' }}" />
                     <input type="hidden" name="available_time_slots" id="available_time_slots">
                 </div>
                 <div id="horario-box">

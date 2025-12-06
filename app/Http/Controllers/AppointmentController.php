@@ -449,6 +449,7 @@ class AppointmentController extends Controller
         // 4. Actualizar el appointment principal con solo fechas permitidas
         $appointment->update([
             ...$request->validated(),
+            'appointment_type' => $tipoAppointment,
             'available_time_slots' => !empty($timeSlots) ? $timeSlots : null,
             'available_dates' => $fechasParaActualizar, // Solo fechas permitidas
             'status' => $request->status ?? $appointment->status,
@@ -647,6 +648,7 @@ class AppointmentController extends Controller
             $availableSpots = ($tipoAppointment === 'single_slot') ? intval($request->number_of_reservations) : 1;
             $key = $combinacion['date'] . '_' . ($combinacion['time'] ?: '');
 
+
             if (isset($mapaExistentesConReservas[$key])) {
                 // Actualizar existente
                 $existente = $mapaExistentesConReservas[$key];
@@ -656,6 +658,7 @@ class AppointmentController extends Controller
                     'doctor_id' => $request->doctor_id,
                     'available_spots' => $newAvailableSpots,
                     'specialty_id' => $request->specialty_id,
+                    'updated_at' => now()
                 ]);
             } else {
                 // Crear nueva para insertar en lote
