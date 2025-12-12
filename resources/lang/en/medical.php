@@ -17,6 +17,7 @@ return [
     'user' => 'User',
     'active' => 'Active',
     'inactive' => 'Inactive',
+    'account_inactive'=>'Account inactive',
     'actions' => 'Actions',
     'patient' => 'Patient',
     'attendance' => 'Attendance',
@@ -41,7 +42,7 @@ return [
     /*Seccion de creacion de turnos /reservas */
     'who_is_the_appointment_for' => 'Who is the appointment for?',
     'for_myself' => 'For myself',
-    'for_other_person' => 'For another person',
+    'third_party' => 'For another person',
 
     'greetings' => [
         'hello' => 'Hello',

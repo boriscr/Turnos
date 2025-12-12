@@ -17,7 +17,7 @@ if (window.location.pathname.includes('/reservations/create') ||
         // Elementos específicos para el formulario de reservas
         const patientTypeRadios = document.querySelectorAll('input[name="patient_type_radio"]');
         const patientTypeHidden = document.getElementById('patient_type');
-        const forMyselfSection = document.getElementById('for-myself-section');
+        const forselfSection = document.getElementById('for-self-section');
         const forOtherSection = document.getElementById('for-other-section');
         const otherPersonInputs = forOtherSection ? forOtherSection.querySelectorAll('input') : [];
 
@@ -54,12 +54,12 @@ if (window.location.pathname.includes('/reservations/create') ||
         function updatePatientSections(patientType) {
             if (patientTypeHidden) patientTypeHidden.value = patientType;
 
-            if (patientType === 'myself') {
-                forMyselfSection.style.display = 'block';
+            if (patientType === 'self') {
+                forselfSection.style.display = 'block';
                 forOtherSection.style.display = 'none';
                 clearOtherPersonFields();
             } else {
-                forMyselfSection.style.display = 'none';
+                forselfSection.style.display = 'none';
                 forOtherSection.style.display = 'block';
             }
         }
@@ -166,9 +166,9 @@ if (window.location.pathname.includes('/reservations/create') ||
             if (stepIndex === 0 && window.location.pathname.includes('/reservations')) {
                 const patientType = document.querySelector('input[name="patient_type_radio"]:checked').value;
 
-                if (patientType === 'other') {
+                if (patientType === 'third_party') {
                     // Validar campos de "otra persona"
-                    const requiredFields = ['other_name', 'other_surname', 'other_idNumber'];
+                    const requiredFields = ['third_party_name', 'third_party_surname', 'third_party_idNumber','third_party_email'];
 
                     requiredFields.forEach(fieldName => {
                         const input = document.querySelector(`[name="${fieldName}"]`);

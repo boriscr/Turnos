@@ -10,6 +10,11 @@ class Reservation extends Model
         'available_appointment_id', 
         'specialty_id',
         'user_id',
+        'type',
+        'third_party_name',
+        'third_party_surname',
+        'third_party_idNumber',
+        'third_party_email',
         'status',
     ];
 

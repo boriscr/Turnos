@@ -52,8 +52,15 @@ class ReservationController extends Controller
                 $query->where('available_appointment_id', $availableAppointmentId);
             })
             ->when($search, function ($query) use ($search) {
-                $query->whereHas('user', function ($userQuery) use ($search) {
-                    $userQuery->where('idNumber', 'like', "%$search%");
+                $query->where(function ($q) use ($search) {
+                    $q->whereHas('user', function ($userQuery) use ($search) {
+                        $userQuery->where('idNumber', 'like', "%$search%");
+                    })
+                        // Solo buscar en third_party_idNumber si es una reserva de tercero
+                        ->orWhere(function ($subQ) use ($search) {
+                            $subQ->where('type', 'third_party')
+                                ->where('third_party_idNumber', 'like', "%$search%");
+                        });
                 });
             })
             ->when(in_array($reservaFiltro, ['assisted', 'pending', 'not_attendance']), function ($query) use ($reservaFiltro) {
@@ -468,26 +475,71 @@ class ReservationController extends Controller
                 $availableAppointment->increment('reserved_spots');
 
                 // ✅ CREAR RESERVA Y CAPTURAR LA INSTANCIA COMPLETA
-                $reservation = Reservation::create([
-                    'user_id' => $user->id,
-                    'available_appointment_id' => $availableAppointment->id,
-                    'specialty_id' => $request->specialty_id
-                ]);
+                try {
+                    if ($request->patient_type_radio === 'self') {
+                        $reservation = $this->createReservation(
+                            $user->id,
+                            $availableAppointment->id,
+                            $request->specialty_id,
+                            'self'
+                        );
+                    } elseif ($request->patient_type_radio === 'third_party') {
+                        $thirdPartyData = [
+                            'third_party_name' => $request->third_party_name,
+                            'third_party_surname' => $request->third_party_surname,
+                            'third_party_idNumber' => $request->third_party_idNumber,
+                            'third_party_email' => $request->third_party_email,
+                        ];
 
-                // 9. Crear historial (solo para auditoría)
-                $this->storeAppointmentHistoryStatus($reservation);
+                        $reservation = $this->createReservation(
+                            $user->id,
+                            $availableAppointment->id,
+                            $request->specialty_id,
+                            'third_party',
+                            $thirdPartyData
+                        );
+                    }
 
-                // ✅ REDIRECCIÓN SEGURA usando RESERVATION ID (entidad principal)
-                return $this->successResponse(
-                    'Reserva exitosa',
-                    'Turno reservado correctamente.',
-                    $reservation->id
-                );
+                    // ✅ REDIRECCIÓN DIRECTA con el ID de la reserva
+                    return $this->successResponse(
+                        'Reserva exitosa',
+                        'Turno reservado correctamente.',
+                        $reservation->id
+                    );
+                } catch (\Exception $e) {
+                    // Manejo de errores
+                    return $this->errorResponse('Error al crear la reserva', $e->getMessage());
+                }
             });
         } catch (\Exception $e) {
             return $this->errorResponse('Error en la reserva', $e->getMessage());
         }
     }
+    /*Funcion para crear la reserva dependiendo para el tipo de paceinte */
+    /* Función para crear la reserva con los datos básicos */
+    protected function createReservation($userId, $availableAppointmentId, $specialtyId, $type, $thirdPartyData = null)
+    {
+        $reservationData = [
+            'user_id' => $userId,
+            'available_appointment_id' => $availableAppointmentId,
+            'specialty_id' => $specialtyId,
+            'type' => $type,
+        ];
+
+        // Si es third_party, agregar datos adicionales
+        if ($type === 'third_party' && $thirdPartyData) {
+            $reservationData = array_merge($reservationData, $thirdPartyData);
+        }
+
+        $reservation = Reservation::create($reservationData);
+
+        // Crear historial (solo para auditoría)
+        $this->storeAppointmentHistoryStatus($reservation);
+
+        return $reservation;
+    }
+
+
 
     /**
      * Almacena el historial de la cita (solo para auditoría)
@@ -637,14 +689,8 @@ class ReservationController extends Controller
         ]);
 
         if ($reservationId) {
-            // ✅ VERIFICACIÓN DIRECTA en RESERVATIONS (entidad principal)
-            $userReservation = Reservation::where('id', $reservationId)
-                ->where('user_id', Auth::id())
-                ->first();
-
-            if ($userReservation) {
-                return redirect()->route('myAppointments.show', $reservationId);
-            }
+            // Redirige directamente, no necesitas verificar porque acabas de crear la reserva
+            return redirect()->route('myAppointments.show', $reservationId);
         }
 
         // Fallback seguro

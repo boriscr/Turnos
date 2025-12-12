@@ -269,18 +269,35 @@ if (window.location.pathname.includes('/reservations/create')) {
             }
         }
     }
-
     // Función para cargar datos de confirmación en el paso 3
     function loadConfirmationData() {
-        // Obtener elementos
+        // Elementos básicos
+        const confirmationDetails = document.getElementById('confirmation-details');
+        if (!confirmationDetails) return;
+
+        // Obtener datos comunes
+        const commonData = getCommonConfirmationData();
+        if (!commonData) return;
+
+        // Obtener datos del paciente según tipo
+        const patientData = getPatientData();
+        if (!patientData) return;
+
+        // Generar y mostrar HTML
+        confirmationDetails.innerHTML = generateConfirmationHTML(commonData, patientData);
+    }
+
+    // Obtener datos comunes (doctor, especialidad, fecha, etc.)
+    function getCommonConfirmationData() {
         const specialtySelect = document.getElementById('specialty_id');
         const doctorSelect = document.getElementById('doctor_id');
         const appointmentNameSelect = document.getElementById('appointment_name_id');
         const dateSelect = document.getElementById('appointment_date');
         const timeSelect = document.getElementById('appointment_time');
-        const confirmationDetails = document.getElementById('confirmation-details');
 
-        if (!confirmationDetails) return;
+        if (!specialtySelect || !doctorSelect || !appointmentNameSelect || !dateSelect || !timeSelect) {
+            return null;
+        }
 
         // Obtener textos seleccionados
         const specialtyText = specialtySelect.options[specialtySelect.selectedIndex]?.text || 'No seleccionado';
@@ -289,41 +306,124 @@ if (window.location.pathname.includes('/reservations/create')) {
         const dateText = dateSelect.options[dateSelect.selectedIndex]?.text || 'No seleccionado';
         const timeText = timeSelect.options[timeSelect.selectedIndex]?.text || 'No seleccionado';
 
-        // Obtener la dirección desde los datos guardados en appointmentsData
+        // Obtener dirección
         let address = 'No especificada';
         const selectedAppointmentId = appointmentNameSelect.value;
-
-        if (selectedAppointmentId && appointmentsData.length > 0) {
+        if (selectedAppointmentId && appointmentsData?.length > 0) {
             const selectedAppointment = appointmentsData.find(app => app.id == selectedAppointmentId);
-            console.log('Found appointment:', selectedAppointment);
-
-            if (selectedAppointment && selectedAppointment.address) {
-                address = selectedAppointment.address;
-            }
+            address = selectedAppointment?.address || address;
         }
 
-        // Construir HTML de confirmación usando los datos de traducción
-        confirmationDetails.innerHTML = `
-        <div class="content-date-profile width-profile-doctor">
-            <div class="profile-container">
-                <img src="https://www.nicepng.com/png/detail/867-8678512_doctor-icon-physician.png"alt="img-profile" class="profile-img">
-                <div class="profile-id">
-                    <p class="profile-name">
-                        Dr: ${doctorText}
-                    </p>
-                    <small>
-                        ${specialtyText} | ${appointmentNameText}
-                    </small>
-                </div>
+        return {
+            doctorText,
+            specialtyText,
+            appointmentNameText,
+            dateText,
+            timeText,
+            address
+        };
+    }
+
+    // Obtener datos del paciente según tipo seleccionado
+    function getPatientData() {
+        const patientTypeMyself = document.getElementById('patient_type_myself');
+        const patientTypeOther = document.getElementById('patient_type_other');
+
+        if (patientTypeMyself?.checked) {
+            const userData = extractUserDataSimple();
+            return {
+                ...userData,
+                isMyself: true,
+                image: 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
+            };
+        }
+
+        if (patientTypeOther?.checked) {
+            const getName = (id) => document.getElementById(id)?.value || '';
+            return {
+                name: getName('third_party_name'),
+                surname: getName('third_party_surname'),
+                dni: getName('third_party_idNumber'),
+                email: getName('third_party_email'),
+                isMyself: false,
+                image: 'https://thumbs.dreamstime.com/b/ilustraci%C3%B3n-de-l%C3%ADnea-espera-concepto-y-paciencia-un-hombre-sentado-en-una-silla-con-tel%C3%A9fono-m%C3%B3vil-la-mano-esperando-algo-195256198.jpg'
+            };
+        }
+
+        return null;
+    }
+
+    // Plantilla HTML para la sección del doctor (reutilizable)
+    const doctorTemplate = (doctorText, specialtyText, appointmentNameText) => `
+    <div class="profile-container profile-containe-position">
+        <img src="https://www.nicepng.com/png/detail/867-8678512_doctor-icon-physician.png" alt="img-profile" class="profile-img">
+        <div class="profile-id">
+            <p class="profile-name">Dr: ${doctorText}</p>
+            <small>${specialtyText} | ${appointmentNameText}</small>
+        </div>
+    </div>
+`;
+
+    // Plantilla HTML para la información de la cita (reutilizable)
+    const appointmentInfoTemplate = (dateText, timeText, address) => `
+    <div class="card timeline-card">
+        <p><i class="bi bi-calendar-check-fill me-2"></i><b>${window.confirmationData?.dateText || 'Fecha'}:</b> ${dateText}</p>
+        <p><i class="bi bi-clock-fill me-2"></i><b>${window.confirmationData?.timeText || 'Horario'}:</b> ${timeText} Hs</p>
+        <p><i class="bi bi-geo-alt-fill me-2"></i><b>${window.confirmationData?.addressText || 'Dirección'}:</b> ${address}</p>
+    </div>
+`;
+
+    // Plantilla HTML para la sección del paciente (reutilizable)
+    const patientTemplate = (patientData) => {
+        const patientName = patientData.isMyself
+            ? patientData.name || 'Usuario'
+            : `${patientData.name} ${patientData.surname}`.trim();
+
+        return `
+        <div class="profile-container profile-containe-position">
+            <img src="${patientData.image}" alt="img-profile" class="profile-img">
+            <div class="profile-id">
+                <p class="profile-name">Paciente: ${patientName}</p>
+                <small>DNI: ${patientData.dni || ''} ${patientData.email ? `- Email: ${patientData.email}` : ''}</small>
             </div>
         </div>
-        <div class="card">
-        <p><i class="bi bi-calendar-check-fill me-2"></i><b>${window.confirmationData?.dateText || 'Fecha'}:</b> ${dateText}</p>
-        <p><i class="bi bi-clock-fill me-2"></i><b>${window.confirmationData?.timeText || 'Horario'}:</b> ${timeText}</p>
-        <p><i class="bi bi-geo-alt-fill me-2"></i><b>${window.confirmationData?.addressText || 'Dirección'}:</b> ${address}</p>
+    `;
+    };
+
+    // Generar HTML completo de confirmación
+    function generateConfirmationHTML(commonData, patientData) {
+        return `
+        <div class="content-date-profile width-profile-doctor">
+            <div class="timeline-container">
+                ${doctorTemplate(commonData.doctorText, commonData.specialtyText, commonData.appointmentNameText)}
+                
+                <div class="timeline-center-icon">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+
+                ${appointmentInfoTemplate(commonData.dateText, commonData.timeText, commonData.address)}
+                
+                ${patientTemplate(patientData)}
+            </div>
         </div>
-        `;
+    `;
     }
+
+    // Función para extraer datos del usuario actual
+    function extractUserDataSimple() {
+        const userSection = document.getElementById('for-self-section');
+        if (!userSection) return { name: '', dni: '', address: '', phone: '', email: '' };
+
+        const paragraphs = userSection.querySelectorAll('p');
+        return {
+            name: paragraphs[0]?.textContent.trim() || '',
+            dni: paragraphs[1]?.textContent.trim() || '',
+            address: paragraphs[2]?.textContent.trim() || '',
+            phone: paragraphs[3]?.textContent.trim() || '',
+            email: paragraphs[4]?.textContent.trim() || ''
+        };
+    }
+
 
     // Configuración del formulario multi-paso
     function setupMultiStepForm() {

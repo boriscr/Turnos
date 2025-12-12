@@ -46,3 +46,23 @@
         </div>
     </section>
 @endif
+
+@if (isset($thirdParty) || isset($all))
+    <section class="boxed-info-section full-center mt-3">
+        <div class="alert-card">
+            <div class="reminder-box full-center">
+                <i class="bi bi-info-circle-fill"></i>
+                <div class="text-start">
+                    <p>
+                        <strong>Políticas de Reserva para Terceros</strong><br>
+                        Tenga en cuenta que la reserva para un tercero consume uno de sus cupos disponibles. La
+                        responsabilidad de la asistencia recae sobre usted.
+                    </p>
+                    <p>
+                        <strong>En caso de inasistencia</strong>, la falta se aplicará directamente a su cuenta.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+@endif

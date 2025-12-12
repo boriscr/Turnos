@@ -49,8 +49,14 @@
                     @forelse ($reservations as $reservation)
                         <tr>
                             <td class="option-movil">{{ $reservation->id }}</td>
-                            <td>
-                                {{ $reservation->user->name . ' ' . $reservation->user->surname }} </td>
+                            @if ($reservation->type === 'third_party')
+                                <td>
+                                    {{ $reservation->third_party_name . ' ' . $reservation->third_party_surname }}
+                                </td>
+                            @else
+                                <td>
+                                    {{ $reservation->user->name . ' ' . $reservation->user->surname }} </td>
+                            @endif
                             <td>{{ Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y') }}
                             </td>
                             <td class="option-movil">

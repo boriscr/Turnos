@@ -42,7 +42,16 @@
                         @endif
                     </spam>
                 </div>
-
+                @if ($reservation->type === 'third_party')
+                    <div class="card">
+                        <x-form.titles :value="__('medical.patient')" type="subtitle" />
+                        <x-field-with-icon icon="person-fill" :label="__('contact.name_and_surname')" :value="$reservation->third_party_name . ' ' . $reservation->third_party_surname" />
+                        <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="$reservation->third_party_idNumber" />
+                        <span class="full-center status btn-success">
+                            {{ __('medical.third_party') }}
+                        </span>
+                    </div>
+                @endif
                 <div class="card">
                     <x-form.titles :value="__('medical.titles.my_data')" type="subtitle" />
                     <x-field-with-icon icon="person-fill" :label="__('contact.name_and_surname')" :value="$reservation->user->name . ' ' . $reservation->user->surname" />
@@ -51,7 +60,6 @@
                         <x-field-with-icon :value="$reservation->user->status ? __('medical.active') : __('medical.inactive')" />
                     </span>
                 </div>
-
                 @php
                     $fechaHoraReserva = \Carbon\Carbon::parse(
                         $reservation->availableAppointment->date->format('Y-m-d') .
@@ -72,9 +80,9 @@
                     </div>
                 @endif
             </div>
-                <br>
-                <hr>
-                <x-boxed-info-section :all="true"/>
+            <br>
+            <hr>
+            <x-boxed-info-section :all="true" />
         </div>
     @else
         <div class="content-wrapper">
@@ -103,5 +111,6 @@
                     <p>{{ __('error.oops.message_3') }}</p>
                 </div>
             </div>
-        </div> @endif
+        </div>
+    @endif
 </x-app-layout>

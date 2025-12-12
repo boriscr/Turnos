@@ -1,41 +1,71 @@
 <x-app-layout>
     <div class="content-wrapper">
-        <div class="content-date-profile {{ $user->status ? '' : 'status-inactive' }}" style="width: 100%">
-            <div class="profile-container">
-                <label for="profile-photo" class="profile-img-label">
-                    <img src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2558760599.jpg"
-                        alt="img-profile" class="profile-img">
-                    <input type="file" id="profile-photo" class="profile-input" accept="image/*">
-                </label>
-                <div class="profile-id">
-                    <p class="profile-name">
-                        <span>
-                            @switch($user->gender->name)
-                                @case('Masculino')
-                                    {{ __('medical.greetings.welcome') }}
-                                @break
+        <div class="box-container">
 
-                                @case('Femenino')
-                                    {{ __('medical.greetings.famale_welcome') }}
-                                @break
+            <div class="content-date-profile">
+                <div class="profile-container">
+                    <label for="profile-photo" class="profile-img-label">
+                        <img src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2558760599.jpg"
+                            alt="img-profile" class="profile-img">
+                        <input type="file" id="profile-photo" class="profile-input" accept="image/*">
+                    </label>
+                    <div class="profile-id">
+                        <p class="profile-name">
+                            <span>
+                                @switch($user->gender->name)
+                                    @case('Masculino')
+                                        {{ __('medical.greetings.welcome') }}
+                                    @break
 
-                                @default
-                                    {{ __('medical.greetings.hello') }}
-                            @endswitch
-                        </span>
-                        {{ explode(' ', $user->name)[0] }}
-                    </p>
-                    <small>
-                        {{ $user->email }}
-                    </small>
-                    <div class="profile-edit-btn-container">
-                        <x-secondary-button>
-                            <a href="{{ route('profile.edit', $user->id) }}">
-                                {{ __('medical.update') }}
-                            </a>
-                        </x-secondary-button>
+                                    @case('Femenino')
+                                        {{ __('medical.greetings.famale_welcome') }}
+                                    @break
+
+                                    @default
+                                        {{ __('medical.greetings.hello') }}
+                                @endswitch
+                            </span>
+                            {{ explode(' ', $user->name)[0] }}
+                        </p>
+                        <small>
+                            {{ $user->email }}
+                        </small>
+                        <div class="profile-edit-btn-container">
+                            <x-secondary-button>
+                                <a href="{{ route('profile.edit', $user->id) }}">
+                                    {{ __('medical.update') }}
+                                </a>
+                            </x-secondary-button>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="content-date-profile {{ $user->status ? '' : 'status-inactive' }}">
+                @if ($user->status)
+                    <div class="profile-container full-center">
+                        <ul>
+                            <li class="item"> <i class="bi bi-exclamation-circle-fill"></i> Faults:
+                                {{ $user->faults }}
+                            </li>
+                            <li class="item"> <i class="bi bi-dash-circle-fill"></i> Turnos Perdidos:
+                                {{ $appointmentsNotAttendance }}
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="item"> <i class="bi bi-check-circle"></i> Turnos solicitados:
+                                {{ $tellHistory }}
+                            </li>
+                            <li class="item"> <i class="bi bi-hourglass-split"></i> Turnos pendientes:
+                                {{ $appointmentsPending }}</li>
+                        </ul>
+                    </div>
+                @else
+                    <div class="profile-container full-center">
+                        <strong>
+                            <i class="bi bi-x-circle-fill"></i>
+                            {{ __('medical.account_inactive') }}
+                        </strong>
+                @endif
             </div>
         </div>
 

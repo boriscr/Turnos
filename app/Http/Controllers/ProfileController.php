@@ -15,19 +15,32 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Models\AppointmentHistory;
+use App\Models\AppointmentHistoryArchive;
 
 class ProfileController extends Controller
 {
     public function index(): View
     {
-        $user = User::select('id', 'name', 'gender_id', 'email', 'status')
+        $user = User::select('id', 'name', 'gender_id', 'email', 'faults', 'status')
             ->with('gender')
             ->findOrFail(Auth::id());
-
+        /*Contar el total de turnos reservados segun registros en los dos historiales*/
+        $AppointmentHistory = AppointmentHistory::where('user_id', Auth::id())->count();
+        $AppointmentHistoryArchive = AppointmentHistoryArchive::where('user_id', Auth::id())->count();
+        $tellHistory = $AppointmentHistory + $AppointmentHistoryArchive;
+        //Contar el total de turnos pendientes
+        $appointmentsPending = AppointmentHistory::where('user_id', Auth::id())
+            ->where('status', 'pending')
+            ->count();
+        //Contar el total de turnos no asistidos
+        $appointmentsNotAttendance = AppointmentHistory::where('user_id', Auth::id())
+            ->where('status', 'not_attendance')
+            ->count();
         // Verifica si el usuario tiene permiso para ver su perfil
         $this->authorize('view', $user);
 
-        return view('profile.index', compact('user'));
+        return view('profile.index', compact('user','appointmentsNotAttendance', 'tellHistory', 'appointmentsPending'));
     }
 
     //verificar si el usuario esta autenticado y pertenese al mismo usuario

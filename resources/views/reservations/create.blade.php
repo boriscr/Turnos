@@ -34,33 +34,33 @@
                 @csrf
 
                 <!-- Campo hidden para indicar el tipo de paciente -->
-                <input type="hidden" name="patient_type" id="patient_type" value="myself">
+                <input type="hidden" name="patient_type" id="patient_type" value="self">
 
                 <!-- Paso 1 - Datos Personales -->
                 <div class="form-step active" data-step="1">
                     <!-- Selector de tipo de paciente -->
                     <div class="patient-type-selector mb-4">
-                        <label class="form-label">{{ __('medical.titles.who_is_the_appointment_for') }}</label>
+                        <label class="form-label">{{ __('medical.who_is_the_appointment_for') }}</label>
                         <div class="btn-group w-100" role="group">
                             <input type="radio" class="btn-check" name="patient_type_radio" id="patient_type_myself"
-                                value="myself" checked>
+                                value="self" checked>
                             <label class="btn btn-outline-primary" for="patient_type_myself">
-                                <i class="bi bi-person-circle"></i> {{ __('medical.titles.for_myself') }}
+                                <i class="bi bi-person-circle"></i> {{ __('medical.for_myself') }}
                             </label>
 
                             <input type="radio" class="btn-check" name="patient_type_radio" id="patient_type_other"
-                                value="other">
+                                value="third_party">
                             <label class="btn btn-outline-primary" for="patient_type_other">
                                 <div class="feature">
                                     {{ __('medical.feature') }}
                                 </div>
-                                <i class="bi bi-person-plus-fill"></i> {{ __('medical.titles.for_other_person') }}
+                                <i class="bi bi-person-plus-fill"></i> {{ __('medical.third_party') }}
                             </label>
                         </div>
                     </div>
 
                     <!-- Sección para "Para mí" -->
-                    <div id="for-myself-section" class="patient-section">
+                    <div id="for-self-section" class="patient-section">
                         <div class="item">
                             <small>{{ __('contact.name_and_surname') }} </small>
                             <p>{{ $user->name . ' ' . $user->surname }}</p>
@@ -77,17 +77,20 @@
 
                     <!-- Sección para "Para otra persona" -->
                     <div id="for-other-section" class="patient-section" style="display: none;">
-                        <x-form.text-input type="text" icon="person-fill" name="other_name" :label="__('contact.name')"
+                        <x-form.text-input type="text" icon="person-fill" name="third_party_name" :label="__('contact.name')"
                             placeholder="{{ __('placeholder.name') }}" minlength="3" maxlength="40"
                             :required="false" />
-                        <x-form.text-input type="text" icon="person-fill" name="other_surname" :label="__('contact.surname')"
-                            placeholder="{{ __('placeholder.surname') }}" minlength="3" maxlength="40"
-                            :required="false" />
-                        <x-form.text-input type="text" icon="person-vcard-fill" name="other_idNumber"
+                        <x-form.text-input type="text" icon="person-fill" name="third_party_surname"
+                            :label="__('contact.surname')" placeholder="{{ __('placeholder.surname') }}" minlength="3"
+                            maxlength="40" :required="false" />
+                        <x-form.text-input type="text" icon="person-vcard-fill" name="third_party_idNumber"
                             :label="__('contact.idNumber')" placeholder="{{ __('placeholder.idNumber') }}" minlength="7"
                             maxlength="8" :required="false" />
+                        <x-form.text-input type="text" icon="envelope-fill" name="third_party_email"
+                            :label="__('contact.email')" placeholder="{{ __('placeholder.email') }}" minlength="5"
+                            maxlength="100" :required="false" />
+                        <x-boxed-info-section :thirdParty="true" />
                     </div>
-
                     <div class="full-center mt-10">
                         <button type="button" class="next-btn full-center">{{ __('button.next') }}<i
                                 class="bi bi-chevron-right"></i></button>

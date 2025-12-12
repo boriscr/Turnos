@@ -32,7 +32,7 @@
 }
 
 /* Asegurar que las secciones tengan un display inicial correcto */
-#for-myself-section {
+#for-self-section {
     display: block;
 }
 
@@ -50,3 +50,96 @@
         background-color: transparent;
     }
 }
+
+/*Linea que conecta usuario y doctor */
+/* Timeline container */
+.timeline-container {
+    position: relative;
+    width: 100%;
+    padding-left: 0px;
+    left: 0px;
+}
+
+/* Línea vertical detrás de todo */
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    left: 1.5px;
+    top: 60px;
+    bottom: 60px;
+    width: 4px;
+    background-color: var(--general_design_color);
+    border-radius: 2px;
+    z-index: 1;
+}
+
+@keyframes girar {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Icono en medio de la línea */
+.timeline-center-icon {
+    position: absolute;
+    left: -20px;
+    top: 45%;
+    transform: translateY(-10%);
+    width: 50px;
+    height: 50px;
+    background-color: var(--light_application_background);
+    border: 3px solid var(--general_design_color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    z-index: 3;
+    animation: girar 3s ease-in-out infinite;
+}
+
+.timeline-center-icon i {
+    font-size: 24px;
+    color: var(--general_design_color);
+}
+
+/* Ajustar card para que no interrumpa */
+.timeline-card {
+    position: relative;
+    z-index: 2;
+    margin-top: 15px !important;
+    margin-bottom: 15px;
+    padding-left: 30px !important;
+    left: 0px;
+    width: 100%;
+}
+
+.profile-containe-position {
+    left: 0px !important;
+    z-index: 99;
+    border: solid 2px rgba(0, 0, 0, 0.118);
+    border-radius: 25px;
+}
+
+
+
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+
+    /*Icono linea entre card usuario y doctor*/
+    .profile-connection-marker,
+    .timeline-center-icon {
+        background-color: var(--dark_application_background);
+    }
+
+    /*Contenedores de card usuario y doctor 3er paso*/
+    .profile-containe-position {
+        border: solid 2px rgba(220, 220, 220, 0.139);
+    }
+}
+

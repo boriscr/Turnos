@@ -3,9 +3,39 @@
     background-color: var(--light_application_background);
 }
 
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+
+    .box-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+
+        .item {
+            background-color: color-mix(in srgb, var(--general_design_color) 30%, #ffffff00 70%);
+            border: 1px solid var(--general_design_color);
+            padding: 5px;
+            border-radius: 12px;
+            margin: 3px;
+        }
+
+        .content-date-profile {
+            width: 420px;
+        }
+    }
+}
+
 /*Seccion 1. datos personales img*/
 .content-date-profile {
     box-shadow: 0px 0px 10px rgba(150, 150, 150, 0.5);
+    margin: 0px 5px;
     padding: 10px;
     border-radius: 25px;
     display: flex;
@@ -17,10 +47,17 @@
 
 
 .profile-container {
-    height: 120px;
+    min-height: 120px;
+    max-height: 200px;
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.width-profile-doctor {
+    .profile-container {
+        width: 100%;
+    }
 }
 
 .profile-img-label {
@@ -32,12 +69,13 @@
 .profile-img {
     width: 100px;
     height: 100px;
-    border: solid 3px var(--general_design_color);
+    border: solid 5px var(--general_design_color);
     border-radius: 50%;
     background-color: #fff;
     object-fit: cover;
     flex-shrink: 0;
     transition: transform 0.2s ease-in-out;
+    z-index: 99;
 }
 
 .profile-img-label:hover .profile-img {
@@ -182,6 +220,7 @@
 
 .mobile-elements {
     display: none;
+    width: 100%;
 }
 
 
@@ -198,6 +237,14 @@
 
 
 @media (max-width: 639px) {
+    .content-wrapper {
+        .box-container {
+            .content-date-profile {
+                width: 90%;
+            }
+        }
+    }
+
     .section-container-profile {
         flex-direction: column;
     }
@@ -212,8 +259,9 @@
     }
 
     .profile-img {
-        width: 80px;
-        height: 80px;
+        width: 60px;
+        height: 60px;
+        border: solid 4px var(--general_design_color);
     }
 
     .profile-id {
@@ -277,3 +325,4 @@
         }
     }
 }
+

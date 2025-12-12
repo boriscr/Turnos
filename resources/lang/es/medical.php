@@ -17,6 +17,7 @@ return [
     'user' => 'Usuario',
     'active' => 'Activo',
     'inactive' => 'Inactivo',
+    'account_inactive' => 'Cuenta inactiva',
     'actions' => 'Acciones',
     'patient' => 'Paciente',
     'attendance' => 'Asistencia',
@@ -38,6 +39,11 @@ return [
     'notifications' => 'Notificaciones',
     'tutorial' => 'Tutorial',
     'bases_and_conditions' => 'Bases y condiciones',
+    /*Seccion de creacion de turnos /reservas */
+    'who_is_the_appointment_for' => '¿Para quién es el turno?',
+    'for_myself' => 'Para mí',
+    'third_party' => 'Para otra persona',
+
     'greetings' => [
         'hello' => 'Hola',
         'welcome' => 'Bienvenido',
@@ -82,10 +88,7 @@ return [
         'reserved_appointment_details' => 'Detalles del turno reservado',
         'historical' => 'Historial',
         'appointment_quotas_created' => 'Cupos de turnos creadas',
-        /*Seccion de creacion de turnos /reservas */
-        'who_is_the_appointment_for' => '¿Para quién es el turno?',
-        'for_myself' => 'Para mí',
-        'for_other_person' => 'Para otra persona',
+
     ],
     'setting' => [
         'title_1' => 'Contenido personalizado',
