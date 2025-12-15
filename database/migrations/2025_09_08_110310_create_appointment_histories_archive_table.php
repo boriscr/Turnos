@@ -23,6 +23,10 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('doctor_name', 56);
             $table->string('specialty', 50);
+            $table->enum('type', [
+                'self',
+                'third_party'
+            ])->default('self');
             $table->date('appointment_date');
             $table->time('appointment_time');
             $table->enum('status', [

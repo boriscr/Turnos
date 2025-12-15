@@ -27,6 +27,10 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Paciente
             $table->string('doctor_name', 56); // Nombre del doctor
             $table->string('specialty', 50); // Especialidad médica
+            $table->enum('type', [
+                'self',
+                'third_party'
+            ])->default('self');
             $table->date('appointment_date');
             $table->time('appointment_time');            // Estado de la cita
             $table->enum('status', [

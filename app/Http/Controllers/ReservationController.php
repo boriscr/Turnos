@@ -414,9 +414,7 @@ class ReservationController extends Controller
             ]
         ]);
     }
-
-
-
+    // 4. Crear la reserva
 
     public function store(ReservationStoreRequest $request)
     {
@@ -563,6 +561,7 @@ class ReservationController extends Controller
                 "{$availableAppointment->doctor->name} {$availableAppointment->doctor->surname}" :
                 'Doctor no disponible',
             'specialty' => $availableAppointment->specialty->name ?? 'Desconocida',
+            'type' => $reservation->type,
             'appointment_date' => $availableAppointment->date,
             'appointment_time' => $availableAppointment->time,
             'status' => 'pending',

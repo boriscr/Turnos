@@ -14,6 +14,7 @@ class AppointmentHistory extends Model
         'user_id',
         'doctor_name',
         'specialty',
+        'type',
         'appointment_date',
         'appointment_time',
         'status',
