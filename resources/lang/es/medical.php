@@ -83,6 +83,7 @@ return [
         'patient_data' => 'Datos del paciente',
         'doctor_details' => 'Datos del doctor',
         'contact_details' => 'Datos de contacto',
+        'applicant_account_details' => 'Detalles de la cuenta del solicitante',
         'my_data' => 'Mis datos',
         'reservations' => 'Reservas',
         'reserved_appointment_details' => 'Detalles del turno reservado',

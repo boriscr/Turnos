@@ -83,6 +83,7 @@ return [
         'patient_data' => 'Patient data',
         'doctor_details' => 'Doctor information',
         'contact_details' => 'Contact details',
+        'applicant_account_details' => 'Applicant account details',
         'my_data' => 'My data',
         'reservations' => 'Reservations',
         'reserved_appointment_details' => 'Reserved appointment details',

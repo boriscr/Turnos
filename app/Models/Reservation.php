@@ -30,6 +30,7 @@ class Reservation extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function specialties()
     {
         return $this->belongsTo(Specialty::class);

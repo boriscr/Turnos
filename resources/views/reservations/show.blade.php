@@ -5,15 +5,23 @@
             <div class="section-container full-center">
                 <div class="card">
                     <x-form.titles :value="__('medical.titles.reserved_appointment_details')" type="subtitle" />
+
+                    <x-profile-card :role="'doctor'" :id="$reservation->availableAppointment->doctor_id" :name="$reservation->availableAppointment->doctor->name" :surname="$reservation->availableAppointment->doctor->surname"
+                        :specialty_id="$reservation->availableAppointment->doctor->specialty->id" :specialty_name="$reservation->availableAppointment->doctor->specialty->name" :appointment_id="$reservation->availableAppointment->appointment->id" :appointment_name="$reservation->availableAppointment->appointment->name" />
+
+
+                    {{--
                     <x-field-with-icon icon="activity" :label="__('reservation.title_name')" :value="$reservation->availableAppointment->appointment->name" :link="route('appointments.show', $reservation->availableAppointment->appointment->id)" />
-                    <x-field-with-icon icon="geo-alt-fill" :label="__('contact.address')" :value="$reservation->availableAppointment->appointment->address" />
-                    <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$reservation->availableAppointment->doctor->specialty->name" :link="route('specialties.show', $reservation->availableAppointment->doctor->specialty->id)" />
+                        <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$reservation->availableAppointment->doctor->specialty->name" :link="route('specialties.show', $reservation->availableAppointment->doctor->specialty->id)" />
                     <x-field-with-icon icon="person-fill" :label="__('medical.doctor')" :value="$reservation->availableAppointment->doctor->name .
                         ' ' .
                         $reservation->availableAppointment->doctor->surname" :link="route('doctors.show', $reservation->availableAppointment->doctor_id)" />
+--}}
+                    <x-field-with-icon icon="geo-alt-fill" :label="__('contact.address')" :value="$reservation->availableAppointment->appointment->address" />
                     <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.time')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i')" />
-                    <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.date')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->date)->format('d/m/Y')" />
-                    <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" />
+                    <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.date')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->date)
+                        ->locale('es') // establece el idioma
+                        ->translatedFormat('l d \d\e F \d\e Y')" />
                     @if ($reservation->availableAppointment->doctor->specialty->status)
                         <x-change-of-state :status="$reservation->status" />
                     @else
@@ -24,9 +32,17 @@
                     <x-field-with-icon icon="calendar-minus-fill" :label="__('medical.creation_date')" :value="$reservation->created_at" />
                     <x-field-with-icon icon="calendar-range-fill" :label="__('medical.update_date')" :value="$reservation->updated_at" />
                 </div>
+
                 @if ($reservation->type === 'third_party')
                     <div class="card">
                         <x-form.titles :value="__('medical.titles.patient_data')" type="subtitle" />
+                        <x-profile-card 
+                            :role="'patient'" 
+                            :type="$reservation->type"
+                            :name="$reservation->third_party_name" 
+                            :surname="$reservation->third_party_surname"
+                            :item_1="$reservation->third_party_idNumber" :item_2="$reservation->third_party_email" />
+
                         <x-field-with-icon icon="person-fill" :label="__('medical.patient')" :value="$reservation->third_party_name . ' ' . $reservation->third_party_surname" />
                         <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="$reservation->third_party_idNumber" />
                         <x-field-with-icon icon="envelope-fill me-2" :label="__('contact.email')" :value="$reservation->third_party_email" />
@@ -36,7 +52,17 @@
                     </div>
                 @endif
                 <div class="card">
-                    <x-form.titles :value="__('medical.titles.patient_data')" type="subtitle" />
+                    @if ($reservation->type === 'third_party')
+                        <x-form.titles :value="__('medical.titles.applicant_account_details')" type="subtitle" />
+                    @else
+                        <x-form.titles :value="__('medical.titles.patient_data')" type="subtitle" />
+                    @endif
+                    <?php
+                    $role = $reservation->type === 'self' ? 'patient' : 'user';
+                    ?>
+                    <x-profile-card :type="$reservation->type" :role="$role" :gender="$reservation->user->gender->name" :id="$reservation->user->id"
+                        :name="$reservation->user->name" :surname="$reservation->user->surname" :item_1="$reservation->user->idNumber" :item_2="$reservation->user->email" />
+
                     <x-field-with-icon icon="person-fill" :label="__('medical.patient')" :value="$reservation->user->name . ' ' . $reservation->user->surname" :link="route('users.show', $reservation->user->id)" />
                     <x-field-with-icon icon="person-vcard-fill" :label="__('contact.idNumber')" :value="$reservation->user->idNumber" />
                     <x-field-with-icon icon="circle-fill" :label="__('medical.status.title')" />

@@ -98,7 +98,7 @@ class SettingSeeder extends Seeder
                     'desc' => 'Color de fondo de la aplicación'
                 ],
                 'general_design_color' => [
-                    'value' => '#4CAF50', // Verde claro
+                    'value' => '#0eb893', // Cian Profundo
                     'type' => 'string',
                     'desc' => 'Color de texto para bordes, subrayados, iconos, sombras'
                 ],

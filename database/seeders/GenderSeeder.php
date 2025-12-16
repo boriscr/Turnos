@@ -10,11 +10,12 @@ class GenderSeeder extends Seeder
     public function run(): void
     {
         DB::table('genders')->insert([
-            ['name' => 'Masculino', 'status' => true],
-            ['name' => 'Femenino', 'status' => true],
-            ['name' => 'No binario', 'status' => true],
-            ['name' => 'Prefiero no decirlo', 'status' => false],
-            ['name' => 'Otro', 'status' => true],
+            ['name' => 'Male', 'status' => true],
+            ['name' => 'Female', 'status' => true],
+            ['name' => 'Non-binary', 'status' => true],
+            ['name' => 'Prefer not to say', 'status' => false],
+            ['name' => 'X', 'status' => true],
+            ['name' => 'Other', 'status' => true],
         ]);
     }
 }
