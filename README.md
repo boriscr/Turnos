@@ -331,3 +331,44 @@ El paciente no puede visualizar estos registros.
 
 ### Vista Reservas (administrador)
 <img src="https://i.postimg.cc/VkRfHcrh/2025-09-02-12.png">
+
+
+## Instalacion
+### 1. Instalar dependencias de PHP. 
+- El repositorio no incluye la carpeta vendor. Debe descargar todas las librerías necesarias mediante Composer:
+```
+composer install
+```
+
+### 2. Instala los paquetes de Node
+-  Instalar dependencias de Frontend. 
+```
+npm install
+```
+- Error común en Windows. Sucede cuando PowerShell tiene bloqueada la ejecución de scripts por defecto como medida de seguridad.
+- Ejecutar desde PowerShell:
+```
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+### 3. Configurar el archivo de entorno
+- 1. Copiar el archivo de ejemplo
+```
+cp .env.example .env
+```
+- 2. Abrir el archivo .env y configurar los datos de la base de datos MySQL
+
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nombre_de_tu_base_de_datos
+DB_USERNAME=tu_usuario
+DB_PASSWORD=tu_contraseña
+```
+
+### 4. Generar la clave de la aplicación
+- Laravel necesita una clave única para encriptar sesiones y otros datos:
+```
+php artisan key:generate
+```
