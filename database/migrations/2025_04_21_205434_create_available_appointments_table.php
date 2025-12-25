@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('available_spots')->default(1);
             $table->integer('reserved_spots')->default(0);
 
-            $table->unique(['appointment_id', 'date', 'time']);
+            //$table->unique(['appointment_id', 'date', 'time']);
             $table->index(['date', 'time']);
             $table->timestamps();
         });
