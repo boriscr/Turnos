@@ -94,8 +94,6 @@ class AppointmentController extends Controller
 
     public function store(AppointmentStoreRequest $request)
     {
-        // Aumentar temporalmente el tiempo de ejecución
-        set_time_limit(60);
         //Verificacion de permisos para doctor
         $user = Auth::user();
         if ($user->hasRole('doctor')) {
@@ -111,7 +109,9 @@ class AppointmentController extends Controller
         }
         // Decodificar datos una sola vez
         $timeSlots = json_decode($request->available_time_slots, true) ?? [];
-        $available_dates = json_decode($request->selected_dates, true) ?? [];
+        $available_dates = array_values(array_unique(
+            json_decode($request->selected_dates, true) ?? []
+        ));
 
         if (empty($available_dates)) {
             return back()->with('error', 'Debe seleccionar al menos una fecha');
@@ -134,7 +134,12 @@ class AppointmentController extends Controller
         $tipoAppointment = $request->appointment_type ?? 'single_slot';
 
         // Filtrar fechas que están dentro del límite
-        $resultadoFiltrado = $this->filtrarFechasDentroDeLimite($available_dates, $timeSlots, $tipoAppointment);
+        $resultadoFiltrado = $this->filtrarFechasDentroDeLimite(
+            $available_dates,
+            $timeSlots,
+            $tipoAppointment,
+            intval($request->number_of_reservations)
+        );
 
         $fechasParaCrear = $resultadoFiltrado['fechas_crear'];
         $fechasExcluidas = $resultadoFiltrado['fechas_excluir'];
@@ -180,28 +185,42 @@ class AppointmentController extends Controller
         return redirect()->route('appointments.index');
     }
 
-    private function filtrarFechasDentroDeLimite($available_dates, $timeSlots, $tipoAppointment)
-    {
+    private function filtrarFechasDentroDeLimite(
+        array $available_dates,
+        array $timeSlots,
+        string $tipoAppointment,
+        int $numberOfReservations = 1
+    ) {
         $limiteMaximo = 10000;
-        $timeSlotsCount = ($tipoAppointment === 'multi_slot' && !empty($timeSlots)) ? count($timeSlots) : 1;
 
-        // Calcular cuántas fechas podemos aceptar
-        $fechasPermitidas = min(count($available_dates), floor($limiteMaximo / $timeSlotsCount));
+        if ($tipoAppointment === 'multi_slot') {
+            $slotsPorFecha = !empty($timeSlots) ? count($timeSlots) : 1;
+        } else {
+            // single_slot NORMALIZADO
+            $slotsPorFecha = max(1, $numberOfReservations);
+        }
 
-        // Tomar solo las primeras fechas permitidas
+        // Total real de registros
+        $totalCombinaciones = count($available_dates) * $slotsPorFecha;
+
+        // Cuántas fechas entran en el límite
+        $fechasPermitidas = floor($limiteMaximo / $slotsPorFecha);
+
+        $fechasPermitidas = min($fechasPermitidas, count($available_dates));
+
         $fechasParaCrear = array_slice($available_dates, 0, $fechasPermitidas);
         $fechasExcluidas = array_slice($available_dates, $fechasPermitidas);
-
-        $totalCombinaciones = count($available_dates) * $timeSlotsCount;
 
         return [
             'fechas_crear' => $fechasParaCrear,
             'fechas_excluir' => $fechasExcluidas,
             'total_combinaciones' => $totalCombinaciones,
             'fechas_permitidas' => $fechasPermitidas,
-            'fechas_excluidas_count' => count($fechasExcluidas)
+            'fechas_excluidas_count' => count($fechasExcluidas),
+            'slots_por_fecha' => $slotsPorFecha,
         ];
     }
+
 
     private function generarMensajeFechasExcluidas($fechasParaCrear, $fechasExcluidas, $timeSlots, $totalCombinaciones)
     {
@@ -237,6 +256,7 @@ class AppointmentController extends Controller
         $doctor_id = $request->doctor_id;
         $specialty_id = $request->specialty_id;
         $appointment_id = $appointment->id;
+        $available_dates = array_unique($available_dates);
 
         // Pre-calcular valores comunes
         $isMultiSlot = ($tipoAppointment === 'multi_slot' && !empty($timeSlots));
@@ -270,23 +290,24 @@ class AppointmentController extends Controller
                     }
                 }
             } else {
-                // Single slot: un solo registro por fecha
-                $lotes[] = [
-                    'appointment_id' => $appointment_id,
-                    'doctor_id' => $doctor_id,
-                    'specialty_id' => $specialty_id,
-                    'date' => $fechaFormateada,
-                    'time' => $startTimeNormalized,
-                    'available_spots' => $availableSpotsSingle,
-                    'reserved_spots' => 0,
-                    'created_at' => $now,
-                    'updated_at' => $now
-                ];
+                // Single slot NORMALIZADO: crear X slots con el mismo horario
+                for ($i = 0; $i < $availableSpotsSingle; $i++) {
+                    $lotes[] = [
+                        'appointment_id' => $appointment_id,
+                        'doctor_id' => $doctor_id,
+                        'specialty_id' => $specialty_id,
+                        'date' => $fechaFormateada,
+                        'time' => $startTimeNormalized,
+                        'available_spots' => 1,
+                        'reserved_spots' => 0,
+                        'created_at' => $now,
+                        'updated_at' => $now
+                    ];
 
-                // Insertar en chunks de 100
-                if (count($lotes) >= 100) {
-                    AvailableAppointment::insert($lotes);
-                    $lotes = [];
+                    if (count($lotes) >= 100) {
+                        AvailableAppointment::insert($lotes);
+                        $lotes = [];
+                    }
                 }
             }
         }
@@ -362,9 +383,6 @@ class AppointmentController extends Controller
 
     public function update(AppointmentUpdateRequest $request, $id)
     {
-        // Aumentar temporalmente el tiempo de ejecución
-        set_time_limit(60);
-
         // Decodificar datos una sola vez
         $timeSlots = json_decode($request->available_time_slots, true) ?? [];
         $available_dates = json_decode($request->selected_dates, true) ?? [];
@@ -405,7 +423,12 @@ class AppointmentController extends Controller
             }
         }
         // FILTRAR FECHAS: Aplicar límites como en el store
-        $resultadoFiltrado = $this->filtrarFechasDentroDeLimite($available_dates, $timeSlots, $tipoAppointment);
+        $resultadoFiltrado = $this->filtrarFechasDentroDeLimite(
+            $available_dates,
+            $timeSlots,
+            $tipoAppointment,
+            intval($request->number_of_reservations)
+        );
 
         $fechasParaActualizar = $resultadoFiltrado['fechas_crear'];
         $fechasExcluidas = $resultadoFiltrado['fechas_excluir'];
@@ -627,63 +650,100 @@ class AppointmentController extends Controller
         return back();
     }
 
-    private function procesarDisponibilidades($appointment, $nuevasCombinaciones, $disponibilidadesConReservas, $tipoAppointment, $request)
-    {
-        // Eliminar solo disponibilidades sin reservas
-        AvailableAppointment::where('appointment_id', $appointment->id)
-            ->where('reserved_spots', 0)
-            ->delete();
-
-        // Crear mapa de existentes con reservas para búsqueda rápida
-        $mapaExistentesConReservas = [];
-        foreach ($disponibilidadesConReservas as $existente) {
-            $fechaExistente = \Carbon\Carbon::parse($existente->date)->format('Y-m-d');
-            $horaExistente = $existente->time ? \Carbon\Carbon::parse($existente->time)->format('H:i:s') : '';
-            $mapaExistentesConReservas[$fechaExistente . '_' . $horaExistente] = $existente;
+    private function procesarDisponibilidades(
+        $appointment,
+        $nuevasCombinaciones,
+        $disponibilidadesConReservas,
+        $tipoAppointment,
+        $request
+    ) {
+        // 1. Mapa de combinaciones deseadas
+        $mapaNuevas = [];
+        foreach ($nuevasCombinaciones as $c) {
+            $key = $c['date'] . '_' . ($c['time'] ?? '');
+            $mapaNuevas[$key] = $c;
         }
 
-        // Procesar en lotes para mejor performance
-        $lotes = [];
-        foreach ($nuevasCombinaciones as $combinacion) {
-            $availableSpots = ($tipoAppointment === 'single_slot') ? intval($request->number_of_reservations) : 1;
-            $key = $combinacion['date'] . '_' . ($combinacion['time'] ?: '');
+        // 2. Traer TODAS las disponibilidades actuales
+        $existentes = AvailableAppointment::where('appointment_id', $appointment->id)->get();
 
+        // 3. Agrupar existentes por fecha+hora
+        $mapaExistentes = [];
+        foreach ($existentes as $e) {
+            $key = $e->date . '_' . ($e->time ?? '');
+            $mapaExistentes[$key][] = $e;
+        }
 
-            if (isset($mapaExistentesConReservas[$key])) {
-                // Actualizar existente
-                $existente = $mapaExistentesConReservas[$key];
-                $newAvailableSpots = max($availableSpots - $existente->reserved_spots, 0);
-
-                $existente->update([
-                    'doctor_id' => $request->doctor_id,
-                    'available_spots' => $newAvailableSpots,
-                    'specialty_id' => $request->specialty_id,
-                    'updated_at' => now()
-                ]);
-            } else {
-                // Crear nueva para insertar en lote
-                $lotes[] = [
-                    'appointment_id' => $appointment->id,
-                    'doctor_id' => $request->doctor_id,
-                    'specialty_id' => $request->specialty_id,
-                    'date' => $combinacion['date'],
-                    'time' => $combinacion['time'],
-                    'available_spots' => $availableSpots,
-                    'reserved_spots' => 0,
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
+        // 4. ELIMINAR lo que ya no debería existir (solo sin reservas)
+        foreach ($mapaExistentes as $key => $slots) {
+            if (!isset($mapaNuevas[$key])) {
+                foreach ($slots as $slot) {
+                    if ($slot->reserved_spots > 0) {
+                        // Esto ya fue validado antes, acá solo seguridad extra
+                        continue;
+                    }
+                    $slot->delete();
+                }
             }
         }
 
-        // Insertar en lote para mejor performance
+        // 5. CREAR o AJUSTAR lo que sí debería existir
+        $lotes = [];
+
+        foreach ($mapaNuevas as $key => $combinacion) {
+
+            $slotsDeseados = ($tipoAppointment === 'single_slot')
+                ? intval($request->number_of_reservations)
+                : 1;
+
+            $slotsExistentes = $mapaExistentes[$key] ?? [];
+
+            $conReserva = array_filter($slotsExistentes, fn($s) => $s->reserved_spots > 0);
+            $sinReserva = array_filter($slotsExistentes, fn($s) => $s->reserved_spots == 0);
+
+            $totalExistentes = count($slotsExistentes);
+
+            // 5.a Crear los que faltan
+            if ($totalExistentes < $slotsDeseados) {
+                $faltantes = $slotsDeseados - $totalExistentes;
+
+                for ($i = 0; $i < $faltantes; $i++) {
+                    $lotes[] = [
+                        'appointment_id' => $appointment->id,
+                        'doctor_id' => $request->doctor_id,
+                        'specialty_id' => $request->specialty_id,
+                        'date' => $combinacion['date'],
+                        'time' => $combinacion['time'],
+                        'available_spots' => 1,
+                        'reserved_spots' => 0,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+            }
+
+            // 5.b Eliminar sobrantes sin reservas
+            if ($totalExistentes > $slotsDeseados) {
+                $sobrantes = $totalExistentes - $slotsDeseados;
+
+                foreach ($sinReserva as $slot) {
+                    if ($sobrantes <= 0) {
+                        break;
+                    }
+                    $slot->delete();
+                    $sobrantes--;
+                }
+            }
+        }
+
+        // 6. Insertar en batch
         if (!empty($lotes)) {
-            // Insertar en chunks para evitar límites de MySQL
             foreach (array_chunk($lotes, 100) as $chunk) {
                 AvailableAppointment::insert($chunk);
             }
         }
     }
+
 
     public function destroy($id)
     {

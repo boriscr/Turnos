@@ -62,52 +62,44 @@ if (window.location.pathname.includes('/appointments/create') || window.location
                 });
                 this.calcularCombinacionesActuales();
             },
+            getSlotsPorFecha() {
+                const appointmentType =
+                    document.querySelector('input[name="appointment_type"]:checked')?.value;
+
+                if (appointmentType === 'multi_slot') {
+                    const timeSlotsInput = document.getElementById('available_time_slots');
+                    if (!timeSlotsInput || !timeSlotsInput.value) return 1;
+
+                    try {
+                        const slots = JSON.parse(timeSlotsInput.value);
+                        return slots.length || 1;
+                    } catch {
+                        return 1;
+                    }
+                }
+
+                // single_slot NORMALIZADO
+                const input = document.getElementById('number_of_reservations');
+                return input ? Math.max(parseInt(input.value || 1), 1) : 1;
+            },
 
             // Calcular combinaciones actuales
             calcularCombinacionesActuales() {
-                const timeSlotsInput = document.getElementById('available_time_slots');
-                const appointmentType = document.querySelector('input[name="appointment_type"]:checked')?.value;
-
-                let timeSlotsCount = 1;
-                if (appointmentType === 'multi_slot' && timeSlotsInput && timeSlotsInput.value) {
-                    try {
-                        const slots = JSON.parse(timeSlotsInput.value);
-                        timeSlotsCount = slots.length;
-                    } catch (e) {
-                        timeSlotsCount = 1;
-                    }
-                }
-
-                this.currentCombinations = this.selectedDates.length * timeSlotsCount;
-                this.actualizarEstadoExcedido();
+                const slotsPorFecha = this.getSlotsPorFecha();
+                this.currentCombinations = this.selectedDates.length * slotsPorFecha;
+                this.actualizarEstadoExcedido(slotsPorFecha);
             },
 
+
             // Actualizar estado de fechas excedidas
-            actualizarEstadoExcedido() {
+            actualizarEstadoExcedido(slotsPorFecha) {
                 this.exceededDates.clear();
 
-                if (this.currentCombinations <= this.MAX_COMBINATIONS) {
-                    return;
-                }
+                if (this.currentCombinations <= this.MAX_COMBINATIONS) return;
 
-                const timeSlotsInput = document.getElementById('available_time_slots');
-                const appointmentType = document.querySelector('input[name="appointment_type"]:checked')?.value;
-                let timeSlotsCount = 1;
-
-                if (appointmentType === 'multi_slot' && timeSlotsInput && timeSlotsInput.value) {
-                    try {
-                        const slots = JSON.parse(timeSlotsInput.value);
-                        timeSlotsCount = slots.length;
-                    } catch (e) {
-                        timeSlotsCount = 1;
-                    }
-                }
-
-                // Calcular cuántas fechas podemos mantener
-                const fechasPermitidas = Math.floor(this.MAX_COMBINATIONS / timeSlotsCount);
+                const fechasPermitidas = Math.floor(this.MAX_COMBINATIONS / slotsPorFecha);
                 const fechasExcedidas = this.selectedDates.slice(fechasPermitidas);
 
-                // Marcar fechas excedidas
                 fechasExcedidas.forEach(date => {
                     this.exceededDates.add(date.toDateString());
                 });
@@ -218,52 +210,29 @@ if (window.location.pathname.includes('/appointments/create') || window.location
 
             // En el método mostrarAlertaLimite del calendario, actualizar el mensaje:
             mostrarAlertaLimite() {
-                const timeSlotsInput = document.getElementById('available_time_slots');
-                const appointmentType = document.querySelector('input[name="appointment_type"]:checked')?.value;
-
-                let timeSlotsCount = 1;
-                let timeSlotsText = '1 horario';
-
-                if (appointmentType === 'multi_slot' && timeSlotsInput && timeSlotsInput.value) {
-                    try {
-                        const slots = JSON.parse(timeSlotsInput.value);
-                        timeSlotsCount = slots.length;
-                        timeSlotsText = slots.length + ' horarios';
-                    } catch (e) {
-                        timeSlotsCount = 1;
-                    }
-                }
-
-                const fechasPermitidas = Math.floor(this.MAX_COMBINATIONS / timeSlotsCount);
+                const slotsPorFecha = this.getSlotsPorFecha();
+                const fechasPermitidas = Math.floor(this.MAX_COMBINATIONS / slotsPorFecha);
                 const fechasExcedidas = this.selectedDates.length - fechasPermitidas;
 
                 Swal.fire({
                     icon: 'warning',
                     title: 'Límite excedido',
                     html: `
-            <div style="text-align: left;">
+        <div style="text-align:left">
             <ul>
-                    <li>Has excedido el límite máximo de <strong>${this.MAX_COMBINATIONS.toLocaleString()} combinaciones</strong>.</li>
-                    <li><strong>Se crearán:</strong></li>
-                    <li>Fechas: <strong style="color: green;">${fechasPermitidas}</strong> (primeras seleccionadas)</li>
-                    <li>Horarios por fecha: ${timeSlotsText}</li>
-                    <li>Total a crear: <strong style="color: green;">${(fechasPermitidas * timeSlotsCount).toLocaleString()}</strong> combinaciones</li>
-                    <li><strong>No se crearán:</strong></li>
-                </ul>
-                <ul>
-                    <li>Fechas: <strong style="color: red;">${fechasExcedidas}</strong> (las últimas seleccionadas)</li>
-                    <li>Las fechas en <strong style="color: red;">rojo</strong> no se guardarán.</li>
-                </ul>
-                <h5 class="text-sm">Puedes continuar y el sistema creará automáticamente las primeras ${fechasPermitidas} fechas.</h5>
-            </div>
+                <li><strong>Límite máximo:</strong> ${this.MAX_COMBINATIONS.toLocaleString()} registros</li>
+                <li><strong>Registros por fecha:</strong> ${slotsPorFecha}</li>
+                <li><strong>Fechas que se crearán:</strong> ${fechasPermitidas}</li>
+                <li><strong>Total a crear:</strong> ${(fechasPermitidas * slotsPorFecha).toLocaleString()}</li>
+                <li><strong>Fechas excluidas:</strong> ${fechasExcedidas}</li>
+                <li>Las fechas marcadas en rojo no se guardarán</li>
+            </ul>
+        </div>
         `,
-                    confirmButtonText: 'Entendido, continuar',
-                    confirmButtonColor: '#3085d6',
-                    showCancelButton: true,
-                    cancelButtonText: 'Cancelar',
-                    cancelButtonColor: '#d33'
+                    confirmButtonText: 'Entendido',
                 });
-            },
+            }
+            ,
 
             // Escuchar cambios en los horarios
             initEventListeners() {
@@ -286,6 +255,7 @@ if (window.location.pathname.includes('/appointments/create') || window.location
                         attributeFilter: ['value']
                     });
                 }
+                
             }
         }));
     });
