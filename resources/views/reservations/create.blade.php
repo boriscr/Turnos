@@ -51,9 +51,6 @@
                             <input type="radio" class="btn-check" name="patient_type_radio" id="patient_type_other"
                                 value="third_party">
                             <label class="btn btn-outline-primary" for="patient_type_other">
-                                <div class="feature">
-                                    {{ __('medical.feature') }}
-                                </div>
                                 <i class="bi bi-person-plus-fill"></i> {{ __('medical.third_party') }}
                             </label>
                         </div>
@@ -120,13 +117,14 @@
                     <x-form.select name="appointment_date" :label="__('reservation.date')" icon="4-circle" :required="true">
                         <option value="">{{ __('reservation.date_option') }}</option>
                     </x-form.select>
-
+                    <input type="hidden" name="date" id="date_hidden">
 
                     <x-form.select name="appointment_time" :label="__('reservation.time')" icon="5-circle" :required="true">
                         <option value="">{{ __('reservation.time_option') }}</option>
-                        <input type="hidden" name="appointment_id" id="appointment_id">
                     </x-form.select>
-
+                    <input type="hidden" name="appointment_id" id="appointment_id">
+                    <input type="hidden" name="time" id="time_hidden">
+                    <input type="hidden" name="appointment_id_real" id="appointment_id_real">
 
                     <div class="form-navigation">
                         <button type="button" class="prev-btn full-center"><i

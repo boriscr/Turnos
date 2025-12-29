@@ -231,10 +231,23 @@ if (window.location.pathname.includes('/reservations/create')) {
                 selectHora.innerHTML = '<option value="">Sin horario disponible</option>';
             } else {
                 selectHora.innerHTML = '<option value="">Seleccione un horario</option>';
+
                 availableAppointments.forEach(appointment => {
                     const option = document.createElement('option');
-                    option.value = appointment.id;
-                    option.textContent = appointment.time;
+
+                    if (appointment.slots) {
+                        // SINGLE SLOT
+                        option.value = appointment.time; // ⬅️ CLAVE
+                        option.dataset.date = appointment.date;
+                        option.dataset.type = 'single';
+                        option.textContent = appointment.time;
+                    } else {
+                        // MULTI SLOT
+                        option.value = appointment.id;
+                        option.dataset.type = 'multi';
+                        option.textContent = appointment.time;
+                    }
+
                     selectHora.appendChild(option);
                 });
                 selectHora.disabled = false;
@@ -425,6 +438,30 @@ if (window.location.pathname.includes('/reservations/create')) {
     }
 
 
+    function cargarDatosBackend() {
+    const selectHora = document.getElementById('appointment_time');
+    const selectedOption = selectHora.options[selectHora.selectedIndex];
+    const tipo = selectedOption.dataset.type;
+
+    // Limpieza preventiva
+    document.getElementById('date_hidden').value = '';
+    document.getElementById('time_hidden').value = '';
+    document.getElementById('appointment_id_real').value = '';
+
+    if (tipo === 'single') {
+        document.getElementById('date_hidden').value =
+            document.getElementById('appointment_date').value;
+
+        document.getElementById('time_hidden').value =
+            selectedOption.value;
+
+    } else {
+        document.getElementById('appointment_id_real').value =
+            selectedOption.value;
+    }
+}
+
+
     // Configuración del formulario multi-paso
     function setupMultiStepForm() {
         // Configuración dinámica según tema
@@ -467,6 +504,8 @@ if (window.location.pathname.includes('/reservations/create')) {
                     return;
                 }
 
+                // Cargar datos para backend
+                cargarDatosBackend();
                 // Mostrar confirmación
                 Swal.fire({
                     title: '¿Confirmar turno?',

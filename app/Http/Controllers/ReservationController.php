@@ -234,6 +234,7 @@ class ReservationController extends Controller
         return view('reservations.show', compact('reservation'));
     }
 
+
     //Crear la reserva por el paciente
     public function create()
     {
@@ -359,6 +360,10 @@ class ReservationController extends Controller
     // previsualización utilizada para la consulta.
     public function getAvailableReservationByDoctor($appointment_name_id)
     {
+        if (!is_numeric($appointment_name_id)) {
+            abort(400);
+        }
+
         $now = now();
 
         // Obtener configuración de previsualización
@@ -373,8 +378,11 @@ class ReservationController extends Controller
             'day' => $now->copy()->addDays($previewAmount),
             default => $now->copy()->addDays($previewAmount)
         };
+        $appointment = Appointment::findOrFail($appointment_name_id);
+        $isSingleSlot = $appointment->appointment_type === 'single_slot';
 
-        $appointments = AvailableAppointment::where('appointment_id', $appointment_name_id)
+        $appointments = AvailableAppointment::select(['id', 'date', 'time'])
+            ->where('appointment_id', $appointment_name_id)
             ->where('available_spots', '>', 0)
             ->where(function ($query) use ($now, $fechaLimite) {
                 // Para appointments futuros (mayores a ahora)
@@ -397,15 +405,31 @@ class ReservationController extends Controller
             })
             ->orderBy('date')
             ->orderBy('time')
-            ->get()
-            ->map(function ($appointment) {
+            ->get();
+
+        if ($isSingleSlot) {
+            $appointments = $appointments
+                ->groupBy(fn($a) => $a->date . '|' . $a->time)
+                ->map(function ($group) {
+                    return [
+                        'date' => $group->first()->date,
+                        'time' => \Carbon\Carbon::parse($group->first()->time)->format('H:i'),
+                        'slots' => $group->pluck('id')->values(),
+                    ];
+                })
+                ->values();
+        } else {
+            // SOLO para multi_slot
+            $appointments = $appointments->map(function ($appointment) {
                 return [
                     'id' => $appointment->id,
                     'date' => $appointment->date,
-                    'time' => $appointment->time ? \Carbon\Carbon::parse($appointment->time)->format('H:i') : null,
+                    'time' => $appointment->time
+                        ? \Carbon\Carbon::parse($appointment->time)->format('H:i')
+                        : null,
                 ];
             });
-
+        }
         return response()->json([
             'appointments' => $appointments,
             'preview_settings' => [
@@ -419,100 +443,108 @@ class ReservationController extends Controller
     public function store(ReservationStoreRequest $request)
     {
         try {
-            // Simular procesamiento que podría causar condiciones de carrera
-            usleep(rand(2000000, 4000000)); // Retardo aleatorio entre 2-4 segundos
-
             return DB::transaction(function () use ($request) {
-                // 1. BLOQUEAR el registro para evitar acceso concurrente
-                $availableAppointment = AvailableAppointment::where('id', $request->appointment_id)
-                    ->lockForUpdate() // ← BLOQUEO PESIMISTA
-                    ->firstOrFail();
 
                 $user = Auth::user();
 
-                // 2. Validar límites de usuario
+                $appointment = Appointment::findOrFail($request->appointment_name_id);
+                $isSingleSlot = $appointment->appointment_type === 'single_slot';
+
+                // ================= VALIDACIONES GENERALES =================
+
                 $userValidation = $this->validateUserReservationLimits($user);
                 if (!$userValidation['can_reserve']) {
                     throw new \Exception($userValidation['message']);
                 }
 
-                // 3. Validar disponibilidad (DENTRO de la transacción)
-                if ($availableAppointment->available_spots <= 0) {
-                    throw new \Exception('No hay cupos disponibles para este turno.');
+                // ================= OBTENER SLOT REAL =================
+
+                if ($isSingleSlot) {
+
+                    // 🔒 BLOQUEO POR GRUPO (NO POR ID)
+                    $availableAppointment = AvailableAppointment::where('appointment_id', $appointment->id)
+                        ->whereDate('date', $request->date)
+                        ->whereTime('time', $request->time)
+                        ->where('available_spots', '>', 0)
+                        ->lockForUpdate()
+                        ->orderBy('id')
+                        ->first();
+
+                    if (!$availableAppointment) {
+                        throw new \Exception('No hay cupos disponibles para este horario.');
+                    }
+                } else {
+                    // MULTI SLOT → ID DIRECTO
+                    if(!$request->appointment_id_real){
+                        throw new \Exception('Upss. Algo salio mal.');
+                    }
+                    $availableAppointment = AvailableAppointment::where('id', $request->appointment_id_real)
+                        ->lockForUpdate()
+                        ->firstOrFail();
+
+                    if ($availableAppointment->available_spots <= 0) {
+                        throw new \Exception('No hay cupos disponibles para este horario.');
+                    }
                 }
 
-                // 4. Validar duplicados (DENTRO de la transacción)
-                $existingReservation = Reservation::where('user_id', $user->id)
-                    ->where('available_appointment_id', $availableAppointment->id)
-                    ->exists();
+                // ================= VALIDACIONES DE TURNO =================
 
-                if ($existingReservation) {
-                    throw new \Exception('Ya tienes este turno reservado.');
-                }
-
-                // 5. Validar tiempo del turno
                 $timeValidation = $this->validateAppointmentTime($availableAppointment);
                 if (!$timeValidation['valid']) {
                     throw new \Exception($timeValidation['message']);
                 }
 
-                // 6. Validar consistencia de datos
                 $consistencyValidation = $this->validateDataConsistency($availableAppointment, $request->specialty_id);
                 if (!$consistencyValidation['valid']) {
                     throw new \Exception($consistencyValidation['message']);
                 }
 
-                // 7. Validar estados
                 $statusValidation = $this->validateStatus($availableAppointment, $request->specialty_id);
                 if (!$statusValidation['valid']) {
                     throw new \Exception($statusValidation['message']);
                 }
 
-                // 8. REALIZAR LA RESERVA (ATÓMICA)
+                // ================= DUPLICADOS =================
+
+                $exists = Reservation::where('user_id', $user->id)
+                    ->where('available_appointment_id', $availableAppointment->id)
+                    ->exists();
+
+                if ($exists) {
+                    throw new \Exception('Ya tienes este turno reservado.');
+                }
+
+                // ================= CONSUMO ATÓMICO =================
+
                 $availableAppointment->decrement('available_spots');
                 $availableAppointment->increment('reserved_spots');
 
-                // ✅ CREAR RESERVA Y CAPTURAR LA INSTANCIA COMPLETA
-                try {
-                    if ($request->patient_type_radio === 'self') {
-                        $reservation = $this->createReservation(
-                            $user->id,
-                            $availableAppointment->id,
-                            $request->specialty_id,
-                            'self'
-                        );
-                    } elseif ($request->patient_type_radio === 'third_party') {
-                        $thirdPartyData = [
-                            'third_party_name' => $request->third_party_name,
-                            'third_party_surname' => $request->third_party_surname,
-                            'third_party_idNumber' => $request->third_party_idNumber,
-                            'third_party_email' => $request->third_party_email,
-                        ];
+                // ================= CREAR RESERVA =================
 
-                        $reservation = $this->createReservation(
-                            $user->id,
-                            $availableAppointment->id,
-                            $request->specialty_id,
-                            'third_party',
-                            $thirdPartyData
-                        );
-                    }
+                $reservation = $this->createReservation(
+                    $user->id,
+                    $availableAppointment->id,
+                    $request->specialty_id,
+                    $request->patient_type_radio,
+                    $request->patient_type_radio === 'third_party' ? $request->only([
+                        'third_party_name',
+                        'third_party_surname',
+                        'third_party_idNumber',
+                        'third_party_email'
+                    ]) : null
+                );
 
-                    // ✅ REDIRECCIÓN DIRECTA con el ID de la reserva
-                    return $this->successResponse(
-                        'Reserva exitosa',
-                        'Turno reservado correctamente.',
-                        $reservation->id
-                    );
-                } catch (\Exception $e) {
-                    // Manejo de errores
-                    return $this->errorResponse('Error al crear la reserva', $e->getMessage());
-                }
+                return $this->successResponse(
+                    'Reserva exitosa',
+                    'Turno reservado correctamente.',
+                    $reservation->id
+                );
             });
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse('Error en la reserva', $e->getMessage());
         }
     }
+
     /*Funcion para crear la reserva dependiendo para el tipo de paceinte */
     /* Función para crear la reserva con los datos básicos */
     protected function createReservation($userId, $availableAppointmentId, $specialtyId, $type, $thirdPartyData = null)
@@ -590,7 +622,7 @@ class ReservationController extends Controller
             return ['can_reserve' => false, 'message' => 'Su cuenta está inactiva.'];
         }
 
-        if ($user->faults >= $maxFaults) { // ✅ CORREGIDO: >= en lugar de >
+        if ($user->faults >= $maxFaults) {
             return ['can_reserve' => false, 'message' => 'Has superado el límite de faltas permitidas.'];
         }
 

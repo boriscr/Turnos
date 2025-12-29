@@ -90,7 +90,7 @@
                 <button type="button" id="decrement-btn">-</button>
                 <x-form.text-input type="number" name="number_of_reservations"
                     value="{{ !isset($create) ? $appointment->number_of_reservations : old('number_of_reservations') }}"
-                    min="1" xModel='x-model.number="numberOfReservations" class="form-control"'/>
+                    min="1" />
                 <button type="button" id="increment-btn">+</button>
             </div>
             <br>

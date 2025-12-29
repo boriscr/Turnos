@@ -15,15 +15,16 @@ use App\Http\Controllers\AppointmentHistoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 /*Alegrar una alerta al inicio de la pagina ruta / */
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 //Rutas protegidas por autenticacion y roles    
 
 Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
     //Solicitud de Appointments Reservas
     Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
-    Route::get('/getDoctorsBySpecialty/{specialty_id}', [ReservationController::class, 'getDoctorsBySpecialty']);
-    Route::get('/getAvailableReservationByName/{doctor_id}', [ReservationController::class, 'getAvailableReservationByName']);
-    Route::get('/getAvailableReservationByDoctor/{appointment_name_id}', [ReservationController::class, 'getAvailableReservationByDoctor']);
+    Route::get('/getDoctorsBySpecialty/{specialty_id}', [ReservationController::class, 'getDoctorsBySpecialty'])->middleware('throttle:30,1');;
+    Route::get('/getAvailableReservationByName/{doctor_id}', [ReservationController::class, 'getAvailableReservationByName'])->middleware('throttle:30,1');;
+    Route::get('/getAvailableReservationByDoctor/{appointment_name_id}', [ReservationController::class, 'getAvailableReservationByDoctor'])->middleware('throttle:30,1');;
     Route::post('/reservations/store', [ReservationController::class, 'store'])->name('reservations.store');
     ///My Appointments
     Route::get('/myAppointments', [MyAppointmentsController::class, 'index'])->name('myAppointments.index');

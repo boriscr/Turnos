@@ -31,22 +31,49 @@ document.addEventListener('DOMContentLoaded', function () {
             case 'name':
                 if (!value) {
                     showError(field, 'Este campo es obligatorio');
-                } else if (value.length > 40) {
+                } else if (value.length >= 40) {
                     showError(field, 'Máximo 40 caracteres permitidos.');
                 } else if (value.length < 3) {
                     showError(field, 'Mínimo 3 caracteres requeridos.');
                 }
                 break;
+            case 'third_party_name':
+                if (!value) {
+                    showError(field, 'Este campo es obligatorio');
+                } else if (value.length >= 40) {
+                    showError(field, 'Máximo 40 caracteres permitidos.');
+                } else if (value.length < 3) {
+                    showError(field, 'Mínimo 3 caracteres requeridos.');
+                }
+                break;
+
             case 'surname':
                 if (!value) {
                     showError(field, 'Este campo es obligatorio');
-                } else if (value.length > 40) {
+                } else if (value.length >= 40) {
                     showError(field, 'Máximo 40 caracteres permitidos.');
                 } else if (value.length < 3) {
                     showError(field, 'Mínimo 3 caracteres requeridos.');
                 }
                 break;
+            case 'third_party_surname':
+                if (!value) {
+                    showError(field, 'Este campo es obligatorio');
+                } else if (value.length >= 40) {
+                    showError(field, 'Máximo 40 caracteres permitidos.');
+                } else if (value.length < 3) {
+                    showError(field, 'Mínimo 3 caracteres requeridos.');
+                }
+                break;
+
             case 'idNumber':
+                if (!value) {
+                    showError(field, 'El DNI es obligatorio');
+                } else if (!/^\d{7,8}$/.test(value)) {
+                    showError(field, 'El DNI debe tener 7 u 8 dígitos numéricos');
+                }
+                break;
+            case 'third_party_idNumber':
                 if (!value) {
                     showError(field, 'El DNI es obligatorio');
                 } else if (!/^\d{7,8}$/.test(value)) {
@@ -117,7 +144,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     showError(field, 'Mínimo 5 caracteres requeridos.');
                 }
                 break;
-
+            case 'third_party_email':
+                if (!value) {
+                    showError(field, 'El email es obligatorio');
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                    showError(field, 'Ingresa un email válido');
+                } else if (value.length > 100) {
+                    showError(field, 'Máximo 100 caracteres permitidos.');
+                }
+                else if (value.length < 5) {
+                    showError(field, 'Mínimo 5 caracteres requeridos.');
+                }
+                break;
+                
             case 'password':
                 if (!value) {
                     showError(field, 'La contraseña es obligatoria');
