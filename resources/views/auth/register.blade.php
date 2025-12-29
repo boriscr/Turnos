@@ -51,7 +51,7 @@
                 <x-form.select icon="gender-ambiguous" name="gender_id" :label="__('contact.gender')" :required="true">
                     <option value="">{{ __('medical.select_default') }}</option>
                     @foreach ($genders as $item)
-                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        <option value="{{ $item->id }}">{{ $item->translated_name }}</option>
                     @endforeach
                 </x-form.select>
             </div>

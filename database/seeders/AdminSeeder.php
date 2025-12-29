@@ -14,7 +14,7 @@ class AdminSeeder extends Seeder
             'surname' => 'Sistema',
             'idNumber' => '12345678',
             'birthdate' => '1990-01-01',
-            'gender_id' => 5,
+            'gender_id' => 5, // Otro
             'country_id' => 11, // Argentina
             'state_id' => 180, // Jujuy
             'city_id' => 1085, // Abra Pampa

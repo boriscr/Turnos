@@ -8,4 +8,5 @@ return [
     "design" => "Design",
     "appointment" => "Appointment",
     "privacy" => "Privacy",
+    "genders" => "Genders",
 ];

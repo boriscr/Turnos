@@ -20,7 +20,6 @@ class LanguageMiddleware
         if (Session::has('locale')) {
             App::setLocale(Session::get('locale'));
         } else {
-            // ⬇️ ESTA ES LA LÍNEA CLAVE ⬇️
             App::setLocale('es');  // Español por defecto
             Session::put('locale', 'es'); // Guarda español en sesión
         }

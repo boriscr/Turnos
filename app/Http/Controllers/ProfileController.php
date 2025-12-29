@@ -40,7 +40,7 @@ class ProfileController extends Controller
         // Verifica si el usuario tiene permiso para ver su perfil
         $this->authorize('view', $user);
 
-        return view('profile.index', compact('user','appointmentsNotAttendance', 'tellHistory', 'appointmentsPending'));
+        return view('profile.index', compact('user', 'appointmentsNotAttendance', 'tellHistory', 'appointmentsPending'));
     }
 
     //verificar si el usuario esta autenticado y pertenese al mismo usuario
@@ -56,7 +56,11 @@ class ProfileController extends Controller
         $states = DB::table('states')->where('country_id', $user->country_id)->orderBy('name')->get();
         $cities = DB::table('cities')->where('state_id', $user->state_id)->orderBy('name')->get();
         $genders = Gender::where('status', true)->get();
-
+        //Traducir los géneros
+        $genders->transform(function ($gender) {
+            $gender->translated_name = __('genders.' . $gender->name);
+            return $gender;
+        });
         return view('profile.edit', compact('user', 'countries', 'states', 'cities', 'genders'));
     }
 

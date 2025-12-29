@@ -28,7 +28,7 @@ return new class extends Migration
                 'date',
                 'time',
                 'available_spots'
-            ]);
+            ], 'avail_app_main_index');
 
             $table->timestamps();
         });

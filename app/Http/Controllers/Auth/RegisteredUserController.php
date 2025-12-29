@@ -40,6 +40,11 @@ class RegisteredUserController extends Controller
             ->where('name', 'Argentina')
             ->value('id');
         $genders = Gender::where('status', '=', true)->get();
+        //Traducir los géneros
+        $genders->transform(function ($gender) {
+            $gender->translated_name = __('genders.' . $gender->name);
+            return $gender;
+        });
         $disabledNav = true;
 
         return view('auth.register', compact('disabledNav', 'countries', 'argentinaId', 'genders'));
