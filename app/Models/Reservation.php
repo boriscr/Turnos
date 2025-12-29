@@ -16,6 +16,9 @@ class Reservation extends Model
         'third_party_idNumber',
         'third_party_email',
         'status',
+        'date',
+        'time',
+        'appointment_id_real',
     ];
 
     public function availableAppointment()

@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Doctor;
+
 return new class extends Migration
 {
     /**
@@ -21,8 +22,14 @@ return new class extends Migration
             $table->integer('available_spots')->default(1);
             $table->integer('reserved_spots')->default(0);
 
-            $table->unique(['appointment_id', 'date', 'time']);
-            $table->index(['date', 'time']);
+            //$table->unique(['appointment_id', 'date', 'time']);
+            $table->index([
+                'appointment_id',
+                'date',
+                'time',
+                'available_spots'
+            ]);
+
             $table->timestamps();
         });
     }
