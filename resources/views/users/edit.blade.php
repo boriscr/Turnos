@@ -24,7 +24,7 @@
                         <option value="">{{ __('medical.select_default') }}</option>
                         @foreach ($genders as $item)
                             <option value="{{ $item->id }}" {{ $user->gender_id == $item->id ? 'selected' : '' }}>
-                                {{ $item->name }}</option>
+                                {{ $item->translated_name }}</option>
                         @endforeach
                         </select>
                     </x-form.select>

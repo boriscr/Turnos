@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Gender;
 
 class DashboardController extends Controller
 {
@@ -27,4 +28,10 @@ class DashboardController extends Controller
         $settings = app('settings'); // o Setting::all()->pluck('value', 'key')
         return view('dashboard.appointment', compact('settings'));
     }
+    public function privacy()
+    {
+        $settings = app('settings'); // o Setting::all()->pluck('value', 'key')
+        return view('dashboard.privacy', compact('settings'));
+    }
+   
 }

@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <div class="main full-center">
         <x-form.titles :value="__('medical.titles.book_a_new_appointment')" size="edit-create" />
         <div class="container-form full-center">

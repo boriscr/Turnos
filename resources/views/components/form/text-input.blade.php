@@ -14,16 +14,18 @@
 ])
 
 <div class="item">
-    @if ($type !== 'radio' && $type !== 'color')
+    @if ($type !== 'radio' && $type !== 'color' && $type !== 'checkbox')
         <x-input-label :for="$name" :icon="$icon" :value="$label" :required="$required" />
         @if (!empty($context))
             <small>{{ $context }}</small>
         @endif
     @endif
     <input type="{{ $type }}" name="{{ $name }}" id="{{ $id ?? $name }}" {{ $checkedValue }}
-        minlength="{{ $minlength }}" maxlength="{{ $maxlength }}" placeholder="{{ $placeholder }}"
+        @if ($maxlength !== null && $minlength !== null) minlength="{{ $minlength }}" maxlength="{{ $maxlength }}" @endif
+        @if ($placeholder !== '') placeholder="{{ $placeholder }}" @endif
         @if ($required) required @endif value="{{ old($name, $value) }}">
-    @if ($type === 'radio' || $type === 'color')
+
+    @if ($type === 'radio' || $type === 'color' || $type === 'checkbox')
         <x-input-label :for="$name" :value="$label" />
         @if (isset($context))
             <small>{{ $context }}</small>

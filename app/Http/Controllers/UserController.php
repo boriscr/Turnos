@@ -57,7 +57,11 @@ class UserController extends Controller
         $states = DB::table('states')->where('country_id', $user->country_id)->orderBy('name')->get();
         $cities = DB::table('cities')->where('state_id', $user->state_id)->orderBy('name')->get();
         $genders = Gender::where('status', '=', true)->get();
-
+        //Traducir los géneros
+        $genders->transform(function ($gender) {
+            $gender->translated_name = __('genders.' . $gender->name);
+            return $gender;
+        });
         return view('users/edit', compact('user', 'countries', 'states', 'cities', 'genders'));
     }
 

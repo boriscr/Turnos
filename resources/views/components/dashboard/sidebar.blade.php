@@ -81,6 +81,11 @@
                             {{ __('medical.feature') }}
                         </div>
                     </a>
+                    <a href="{{ route('dashboard.genders.edit') }}"
+                        class="dropdown-item {{ request()->routeIs('dashboard.genders.edit') ? 'active' : '' }}">
+                        <i class="bi bi-gender-ambiguous me-2"></i>
+                        <span>{{ __('dashboard.genders') }}</span>
+                    </a>
                 </div>
             </div>
         </li>
@@ -99,12 +104,13 @@
         </button>
     </div>
     <ul class="mobile-nav-links">
-        <li><a href="{{ route('home') }}"
-                class="{{ request()->routeIs('home') ? 'active' : '' }}"><i class="bi bi-house-fill"></i>
+        <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}"><i
+                    class="bi bi-house-fill"></i>
                 {{ __('navbar.home') }}</a></li>
 
         <li><a href="{{ route('dashboard.index') }}"
-                class="{{ request()->routeIs('dashboard.index') ? 'active' : '' }}"><i class="bi bi-bar-chart-fill"></i>
+                class="{{ request()->routeIs('dashboard.index') ? 'active' : '' }}"><i
+                    class="bi bi-bar-chart-fill"></i>
                 {{ __('dashboard.dashboard') }}</a></li>
         <li><a href="#" class="{{ request()->routeIs('dashboard.analytics') ? 'active' : '' }} feature-style"><i
                     class="bi bi-pie-chart-fill"></i> {{ __('dashboard.analytics') }}
@@ -126,5 +132,9 @@
         <li><a href="#" class="{{ request()->routeIs('dashboard.appointment') ? 'active' : '' }} feature-style">
                 <i class="bi bi-shield-fill"></i>
                 {{ __('dashboard.privacy') }}</a></li>
+        <li><a href="{{ route('dashboard.genders.edit') }}"
+                class="{{ request()->routeIs('dashboard.genders.edit') ? 'active' : '' }}">
+                <i class="bi bi-gender-ambiguous me-2"></i>
+                {{ __('dashboard.genders') }}</a></li>
     </ul>
 </nav>

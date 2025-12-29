@@ -8,4 +8,5 @@ return [
     "design" => "Diseño",
     "appointment" => "Turnos",
     "privacy" => "Privacidad",
+    "genders" => "Géneros",
 ];

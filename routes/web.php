@@ -14,6 +14,7 @@ use App\Http\Controllers\MyAppointmentsController;
 use App\Http\Controllers\AppointmentHistoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\GenderController;
 /*Alegrar una alerta al inicio de la pagina ruta / */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -129,6 +130,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/design', [DashboardController::class, 'design'])->name('design');
         Route::get('/appointment', [DashboardController::class, 'appointment'])->name('appointment');
         Route::get('/privacy', [DashboardController::class, 'privacy'])->name('privacy');
+        Route::get('/genders', [GenderController::class, 'edit'])->name('genders.edit');
+        Route::put('/genders', [GenderController::class, 'update'])->name('genders.update');
     });
 });
 
