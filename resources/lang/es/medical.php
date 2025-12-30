@@ -44,6 +44,15 @@ return [
     'for_myself' => 'Para mí',
     'third_party' => 'Para otra persona',
 
+    'session' => [
+        'device' => 'Dispositivo',
+        'ip_address' => 'Dirección IP',
+        'last_activity' => 'Última actividad',
+        'current_session' => 'Sesión actual',
+        'this_device'=> 'Este dispositivo',
+        'active_session'=> 'Sesión activa',
+    ],
+
     'greetings' => [
         'hello' => 'Hola',
         'welcome' => 'Bienvenido',
@@ -89,7 +98,7 @@ return [
         'reserved_appointment_details' => 'Detalles del turno reservado',
         'historical' => 'Historial',
         'appointment_quotas_created' => 'Cupos de turnos creadas',
-
+        'sessions' => 'Sesiones',
     ],
     'setting' => [
         'title_1' => 'Contenido personalizado',

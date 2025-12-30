@@ -107,7 +107,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/users/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-
+    Route::delete('/sessions/{sessionId}', [UserController::class, 'destroySession'])->name('sessions.destroy');
     //Control del Doctors
     Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
     Route::get('doctors/search', [DoctorController::class, 'search'])->name('doctors.search');

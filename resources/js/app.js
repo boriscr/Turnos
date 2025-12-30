@@ -28,6 +28,7 @@ import '../js/pages/appointments/create/specialties-create-appointments.js';
 import '../js/pages/components/footer-movile.js';
 import '../js/pages/components/cancel-btn.js';
 import '../js/pages/components/delete-btn.js';
+import '../js/pages/components/delete-btn-session.js';
 import '../js/pages/components/table-acciones-movile.js';
 
 //users edit increment/decrement buttons

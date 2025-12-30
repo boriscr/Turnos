@@ -17,7 +17,7 @@ return [
     'user' => 'User',
     'active' => 'Active',
     'inactive' => 'Inactive',
-    'account_inactive'=>'Account inactive',
+    'account_inactive' => 'Account inactive',
     'actions' => 'Actions',
     'patient' => 'Patient',
     'attendance' => 'Attendance',
@@ -43,6 +43,17 @@ return [
     'who_is_the_appointment_for' => 'Who is the appointment for?',
     'for_myself' => 'For myself',
     'third_party' => 'For another person',
+
+
+    'session' => [
+        'device' => 'Device',
+        'ip_address' => 'IP Address',
+        'last_activity' => 'Last Activity',
+        'current_session' => 'Current Session',
+        'this_device' => 'This device',
+        'active_session' => 'Active session',
+    ],
+
 
     'greetings' => [
         'hello' => 'Hello',
@@ -88,7 +99,8 @@ return [
         'reservations' => 'Reservations',
         'reserved_appointment_details' => 'Reserved appointment details',
         'historical' => 'Historical',
-        'appointment_quotas_created' => 'Appointment quotas created'
+        'appointment_quotas_created' => 'Appointment quotas created',
+        'sessions' => 'Sessions',
     ],
 
     'setting' => [

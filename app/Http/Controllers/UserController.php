@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Gender;
+use Jenssegers\Agent\Agent;
 
 class UserController extends Controller
 {
@@ -35,7 +36,6 @@ class UserController extends Controller
 
     public function show($id)
     {
-        //$user = User::find($id);
         $user = User::with(['country', 'state', 'city', 'gender'])->findOrfail($id);
         if (!$user) {
             return redirect()->route('users.index')->with('error', 'Usuario no encontrado.');
@@ -43,8 +43,42 @@ class UserController extends Controller
         $appointmentHistory = AppointmentHistory::with(['appointment', 'reservation', 'user'])->where('user_id', $id)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-        return view('users/show', compact('user', 'appointmentHistory'));
+
+
+        try {
+            //Cargar sesiones del usuario desde la tabla sessions
+            //composer require jenssegers/agent
+            $sesiones = DB::table('sessions')
+                ->select('id', 'user_id', 'ip_address', 'user_agent', 'last_activity')
+                ->where('user_id', $id)
+                ->orderBy('last_activity', 'desc')
+                ->get();
+            $agent = new Agent();
+
+            $sesionesFormateadas = $sesiones->map(function ($sesion) use ($agent) {
+                // Le decimos al agente que analice el string de esta sesión específica
+                $agent->setUserAgent($sesion->user_agent);
+                // Identificar el dispositivo
+                $dispositivo = $agent->device(); // Ej: iPhone, Nexus, Asus...
+                $browser = $agent->browser();    // Ej: Chrome, Safari...
+                $platform = $agent->platform();  // Ej: Windows, Ubuntu, OS X...
+
+                return [
+                    'id' => $sesion->id,
+                    'ip' => $sesion->ip_address,
+                    // Creamos un nombre legible combinando los datos
+                    'navegador' => $browser . ' en ' . $platform . ($agent->isDesktop() ? '' : ' (' . $dispositivo . ')'),
+                    'ultima_actividad' => \Carbon\Carbon::createFromTimestamp($sesion->last_activity)->diffForHumans(),
+                    'actual' => $sesion->id === session()->getId(),
+                ];
+            });
+        } catch (\Exception $e) {
+            return back()->withErrors('Error al cargar las sesiones: ' . $e->getMessage());
+        }
+        return view('users/show', compact('user', 'appointmentHistory', 'sesionesFormateadas'));
     }
+
+
     //Edit admin controller
     public function edit($id)
     {
@@ -206,5 +240,17 @@ class UserController extends Controller
             'icon'  => 'success',
         ]);
         return redirect()->route('users.index');
+    }
+
+    public function destroySession($sessionId)
+    {
+        // Borramos la sesión de la tabla usando el ID único de sesión
+        DB::table('sessions')->where('id', $sessionId)->delete();
+        session()->flash('success', [
+            'title' => 'Sesión cerrada',
+            'text'  => 'La sesión seleccionada ha sido cerrada correctamente.',
+            'icon'  => 'success',
+        ]);
+        return redirect()->back();
     }
 }
