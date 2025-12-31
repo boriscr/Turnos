@@ -38,6 +38,9 @@ class UserPolicy
     {
         return $authUser->id === $targetUser->id || $authUser->hasRole('Admin');
     }
+    /**
+     * 
+     */
 
     /**
      * Determine whether the user can delete the model.

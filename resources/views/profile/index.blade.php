@@ -78,6 +78,13 @@
                 </div>
             </a>
 
+            <a href="{{ route('profile.session') }}">
+                <div class="card-profile full-center">
+                    <i class="bi bi-browser-chrome"></i>
+                    <strong>{{ __('medical.titles.sessions') }}</strong>
+                </div>
+            </a>
+
             <a href="#">
                 <div class="card-profile full-center feature-style">
                     <div class="feature">
@@ -144,7 +151,16 @@
                     <i class="bi bi-chevron-right"></i>
                 </div>
             </a>
-
+            <!-- Sesiones -->
+            <a href="{{ route('profile.session') }}">
+                <div class="card-profile">
+                    <div class="element-container">
+                        <i class="bi bi-browser-chrome"></i>
+                        <strong>{{ __('medical.titles.sessions') }}</strong>
+                    </div>
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </a>
             <!-- Notificaciones importantes -->
             <a href="#">
                 <div class="card-profile feature-style">

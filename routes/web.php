@@ -39,7 +39,9 @@ Route::middleware(['auth', 'role:user|doctor|admin'])->group(function () {
         Route::get('/edit/{id}', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/{id}', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+        //sesiones
+        Route::get('/sessions', [ProfileController::class, 'showSessions'])->name('profile.session');
+        Route::delete('/sessions/{sessionId}', [ProfileController::class, 'destroySession'])->name('profile.sessions.destroy');
         // Password Change Routes
         Route::get('/change-password', [ProfileController::class, 'showChangePasswordForm'])
             ->name('password.change');

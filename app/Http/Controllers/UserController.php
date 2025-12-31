@@ -6,13 +6,15 @@ use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Appointment;
 use App\Models\AppointmentHistory;
+use App\Models\Gender;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
-use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Gender;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserUpdateRequest;
 use Jenssegers\Agent\Agent;
 
 class UserController extends Controller
@@ -242,15 +244,69 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    public function destroySession($sessionId)
+
+    public function destroySession(Request $request, $sessionId): RedirectResponse
     {
-        // Borramos la sesión de la tabla usando el ID único de sesión
-        DB::table('sessions')->where('id', $sessionId)->delete();
-        session()->flash('success', [
-            'title' => 'Sesión cerrada',
-            'text'  => 'La sesión seleccionada ha sido cerrada correctamente.',
-            'icon'  => 'success',
-        ]);
-        return redirect()->back();
+        $admin = Auth::user();
+
+        // 1. Verificación de Rol (Spatie)
+        if (!$admin->hasRole('admin')) {
+            abort(403, 'No tienes permisos administrativos.');
+        }
+
+        // 2. Rate Limiting para la contraseña del Admin
+        $throttleKey = 'admin-verify-password:' . $admin->id;
+        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+            $minutes = ceil($seconds / 60);
+            session()->flash('error', [
+                'title' => 'Demasiados intentos',
+                'text' => "Por seguridad, espera $minutes minutos.",
+                'icon' => 'error',
+            ]);
+            return back();
+        }
+
+        // 3. Validar que la contraseña enviada es la del ADMINISTRADOR
+        $request->validate(['password_confirmation' => 'required|string']);
+
+        if (!Hash::check($request->password_confirmation, $admin->password)) {
+            //rate limit de 10 minutos
+            RateLimiter::hit($throttleKey, 600);
+            session()->flash('error', [
+                'title' => 'Contraseña administrativa incorrecta',
+                'text' => 'La clave no coincide con tus registros de administrador.',
+                'icon' => 'error',
+            ]);
+            return back();
+        }
+
+        RateLimiter::clear($throttleKey);
+
+        // 4. Impedir que el admin cierre su propia sesión actual
+        if ($sessionId === session()->getId()) {
+            session()->flash('error', [
+                'title' => 'Acción no permitida',
+                'text' => 'No puedes cerrar tu propia sesión desde el panel de gestión.',
+                'icon' => 'warning',
+            ]);
+            return back();
+        }
+
+        // 5. Borrado Seguro
+        $deleted = DB::table('sessions')->where('id', $sessionId)->delete();
+
+        if ($deleted) {
+            // Auditoría básica en los logs de Laravel
+            logger()->info("El administrador {$admin->email} cerró la sesión ID: {$sessionId}");
+
+            session()->flash('success', [
+                'title' => 'Sesión revocada',
+                'text' => 'El dispositivo ha sido desconectado por el administrador.',
+                'icon' => 'success',
+            ]);
+        }
+
+        return back();
     }
 }

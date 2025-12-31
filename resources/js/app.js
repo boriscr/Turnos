@@ -13,8 +13,11 @@ import '../js/pages/home/mesaje-alert-demo.js';
 /*Doctors */
 import '../js/pages/doctors/specialty.js';
 import '../js/pages/profiles/anular-btn.js';
+
+/*Profiles */
 import '../js/pages/profiles/profile-photo.js';
 
+/*Reservations */
 import '../js/pages/reservations/index/date-filter.js';
 import '../js/pages/reservations/index/search.js';
 import '../js/pages/reservations/create/filtro-appointments.js';
@@ -28,11 +31,13 @@ import '../js/pages/appointments/create/specialties-create-appointments.js';
 import '../js/pages/components/footer-movile.js';
 import '../js/pages/components/cancel-btn.js';
 import '../js/pages/components/delete-btn.js';
-import '../js/pages/components/delete-btn-session.js';
 import '../js/pages/components/table-acciones-movile.js';
+import '../js/pages/components/delete-btn-session.js';
 
 //users edit increment/decrement buttons
 import '../js/pages/users/edit/increment-decrement-btn.js';
+
+//AlpineJS
 
 import Alpine from 'alpinejs';
 
