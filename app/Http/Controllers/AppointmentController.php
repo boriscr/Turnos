@@ -482,7 +482,6 @@ class AppointmentController extends Controller
         $this->procesarDisponibilidades(
             $appointment,
             $nuevasCombinaciones,
-            $disponibilidadesConReservas,
             $tipoAppointment,
             $request
         );
@@ -650,100 +649,88 @@ class AppointmentController extends Controller
         return back();
     }
 
+
     private function procesarDisponibilidades(
-        $appointment,
-        $nuevasCombinaciones,
-        $disponibilidadesConReservas,
-        $tipoAppointment,
-        $request
+        Appointment $appointment,
+        array $nuevasCombinaciones,
+        string $tipoAppointment,
+        Request $request
     ) {
-        // 1. Mapa de combinaciones deseadas
-        $mapaNuevas = [];
-        foreach ($nuevasCombinaciones as $c) {
-            $key = $c['date'] . '_' . ($c['time'] ?? '');
-            $mapaNuevas[$key] = $c;
-        }
+        $now = now();
+        $slotsDeseados = ($tipoAppointment === 'single_slot')
+            ? (int) $request->number_of_reservations
+            : 1;
 
-        // 2. Traer TODAS las disponibilidades actuales
-        $existentes = AvailableAppointment::where('appointment_id', $appointment->id)->get();
+        // 1. Obtener todas las fechas/horas que vienen en el request
+        $clavesNuevas = collect($nuevasCombinaciones)->map(function ($c) {
+            return $c['date'] . '_' . ($c['time'] ?? '');
+        });
 
-        // 3. Agrupar existentes por fecha+hora
-        $mapaExistentes = [];
-        foreach ($existentes as $e) {
-            $key = $e->date . '_' . ($e->time ?? '');
-            $mapaExistentes[$key][] = $e;
-        }
+        // 2. ELIMINACIÓN DE SEGURIDAD (Limpieza de lo que ya no existe)
+        // Borramos slots sin reservas de fechas que YA NO están en el formulario
+        AvailableAppointment::where('appointment_id', $appointment->id)
+            ->where('reserved_spots', 0)
+            ->whereNotIn(DB::raw("CONCAT(date, '_', COALESCE(time, ''))"), $clavesNuevas)
+            ->delete();
 
-        // 4. ELIMINAR lo que ya no debería existir (solo sin reservas)
-        foreach ($mapaExistentes as $key => $slots) {
-            if (!isset($mapaNuevas[$key])) {
-                foreach ($slots as $slot) {
-                    if ($slot->reserved_spots > 0) {
-                        // Esto ya fue validado antes, acá solo seguridad extra
-                        continue;
-                    }
-                    $slot->delete();
+        // 3. PROCESAR CADA COMBINACIÓN (Crear o Ajustar)
+        $lotesParaInsertar = [];
+
+        foreach ($nuevasCombinaciones as $combinacion) {
+            $fecha = $combinacion['date'];
+            $hora = $combinacion['time'] ?? null;
+
+            // Consultamos el estado real actual de esta fecha/hora específica
+            $slotsActuales = AvailableAppointment::where('appointment_id', $appointment->id)
+                ->where('date', $fecha)
+                ->where('time', $hora)
+                ->get();
+            $totalActual = $slotsActuales->count();
+
+            // Caso A: Tenemos más de lo que queremos (Exceso de vacíos)
+            if ($totalActual > $slotsDeseados) {
+                $sobrantes = $totalActual - $slotsDeseados;
+
+                // Tomamos los IDs de los que están vacíos para borrar el exceso
+                $idsABorrar = $slotsActuales->where('reserved_spots', 0)
+                    ->take($sobrantes)
+                    ->pluck('id');
+
+                if ($idsABorrar->isNotEmpty()) {
+                    AvailableAppointment::whereIn('id', $idsABorrar)->delete();
                 }
             }
-        }
-
-        // 5. CREAR o AJUSTAR lo que sí debería existir
-        $lotes = [];
-
-        foreach ($mapaNuevas as $key => $combinacion) {
-
-            $slotsDeseados = ($tipoAppointment === 'single_slot')
-                ? intval($request->number_of_reservations)
-                : 1;
-
-            $slotsExistentes = $mapaExistentes[$key] ?? [];
-
-            $conReserva = array_filter($slotsExistentes, fn($s) => $s->reserved_spots > 0);
-            $sinReserva = array_filter($slotsExistentes, fn($s) => $s->reserved_spots == 0);
-
-            $totalExistentes = count($slotsExistentes);
-
-            // 5.a Crear los que faltan
-            if ($totalExistentes < $slotsDeseados) {
-                $faltantes = $slotsDeseados - $totalExistentes;
+            // Caso B: Nos faltan slots para llegar al cupo
+            elseif ($totalActual < $slotsDeseados) {
+                $faltantes = $slotsDeseados - $totalActual;
 
                 for ($i = 0; $i < $faltantes; $i++) {
-                    $lotes[] = [
+                    $lotesParaInsertar[] = [
                         'appointment_id' => $appointment->id,
-                        'doctor_id' => $request->doctor_id,
-                        'specialty_id' => $request->specialty_id,
-                        'date' => $combinacion['date'],
-                        'time' => $combinacion['time'],
+                        'doctor_id'      => $request->doctor_id,
+                        'specialty_id'   => $request->specialty_id,
+                        'date'           => $fecha,
+                        'time'           => $hora,
                         'available_spots' => 1,
                         'reserved_spots' => 0,
-                        'created_at' => now(),
-                        'updated_at' => now(),
+                        'created_at'     => $now,
+                        'updated_at'     => $now,
                     ];
-                }
-            }
 
-            // 5.b Eliminar sobrantes sin reservas
-            if ($totalExistentes > $slotsDeseados) {
-                $sobrantes = $totalExistentes - $slotsDeseados;
-
-                foreach ($sinReserva as $slot) {
-                    if ($sobrantes <= 0) {
-                        break;
+                    // Control de memoria para inserts masivos
+                    if (count($lotesParaInsertar) >= 200) {
+                        AvailableAppointment::insert($lotesParaInsertar);
+                        $lotesParaInsertar = [];
                     }
-                    $slot->delete();
-                    $sobrantes--;
                 }
             }
         }
 
-        // 6. Insertar en batch
-        if (!empty($lotes)) {
-            foreach (array_chunk($lotes, 100) as $chunk) {
-                AvailableAppointment::insert($chunk);
-            }
+        // Insertar remanentes
+        if (!empty($lotesParaInsertar)) {
+            AvailableAppointment::insert($lotesParaInsertar);
         }
     }
-
 
     public function destroy($id)
     {
