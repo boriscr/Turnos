@@ -13,11 +13,11 @@
                         <p class="profile-name">
                             <span>
                                 @switch($user->gender->name)
-                                    @case('Masculino')
+                                    @case('Male')
                                         {{ __('medical.greetings.welcome') }}
                                     @break
 
-                                    @case('Femenino')
+                                    @case('Female')
                                         {{ __('medical.greetings.famale_welcome') }}
                                     @break
 
@@ -44,19 +44,23 @@
                 @if ($user->status)
                     <div class="profile-container full-center">
                         <ul>
-                            <li class="item"> <i class="bi bi-exclamation-circle-fill"></i> Faults:
-                                {{ $user->faults }}
-                            </li>
-                            <li class="item"> <i class="bi bi-dash-circle-fill"></i> Turnos Perdidos:
-                                {{ $appointmentsNotAttendance }}
-                            </li>
-                        </ul>
-                        <ul>
-                            <li class="item"> <i class="bi bi-check-circle"></i> Turnos solicitados:
+                            <li class="item"> <i class="bi bi-check-circle"></i>
+                                {{ __('medical.profile.requested_appointmets') }}:
                                 {{ $tellHistory }}
                             </li>
-                            <li class="item"> <i class="bi bi-hourglass-split"></i> Turnos pendientes:
+                            <li class="item"> <i class="bi bi-hourglass-split"></i>
+                                {{ __('medical.profile.pending_appointments') }}:
                                 {{ $appointmentsPending }}</li>
+                        </ul>
+                        <ul>
+                            <li class="item"> <i class="bi bi-dash-circle-fill"></i>
+                                {{ __('medical.profile.missed_appointments') }}:
+                                {{ $appointmentsNotAttendance }}
+                            </li>
+                            <li class="item"> <i class="bi bi-exclamation-circle-fill"></i>
+                                {{ __('medical.profile.faults') }}:
+                                {{ $user->faults }}
+                            </li>
                         </ul>
                     </div>
                 @else

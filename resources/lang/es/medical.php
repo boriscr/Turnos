@@ -44,19 +44,26 @@ return [
     'for_myself' => 'Para mí',
     'third_party' => 'Para otra persona',
 
+    'profile' => [
+        'faults' => 'Faltas',
+        'missed_appointments' => 'Turnos perdidos',
+        'requested_appointmets' => 'Turnos solicitados',
+        'pending_appointments' => 'Turnos pendientes',
+    ],
+
     'session' => [
         'device' => 'Dispositivo',
         'ip_address' => 'Dirección IP',
         'last_activity' => 'Última actividad',
         'current_session' => 'Sesión actual',
-        'this_device'=> 'Este dispositivo',
-        'active_session'=> 'Sesión activa',
+        'this_device' => 'Este dispositivo',
+        'active_session' => 'Sesión activa',
     ],
 
     'greetings' => [
-        'hello' => 'Hola',
-        'welcome' => 'Bienvenido',
-        'famale_welcome' => 'Bienvenida',
+        'hello' => 'Hola,',
+        'welcome' => 'Bienvenido,',
+        'famale_welcome' => 'Bienvenida,',
     ],
     'status' => [
         'title' => 'Estado',
