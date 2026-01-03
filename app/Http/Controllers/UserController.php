@@ -7,6 +7,7 @@ use App\Models\Doctor;
 use App\Models\Appointment;
 use App\Models\AppointmentHistory;
 use App\Models\Gender;
+use App\Models\AppointmentHistoryArchive;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
@@ -47,6 +48,7 @@ class UserController extends Controller
             ->paginate(10);
 
 
+
         try {
             //Cargar sesiones del usuario desde la tabla sessions
             //composer require jenssegers/agent
@@ -77,7 +79,43 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return back()->withErrors('Error al cargar las sesiones: ' . $e->getMessage());
         }
-        return view('users/show', compact('user', 'appointmentHistory', 'sesionesFormateadas'));
+        // Cargar géneros traducidos para mostrar en el perfil
+        $userId = $user->id;
+        $genders = Gender::where('id', '=', $user->gender_id)->get();
+        //Traducir los géneros
+        $genders->transform(function ($gender) {
+            $gender->translated_name = __('genders.' . $gender->name);
+            return $gender;
+        });
+
+        // Conteos adicionales para el perfil de reservas historicas
+        // Conteos (mover esto a métodos en el modelo User más adelante)
+        $appointmentsHistory = AppointmentHistory::where('user_id', $userId)->count();
+        $historyArchive = AppointmentHistoryArchive::where('user_id', $userId)->count();
+
+        $tellHistory = $appointmentsHistory + $historyArchive;
+        $appointmentsPending = AppointmentHistory::where('user_id', $userId)->where('status', 'pending')->count();
+        $appointmentsNotAttendance = AppointmentHistory::where('user_id', $userId)->where('status', 'not_attendance')->count();
+
+        $appointmentsAssisted = AppointmentHistory::where('user_id', $userId)->where('status', 'assisted')->count();
+        $appointmentsCancelledUsr = AppointmentHistory::where('user_id', $userId)->where('status', 'cancelled_by_user')->count();
+        $appointmentsCancelledAdm = AppointmentHistory::where('user_id', $userId)->where('status', 'cancelled_by_admin')->count();
+        $appointmentsDeleted = AppointmentHistory::where('user_id', $userId)->where('status', 'deleted_by_admin')->count();
+
+
+        return view('users/show', compact(
+            'user',
+            'appointmentHistory',
+            'sesionesFormateadas',
+            'genders',
+            'tellHistory',
+            'appointmentsPending',
+            'appointmentsNotAttendance',
+            'appointmentsAssisted',
+            'appointmentsCancelledUsr',
+            'appointmentsCancelledAdm',
+            'appointmentsDeleted'
+        ));
     }
 
 

@@ -102,6 +102,8 @@ return [
         'applicant_account_details' => 'Detalles de la cuenta del solicitante',
         'my_data' => 'Mis datos',
         'reservations' => 'Reservas',
+        'main_activity'=> 'Actividad principal',
+        'cancellations_and_faults'=>'Cancelaciones y faltas',
         'reserved_appointment_details' => 'Detalles del turno reservado',
         'historical' => 'Historial',
         'appointment_quotas_created' => 'Cupos de turnos creadas',

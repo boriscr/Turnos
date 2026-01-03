@@ -9,14 +9,6 @@
                     <x-profile-card :role="'doctor'" :id="$reservation->availableAppointment->doctor_id" :name="$reservation->availableAppointment->doctor->name" :surname="$reservation->availableAppointment->doctor->surname"
                         :specialty_id="$reservation->availableAppointment->doctor->specialty->id" :specialty_name="$reservation->availableAppointment->doctor->specialty->name" :appointment_id="$reservation->availableAppointment->appointment->id" :appointment_name="$reservation->availableAppointment->appointment->name" />
 
-
-                    {{--
-                    <x-field-with-icon icon="activity" :label="__('reservation.title_name')" :value="$reservation->availableAppointment->appointment->name" :link="route('appointments.show', $reservation->availableAppointment->appointment->id)" />
-                        <x-field-with-icon icon="heart-pulse-fill" :label="__('specialty.title')" :value="$reservation->availableAppointment->doctor->specialty->name" :link="route('specialties.show', $reservation->availableAppointment->doctor->specialty->id)" />
-                    <x-field-with-icon icon="person-fill" :label="__('medical.doctor')" :value="$reservation->availableAppointment->doctor->name .
-                        ' ' .
-                        $reservation->availableAppointment->doctor->surname" :link="route('doctors.show', $reservation->availableAppointment->doctor_id)" />
---}}
                     <x-field-with-icon icon="geo-alt-fill" :label="__('contact.address')" :value="$reservation->availableAppointment->appointment->address" />
                     <x-field-with-icon icon="clock-fill" :label="__('appointment.schedule.time')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->time)->format('H:i')" />
                     <x-field-with-icon icon="calendar-check-fill" :label="__('appointment.date.date')" :value="\Carbon\Carbon::parse($reservation->availableAppointment->date)

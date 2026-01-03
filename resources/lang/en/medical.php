@@ -44,6 +44,12 @@ return [
     'for_myself' => 'For myself',
     'third_party' => 'For another person',
 
+    'profile' => [
+        'faults' => 'Faults',
+        'missed_appointments' => 'Missed appointments',
+        'requested_appointmets' => 'Requested appointments',
+        'pending_appointments' => 'Pending appointments',
+    ],
 
     'session' => [
         'device' => 'Device',
@@ -56,9 +62,9 @@ return [
 
 
     'greetings' => [
-        'hello' => 'Hello',
-        'welcome' => 'Welcome',
-        'famale_welcome' => 'Welcome',
+        'hello' => 'Hello,',
+        'welcome' => 'Welcome,',
+        'famale_welcome' => 'Welcome,',
     ],
     'status' => [
         'title' => 'Status',
@@ -97,6 +103,8 @@ return [
         'applicant_account_details' => 'Applicant account details',
         'my_data' => 'My data',
         'reservations' => 'Reservations',
+        'main_activity'=> 'Main activity',
+        'cancellations_and_faults'=>'Cancellations and faults',
         'reserved_appointment_details' => 'Reserved appointment details',
         'historical' => 'Historical',
         'appointment_quotas_created' => 'Appointment quotas created',

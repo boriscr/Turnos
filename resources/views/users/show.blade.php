@@ -1,9 +1,7 @@
 <x-app-layout>
     <div class="content-wrapper">
         <x-form.titles :value="__('medical.titles.details')" size="show" />
-        <div class="status-box {{ $user->status ? 'status-active' : 'status-inactive' }}">
-            <span> {{ $user->status ? __('medical.active') : __('medical.inactive') }}</span>
-        </div>
+
         <div class="section-container full-center">
             <div class="card">
                 <x-form.titles :value="__('medical.titles.personal_data')" type="subtitle" />
@@ -14,8 +12,11 @@
                     ' (' .
                     \Carbon\Carbon::parse($user->birthdate)->age .
                     ' años)'" />
-                <x-field-with-icon icon="gender-ambiguous" :label="__('contact.gender')" :value="$user->gender->name" />
-                <x-field-with-icon icon="person-badge-fill" :label="__('medical.role')" :value="$user->role" />
+                <x-field-with-icon icon="gender-ambiguous" :label="__('contact.gender')" :value="$genders->first()->translated_name" />
+                <x-field-with-icon icon="person-badge-fill" :label="__('medical.role')" :value="auth()->user()->getRoleNames()->first()" />
+                <span class="full-center status {{ $user->status ? 'btn-success' : 'btn-danger' }}">
+                    <x-field-with-icon :value="$user->status ? __('medical.active') : __('medical.inactive')" />
+                </span>
             </div>
 
             <div class="card">
@@ -29,15 +30,26 @@
 
             <div class="card">
                 <x-form.titles :value="__('medical.titles.contact_details')" type="subtitle" />
-
                 <x-field-with-icon icon="telephone-fill" :label="__('contact.phone')" :value="$user->phone" />
                 <x-field-with-icon icon="envelope-fill" :label="__('contact.email')" :value="$user->email" />
             </div>
 
             <div class="card">
-                <x-form.titles :value="__('medical.titles.reservations')" type="subtitle" />
+                <x-form.titles :value="__('medical.titles.main_activity')" type="subtitle" />
 
-                <x-field-with-icon icon="x" :label="__('medical.unassisted_reservations')" :value="$user->faults === 0 ? __('medical.none') : $user->faults" />
+                <x-field-with-icon icon="check-circle" :label="__('medical.profile.requested_appointmets')" :value="$tellHistory" />
+                <x-field-with-icon icon="hourglass-split" :label="__('medical.profile.pending_appointments')" :value="$appointmentsPending" />
+                <x-field-with-icon icon="check-circle" :label="__('button.search.assisted')" :value="$appointmentsAssisted" />
+                <x-field-with-icon icon="dash-circle-fill" :label="__('button.search.not_attendance')" :value="$appointmentsNotAttendance" />
+            </div>
+            <div class="card">
+                <x-form.titles :value="__('medical.titles.cancellations_and_faults')" type="subtitle" />
+
+                <x-field-with-icon icon="exclamation-circle-fill" :label="__('medical.profile.faults')" :value="$user->faults" />
+                <x-field-with-icon icon="x-circle-fill" :label="__('medical.status.cancelled_by_user')" :value="$appointmentsCancelledUsr" />
+                <x-field-with-icon icon="x-circle-fill" :label="__('medical.status.cancelled_by_admin')" :value="$appointmentsCancelledAdm" />
+                <x-field-with-icon icon="x-circle-fill" :label="__('medical.status.deleted_by_admin')" :value="$appointmentsDeleted" />
+
             </div>
 
             <div class="card">
